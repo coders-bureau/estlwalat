@@ -36,9 +36,14 @@ const HomeADCom = ({
             bgGradient="linear(to-b,#fff,#00507a)"
             bgClip="text"
             as={"h2"}
-            m={"15px 0px 20px 0px"}
+            m={{
+              sm: "25px 0px 10px 0px",
+              base: "20px 0px 7px 0px",
+              md: "50px 0px 20px 0px",
+              lg: "50px 0px 20px 0px",
+            }}
             fontWeight={700}
-          fontSize={{lg:"40px", md:"40px" ,sm:"25px"}}
+          fontSize={{lg:"40px", md:"40px" ,sm:"30px"}}
           // color={"#3e4152"}
         >
           {heading}
@@ -49,6 +54,7 @@ const HomeADCom = ({
           columns={column}
           spacingX={spacingX}
           spacingY={spacingY}
+          
           // onClick={() =>
           //   endpoint === "/DayDeals" ||
           //   endpoint === "/BestExclusiveBrand" ||

@@ -72,11 +72,18 @@ const Home = () => {
   return (
     <>
       <CarouselCom data={homePageCarousel} />
-      <Box m={"0px 55px 0px 55px"}>
+      <Box
+        m={{
+          sm: "0px 25px 0px 25px",
+          base: "0px 10px 0px 10px",
+          md: "0px 55px 0px 55px",
+          lg: "0px 55px 0px 55px",
+        }}
+      >
         <HomeADCom
           endpoint={"/DayDeals"}
           column={5}
-          spacingX={{ sm: "3", md: "10", lg: "10" }}
+          spacingX={{ base:"3", sm: "3", md: "10", lg: "10" }}
           spacingY={{ sm: "0" }}
           heading={"Get Ready for the Daily Deal Deligth!"}
           data1={data1}
@@ -88,7 +95,13 @@ const Home = () => {
             bgGradient="linear(to-b,#fff,#00507a)"
             bgClip="text"
             as={"h2"}
-            m={"50px 0px 20px 0px"}
+            m={{
+              sm: "15px 0px 10px 0px",
+              base: "15px 0px 7px 0px",
+              md: "50px 0px 20px 0px",
+              lg: "50px 0px 20px 0px",
+            }}
+            // m={"50px 0px 20px 0px"}
             fontWeight={700}
             fontSize={{ lg: "40px", md: "40px", sm: "25px" }}
 
@@ -101,7 +114,7 @@ const Home = () => {
             m={2}
             // column={5}
             gridTemplateColumns={"repeat(5, minmax(0, 1fr))"}
-            spacingX={{ sm: "3", md: "10", lg: "10" }}
+            spacingX={{ base:"3", sm: "3", md: "10", lg: "10" }}
             spacingY={{ sm: "0" }}
 
             // onClick={() =>

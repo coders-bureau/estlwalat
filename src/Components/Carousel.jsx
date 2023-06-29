@@ -17,9 +17,12 @@ const CarouselCom = ({ data }) => {
   return (
     <>
       <>
-        <div style={{
-          paddingTop: '30px',
-            paddingBottom: '30px',
+        <Box
+         paddingTop={{sm:"30px"}}
+         paddingBottom={{sm:"30px"}} 
+         style={{
+          // paddingTop: '30px',
+          //   paddingBottom: '30px',
             position: 'relative'
         }}
         >
@@ -88,7 +91,7 @@ const CarouselCom = ({ data }) => {
             );
           })}
         </Carousel>
-        </div>
+        </Box>
       </>
     </>
   );

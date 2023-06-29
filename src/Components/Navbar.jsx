@@ -33,7 +33,14 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import logo from "../Assets/diamond.png";
-import { AddIcon, EditIcon, ExternalLinkIcon, HamburgerIcon, RepeatIcon, SearchIcon } from "@chakra-ui/icons";
+import {
+  AddIcon,
+  EditIcon,
+  ExternalLinkIcon,
+  HamburgerIcon,
+  RepeatIcon,
+  SearchIcon,
+} from "@chakra-ui/icons";
 import { CiUser, CiHeart } from "react-icons/ci";
 import { BsHandbag } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
@@ -46,8 +53,8 @@ export const Navbar = () => {
   const [searchParams] = useSearchParams();
   const { isAuth } = useSelector((store) => store.AuthReducer);
   const searchRef = useRef();
-    const btnRef = React.useRef()
-    
+  const btnRef = React.useRef();
+
   // ...........................
 
   const initType = searchParams.get("type");
@@ -93,18 +100,12 @@ export const Navbar = () => {
   return (
     <>
       <Box
-        // display={{
-        //   sm: "none",
-        //   base: "none",
-        //   md: "inline-block",
-        //   lg: "inline-block",
-        // }}
         w={"100%"}
         p={{
-          base:"5px",
-          sm:"5px",
-          md:"0px",
-          lg:"0px"
+          base: "5px",
+          sm: "5px",
+          md: "0px",
+          lg: "0px",
         }}
         boxShadow={"lg"}
         position={"sticky"}
@@ -113,74 +114,75 @@ export const Navbar = () => {
         bgColor="rgba(255, 255, 255, 0.97)"
       >
         <HStack w={"95%"} m={"auto"} justifyContent={"space-between"}>
-        <Box my={"7px"}
-              display={{
-                sm: "inline-block",
-                base: "inline-block",
-                md: "inline-block",
-                lg: "none",
-              }}
-            >
-              <Menu>
-                <MenuButton
-                  as={IconButton}
-                  aria-label="Options"
-                  icon={<HamburgerIcon />}
-                  variant="outline"
-                />
-                <MenuList>
-                  {/* <MenuItem icon={<AddIcon />} command="⌘T"> */}
-                  <Text
-                    fontWeight={"500"}
-                    fontSize="14px"
-                    color={"#282c3f"}
-                    p="20px 0px"
-                    // onClick={() => navigate("/store?type=Men")}
-                    onClick={() => navigate("/")}
-                    cursor="pointer"
-                  >
-                    {" "}
-                    Home
-                  </Text>
-                  {/* </MenuItem>
+          <Box
+            my={"7px"}
+            display={{
+              sm: "inline-block",
+              base: "inline-block",
+              md: "inline-block",
+              lg: "none",
+            }}
+          >
+            <Menu>
+              <MenuButton
+                as={IconButton}
+                aria-label="Options"
+                icon={<HamburgerIcon />}
+                variant="outline"
+              />
+              <MenuList>
+                {/* <MenuItem icon={<AddIcon />} command="⌘T"> */}
+                <Text
+                  fontWeight={"500"}
+                  fontSize="14px"
+                  color={"#282c3f"}
+                  p="20px 0px"
+                  // onClick={() => navigate("/store?type=Men")}
+                  onClick={() => navigate("/")}
+                  cursor="pointer"
+                >
+                  {" "}
+                  Home
+                </Text>
+                {/* </MenuItem>
                   <MenuItem icon={<ExternalLinkIcon />} command="⌘N"> */}
-                  <Text
-                    fontWeight={"500"}
-                    fontSize="14px"
-                    color={"#282c3f"}
-                    p="20px 0px"
-                    onClick={() => navigate("/store?type=Kids")}
-                    cursor="pointer"
-                  >
-                    Kids
-                  </Text>
-                  {/* </MenuItem>
+                <Text
+                  fontWeight={"500"}
+                  fontSize="14px"
+                  color={"#282c3f"}
+                  p="20px 0px"
+                  onClick={() => navigate("/store?type=Kids")}
+                  cursor="pointer"
+                >
+                  Kids
+                </Text>
+                {/* </MenuItem>
                   <MenuItem icon={<RepeatIcon />} command="⌘⇧N"> */}
-                  <Text
-                    fontWeight={"500"}
-                    fontSize="14px"
-                    color={"#282c3f"}
-                    onClick={() => navigate("/store?type=Offers")}
-                    p="20px 0px"
-                    cursor="pointer"
-                  >
-                    Offers
-                  </Text>
-                  {/* </MenuItem>
+                <Text
+                  fontWeight={"500"}
+                  fontSize="14px"
+                  color={"#282c3f"}
+                  onClick={() => navigate("/store?type=Offers")}
+                  p="20px 0px"
+                  cursor="pointer"
+                >
+                  Offers
+                </Text>
+                {/* </MenuItem>
                   <MenuItem icon={<EditIcon />} command="⌘O"> */}
-                  <Text
-                    fontWeight={"500"}
-                    fontSize="14px"
-                    color={"#282c3f"}
-                    p="20px 0px"
-                    cursor="pointer"
-                  >
-                    Contact us
-                  </Text>
-                  {/* </MenuItem> */}
-                </MenuList>
-              </Menu>
-            </Box>
+                <Text
+                  fontWeight={"500"}
+                  fontSize="14px"
+                  color={"#282c3f"}
+                  p="20px 0px"
+                  cursor="pointer"
+                >
+                  Contact us
+                </Text>
+                {/* </MenuItem> */}
+              </MenuList>
+            </Menu>
+          </Box>
           <HStack>
             {/* logo....................... */}
             <Box w="50px" onClick={() => navigate("/")}>
@@ -323,10 +325,17 @@ export const Navbar = () => {
                 </Box> */}
               </HStack>
             </Box>
-          
-          </HStack>    
+          </HStack>
           <HStack>
-            <Stack spacing="4">
+            <Stack
+              display={{
+                sm: "inline-block",
+                base: "none",
+                md: "inline-block",
+                lg: "inline-block",
+              }}
+              spacing="4"
+            >
               <InputGroup
                 variant="filled"
                 fontWeight={"400"}
@@ -346,8 +355,8 @@ export const Navbar = () => {
                   color={"#696e79"}
                   type={"text"}
                   w={{
-                    lg:"300px",
-                    md:"300px",
+                    lg: "300px",
+                    md: "300px",
                   }}
                   textColor="#696e79"
                   focusBorderColor="grey"
@@ -359,19 +368,26 @@ export const Navbar = () => {
               </InputGroup>
             </Stack>
           </HStack>
-          
-          <HStack fontSize={{
-                sm: "9px",
-                base: "9px",
-                md: "12px",
-                lg: "12px",
-              }} spacing={{
-                sm: "20px",
-                base: "30px",
-                md: "30px",
-                lg: "30px",
-              }} >
-            <VStack   cursor="pointer" spacing={"3px"} onClick={() => navigate("/cart")}>
+
+          <HStack
+            fontSize={{
+              sm: "9px",
+              base: "9px",
+              md: "12px",
+              lg: "12px",
+            }}
+            spacing={{
+              sm: "20px",
+              base: "15px",
+              md: "30px",
+              lg: "30px",
+            }}
+          >
+            <VStack
+              cursor="pointer"
+              spacing={"3px"}
+              onClick={() => navigate("/cart")}
+            >
               <Icon
                 as={BsHandbag}
                 fontSize="xl"
@@ -379,7 +395,7 @@ export const Navbar = () => {
               />
               <Text
                 _hover={{
-                  color:"#ff3e6c"
+                  color: "#ff3e6c",
                 }}
                 fontWeight={"500"}
                 color={"#282c3f"}
@@ -389,16 +405,20 @@ export const Navbar = () => {
               </Text>
             </VStack>
 
-            <VStack cursor="pointer" spacing={"3px"} onClick={() => navigate("/wishlist")}>
+            <VStack
+              cursor="pointer"
+              spacing={"3px"}
+              onClick={() => navigate("/wishlist")}
+            >
               <Icon
                 onClick={() => navigate("/wishlist")}
                 as={CiHeart}
                 fontSize="xl"
               />
               <Text
-               _hover={{
-                color:"#ff3e6c"
-              }}
+                _hover={{
+                  color: "#ff3e6c",
+                }}
                 fontWeight={"500"}
                 color={"#282c3f"}
                 onClick={() => navigate("/wishlist")}
@@ -410,15 +430,14 @@ export const Navbar = () => {
             <VStack spacing={"3px"}>
               <Menu isOpen={isOpen}>
                 <MenuButton onMouseEnter={onOpen} onAnimationEnd={onClose}>
-                  <VStack  _hover={{
-                      color:"#ff3e6c"
-                    }} spacing={"3px"}>
+                  <VStack
+                    _hover={{
+                      color: "#ff3e6c",
+                    }}
+                    spacing={"3px"}
+                  >
                     <Icon as={CiUser} fontSize="xl" />
-                    <Text
-                    
-                      fontWeight={"500"}
-                      color={"#282c3f"}
-                    >
+                    <Text fontWeight={"500"} color={"#282c3f"}>
                       Profile
                     </Text>
                   </VStack>
@@ -466,6 +485,48 @@ export const Navbar = () => {
             </VStack>
           </HStack>
         </HStack>
+        {/* <HStack> */}
+        <Stack
+          display={{
+            sm: "none",
+            base: "inline-block",
+            md: "none",
+            lg: "none",
+          }}
+          spacing="4"
+        >
+          <InputGroup
+            variant="filled"
+            fontWeight={"400"}
+            fontSize="14px"
+            color={"#696e79"}
+          >
+            <InputLeftElement
+              fontWeight={"500"}
+              fontSize="14px"
+              color={"#696e79"}
+              children={<SearchIcon />}
+            />
+
+            <Input
+              fontWeight={"400"}
+              fontSize="14px"
+              color={"#696e79"}
+              type={"text"}
+              w={{
+                lg: "300px",
+                md: "300px",
+              }}
+              textColor="#696e79"
+              focusBorderColor="grey"
+              border={"1px solid"}
+              ref={searchRef}
+              onKeyDown={handleKeyDown}
+              placeholder="Search"
+            />
+          </InputGroup>
+        </Stack>
+        {/* </HStack> */}
       </Box>
     </>
   );

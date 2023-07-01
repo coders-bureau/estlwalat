@@ -141,7 +141,7 @@ const Cart = () => {
   }, [cartProducts.length, Products.length]);
 
   return (
-    <VStack minH="120vh" justify={"space-between"}>
+    <VStack justify={"center"}>
       <OtherNavbar />
 
       {cartProducts.length === 0 ? (
@@ -149,14 +149,18 @@ const Cart = () => {
           <Center>
             <VStack>
               <Image
-                w="100px"
+                w={{ lg: "100px", md: "100px", base: "50px" }}
                 src="https://constant.myntassets.com/checkout/assets/img/empty-bag.webp"
               />
-              <Text fontWeight={700} fontSize="20px" color={"424553"}>
+              <Text
+                fontWeight={700}
+                fontSize={{ lg: "20px", md: "20px", base: "10px" }}
+                color={"424553"}
+              >
                 Hey, it feels so light!
               </Text>
               <Text
-                fontSize={"14px"}
+                fontSize={{ lg: "14px", md: "14px", base: "10px" }}
                 pb="20px"
                 fontWeight={400}
                 color="#7e818c"
@@ -168,6 +172,7 @@ const Cart = () => {
                 colorScheme={"pink"}
                 variant="outline"
                 borderRadius={"2px"}
+                fontSize={{ lg: "13px", md: "13px", base: "12px" }}
               >
                 ADD ITEM FROM WISHLIST
               </Button>
@@ -179,12 +184,12 @@ const Cart = () => {
           <Box>
             <HStack
               pl={"20px"}
-              pr={"18px"}
-              divider={<StackDivider color={"#ededef"} />}
+              pr={"20px"}
+              // divider={<StackDivider color={"#ededef"} />}
               alignItems="flex-start"
             >
               {/* ................................. */}
-              <Box w={{ lg: "65%", md: "65%", sm: "100%" }}>
+              <Box w={{ lg: "65%", md: "65%", base: "100%" }}>
                 <VStack>
                   <Box
                     w="full"
@@ -196,20 +201,38 @@ const Cart = () => {
                       {name ? (
                         <VStack spacing={0} align={"flex-start"}>
                           <HStack w={"full"}>
-                            <Text fontSize={"14px"}>Deliver to:</Text>
-                            <Text fontSize={"14px"} fontWeight={"bold"}>
+                            <Text
+                              fontSize={{
+                                lg: "14px",
+                                md: "14px",
+                                base: "10px",
+                              }}
+                            >
+                              Deliver to:
+                            </Text>
+                            <Text
+                              fontSize={{
+                                lg: "14px",
+                                md: "14px",
+                                base: "10px",
+                              }}
+                              fontWeight={"bold"}
+                            >
                               {name}, {pinCode}
                             </Text>
                           </HStack>
 
-                          <Text textAlign={"left"} fontSize={"12px"}>
+                          <Text
+                            textAlign={"left"}
+                            fontSize={{ lg: "12px", md: "12px", base: "8px" }}
+                          >
                             {town}, {area},{city},{state}
                           </Text>
                         </VStack>
                       ) : (
                         <Text
                           fontWeight={"bold"}
-                          fontSize={"14px"}
+                          fontSize={{ lg: "14px", md: "14px", base: "10px" }}
                           color="#535766"
                         >
                           Where we need to Deliver !
@@ -221,7 +244,7 @@ const Cart = () => {
                         colorScheme="pink"
                         borderRadius={"2px"}
                         size={"sm"}
-                        fontSize="13px"
+                        fontSize={{ lg: "13px", md: "13px", base: "6px" }}
                         onClick={onOpen}
                       >
                         CHANGE ADDRESS
@@ -299,23 +322,25 @@ const Cart = () => {
                         );
                       })}
                       <Box
-                      display={{lg:"none",md:"none",sm:"inline-block",base:"inline-block"}}
-                          w={"full"}
-                        >
-                          
-                          <PaymentDetains1
-                            totalMRP={totalMRP}
-                            totalMRPDiscount={totalMRPDiscount}
-                          />
-                          {/* .......................... */}
-                          <Divider borderWidth="2px" borderColor="gray.200"/>  
-                          <PaymentDetains2
-                            totalAmount={totalAmount}
-                            totalMRP={totalMRP}
-                            totalMRPDiscount={totalMRPDiscount}
-                            redirect={pinCode ? "/address" : undefined}
-                          />
-                        
+                        display={{
+                          lg: "none",
+                          md: "none",
+                          base: "inline-block",
+                        }}
+                        w={"full"}
+                      >
+                        <PaymentDetains1
+                          totalMRP={totalMRP}
+                          totalMRPDiscount={totalMRPDiscount}
+                        />
+                        {/* .......................... */}
+                        <Divider borderWidth="2px" borderColor="gray.200" />
+                        <PaymentDetains2
+                          totalAmount={totalAmount}
+                          totalMRP={totalMRP}
+                          totalMRPDiscount={totalMRPDiscount}
+                          redirect={pinCode ? "/address" : undefined}
+                        />
                       </Box>
                     </VStack>
                   </Box>
@@ -326,12 +351,12 @@ const Cart = () => {
 
               {/* ................................... */}
               <Box
-                display={{ md: "inline-block", sm: "none" }}
-                w={{ lg: "35%", md: "35%", sm: "0%" }}
+                display={{ md: "inline-block", base: "none" }}
+                w={{ lg: "35%", md: "35%", base: "0%" }}
               >
                 <VStack
                   w={"full"}
-                  divider={<StackDivider borderColor="gray.200" />}
+                  // divider={<StackDivider borderColor="gray.200" />}
                 >
                   {/* ........................ */}
                   {/* <Box w="full">

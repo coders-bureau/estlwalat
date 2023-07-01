@@ -19,28 +19,43 @@ const SingleWishlistProduct = ({ el, handleAddCart, handleDelete }) => {
 
   return (
     <>
-      <VStack border={"1px solid #e8ecf3"} w={"full"} spacing={0}>
-        <Box w={"full"}>
-          <Image w={"full"} src={img} />
-        </Box>
-        <Circle
+      <VStack minHeight={"140px"} border={"1px solid #e8ecf3"} w={"full"} spacing={0}>
+      <Circle
+          zIndex={1}
           onClick={() => handleDelete(el.id)}
           bgColor={"#eeeded"}
           p="4px 8px"
-          fontSize={"12px"}
           cursor={"pointer"}
           position="relative"
-          left={"38%"}
-          bottom={"62%"}
+          size={{ lg: "8", md: "7", base: "6" }}
+          left={"39%"}
+          top={{ lg: "3vw", md: "5vw", base: "6vw" }}
         >
           &#x2718;
         </Circle>
-        <Box w={"full"} padding="10px" spacing={0} pb="25px">
-          <HStack columnGap={"45%"}>
-            <Text fontWeight={500} color={"#2e364b"}>
+        <Box w={"full"}>
+          <Image w={"full"} src={img} />
+        </Box>
+        <Box
+          w={"full"}
+          padding="10px"
+          spacing={0}
+          pb={{ lg: "25px", md: "25px", base: "10px" }}
+        >
+          <HStack>
+            <Text
+              isTruncated
+              fontSize={{ lg: "14px", md: "14px", base: "10px" }}
+              fontWeight={500}
+              color={"#2e364b"}
+            >
               {brand}
             </Text>
-            <Text mr={0} fontWeight={500} fontSize="12px" color={"#ff915c"}>
+            <Text
+              fontWeight={500}
+              fontSize={{ lg: "10px", md: "10px", base: "8px" }}
+              color={"#ff915c"}
+            >
               ({discount}% OFF)
             </Text>
           </HStack>
@@ -49,27 +64,31 @@ const SingleWishlistProduct = ({ el, handleAddCart, handleDelete }) => {
             m={"0px 0px"}
             fontWeight="400"
             color={"#53575f"}
-            fontSize="14px"
+            fontSize={{ lg: "14px", md: "14px", base: "10px" }}
             isTruncated
           >
             {title}
           </Text>
           <HStack>
-            <Text fontWeight={500} color={"#2e364b"}>
+            <Text
+              fontWeight={500}
+              fontSize={{ lg: "12px", md: "12px", base: "8px" }}
+              color={"#2e364b"}
+            >
               Rs.{price}
             </Text>
             <Text
               textDecor={"line-through"}
               fontWeight={400}
-              fontSize={"12px"}
+              fontSize={{ lg: "12px", md: "12px", base: "8px" }}
               color={"#afb0b7"}
             >
               Rs.{MRP}
             </Text>
-            
           </HStack>
         </Box>
         <Button
+          fontSize={{ lg: "15px", md: "15px", base: "12px" }}
           onClick={() => handleAddCart(el)}
           fontWeight={"500"}
           color={"#fff"}

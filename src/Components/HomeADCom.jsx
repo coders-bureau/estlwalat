@@ -9,7 +9,7 @@ const HomeADCom = ({
   spacingY = 0,
   heading,
   column,
-  data1
+  data1,
 }) => {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
@@ -31,19 +31,26 @@ const HomeADCom = ({
     <>
       {/*  daily deals  */}
 
-      <Box textAlign={"center"}>
-        <Heading 
-            bgGradient="linear(to-b,#fff,#00507a)"
-            bgClip="text"
-            as={"h2"}
-            m={{
-              sm: "25px 0px 10px 0px",
-              base: "20px 0px 7px 0px",
-              md: "50px 0px 20px 0px",
-              lg: "50px 0px 20px 0px",
-            }}
-            fontWeight={700}
-          fontSize={{lg:"40px", md:"40px" ,sm:"30px"}}
+      <Box
+        display={{
+          base: "none",
+          md: "inline-block",
+          lg: "inline-block",
+        }}
+        textAlign={"center"}
+      >
+        <Heading
+          bgGradient="linear(to-b,#fff,#00507a)"
+          bgClip="text"
+          as={"h2"}
+          m={{
+            sm: "25px 0px 10px 0px",
+            base: "20px 0px 7px 0px",
+            md: "50px 0px 20px 0px",
+            lg: "50px 0px 20px 0px",
+          }}
+          fontWeight={700}
+          fontSize={{ lg: "40px", md: "40px", sm: "30px" }}
           // color={"#3e4152"}
         >
           {heading}
@@ -54,7 +61,7 @@ const HomeADCom = ({
           columns={column}
           spacingX={spacingX}
           spacingY={spacingY}
-          
+
           // onClick={() =>
           //   endpoint === "/DayDeals" ||
           //   endpoint === "/BestExclusiveBrand" ||
@@ -64,15 +71,28 @@ const HomeADCom = ({
           // }
         >
           {data1.map((item, i) => (
-            <Box fontWeight={"500"}
-            // fontSize={{base:"13px",sm:"13px",md:"20px",lg:"20px"}}
-            fontSize={"2.2vw"}
-            color={"#282c3f"}>
-              <Image key={item.image + i} src={item.image} />
+            <Box
+              fontWeight={"500"}
+              // fontSize={{base:"13px",sm:"13px",md:"20px",lg:"20px"}}
+              fontSize={"2.2vw"}
+              color={"#282c3f"}
+            >
+               <Box w={"100%"} h={"17vw"}>
+                <Image h={"100%"} w={"100%"} objectFit={"fill"} key={item.image + i} src={item.image} />
+            </Box>
               <Box
-                border={{lg:"7px solid #ff3e6c",md:"7px solid #ff3e6c", sm:"5px solid #ff3e6c"}}
-                borderTop={{base:"0px",sm:"0px",md:"0px",lg:"0px"}}
-                borderBottomRadius={{lg:"15",md:"10",sm:"10",base:"10"}}
+                border={{
+                  lg: "7px solid #ff3e6c",
+                  md: "7px solid #ff3e6c",
+                  sm: "5px solid #ff3e6c",
+                }}
+                borderTop={{ base: "0px", sm: "0px", md: "0px", lg: "0px" }}
+                borderBottomRadius={{
+                  lg: "15",
+                  md: "10",
+                  sm: "10",
+                  base: "10",
+                }}
               >
                 <Text>{item.title}</Text>
                 <Text>{item.pricetitle}</Text>
@@ -81,7 +101,6 @@ const HomeADCom = ({
           ))}
         </SimpleGrid>
       </Box>
-
     </>
   );
 };

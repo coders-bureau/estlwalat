@@ -8,7 +8,7 @@ let searches =
 export default function Footer() {
   return (
     <div style={{ padding: "0px 30px", background: "rgb(224, 234, 236)" }}>
-      <div className={styles.main}>
+      <div style={{display:"flex"}} className={styles.main}>
         <div>
           <p></p>
           <Text>eStyleWala.com</Text>
@@ -57,6 +57,7 @@ export default function Footer() {
           <br></br>
           <textarea
             style={{
+              width: "150px",
               borderRadius: "4px",
               borderColor: "black",
             }}
@@ -65,7 +66,9 @@ export default function Footer() {
           <br></br>
           Email:
           <br></br>
-          <input placeholder="email" />
+          <input style={{
+            width: "150px",
+          }} placeholder="email" />
           <br></br>
           <br></br>
           <Button textColor={"white"} bg={"#ff0051"} type="submit">Submit</Button>

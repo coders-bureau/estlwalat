@@ -7,17 +7,16 @@ const OtherNavbar = () => {
   const navigate = useNavigate();
   return (
     <>
-      <Box w="full">
+      <Box>
         <HStack
           width={"full"}
           justify="space-between"
-          px={"80px"}
-          py={3}
+          px={"3vw"}
+          py={"3vw"}
           borderBottom={"1px solid #f7f7f8"}
+          fontSize={{ lg: "13px", md: "13px", base: "10px" }}
         >
-          
-
-          <Box width={"340px"}>
+          <Box>
             <HStack>
               <Box>
                 <Text
@@ -26,7 +25,6 @@ const OtherNavbar = () => {
                   color="#20bd99"
                   borderBottom={"3px solid"}
                   letterSpacing="3px"
-                  fontSize={"13px"}
                 >
                   BAG
                 </Text>
@@ -42,7 +40,6 @@ const OtherNavbar = () => {
                   fontWeight={600}
                   color="#696b79"
                   letterSpacing="3px"
-                  fontSize={"13px"}
                 >
                   ADDRESS
                 </Text>
@@ -58,7 +55,6 @@ const OtherNavbar = () => {
                   fontWeight={600}
                   color="#696b79"
                   letterSpacing="3px"
-                  fontSize={"13px"}
                 >
                   PAYMENT
                 </Text>
@@ -66,7 +62,7 @@ const OtherNavbar = () => {
             </HStack>
           </Box>
 
-          <Box>
+          {/* <Box>
             <HStack>
               <Image
                 boxSize="30px"
@@ -82,7 +78,7 @@ const OtherNavbar = () => {
                 100% SECURE
               </Text>
             </HStack>
-          </Box>
+          </Box> */}
         </HStack>
       </Box>
     </>

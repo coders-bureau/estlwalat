@@ -52,7 +52,7 @@ const Wishlist = () => {
       {/* <Navbar/> */}
       {/* .................. */}
 
-      <Box w={"full"} p={"50px 50px"}>
+      <Box w={"full"} p={{lg:"50px 50px",md:"40px 40px",base:"20px 20px"}}>
         <HStack textAlign={"center"} spacing={"5px"}>
           <Text fontSize={"18px"} fontWeight={500} color={"#282c3f"}>
             {" "}
@@ -63,7 +63,7 @@ const Wishlist = () => {
             {wishlist.length} items{" )"}
           </Text>
         </HStack>
-        <SimpleGrid columns={5} gap={"50px"} mt={8} mb={8}>
+        <SimpleGrid columns={{lg:"5",md:"3",base:"2"}} gap={{lg:"50px",md:"30px",base:"10px"}} mt={0} mb={8}>
           {wishlist?.map((el) => {
             return (
               <SingleWishlistProduct

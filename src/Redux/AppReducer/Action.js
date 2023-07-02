@@ -19,6 +19,12 @@ export const getProductsSuccess = (payload) => {
     payload: payload,
   };
 };
+export const getProductsSuccess1 = (payload) => {
+  return {
+    type: types.GET_PRODUCTS_SUCCESS1,
+    payload: payload,
+  };
+};
 // .................................
 
 // .................isError state
@@ -46,3 +52,18 @@ export const getProducts = (params) => async (dispatch) => {
   }
 };
 // .......................
+
+
+export const getProductsPage = (page) => async (dispatch) => {
+  dispatch(getProductsLoading());
+  try {
+    const r = await axios.get(
+      `${process.env.REACT_APP_MYNTRA_API}/Products?_limit=12&_page=`,
+      page
+    );
+    console.log(r.data);
+    dispatch(getProductsSuccess1(r));
+  } catch (err) {
+    dispatch(getProductsFailure());
+  }
+};

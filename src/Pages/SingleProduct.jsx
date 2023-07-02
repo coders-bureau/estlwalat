@@ -35,6 +35,8 @@ import { BsHandbag, BsTruck } from "react-icons/bs";
 import { CiHeart } from "react-icons/ci";
 import axios from "axios";
 import SingleProductCom from "../Components/SingleProductCom";
+import LoadingPage from "../Pages/LoadingPage";
+import PageNotFound from "../Pages/PageNotFound";
 
 const style = {
   hover: {
@@ -56,7 +58,7 @@ const SingleProduct = () => {
   const [sizeRef, setSize] = useState("");
   const location = useLocation();
   const [searchParams] = useSearchParams();
-  const { Products, isLoading } = useSelector((store) => store.AppReducer);
+  const { Products, isLoading ,isError} = useSelector((store) => store.AppReducer);
   const { isAuth } = useSelector((store) => store.AuthReducer);
   const [currentProduct, setCurrentProduct] = useState({});
   const {
@@ -75,8 +77,8 @@ const SingleProduct = () => {
   const toast = useToast();
   const [similarProducts, setSimilarProducts] = useState([]);
   const navigate = useNavigate();
-  const [mainImage,setMainImage] =useState("");
-  const [len,setLen] = useState(4);
+  const [mainImage, setMainImage] = useState("");
+  const [len, setLen] = useState(4);
 
   useEffect(() => {
     if (Products.length === 0) {
@@ -106,7 +108,7 @@ const SingleProduct = () => {
       currentProduct && setMainImage(currentProduct.images[0]);
       currentProduct && setLen(currentProduct.images.length);
     }
-  }, [id, Products.length,]);
+  }, [id, Products.length]);
 
   useEffect(() => {
     if (Products.length !== 0) {
@@ -218,6 +220,19 @@ const SingleProduct = () => {
       });
   };
 
+  if (isLoading)
+  return (
+    <>
+      <LoadingPage />
+    </>
+  );
+if (isError)
+  return (
+    <>
+      <PageNotFound />
+    </>
+  );
+
   return (
     <>
       {/* <Navbar/> */}
@@ -232,12 +247,21 @@ const SingleProduct = () => {
             {type} {"/"}
           </Text>
           <Text fontWeight={500} fontSize={"14px"} color="#ff3e6c">
-             {brand}
+            {brand}
           </Text>
         </HStack>
       </Box>
-      <Box w={"full"} p={{base:"10px 30px", lg:"10px 100px"}}>
-        <Grid templateColumns={{lg:"40% 50%",md:"40% 50%",sm:"100%",base:"100%"}} gap={8} w="full">
+      <Box w={"full"} p={{ base: "10px 30px", lg: "10px 100px" }}>
+        <Grid
+          templateColumns={{
+            lg: "40% 50%",
+            md: "40% 50%",
+            sm: "100%",
+            base: "100%",
+          }}
+          gap={8}
+          w="full"
+        >
           <Box>
             <SimpleGrid columns={1} pb={6}>
               <Box style={style.style} w="full">
@@ -248,7 +272,12 @@ const SingleProduct = () => {
               {images?.map((img, i) => {
                 return (
                   <Box style={style.style} w="full" key={i}>
-                    <Image onClick={()=> setMainImage(img)}  _hover={style.hover} src={img} w="full" />
+                    <Image
+                      onClick={() => setMainImage(img)}
+                      _hover={style.hover}
+                      src={img}
+                      w="full"
+                    />
                   </Box>
                 );
               })}
@@ -284,15 +313,15 @@ const SingleProduct = () => {
                   {title}{" "}
                 </Heading>
                 <Heading
-                      fontWeight={"600"}
-                      as={"h2"}
-                      color="#ff3e6c"
-                      fontSize="20px"
-                      size="lg"
-                    >
-                      {" "}
-                      {discount}% OFF{" "}
-                    </Heading>
+                  fontWeight={"600"}
+                  as={"h2"}
+                  color="#ff3e6c"
+                  fontSize="20px"
+                  size="lg"
+                >
+                  {" "}
+                  {discount}% OFF{" "}
+                </Heading>
                 {/* <Box w={"full"} mt="15px">
                   <HStack
                     w="max-content"
@@ -362,7 +391,6 @@ const SingleProduct = () => {
                         ₹{MRP}{" "}
                       </Heading>
                     </HStack>
-                    
                   </HStack>
                   <Text color={"#03a685"} fontSize="12px" fontWeight={"bold"}>
                     inclusive of all taxes
@@ -402,9 +430,7 @@ const SingleProduct = () => {
                   })}
                 </SimpleGrid>
 
-                <HStack  w={{lg:"550px",md:"400px",sm:"400px",base:"200px"}}
-                >
-                  
+                <HStack wrap={"wrap"}>
                   <Button
                     onClick={() =>
                       isAuth
@@ -419,48 +445,51 @@ const SingleProduct = () => {
                     leftIcon={<Icon as={CiHeart} fontSize="5xl" />}
                     colorScheme="cyan"
                     variant={"outline"}
-                  >
-                  </Button>
-                  <Button ml={"0px"}
-                  mr={"20px"}
-                    onClick={() =>
-                      isAuth
-                        ? handleSendCart()
-                        : navigate("/signup", {
-                            state: `/single_product/${id}`,
-                            replace: true,
-                          })
-                    }
-                    color={"#fff"}
-                    borderRadius={5}
-                    border={"2px"}
-                    p="22px 70px"
-                    bg="#ff3e6c"
-                    variant={"solid"}
-                  >
-                    BUY NOW
-                  </Button>
-                  <Button
-                    onClick={() =>
-                      isAuth
-                        ? handleSendCart()
-                        : navigate("/signup", {
-                            state: `/single_product/${id}`,
-                            replace: true,
-                          })
-                    }
-                    
-                    textColor={"#ff3e6c"}
-                    borderRadius={5}
-                    border={"2px"}
-                    borderColor={"#ff3e6c"}
-                    p="22px 50px"
-                    leftIcon={<BsHandbag />}
-                    bg="#fff"
-                    variant={"outline"}
-                  >
-                    ADD TO BAG
-                  </Button>
+                  ></Button>
+                  {/* <VStack > */}
+                    <Button
+                      ml={"0px"}
+                      mr={{lg:"20px",base:"0px"}}
+                      onClick={() =>
+                        isAuth
+                          ? handleSendCart()
+                          : navigate("/signup", {
+                              state: `/single_product/${id}`,
+                              replace: true,
+                            })
+                      }
+                      color={"#fff"}
+                      borderRadius={5}
+                      border={"2px"}
+                      p="22px 70px"
+                      bg="#ff3e6c"
+                      variant={"solid"}
+                    >
+                      BUY NOW
+                    </Button>
+                    <Button
+                      onClick={() =>
+                        isAuth
+                          ? handleSendCart()
+                          : navigate("/signup", {
+                              state: `/single_product/${id}`,
+                              replace: true,
+                            })
+                      }
+                      // fontSize={{ lg: "20px", md: "20px", base: "10px" }}
+
+                      textColor={"#ff3e6c"}
+                      borderRadius={5}
+                      border={"2px"}
+                      borderColor={"#ff3e6c"}
+                      p="22px 50px"
+                      leftIcon={<BsHandbag />}
+                      bg="#fff"
+                      variant={"outline"}
+                    >
+                      ADD TO BAG
+                    </Button>
+                  {/* </VStack> */}
                 </HStack>
               </VStack>
 
@@ -514,13 +543,13 @@ const SingleProduct = () => {
         <Text textAlign="left" my={8} fontWeight={"bold"} color="#282c3f">
           SIMILAR PRODUCTS
         </Text>
-        <SimpleGrid 
-        // columns={{lg:"4"}}
+        <SimpleGrid
+          // columns={{lg:"4"}}
           columns={
             similarProducts.length >= 6
-              ? {lg:"6",md:"3",sm:"2",base:"1"}
+              ? { lg: "6", md: "3", sm: "2", base: "1" }
               : similarProducts.length <= 3
-              ? {lg:"4",md:"3",sm:"2",base:"1"}
+              ? { lg: "4", md: "3", sm: "2", base: "1" }
               : similarProducts.length
           }
           spacingX="40px"

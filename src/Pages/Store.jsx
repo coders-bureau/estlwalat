@@ -28,8 +28,8 @@ import {
   AccordionIcon,
 } from "@chakra-ui/react";
 
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useState,useEffect } from "react";
+import { useSelector ,useDispatch} from "react-redux";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import prodStyle from "../Styles/Products.module.css";
 
@@ -37,6 +37,9 @@ import Filter from "../Components/Filter";
 import Footer from "../Components/Footer";
 import Products from "../Components/Products";
 import SampleBrand from "../Components/SampleBrand";
+import Pagination from "../Components/Pagination";
+import { getProductsPage } from "../Redux/AppReducer/Action";
+import { store } from "../Redux/Store";
 
 const Store = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -46,6 +49,21 @@ const Store = () => {
   const [searchParams] = useSearchParams();
   const type = searchParams.get("type");
   const q = searchParams.get("q");
+  const dispatch = useDispatch();
+  const totalPages= 20;
+  const [currentPage, setCurrentPage] = useState(1);
+  // console.log(useSelector((store) => store.AppReducer.Products));
+  // pagination starts here
+
+  useEffect(() => {
+    dispatch(getProductsPage(currentPage));
+  }, [dispatch, currentPage]);
+
+  const handlePage = (val) => {
+    setCurrentPage((prev) => prev + val);
+  };
+  // pagination ends here
+
   return (
     <>
       <Box>
@@ -191,6 +209,14 @@ const Store = () => {
               <Products />
               {/* </Grid> */}
             </div>
+            <Box>
+              <Pagination
+                handlePage={handlePage}
+                setCurrentPage={setCurrentPage}
+                currentPage={currentPage}
+                totalPages={totalPages}
+              />
+            </Box>
             {/* </Box> */}
             {/* </Grid> */}
           </Box>

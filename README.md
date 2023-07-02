@@ -71,9 +71,10 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 
 ### `error`
-version 2 bugs fixed
-    home page update, responsive
-    navbar responsive
-    profile page 
-    wishlist responsive
-    cart responsive
+
+verion 3 bugs fixed
+    navabr, cart product button responsiveness
+    ,store error solved
+    profile page responsive
+    loading page added 
+    pagination in progress

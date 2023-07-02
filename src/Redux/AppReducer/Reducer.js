@@ -4,6 +4,7 @@ const initialState = {
   Products: [],
   isLoading: false,
   isError: false,
+  totalPages:0,
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -14,7 +15,6 @@ const reducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         isLoading: true,
-        error:false
       };
 
     // ...............................
@@ -26,6 +26,14 @@ const reducer = (state = initialState, { type, payload }) => {
         ...state,
         Products: payload,
         isLoading: false,
+        totalPages:2,
+      };
+      case types.GET_PRODUCTS_SUCCESS1:
+      return {
+        ...state,
+        Products: payload.data,
+        isLoading: false,
+        totalPages:2,
       };
 
     // ...............................

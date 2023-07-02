@@ -32,7 +32,7 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
-import logo from "../Assets/diamond.png";
+import logo from "../Assets/estyle.png";
 import {
   AddIcon,
   EditIcon,
@@ -130,7 +130,7 @@ export const Navbar = () => {
                 lg: "none",
               }}
             >
-              <Menu>
+              <Menu fontSize="20px">
                 <MenuButton
                   as={IconButton}
                   // aria-label="Options"
@@ -194,15 +194,14 @@ export const Navbar = () => {
             <HStack>
               {/* logo....................... */}
               <Box
-                display={{ base: "none" }}
-                w="50px"
+                display={{ lg:"inline-block",base:"none" }}
+                w="100px"
                 onClick={() => navigate("/")}
               >
                 <Image
                   src={logo}
-                  w="40px "
                   alt="logo"
-                  fallbackSrc={""}
+                  fallbackSrc={"https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"}
                   cursor="pointer"
                 />
               </Box>
@@ -218,7 +217,7 @@ export const Navbar = () => {
                   lg: "inline-block",
                 }}
               >
-                <HStack spacing={"50px"}>
+                <HStack fontSize={"20px"} spacing={"50px"}>
                   <Box
                     _hover={{
                       borderBottom: "5px solid #ff3e6c",
@@ -228,7 +227,7 @@ export const Navbar = () => {
                   >
                     <Text
                       fontWeight={"500"}
-                      fontSize="14px"
+                      // fontSize="14px"
                       color={"#282c3f"}
                       p="20px 0px"
                       // onClick={() => navigate("/store?type=Men")}
@@ -248,7 +247,7 @@ export const Navbar = () => {
                   >
                     <Text
                       fontWeight={"500"}
-                      fontSize="14px"
+                      // fontSize="14px"
                       color={"#282c3f"}
                       p="20px 0px"
                       onClick={() => navigate("/store?type=Kids")}
@@ -266,7 +265,7 @@ export const Navbar = () => {
                   >
                     <Text
                       fontWeight={"500"}
-                      fontSize="14px"
+                      // fontSize="14px"
                       color={"#282c3f"}
                       onClick={() => navigate("/store?type=Offers")}
                       p="20px 0px"
@@ -284,7 +283,7 @@ export const Navbar = () => {
                   >
                     <Text
                       fontWeight={"500"}
-                      fontSize="14px"
+                      // fontSize="14px"
                       color={"#282c3f"}
                       p="20px 0px"
                     >
@@ -343,7 +342,6 @@ export const Navbar = () => {
             <HStack>
               <Stack
                 display={{
-                  sm: "inline-block",
                   base: "none",
                   md: "inline-block",
                   lg: "inline-block",
@@ -369,7 +367,7 @@ export const Navbar = () => {
                     color={"#696e79"}
                     type={"text"}
                     w={{
-                      lg: "300px",
+                      lg: "250px",
                       md: "300px",
                     }}
                     textColor="#696e79"
@@ -386,8 +384,8 @@ export const Navbar = () => {
             <HStack
               fontSize={{
                 base: "9px",
-                md: "12px",
-                lg: "12px",
+                md: "15px",
+                lg: "15px",
               }}
               spacing={{
                 base: "15px",

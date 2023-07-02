@@ -5,6 +5,8 @@ import { useLocation, useSearchParams } from "react-router-dom";
 import { getProducts } from "../Redux/AppReducer/Action";
 import SingleProductCom from "./SingleProductCom";
 import SingleCard from "./SingleCard";
+import LoadingPage from "../Pages/LoadingPage";
+import PageNotFound from "../Pages/PageNotFound";
 
 const Products = () => {
   const dispatch = useDispatch();
@@ -12,8 +14,8 @@ const Products = () => {
   const [searchParams] = useSearchParams();
   const initQuery = searchParams.get("q");
 
-  const { Products, isLoading } = useSelector((store) => store.AppReducer);
-  //  console.log(useSelector((store)=>store.AppReducer));
+  const { Products, isLoading,isError    } = useSelector((store) => store.AppReducer);
+   console.log(useSelector((store)=>store.AppReducer));
   useEffect(() => {
     if (Products.length == 0 || location || initQuery) {
       const type = searchParams.get("type");
@@ -36,6 +38,20 @@ const Products = () => {
       dispatch(getProducts(getProductParams));
     }
   }, [Products.length, dispatch, location.search, searchParams, initQuery]);
+
+
+  if (isLoading)
+  return (
+    <>
+      <LoadingPage />
+    </>
+  );
+if (isError)
+  return (
+    <>
+      <PageNotFound />
+    </>
+  );
 
   return (
     <>

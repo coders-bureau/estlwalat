@@ -204,13 +204,13 @@ const ProfileDetails = () => {
               <option value="Female">Female</option>
             </Select>
           </FormControl>
-          <Button onClick={handleSave} mr={2}>
+          <Button  mt={"2"} onClick={handleSave} mr={2}>
             Save
           </Button>
-          <Button onClick={handleCancel}>Cancel</Button>
-        </Box>
+          <Button  mt={"2"} onClick={handleCancel}>Cancel</Button>
+        </Box> 
       ) : (
-        <Box>
+        <Box> 
           <Text>Name: {name}</Text>
           <Text>Contact Number: {contactNumber}</Text>
           <Text>Email: {email}</Text>

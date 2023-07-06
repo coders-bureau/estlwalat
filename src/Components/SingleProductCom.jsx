@@ -10,8 +10,20 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { position, Text, useToast } from "@chakra-ui/react";
+import {
+  Circle,
+  position,
+  Text,
+  useToast,
+  Icon,
+  Button,
+  Box,
+} from "@chakra-ui/react";
 import { useSelector } from "react-redux";
+import { CiHeart } from "react-icons/ci";
+import { PiHandbagBold } from "react-icons/pi";
+import { BsHandbag } from "react-icons/bs";
+
 library.add(faMagnifyingGlass, faUser, faHeart, faBagShopping);
 
 export default function SingleProductCom(el) {
@@ -22,6 +34,51 @@ export default function SingleProductCom(el) {
   const { isAuth } = useSelector((store) => store.AuthReducer);
   const toast = useToast();
 
+  
+
+  const handleAddCart = (el) => {
+    // toast({
+    //   title: "Please wait",
+    //   description: "We are adding your product in cart",
+    //   status: "loading",
+    //   duration: 500,
+    //   isClosable: true,
+    //   position: "top",
+    // });
+    if (isAuth) {
+    axios({
+      url: process.env.REACT_APP_MYNTRA_API + "/cart",
+      method: "post",
+      data: el,
+    })
+      .then((res) => {
+        // handleCartProducts();
+        toast({
+          title: "Product added in the cart.",
+          // description: el.title,
+          status: "success",
+          duration: 1500,
+          isClosable: true,
+          variant: "top-accent",
+                    position: "top-right",
+        });
+      })
+      .catch((err) => {
+        toast({
+          title: "Product already present in the cart.",
+          // description: "Title: " + el.title,
+          status: "warning",
+          duration: 1500,
+          isClosable: true,
+          variant: "top-accent",
+                    position: "top-right",
+        });
+      });
+    } else {
+      navigate("/signup");
+    }
+  };
+
   return (
     <>
       <div
@@ -29,6 +86,53 @@ export default function SingleProductCom(el) {
         onMouseEnter={() => setShowWish(true)}
         onMouseLeave={() => setShowWish(false)}
       >
+        <Circle
+          // width={"10px"}
+          left={"80%"}
+          zIndex={1}
+          onClick={() => {
+            if (isAuth) {
+              axios({
+                method: "post",
+                url: `${process.env.REACT_APP_MYNTRA_API}/wishlist`,
+                data: el,
+              })
+                .then((res) => {
+                  toast({
+                    duration: 1500,
+                    status: "info",
+                    title: "item successfully added in wishlist",
+                    isClosable: true,
+                    variant: "top-accent",
+                    position: "top-right",
+                  });
+                })
+                .catch((err) => {
+                  toast({
+                    duration: 1500,
+                    status: "warning",
+                    title: "item already present in wishlist",
+                    isClosable: true,
+                    variant: "top-accent",
+                    position: "top-right",
+                  });
+                });
+            } else {
+              navigate("/signup");
+            }
+          }}
+          bgColor={"#eeeded"}
+          cursor={"pointer"}
+          position="relative"
+          display={"flex"}
+          _
+          p="4px 4px"
+          size={{ lg: "9", md: "8", base: "9" }}
+          // left={{lg:"80%",md:"70%",base:"50%"}}
+          top={{ lg: "4vw", md: "5vw", base: "6vw" }}
+        >
+          <Icon as={CiHeart} fontSize={{ lg: "4xl", md: "3xl", base: "4xl" }} />
+        </Circle>
         <div style={{ width: "100%" }}>
           <img
             onClick={() => navigate(`../single_product/${id}`)}
@@ -52,40 +156,45 @@ export default function SingleProductCom(el) {
             <div className={styles.hoverWish}>
               <div
                 className={styles.wishlist}
-                onClick={() => {
-                  if (isAuth) {
-                    axios({
-                      method: "post",
-                      url: `${process.env.REACT_APP_MYNTRA_API}/wishlist`,
-                      data: el,
-                    })
-                      .then((res) => {
-                        toast({
-                          duration: 1500,
-                          status: "info",
-                          title: "item successfully added in wishlist",
-                          isClosable: true,
-                          variant: "top-accent",
-                          position: "bottom-right",
-                        });
-                      })
-                      .catch((err) => {
-                        toast({
-                          duration: 1500,
-                          status: "warning",
-                          title: "item already present in wishlist",
-                          isClosable: true,
-                          variant: "top-accent",
-                          position: "bottom-right",
-                        });
-                      });
-                  } else {
-                    navigate("/signup");
-                  }
-                }}
+                // onClick={() => {
+                //   if (isAuth) {
+                //     axios({
+                //       method: "post",
+                //       url: `${process.env.REACT_APP_MYNTRA_API}/wishlist`,
+                //       data: el,
+                //     })
+                //       .then((res) => {
+                //         toast({
+                //           duration: 1500,
+                //           status: "info",
+                //           title: "item successfully added in wishlist",
+                //           isClosable: true,
+                //           variant: "top-accent",
+                //           position: "bottom-right",
+                //         });
+                //       })
+                //       .catch((err) => {
+                //         toast({
+                //           duration: 1500,
+                //           status: "warning",
+                //           title: "item already present in wishlist",
+                //           isClosable: true,
+                //           variant: "top-accent",
+                //           position: "bottom-right",
+                //         });
+                //       });
+                //   } else {
+                //     navigate("/signup");
+                //   }
+                // }}
+                onClick={()=>handleAddCart(el)}
               >
-                <FontAwesomeIcon icon="fa-heart" />
-                <div className={styles.wishlistWord}>WISHLIST</div>
+                <Icon
+                  as={BsHandbag}
+                  fontSize="xl"
+                 
+                />
+                <div className={styles.wishlistWord}>Add to Cart</div>
               </div>
             </div>
           )}
@@ -98,12 +207,13 @@ export default function SingleProductCom(el) {
             </div>
           )}
           {!showWish && (
-            <p
+            <Text
+              isTruncated
               onClick={() => navigate(`../single_product/${id}`)}
               className={styles.title}
             >
               {brand}
-            </p>
+            </Text>
           )}
           {!showWish && (
             <Text
@@ -126,8 +236,17 @@ export default function SingleProductCom(el) {
               <span>Rs.</span>
               {MRP}
             </p>
-            <p>{`(${discount}% OFF)`}</p>
+            <Text
+              display={{ lg: "flex", md: "flex", base: "none" }}
+              color={"#ff905a"}
+              fontSize={"13px"}
+            >{`(${discount}% OFF)`}</Text>
           </div>
+          <Text
+            display={{ lg: "none", md: "none", base: "flex" }}
+            color={"#ff905a"}
+            fontSize={"13px"}
+          >{`(${discount}% OFF)`}</Text>
         </div>
       </div>
     </>

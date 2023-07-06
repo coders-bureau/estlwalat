@@ -5,6 +5,9 @@
              
              }
              
+             /* .mainlogo{
+                color: aquamarine;
+             } */
              .main{
                  display: flex;
                  flex-wrap: wrap;
@@ -21,11 +24,17 @@
              .main>div>p{
                  margin: 3px 0px;
                  font-size: 15px;
+                 color: #33363f;
+             }
+             .main>div>p:hover{
+                color: rgb(153, 153, 153);
+                font-size: 17px;
+                cursor: pointer;
              }
              .main>div p:first-child{
              font-weight: 500;
              color:#33363f;
-             margin: 20px 0px;
+             margin: 15px 0px;
              font-size: 20px;
              }
              

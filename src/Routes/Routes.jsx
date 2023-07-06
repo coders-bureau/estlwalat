@@ -13,7 +13,7 @@ import Profile from '../Pages/Profile'
 
 export const MainRoutes = () => {
   return (<>
-    <Navbar></Navbar>
+    <Navbar />
       <Routes>
              <Route path="/" element={<Home/>} />
              <Route path='/signup' element={<Signup/>} />

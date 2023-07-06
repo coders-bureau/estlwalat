@@ -1,12 +1,13 @@
-import { Box, HStack, SimpleGrid, Text } from "@chakra-ui/react";
+import { Box, HStack, SimpleGrid, Text, Toast, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Footer from "../Components/Footer";
-import Navbar from "../Components/Navbar";
 import SingleWishlistProduct from "../Components/SingleWishlistProduct";
 
 const Wishlist = () => {
   const [wishlist, setWishlist] = useState([]);
+  const toast = useToast();
+
 
   const getWishlitProd = () => {
     axios({
@@ -28,7 +29,15 @@ const Wishlist = () => {
       method: "delete",
       url: process.env.REACT_APP_MYNTRA_API + "/wishlist/" + id,
     })
-      .then((res) => getWishlitProd())
+      .then((res) => {getWishlitProd();
+        toast({
+          title: "Product successfully deleted.",
+          variant: "top-accent",
+          isClosable: true,
+          position: "top-right",
+          status: "error",
+          duration: 2000,
+        });})
       .catch((err) => {
         console.log(err);
       });
@@ -42,6 +51,14 @@ const Wishlist = () => {
     })
       .then((res) => {
         handleDelete(el.id);
+        toast({
+          title: "Product successfully added in cart",
+          variant: "top-accent",
+          isClosable: true,
+          position: "top-right",
+          status: "success",
+          duration: 1500,
+        });
       })
       .catch((err) => {
         handleDelete(el.id);

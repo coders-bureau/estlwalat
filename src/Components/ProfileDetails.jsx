@@ -217,7 +217,7 @@ const ProfileDetails = () => {
           <Text>Address: {address}</Text>
           <Text>Date of Birth: {dateOfBirth}</Text>
           <Text>Gender: {gender}</Text>
-          <Button onClick={handleEdit} mt={4}>
+          <Button color={"#ff3e6c"} bgColor={"#ffffff"} onClick={handleEdit} mt={4}>
             Edit
           </Button>
         </Box>

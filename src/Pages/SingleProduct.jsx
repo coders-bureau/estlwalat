@@ -58,7 +58,9 @@ const SingleProduct = () => {
   const [sizeRef, setSize] = useState("");
   const location = useLocation();
   const [searchParams] = useSearchParams();
-  const { Products, isLoading ,isError} = useSelector((store) => store.AppReducer);
+  const { Products, isLoading, isError } = useSelector(
+    (store) => store.AppReducer
+  );
   const { isAuth } = useSelector((store) => store.AuthReducer);
   const [currentProduct, setCurrentProduct] = useState({});
   const {
@@ -221,22 +223,22 @@ const SingleProduct = () => {
   };
 
   if (isLoading)
-  return (
-    <>
-      <LoadingPage />
-    </>
-  );
-if (isError)
-  return (
-    <>
-      <PageNotFound />
-    </>
-  );
+    return (
+      <>
+        <LoadingPage />
+      </>
+    );
+  if (isError)
+    return (
+      <>
+        <PageNotFound />
+      </>
+    );
 
   return (
     <>
       {/* <Navbar/> */}
-      {/* ....................... */}
+      {/* ..........title path............. */}
       <Box>
         <HStack spacing={1} w={"98%"} m={"10px auto"}>
           <Text color={"#46495a"} fontSize={"14px"}>
@@ -262,6 +264,8 @@ if (isError)
           gap={8}
           w="full"
         >
+          {/* ..........Image............. */}
+
           <Box>
             <SimpleGrid columns={1} pb={6}>
               <Box style={style.style} w="full">
@@ -284,10 +288,11 @@ if (isError)
             </SimpleGrid>
           </Box>
           {/* ............................. */}
-          <Box position={"sticky"} top="0px" h="max-content">
+          <Box position={"sticky"} top="55px" h="max-content">
             <VStack
               spacing={4}
               textAlign="left"
+              // top={"20px"}
               w={"full"}
               // divider={<StackDivider borderColor="gray.200" />}
             >
@@ -447,48 +452,49 @@ if (isError)
                     variant={"outline"}
                   ></Button>
                   {/* <VStack > */}
-                    <Button
-                      ml={"0px"}
-                      mr={{lg:"20px",base:"0px"}}
-                      onClick={() =>
-                        isAuth
-                          ? handleSendCart()
-                          : navigate("/signup", {
-                              state: `/single_product/${id}`,
-                              replace: true,
-                            })
-                      }
-                      color={"#fff"}
-                      borderRadius={5}
-                      border={"2px"}
-                      p="22px 70px"
-                      bg="#ff3e6c"
-                      variant={"solid"}
-                    >
-                      BUY NOW
-                    </Button>
-                    <Button
-                      onClick={() =>
-                        isAuth
-                          ? handleSendCart()
-                          : navigate("/signup", {
-                              state: `/single_product/${id}`,
-                              replace: true,
-                            })
-                      }
-                      // fontSize={{ lg: "20px", md: "20px", base: "10px" }}
-
-                      textColor={"#ff3e6c"}
-                      borderRadius={5}
-                      border={"2px"}
-                      borderColor={"#ff3e6c"}
-                      p="22px 50px"
-                      leftIcon={<BsHandbag />}
-                      bg="#fff"
-                      variant={"outline"}
-                    >
-                      ADD TO BAG
-                    </Button>
+                  <Button
+                    display={{ lg: "flex", md: "flex", base: "none" }}
+                    ml={"0px"}
+                    mr={{ lg: "20px", base: "0px" }}
+                    onClick={() =>
+                      isAuth
+                        ? handleSendCart()
+                        : navigate("/signup", {
+                            state: `/single_product/${id}`,
+                            replace: true,
+                          })
+                    }
+                    color={"#fff"}
+                    borderRadius={5}
+                    border={"2px"}
+                    p="22px 70px"
+                    bg="#ff3e6c"
+                    variant={"solid"}
+                  >
+                    BUY NOW
+                  </Button>
+                  <Button
+                    onClick={() =>
+                      isAuth
+                        ? handleSendCart()
+                        : navigate("/signup", {
+                            state: `/single_product/${id}`,
+                            replace: true,
+                          })
+                    }
+                    // fontSize={{ lg: "20px", md: "20px", base: "10px" }}
+                    display={{ lg: "flex", md: "flex", base: "none" }}
+                    textColor={"#ff3e6c"}
+                    borderRadius={5}
+                    border={"2px"}
+                    borderColor={"#ff3e6c"}
+                    p="22px 50px"
+                    leftIcon={<BsHandbag />}
+                    bg="#fff"
+                    variant={"outline"}
+                  >
+                    ADD TO BAG
+                  </Button>
                   {/* </VStack> */}
                 </HStack>
               </VStack>
@@ -537,21 +543,80 @@ if (isError)
             </VStack>
           </Box>
         </Grid>
+
+        <HStack
+          display={{ lg: "none", md: "none", base: "flex" }}
+          mt={"20px"}
+          gap={"1rem"}
+          justifyContent={"center"}
+          h="max-content"
+          // w={"100%"}
+          // p={{
+          //   base: "5px",
+          //   sm: "5px",
+          //   md: "0px",
+          //   lg: "0px",
+          // }}
+          position={"sticky"}
+          bottom={0}
+        >
+          <Button
+            // ml={"0px"}
+            // mr={{ lg: "20px", base: "0px" }}
+            onClick={() =>
+              isAuth
+                ? handleSendCart()
+                : navigate("/signup", {
+                    state: `/single_product/${id}`,
+                    replace: true,
+                  })
+            }
+            color={"#fff"}
+            borderRadius={5}
+            border={"2px"}
+            p="22px 50px"
+            bg="#ff3e6c"
+            borderColor={"#ff3e6c"}
+            variant={"solid"}
+          >
+            BUY NOW
+          </Button>
+          <Button
+            onClick={() =>
+              isAuth
+                ? handleSendCart()
+                : navigate("/signup", {
+                    state: `/single_product/${id}`,
+                    replace: true,
+                  })
+            }
+            // fontSize={{ lg: "20px", md: "20px", base: "10px" }}
+
+            textColor={"#ff3e6c"}
+            borderRadius={5}
+            border={"2px"}
+            borderColor={"#ff3e6c"}
+            p="22px 50px"
+            // leftIcon={<BsHandbag />}
+            bg="#fff"
+            variant={"outline"}
+          >
+            ADD TO BAG
+          </Button>
+        </HStack>
       </Box>
       {/* ....................... */}
       <Box w={"full"} p={"50px 30px"}>
         <Text textAlign="left" my={8} fontWeight={"bold"} color="#282c3f">
           SIMILAR PRODUCTS
         </Text>
+      
         <SimpleGrid
-          // columns={{lg:"4"}}
-          columns={
-            similarProducts.length >= 6
-              ? { lg: "6", md: "3", sm: "2", base: "1" }
-              : similarProducts.length <= 3
-              ? { lg: "4", md: "3", sm: "2", base: "1" }
-              : similarProducts.length
-          }
+          columns={  { lg: similarProducts.length >= 6
+            ? 6
+            : similarProducts.length <= 3
+            ? 4
+            : similarProducts.length, md: "3", base: "2" } }
           spacingX="40px"
           spacingY="30px"
           w="100%"
@@ -566,7 +631,6 @@ if (isError)
         </SimpleGrid>
       </Box>
       {/* ....................... */}
-
       <Footer />
     </>
   );

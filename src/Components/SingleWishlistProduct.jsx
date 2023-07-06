@@ -61,7 +61,7 @@ const SingleWishlistProduct = ({ el, handleAddCart, handleDelete }) => {
           </HStack>
           <Text
             w={"full"}
-            m={"0px 0px"}
+            // m={"0px 0px"}
             fontWeight="400"
             color={"#53575f"}
             fontSize={{ lg: "14px", md: "14px", base: "10px" }}

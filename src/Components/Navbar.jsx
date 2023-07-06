@@ -43,8 +43,11 @@ import {
 } from "@chakra-ui/icons";
 import { CiUser, CiHeart } from "react-icons/ci";
 import { BsHandbag } from "react-icons/bs";
+import {HiOutlineUser} from "react-icons/hi";
+import {PiBag,PiHeartStraight,PiHeartStraightBold,PiHandbagBold} from 'react-icons/pi'
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../Redux/AuthReducer/Action";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -53,7 +56,9 @@ export const Navbar = () => {
   const [searchParams] = useSearchParams();
   const { isAuth } = useSelector((store) => store.AuthReducer);
   const searchRef = useRef();
-  const btnRef = React.useRef();
+  const searchRef1 = useRef();
+
+  // const btnRef = React.useRef();
 
   // ...........................
 
@@ -95,7 +100,22 @@ export const Navbar = () => {
         search: `?${createSearchParams(params)}`,
       });
     }
+    if (e.key === "Enter" && searchRef1.current.value) {
+      const params = {};
+      navigate(`/store`);
+      initType && (params.type = initType);
+      initCategory && (params.category = initCategory);
+      initBrand && (params.brand = initBrand);
+      initPrice && (params.price = initPrice);
+      initDiscount && (params.discount = initDiscount);
+      searchRef.current.value && (params.q = searchRef.current.value);
+      navigate({
+        pathname: "/store",
+        search: `?${createSearchParams(params)}`,
+      });
+    }
   };
+  
 
   return (
     <>
@@ -130,7 +150,7 @@ export const Navbar = () => {
                 lg: "none",
               }}
             >
-              <Menu fontSize="20px">
+              <Menu>
                 <MenuButton
                   as={IconButton}
                   // aria-label="Options"
@@ -141,7 +161,7 @@ export const Navbar = () => {
                   {/* <MenuItem icon={<AddIcon />} command="⌘T"> */}
                   <MenuItem
                     fontWeight={"500"}
-                    fontSize="14px"
+                    fontSize="15px"
                     color={"#282c3f"}
                     p="20px 40%"
                     // onClick={() => navigate("/store?type=Men")}
@@ -155,7 +175,7 @@ export const Navbar = () => {
                   <MenuItem icon={<ExternalLinkIcon />} command="⌘N"> */}
                   <MenuItem
                     fontWeight={"500"}
-                    fontSize="14px"
+                    fontSize="15px"
                     color={"#282c3f"}
                     p="20px 43%"
                     onClick={() => navigate("/store?type=Kids")}
@@ -167,7 +187,7 @@ export const Navbar = () => {
                   <MenuItem icon={<RepeatIcon />} command="⌘⇧N"> */}
                   <MenuItem
                     fontWeight={"500"}
-                    fontSize="14px"
+                    fontSize="15px"
                     color={"#282c3f"}
                     onClick={() => navigate("/store?type=Offers")}
                     p="20px 40%"
@@ -179,9 +199,9 @@ export const Navbar = () => {
                   <MenuItem icon={<EditIcon />} command="⌘O"> */}
                   <MenuItem
                     fontWeight={"500"}
-                    fontSize="14px"
+                    fontSize="15px"
                     color={"#282c3f"}
-                    p="20px 34%"
+                    p="20px 32%"
                     cursor="pointer"
                   >
                     Contact us
@@ -217,7 +237,7 @@ export const Navbar = () => {
                   lg: "inline-block",
                 }}
               >
-                <HStack fontSize={"20px"} spacing={"50px"}>
+                <HStack fontSize={"16px"} spacing={"50px"}>
                   <Box
                     _hover={{
                       borderBottom: "5px solid #ff3e6c",
@@ -384,8 +404,8 @@ export const Navbar = () => {
             <HStack
               fontSize={{
                 base: "9px",
-                md: "15px",
-                lg: "15px",
+                md: "14px",
+                lg: "14px",
               }}
               spacing={{
                 base: "15px",
@@ -398,8 +418,9 @@ export const Navbar = () => {
                 spacing={"3px"}
                 onClick={() => navigate("/cart")}
               >
+                
                 <Icon
-                  as={BsHandbag}
+                  as={PiHandbagBold}
                   fontSize="xl"
                   onClick={() => navigate("/cart")}
                 />
@@ -419,9 +440,10 @@ export const Navbar = () => {
                 spacing={"3px"}
                 onClick={() => navigate("/wishlist")}
               >
+                
                 <Icon
                   onClick={() => navigate("/wishlist")}
-                  as={CiHeart}
+                  as={PiHeartStraightBold}
                   fontSize="xl"
                 />
                 <Text
@@ -436,7 +458,7 @@ export const Navbar = () => {
                 </Text>
               </VStack>
               <VStack spacing={"3px"}>
-                <Menu>
+                <Menu >
                   <MenuButton onMouseEnter={onOpen} onMouseLeave={onClose}>
                     <VStack
                       _hover={{
@@ -444,7 +466,8 @@ export const Navbar = () => {
                       }}
                       spacing={"3px"}
                     >
-                      <Icon as={CiUser} fontSize="xl" />
+                      {/* <FontAwesomeIcon icon="fa-regular fa-user" /> */}
+                      <Icon as={HiOutlineUser} fontSize="xl" />
                       <Text fontWeight={"500"} color={"#282c3f"}>
                         Profile
                       </Text>
@@ -502,7 +525,6 @@ export const Navbar = () => {
           <HStack
             w={"95%"}
             display={{
-              sm: "none",
               base: "flex",
               md: "none",
               lg: "none",
@@ -534,7 +556,7 @@ export const Navbar = () => {
                 textColor="#696e79"
                 focusBorderColor="grey"
                 border={"1px solid"}
-                ref={searchRef}
+                ref={searchRef1}
                 onKeyDown={handleKeyDown}
                 placeholder="Search"
               />

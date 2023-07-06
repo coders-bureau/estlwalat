@@ -26,14 +26,13 @@ const reducer = (state = initialState, { type, payload }) => {
         ...state,
         Products: payload,
         isLoading: false,
-        totalPages:2,
       };
       case types.GET_PRODUCTS_SUCCESS1:
       return {
         ...state,
         Products: payload.data,
         isLoading: false,
-        totalPages:2,
+        totalPages:payload.headers["x-total-count"],
       };
 
     // ...............................

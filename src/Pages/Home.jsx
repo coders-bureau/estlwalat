@@ -103,6 +103,7 @@ const data3 = [
 const Home = () => {
   return (
     <>
+  {/* <Navbar/> */}
       <CarouselCom data={homePageCarousel} />
       <Box
         m={{

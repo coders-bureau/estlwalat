@@ -2,20 +2,25 @@ import { Grid, SimpleGrid, Box } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useSearchParams } from "react-router-dom";
-import { getProducts } from "../Redux/AppReducer/Action";
+import { getProducts, getProductsPage } from "../Redux/AppReducer/Action";
 import SingleProductCom from "./SingleProductCom";
 import SingleCard from "./SingleCard";
 import LoadingPage from "../Pages/LoadingPage";
 import PageNotFound from "../Pages/PageNotFound";
+import Pagination from "./Pagination";
 
 const Products = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const [searchParams] = useSearchParams();
   const initQuery = searchParams.get("q");
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const { Products, isLoading,isError    } = useSelector((store) => store.AppReducer);
-   console.log(useSelector((store)=>store.AppReducer));
+
+  const { Products, isLoading, isError, totalPages } = useSelector(
+    (store) => store.AppReducer
+  );
+  console.log(useSelector((store) => store.AppReducer));
   useEffect(() => {
     if (Products.length == 0 || location || initQuery) {
       const type = searchParams.get("type");
@@ -35,37 +40,54 @@ const Products = () => {
         },
       };
 
-      dispatch(getProducts(getProductParams));
+      dispatch(getProductsPage(getProductParams,currentPage));
     }
-  }, [Products.length, dispatch, location.search, searchParams, initQuery]);
+  }, [Products.length, dispatch, location.search, searchParams, initQuery, currentPage]);
 
+  const handlePage = (val) => {
+    setCurrentPage((prev) => prev + val);
+  };
+
+  // const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to top of the page
+  }, [currentPage]);
 
   if (isLoading)
-  return (
-    <>
-      <LoadingPage />
-    </>
-  );
-if (isError)
-  return (
-    <>
-      <PageNotFound />
-    </>
-  );
+    return (
+      <Box height={"200px"}>
+        <LoadingPage />
+      </Box>
+    );
+  if (isError)
+    return (
+      <>
+        <PageNotFound />
+      </>
+    );
 
   return (
     <>
       <SimpleGrid
-        columns={{ lg: "4", md: "3", sm: "2", base: "1" }}
-        spacingX="40px"
-        spacingY="30px"
+        columns={{ lg: "4", md: "3", base: "2" }}
+        spacingX={{ lg: "40px", md: "40px", base: "15px" }}
+        spacingY={{ lg: "30px", md: "30px", base: "15px" }}
         w="100%"
-        p="20px"
+        p="0px 20px 20px 20px"
       >
         {Products?.map((el) => {
           return <SingleProductCom key={el.id} {...el} />;
         })}
       </SimpleGrid>
+      <Box>
+        <Pagination
+          handlePage={handlePage}
+          setCurrentPage={setCurrentPage}
+          currentPage={currentPage}
+          totalPages={totalPages}
+        />
+      </Box>
       {/* {
             Products?.map((el)=>{
               return <SingleCard key={el.id} prod={el} />

@@ -54,13 +54,13 @@ export const getProducts = (params) => async (dispatch) => {
 // .......................
 
 
-export const getProductsPage = (page) => async (dispatch) => {
+export const getProductsPage = (params,page) => async (dispatch) => {
   dispatch(getProductsLoading());
   try {
+    console.log(page);
+    console.log(params);
     const r = await axios.get(
-      `${process.env.REACT_APP_MYNTRA_API}/Products?_limit=12&_page=`,
-      page
-    );
+      `${process.env.REACT_APP_MYNTRA_API}/Products?_limit=12&_page=${page}`,params);
     console.log(r.data);
     dispatch(getProductsSuccess1(r));
   } catch (err) {

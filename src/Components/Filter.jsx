@@ -93,18 +93,19 @@ const Filter = () => {
   return (
     <>
       <VStack
-      
+      border={"1px"}
         alignItems={"flex-start"}
         spacing={1}
         position={"sticky"}
-        top={"7%"}
+        top={"12%"}
+        // w={{md:"100%",base:"200px"}}
         bottom={"1000px"}
       >
         <Box pl={"40%"} fontWeight={700}>
           FILTERS
         </Box>
 
-        <Divider />
+        <Divider border={"1px"} color={"#b0a9a9"}/>
 
         <Box pl={4}>
           <Text

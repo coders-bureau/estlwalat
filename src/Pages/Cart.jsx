@@ -183,8 +183,9 @@ const Cart = () => {
         <Box>
           <Box>
             <HStack
-              pl={"20px"}
-              pr={"20px"}
+              // pl={"20px"}
+              // pr={"20px"}
+              px={{lg:"200px",md:"100px",base:"20px"}}
               // divider={<StackDivider color={"#ededef"} />}
               alignItems="flex-start"
             >
@@ -438,13 +439,19 @@ const Cart = () => {
             </HStack>
           </Box>
 
-          {/* <Box w="full" px={"200px"} mt={"70px"} textAlign={"left"}>
+          <Box w="full" 
+              px={{lg:"200px",md:"100px",base:"20px"}}
+              mt={"70px"} textAlign={"left"}>
             <Box bgColor={"#fff6f8"} p={2}>
               <Divider borderColor={"black"} />
               <Text p={2} color={"#282c3f"} fontWeight="bold">
                 You may also like
               </Text>
-              <SimpleGrid w="full" columns={4} spacing={"20px"}>
+              <SimpleGrid
+                w="full"
+                columns={{ lg: 4, md: 3, base: 2 }}
+                spacing={"20px"}
+              >
                 {similerProducts?.map((el) => {
                   return (
                     <Box key={el.id} bgColor={"#fff"}>
@@ -457,7 +464,7 @@ const Cart = () => {
                 })}
               </SimpleGrid>
             </Box>
-          </Box> */}
+          </Box>
         </Box>
       )}
 

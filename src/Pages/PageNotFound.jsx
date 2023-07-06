@@ -5,6 +5,7 @@ import {
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 // import Navbar from '../Components/Navbar/Navbar'
+import imgerror from "../Assets/ErrorNew500.jpg";
 
 
 export default function PageNotFound() {
@@ -22,7 +23,7 @@ export default function PageNotFound() {
       >
           404
       </Heading> */}
-        <img style={{ widows: "40%", height: "400px", margin: "auto" }} src="ErrorNew500.jpg" alt="Error500" />
+        <img style={{ widows: "40%", height: "400px", margin: "auto" }} src={imgerror} alt="Error500" />
         <Text
           fontSize="40px"
           backgroundClip="text"

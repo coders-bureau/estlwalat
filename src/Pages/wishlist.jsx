@@ -8,7 +8,6 @@ const Wishlist = () => {
   const [wishlist, setWishlist] = useState([]);
   const toast = useToast();
 
-
   const getWishlitProd = () => {
     axios({
       method: "get",
@@ -29,15 +28,17 @@ const Wishlist = () => {
       method: "delete",
       url: process.env.REACT_APP_MYNTRA_API + "/wishlist/" + id,
     })
-      .then((res) => {getWishlitProd();
-        toast({
-          title: "Product successfully deleted.",
-          variant: "top-accent",
-          isClosable: true,
-          position: "top-right",
-          status: "error",
-          duration: 2000,
-        });})
+      .then((res) => {
+        getWishlitProd();
+        // toast({
+        //   title: "Product successfully deleted.",
+        //   variant: "top-accent",
+        //   isClosable: true,
+        //   position: "top-right",
+        //   status: "error",
+        //   duration: 2000,
+        // })
+      })
       .catch((err) => {
         console.log(err);
       });
@@ -50,7 +51,6 @@ const Wishlist = () => {
       data: { ...el, currentSize: el.size[0] },
     })
       .then((res) => {
-        handleDelete(el.id);
         toast({
           title: "Product successfully added in cart",
           variant: "top-accent",
@@ -59,16 +59,28 @@ const Wishlist = () => {
           status: "success",
           duration: 1500,
         });
+        handleDelete(el.id);
       })
       .catch((err) => {
         handleDelete(el.id);
+        toast({
+          title: "Product already present in cart",
+          variant: "top-accent",
+          isClosable: true,
+          position: "top-right",
+          status: "error",
+          duration: 1500,
+        });
       });
   };
   return (
     <>
       {/* .................. */}
 
-      <Box w={"full"} p={{lg:"50px 50px",md:"40px 40px",base:"20px 20px"}}>
+      <Box
+        w={"full"}
+        p={{ lg: "50px 50px", md: "40px 40px", base: "20px 20px" }}
+      >
         <HStack textAlign={"center"} spacing={"5px"}>
           <Text fontSize={"18px"} fontWeight={500} color={"#282c3f"}>
             {" "}
@@ -79,7 +91,12 @@ const Wishlist = () => {
             {wishlist.length} items{" )"}
           </Text>
         </HStack>
-        <SimpleGrid columns={{lg:"5",md:"3",base:"2"}} gap={{lg:"50px",md:"30px",base:"10px"}} mt={0} mb={8}>
+        <SimpleGrid
+          columns={{ lg: "5", md: "3", base: "2" }}
+          gap={{ lg: "50px", md: "30px", base: "10px" }}
+          mt={0}
+          mb={8}
+        >
           {wishlist?.map((el) => {
             return (
               <SingleWishlistProduct

@@ -64,7 +64,7 @@ export default function SingleProductCom(el) {
   return (
     <>
       <div
-        className={styles.main}
+        // className={styles.main}
         onMouseEnter={() => setShowWish(true)}
         onMouseLeave={() => setShowWish(false)}
       >

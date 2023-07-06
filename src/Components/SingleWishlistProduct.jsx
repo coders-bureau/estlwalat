@@ -1,26 +1,27 @@
 import {
   Box,
-  Tag,
-  TagCloseButton,
   Image,
   VStack,
   Circle,
   HStack,
   Text,
-  Divider,
-  StackDivider,
   Button,
 } from "@chakra-ui/react";
 import React from "react";
 
 const SingleWishlistProduct = ({ el, handleAddCart, handleDelete }) => {
-  const { MRP, discount, id, brand, img, price, rating, ratingT, size, title } =
+  const { MRP, discount, brand, img, price, title } =
     el;
 
   return (
     <>
-      <VStack minHeight={"140px"} border={"1px solid #e8ecf3"} w={"full"} spacing={0}>
-      <Circle
+      <VStack
+        minHeight={"140px"}
+        border={"1px solid #e8ecf3"}
+        w={"full"}
+        spacing={0}
+      >
+        <Circle
           zIndex={1}
           onClick={() => handleDelete(el.id)}
           bgColor={"#eeeded"}
@@ -61,7 +62,6 @@ const SingleWishlistProduct = ({ el, handleAddCart, handleDelete }) => {
           </HStack>
           <Text
             w={"full"}
-            // m={"0px 0px"}
             fontWeight="400"
             color={"#53575f"}
             fontSize={{ lg: "14px", md: "14px", base: "10px" }}

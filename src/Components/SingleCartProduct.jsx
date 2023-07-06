@@ -2,25 +2,12 @@ import {
   Box,
   HStack,
   Grid,
-  Tag,
   VStack,
   Image,
   Text,
-  Icon,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuItemOption,
-  MenuGroup,
-  MenuOptionGroup,
-  MenuDivider,
-  Button,
   Select,
-  border,
   useToast,
 } from "@chakra-ui/react";
-import { TbTruckReturn } from "react-icons/tb";
 import { MdArrowDropDown } from "react-icons/md";
 import React from "react";
 import { useState } from "react";
@@ -30,18 +17,13 @@ import { useEffect } from "react";
 const SingleCartProduct = ({
   MRP,
   brand,
-  category,
   currentSize,
   discount,
   id,
-  images,
   img,
   price,
-  rating,
-  ratungT,
   size,
   title,
-  type,
   setTotalAmount,
   setTotalMRP,
   setTotalMRPDiscount,
@@ -82,7 +64,7 @@ const SingleCartProduct = ({
     axios({
       method: "delete",
       url: process.env.REACT_APP_MYNTRA_API + `/cart/${id}`,
-    }).then((res) => {
+    }).then(() => {
       handleCartProducts();
       setTotalMRP((prev) => prev - MRP * currentQty);
       setTotalAmount((prev) => prev - price * currentQty);
@@ -112,7 +94,7 @@ const SingleCartProduct = ({
         border={"2px solid #b0a9a9"}
         borderRadius="5px"
       >
-        <Box w={{ lg: "160px", md: "160px",base:"100px" }} p={"5px"}>
+        <Box w={{ lg: "160px", md: "160px", base: "100px" }} p={"5px"}>
           <Image src={img} alt=""></Image>
         </Box>
         <Box
@@ -140,7 +122,7 @@ const SingleCartProduct = ({
                 </Text>
 
                 <Select
-                textAlign="justify"
+                  textAlign="justify"
                   value={currentSizeShow}
                   onChange={handleSize}
                   icon={<MdArrowDropDown />}
@@ -204,11 +186,6 @@ const SingleCartProduct = ({
                 {discount}% OFF
               </Text>
             </HStack>
-            {/* <HStack fontSize={"12px"} spacing={1}>
-                                          <Icon fontSize={"16px"} color="282c3f" as={TbTruckReturn} />
-                                          <Text fontWeight={"bold"} color="282c3f">30 days</Text>
-                                          <Text color="282c3f">return available</Text>
-                            </HStack> */}
           </VStack>
         </Box>
         <Box

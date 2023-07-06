@@ -96,9 +96,6 @@ const Profile = () => {
   );
 };
 
-const Tab1Content = () => {
-  return <Text fontSize="xl">Tab 1 Content</Text>;
-};
 
 const Tab2Content = () => {
   return <Text fontSize="xl">Tab 2 Content</Text>;

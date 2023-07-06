@@ -1,4 +1,4 @@
-import { Box, HStack, SimpleGrid, Text, Toast, useToast } from "@chakra-ui/react";
+import { Box, HStack, SimpleGrid, Text, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Footer from "../Components/Footer";
@@ -66,7 +66,6 @@ const Wishlist = () => {
   };
   return (
     <>
-      {/* <Navbar/> */}
       {/* .................. */}
 
       <Box w={"full"} p={{lg:"50px 50px",md:"40px 40px",base:"20px 20px"}}>

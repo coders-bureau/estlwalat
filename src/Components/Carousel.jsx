@@ -2,7 +2,6 @@ import { Box, Image } from "@chakra-ui/react";
 import React from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { useNavigate } from "react-router-dom";
 
 const responsive = {
   desktop: {
@@ -13,7 +12,6 @@ const responsive = {
 };
 
 const CarouselCom = ({ data }) => {
-  const navigate = useNavigate();
   return (
     <>
       <>
@@ -21,8 +19,7 @@ const CarouselCom = ({ data }) => {
          paddingTop={{sm:"30px"}}
          paddingBottom={{sm:"30px"}} 
          style={{
-          // paddingTop: '30px',
-          //   paddingBottom: '30px',
+
             position: 'relative'
         }}
         >

@@ -62,6 +62,7 @@ const PaymentDetains1 = ({ totalMRP, totalMRPDiscount }) => {
     </>
   );
 };
+
 const PaymentDetains2 = ({
   totalAmount,
   totalMRP,

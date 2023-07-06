@@ -1,29 +1,22 @@
 import {
   Box,
-  // Heading, 
-  Text, Button, Link
+  Text,
+  Button,
+  Link,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-// import Navbar from '../Components/Navbar/Navbar'
 import imgerror from "../Assets/ErrorNew500.jpg";
-
 
 export default function PageNotFound() {
   const navigate = useNavigate();
   return (
     <>
-      {/* <Navbar /> */}
       <Box mt={"70px"} textAlign="center" py={10} px={6}>
-        {/* <Heading
-        fontSize="100px"
-        display="inline-block"
-        as="h1"
-        bgGradient="linear( red, #2b3148)"
-        backgroundClip="text"
-      >
-          404
-      </Heading> */}
-        <img style={{ widows: "40%", height: "400px", margin: "auto" }} src={imgerror} alt="Error500" />
+        <img
+          style={{ widows: "40%", height: "400px", margin: "auto" }}
+          src={imgerror}
+          alt="Error500"
+        />
         <Text
           fontSize="40px"
           backgroundClip="text"
@@ -41,7 +34,8 @@ export default function PageNotFound() {
         >
           Please check the spelling or try searching something else
         </Text>
-        <Link to="/"
+        <Link
+          to="/"
           _hover={{
             textDecoration: "none",
           }}
@@ -64,7 +58,6 @@ export default function PageNotFound() {
             Home
           </Button>
         </Link>
-
       </Box>
     </>
   );

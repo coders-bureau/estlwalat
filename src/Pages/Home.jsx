@@ -1,7 +1,5 @@
 import React from "react";
-import Navbar from "../Components/Navbar";
 import CarouselCom from "../Components/Carousel";
-import HomeADCom from "../Components/HomeADCom";
 import { Box, Heading, Image, SimpleGrid, Text } from "@chakra-ui/react";
 import Footer from "../Components/Footer";
 import Slide from "../Components/Slide";
@@ -72,7 +70,7 @@ const data2 = [
 const data3 = [
   {
     image:
-    "https://cdn.fcglcdn.com/brainbees/images/products/438x531/10839201a.webp",
+      "https://cdn.fcglcdn.com/brainbees/images/products/438x531/10839201a.webp",
     title: "Kids wear",
     pricetitle: "Flat 300",
   },
@@ -103,7 +101,7 @@ const data3 = [
 const Home = () => {
   return (
     <>
-  {/* <Navbar/> */}
+      {/* home page Carousel */}
       <CarouselCom data={homePageCarousel} />
       <Box
         m={{
@@ -113,15 +111,74 @@ const Home = () => {
           lg: "0px 55px 0px 55px",
         }}
       >
-        <Slide data2={data2} data1={data1}  data3={data3}/>
-        <HomeADCom
-          endpoint={"/DayDeals"}
-          column={5}
-          spacingX={{ base: "3", sm: "3", md: "10", lg: "10" }}
-          spacingY={{ sm: "0" }}
-          heading={"Get Ready for the Daily Deal Deligth!"}
-          data1={data1}
-        />
+        {/* MOBILE VIEW SLIDE CAROUSEL */}
+        <Slide data2={data2} data1={data1} data3={data3} />
+
+        {/* Desktop VIEW SLIDE */}
+        {/* Get Ready for the Daily Deal Deligth! */}
+        <Box
+          display={{
+            base: "none",
+            md: "inline-block",
+            lg: "inline-block",
+          }}
+          textAlign={"center"}
+        >
+          <Heading
+            bgGradient="linear(to-b,#fff,#00507a)"
+            bgClip="text"
+            as={"h2"}
+            m={{
+              sm: "25px 0px 10px 0px",
+              base: "20px 0px 7px 0px",
+              md: "50px 0px 20px 0px",
+              lg: "50px 0px 20px 0px",
+            }}
+            fontWeight={700}
+            fontSize={{ lg: "40px", md: "40px", sm: "30px" }}
+          >
+            Get Ready for the Daily Deal Deligth!
+          </Heading>
+
+          <SimpleGrid
+            m={2}
+            columns={5}
+            spacingX={{ base: "3", sm: "3", md: "10", lg: "10" }}
+            spacingY={{ sm: "0" }}
+          >
+            {data1.map((item, i) => (
+              <Box fontWeight={"500"} fontSize={"2.2vw"} color={"#282c3f"}>
+                <Box w={"100%"} h={"17vw"}>
+                  <Image
+                    h={"100%"}
+                    w={"100%"}
+                    objectFit={"fill"}
+                    key={item.image + i}
+                    src={item.image}
+                  />
+                </Box>
+                <Box
+                  border={{
+                    lg: "7px solid #ff3e6c",
+                    md: "7px solid #ff3e6c",
+                    sm: "5px solid #ff3e6c",
+                  }}
+                  borderTop={{ base: "0px", sm: "0px", md: "0px", lg: "0px" }}
+                  borderBottomRadius={{
+                    lg: "15",
+                    md: "10",
+                    sm: "10",
+                    base: "10",
+                  }}
+                >
+                  <Text>{item.title}</Text>
+                  <Text>{item.pricetitle}</Text>
+                </Box>
+              </Box>
+            ))}
+          </SimpleGrid>
+        </Box>
+
         {/*  shop by category  */}
         <Box
           display={{
@@ -141,35 +198,21 @@ const Home = () => {
               md: "30px 0px 13px 0px",
               lg: "50px 0px 20px 0px",
             }}
-            // m={"50px 0px 20px 0px"}
             fontWeight={700}
             fontSize={{ lg: "40px", md: "40px", sm: "25px" }}
-
-            // color={"#3e4152"}
           >
-            {/* {heading} */}Shop by Category
+            Shop by Category
           </Heading>
-
           <SimpleGrid
             m={2}
-            // column={5}
             gridTemplateColumns={"repeat(5, minmax(0, 1fr))"}
             spacingX={{ base: "3", sm: "3", md: "10", lg: "10" }}
             spacingY={{ sm: "0" }}
-
-            // onClick={() =>
-            //   endpoint === "/DayDeals" ||
-            //   endpoint === "/BestExclusiveBrand" ||
-            //   endpoint === "/TopPicks"
-            //     ? navigate("/store?type=Women")
-            //     : navigate("/store?type=Men")
-            // }
           >
             {data2.map((item, i) => (
               <Box
                 position={"relative"}
                 fontWeight={"500"}
-                // fontSize={{ base: "13px", sm: "13px", md: "20px", lg: "20px" }}
                 fontSize={"2.2vw"}
                 color={"#282c3f"}
               >
@@ -183,23 +226,6 @@ const Home = () => {
                   />
                 </Box>
 
-                {/* <Box
-                border={{
-                  lg: "7px solid #ff3e6c",
-                  md: "7px solid #ff3e6c",
-                  sm: "5px solid #ff3e6c",
-                }}
-                borderTop={{ base: "0px", sm: "0px", md: "0px", lg: "0px" }}
-                borderBottomRadius={{
-                  lg: "15",
-                  md: "10",
-                  sm: "10",
-                  base: "10",
-                }}
-              >
-                <Text>{item.title}</Text>
-                <Text>{item.pricetitle}</Text>
-              </Box> */}
                 <Box
                   textAlign={"center"}
                   justifyContent={"center"}
@@ -213,8 +239,6 @@ const Home = () => {
                   fontWeight={"500"}
                   color={"#282c3f"}
                   boxShadow="dark-lg"
-                  // p={{base:"1%",sm:"1%",md:"1.5%",lg:"5%"}}
-                  // p={"1%" "0%" "1%" "0%"}
                   rounded="md"
                 >
                   <Text>{item.title}</Text>
@@ -225,14 +249,15 @@ const Home = () => {
         </Box>
         {/* Offers */}
         <Box
-        display={{
-          sm: "none",
-          base: "none",
-          md: "grid",
-          lg: "grid",
-        }}
-        textAlign={"center"} 
-        paddingBottom={"40px"}>
+          display={{
+            sm: "none",
+            base: "none",
+            md: "grid",
+            lg: "grid",
+          }}
+          textAlign={"center"}
+          paddingBottom={"40px"}
+        >
           <Heading
             display={"block"}
             bgGradient="linear(to-b,#1414e3,#b0b0ff)"
@@ -281,8 +306,8 @@ const Home = () => {
                   />
                 </Box>
                 <Box
-                textAlign={"center"}
-                justifyContent={"center"}
+                  textAlign={"center"}
+                  justifyContent={"center"}
                   width={"80%"}
                   height={"25%"}
                   bg="#fff"
@@ -432,400 +457,6 @@ const Home = () => {
           </SimpleGrid> */}
         </Box>
       </Box>
-
-      {/* <Box m={"0px 55px 0px 55px"}>
-        <Box>
-          <Heading
-            bgGradient="linear(to-b,#fff,#00507a)"
-            bgClip="text"
-            as={"h2"}
-            m={"15px 0px 20px 0px"}
-            fontWeight={700}
-            fontSize={"40px"}
-          >
-            Get Ready for the Daily Deal Deligth!
-          </Heading>
-          <SimpleGrid columns={5} spacing={10}>
-            <Box
-              fontWeight={"500"}
-              fontSize="20px"
-              color={"#282c3f"} // p="20px 0px"
-            // onClick={() => navigate("/store?type=Men")}
-            >
-              <Image
-                src={
-                  "https://cdn.fcglcdn.com/brainbees/images/products/438x531/13281526a.webp"
-                }
-              />
-              <Box
-                border={"7px solid #ec008b"}
-                borderTop={"0px"}
-                borderBottomRadius={15}
-              >
-                <Text>Kids wear</Text>
-                <Text>Under ₹400</Text>
-              </Box>
-            </Box>
-            <Box
-              fontWeight={"500"}
-              fontSize="20px"
-              color={"#282c3f"} // p="20px 0px"
-            // onClick={() => navigate("/store?type=Men")}
-            >
-              <Image
-                src={
-                  "https://cdn.fcglcdn.com/brainbees/images/products/438x531/13281526a.webp"
-                }
-              />
-              <Box
-                border={"7px solid #ec008b"}
-                borderTop={"0px"}
-                borderBottomRadius={15}
-              >
-                <Text>Kids wear</Text>
-                <Text>Under ₹400</Text>
-              </Box>
-            </Box>
-            <Box
-              fontWeight={"500"}
-              fontSize="20px"
-              color={"#282c3f"} // p="20px 0px"
-            // onClick={() => navigate("/store?type=Men")}
-            >
-              <Image
-                src={
-                  "https://cdn.fcglcdn.com/brainbees/images/products/438x531/13281526a.webp"
-                }
-              />
-              <Box
-                border={"7px solid #ec008b"}
-                borderTop={"0px"}
-                borderBottomRadius={15}
-              >
-                <Text>Kids wear</Text>
-                <Text>Under ₹400</Text>
-              </Box>
-            </Box>
-            <Box
-              fontWeight={"500"}
-              fontSize="20px"
-              color={"#282c3f"} // p="20px 0px"
-            // onClick={() => navigate("/store?type=Men")}
-            >
-              <Image
-                src={
-                  "https://cdn.fcglcdn.com/brainbees/images/products/438x531/13281526a.webp"
-                }
-              />
-              <Box
-                border={"7px solid #ec008b"}
-                borderTop={"0px"}
-                borderBottomRadius={15}
-              >
-                <Text>Kids wear</Text>
-                <Text>Under ₹400</Text>
-              </Box>
-            </Box>
-            <Box
-              fontWeight={"500"}
-              fontSize="20px"
-              color={"#282c3f"} // p="20px 0px"
-            // onClick={() => navigate("/store?type=Men")}
-            >
-              <Image
-                src={
-                  "https://cdn.fcglcdn.com/brainbees/images/products/438x531/13281526a.webp"
-                }
-              />
-              <Box
-                border={"7px solid #ec008b"}
-                borderTop={"0px"}
-                borderBottomRadius={15}
-              >
-                <Text>Kids wear</Text>
-                <Text>Under ₹400</Text>
-              </Box>
-            </Box>
-          </SimpleGrid>
-        </Box>
-
-        <Box>
-          <Heading
-            bgGradient="linear(to-b,#ff0051,#fac0d3)"
-            bgClip="text"
-            as={"h2"}
-            m={"50px 0px 20px 0px"}
-            fontWeight={700}
-            fontSize={"40px"}
-          >
-            SHOP BY CATEGORY
-          </Heading>
-          <SimpleGrid columns={5} spacing={10}>
-            <Box position={"relative"}>
-              <Image
-                src={
-                  "https://m.media-amazon.com/images/I/61Mw4M+mHwL._AC._SR360,460.jpg"
-                }
-              />
-              <Box
-                width={"80%"}
-                height={"20%"}
-                bg="#fff"
-                position={"absolute"}
-                top={"80%"}
-                left={"50%"}
-                transform={"translate(-50%, -50%)"}
-                fontWeight={"500"}
-                fontSize="20px"
-                color={"#282c3f"}
-                boxShadow="dark-lg"
-                p="4"
-                rounded="md"
-              >
-                Mens
-              </Box>
-            </Box>
-            <Box position={"relative"}>
-              <Image
-                src={
-                  "https://m.media-amazon.com/images/I/61Mw4M+mHwL._AC._SR360,460.jpg"
-                }
-              />
-              <Box
-                width={"80%"}
-                height={"20%"}
-                bg="#fff"
-                position={"absolute"}
-                top={"80%"}
-                left={"50%"}
-                transform={"translate(-50%, -50%)"}
-                fontWeight={"500"}
-                fontSize="20px"
-                color={"#282c3f"}
-                boxShadow="dark-lg"
-                p="4"
-                rounded="md"
-              >
-                Women
-              </Box>
-            </Box>
-            <Box position={"relative"}>
-              <Image
-                src={
-                  "https://m.media-amazon.com/images/I/61Mw4M+mHwL._AC._SR360,460.jpg"
-                }
-              />
-              <Box
-                width={"80%"}
-                height={"20%"}
-                bg="#fff"
-                position={"absolute"}
-                top={"80%"}
-                left={"50%"}
-                transform={"translate(-50%, -50%)"}
-                fontWeight={"500"}
-                fontSize="20px"
-                color={"#282c3f"}
-                boxShadow="dark-lg"
-                p="4"
-                rounded="md"
-              >
-                Kids
-              </Box>
-            </Box>
-            <Box position={"relative"}>
-              <Image
-                src={
-                  "https://m.media-amazon.com/images/I/61Mw4M+mHwL._AC._SR360,460.jpg"
-                }
-              />
-              <Box
-                width={"80%"}
-                height={"20%"}
-                bg="#fff"
-                position={"absolute"}
-                top={"80%"}
-                left={"50%"}
-                transform={"translate(-50%, -50%)"}
-                fontWeight={"500"}
-                fontSize="20px"
-                color={"#282c3f"}
-                boxShadow="dark-lg"
-                p="4"
-                rounded="md"
-              >
-                Boys
-              </Box>
-            </Box>
-            <Box position={"relative"}>
-              <Image
-                src={
-                  "https://m.media-amazon.com/images/I/61Mw4M+mHwL._AC._SR360,460.jpg"
-                }
-              />
-              <Box
-                width={"80%"}
-                height={"20%"}
-                bg="#fff"
-                position={"absolute"}
-                top={"80%"}
-                left={"50%"}
-                transform={"translate(-50%, -50%)"}
-                fontWeight={"500"}
-                fontSize="20px"
-                color={"#282c3f"}
-                boxShadow="dark-lg"
-                p="4"
-                rounded="md"
-              >
-                Girls
-              </Box>
-            </Box>
-          </SimpleGrid>
-        </Box>
-
-        <Box paddingBottom={"40px"}>
-          <Heading
-            bgGradient="linear(to-b,#1414e3,#b0b0ff)"
-            bgClip="text"
-            as={"h2"}
-            m={"50px 0px 20px 0px"}
-            fontWeight={700}
-            fontSize={"40px"}
-          >
-            OFFERS
-          </Heading>
-          <SimpleGrid columns={5} spacing={10}>
-            <Box position={"relative"}>
-              <Image
-                src={
-                  "https://cdn.fcglcdn.com/brainbees/images/products/438x531/10839201a.webp"
-                }
-              />
-              <Box
-                width={"80%"}
-                height={"20%"}
-                bg="#fff"
-                position={"absolute"}
-                top={"100%"}
-                left={"50%"}
-                transform={"translate(-50%, -50%)"}
-                fontWeight={"500"}
-                fontSize="20px"
-                color={"#282c3f"}
-                boxShadow="dark-lg"
-                p="1"
-                rounded="md"
-              >
-                <Text>Flat 300</Text>
-                <Text fontSize={"14px"}>Kids Wear</Text>
-              </Box>
-            </Box>
-
-            <Box position={"relative"}>
-              <Image
-                src={
-                  "https://cdn.fcglcdn.com/brainbees/images/products/438x531/10839201a.webp"
-                }
-              />
-              <Box
-                width={"80%"}
-                height={"20%"}
-                bg="#fff"
-                position={"absolute"}
-                top={"100%"}
-                left={"50%"}
-                transform={"translate(-50%, -50%)"}
-                fontWeight={"500"}
-                fontSize="20px"
-                color={"#282c3f"}
-                boxShadow="dark-lg"
-                p="1"
-                rounded="md"
-              >
-                <Text>Flat 159</Text>
-                <Text fontSize={"14px"}>Gym Wear</Text>
-              </Box>
-            </Box>
-            <Box position={"relative"}>
-              <Image
-                src={
-                  "https://cdn.fcglcdn.com/brainbees/images/products/438x531/10839201a.webp"
-                }
-              />
-              <Box
-                width={"80%"}
-                height={"20%"}
-                bg="#fff"
-                position={"absolute"}
-                top={"100%"}
-                left={"50%"}
-                transform={"translate(-50%, -50%)"}
-                fontWeight={"500"}
-                fontSize="20px"
-                color={"#282c3f"}
-                boxShadow="dark-lg"
-                p="1"
-                rounded="md"
-              >
-                <Text>Flat 359</Text>
-                <Text fontSize={"14px"}>Casual</Text>
-              </Box>
-            </Box>
-            <Box position={"relative"}>
-              <Image
-                src={
-                  "https://cdn.fcglcdn.com/brainbees/images/products/438x531/10839201a.webp"
-                }
-              />
-              <Box
-                width={"80%"}
-                height={"20%"}
-                bg="#fff"
-                position={"absolute"}
-                top={"100%"}
-                left={"50%"}
-                transform={"translate(-50%, -50%)"}
-                fontWeight={"500"}
-                fontSize="20px"
-                color={"#282c3f"}
-                boxShadow="dark-lg"
-                p="1"
-                rounded="md"
-              >
-                <Text>Flat 599</Text>
-                <Text fontSize={"14px"}>Formal</Text>
-              </Box>
-            </Box>
-            <Box position={"relative"}>
-              <Image
-                src={
-                  "https://cdn.fcglcdn.com/brainbees/images/products/438x531/10839201a.webp"
-                }
-              />
-              <Box
-                width={"80%"}
-                height={"20%"}
-                bg="#fff"
-                position={"absolute"}
-                top={"100%"}
-                left={"50%"}
-                transform={"translate(-50%, -50%)"}
-                fontWeight={"500"}
-                fontSize="20px"
-                color={"#282c3f"}
-                boxShadow="dark-lg"
-                p="1"
-                rounded="md"
-              >
-                <Text>Flat 199</Text>
-                <Text fontSize={"14px"}>Foot Wear</Text>
-              </Box>
-            </Box>
-          </SimpleGrid>
-        </Box>
-      </Box> */}
-
       <Box mt={16}>
         <Footer />
       </Box>

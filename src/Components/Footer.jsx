@@ -1,9 +1,6 @@
-import { Link } from "react-router-dom";
 import styles from "../css/Footer.module.css";
 import { Button, Text } from "@chakra-ui/react";
 import { useState } from "react";
-let searches =
-  "Makeup  Dresses For Girls  T-Shirts  Sandals  Headphones  Babydolls  Blazers For Men  Handbags  Ladies Watches  Bags  Sport Shoes  Reebok Shoes  Puma Shoes  Boxers  Wallets  Tops  Earrings  Fastrack Watches  Kurtis  Nike  Smart Watches  Titan Watches  Designer Blouse  Gowns  Rings  Cricket Shoes  Forever 21  Eye Makeup  Photo Frames  Punjabi Suits  Bikini  Myntra Fashion Show  Lipstick  Saree  Watches  Dresses  Lehenga  Nike Shoes  Goggles  Bras  Suit  Chinos  Shoes  Adidas Shoes  Woodland Shoes  Jewellery  Designers Sarees";
 
 export default function Footer() {
   const [description, setDescription] = useState("");
@@ -32,14 +29,19 @@ export default function Footer() {
       <div style={{ display: "flex" }} className={styles.main}>
         <div>
           <p></p>
-          <div style={{ display: "flex"}}>
+          <div style={{ display: "flex" }}>
             <p></p>
-            <Text  fontSize={{lg:"47px",base:"30px"}}>e</Text><Text   fontSize={{lg:"47px",base:"30px"}} color={"#ff3e6c"}>Style</Text><Text   fontSize={{lg:"47px",base:"30px"}}>Wala.com</Text>
+            <Text fontSize={{ lg: "47px", base: "30px" }}>e</Text>
+            <Text fontSize={{ lg: "47px", base: "30px" }} color={"#ff3e6c"}>
+              Style
+            </Text>
+            <Text fontSize={{ lg: "47px", base: "30px" }}>Wala.com</Text>
           </div>
-            <Text textAlign= "center" >Step into Style: Discover Endless Possibilities</Text>
-<br />
+          <Text textAlign="center">
+            Step into Style: Discover Endless Possibilities
+          </Text>
+          <br />
           <div>
-
             <p>Office Address</p>
             <p>
               Jama Masjid Road <br></br> Aarif Colony<br></br> Aurangabad{" "}

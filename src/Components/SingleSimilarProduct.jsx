@@ -1,21 +1,8 @@
-import {
-  Box,
-  Tag,
-  TagCloseButton,
-  Image,
-  VStack,
-  Circle,
-  HStack,
-  Text,
-  Divider,
-  StackDivider,
-  Button,
-} from "@chakra-ui/react";
+import { Box, Image, VStack, HStack, Text, Button } from "@chakra-ui/react";
 import React from "react";
 
 const SingleSimilarProduct = ({ el, handleAddCart }) => {
-  const { MRP, discount, id, brand, img, price, rating, ratingT, size, title } =
-    el;
+  const { MRP, discount, img, price, title } = el;
 
   return (
     <>
@@ -24,7 +11,7 @@ const SingleSimilarProduct = ({ el, handleAddCart }) => {
           <Image w={"full"} src={img} />
         </Box>
 
-        <VStack w={"full"} alignItems='left' padding="10px" spacing={0} >
+        <VStack w={"full"} alignItems="left" padding="10px" spacing={0}>
           <Text
             w={"full"}
             m={"2px 0px"}

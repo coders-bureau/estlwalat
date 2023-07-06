@@ -67,3 +67,40 @@ export const getProductsPage = (params,page) => async (dispatch) => {
     dispatch(getProductsFailure());
   }
 };
+
+let baseURL = `${process.env.REACT_APP_MYNTRA_API}/Products?_limit=12`;
+const getProductsSorting = async (val, page,params) => {
+  if (val === "PriceLTH") {
+      let res = await axios.get(`${process.env.REACT_APP_MYNTRA_API}/Products?_limit=12&_page=${page}&_sort=price&_order=asc`,params)
+      return res
+  }
+  if (val === "PriceHTL") {
+      let res = await axios.get(`${process.env.REACT_APP_MYNTRA_API}/Products?_limit=12&_page=${page}&_sort=price&_order=desc`,params)
+      return res
+  }
+  if (val === "discount") {
+      let res = await axios.get(`${process.env.REACT_APP_MYNTRA_API}/Products?_limit=12&_page=${page}&_sort=${val}&_order=desc`,params)
+      return res
+  }
+  if (val === "rating") {
+      let res = await axios.get(`${process.env.REACT_APP_MYNTRA_API}/Products?_limit=12&_page=${page}&_sort=${val}&_order=desc`,params)
+      return res
+  } else {
+      let res = await axios.get(`${baseURL}&_page=${page}`,params)
+      return res
+  }
+}
+
+export const getProductsSorted = (val, page,params) => async (dispatch) => {
+
+  dispatch(getProductsLoading());
+
+  try {
+     let r = await getProductsSorting(val, page,params)
+
+     //console.log("data:", data)
+     dispatch(getProductsSuccess1(r));
+  } catch (err) {
+     dispatch(getProductsFailure());
+  }
+}

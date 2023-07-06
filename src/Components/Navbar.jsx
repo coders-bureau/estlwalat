@@ -3,7 +3,6 @@ import {
   HStack,
   Image,
   Text,
-  Badge,
   Input,
   Stack,
   InputGroup,
@@ -17,14 +16,6 @@ import {
   MenuList,
   Tag,
   IconButton,
-  Button,
-  Drawer,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  DrawerHeader,
-  DrawerBody,
-  DrawerFooter,
 } from "@chakra-ui/react";
 import React, { useRef } from "react";
 import {
@@ -33,32 +24,20 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import logo from "../Assets/estyle.png";
-import {
-  AddIcon,
-  EditIcon,
-  ExternalLinkIcon,
-  HamburgerIcon,
-  RepeatIcon,
-  SearchIcon,
-} from "@chakra-ui/icons";
-import { CiUser, CiHeart } from "react-icons/ci";
-import { BsHandbag } from "react-icons/bs";
-import {HiOutlineUser} from "react-icons/hi";
-import {PiBag,PiHeartStraight,PiHeartStraightBold,PiHandbagBold} from 'react-icons/pi'
+import { HamburgerIcon, SearchIcon } from "@chakra-ui/icons";
+import { HiOutlineUser } from "react-icons/hi";
+import { PiHeartStraightBold, PiHandbagBold } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../Redux/AuthReducer/Action";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const Navbar = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
   const { isAuth } = useSelector((store) => store.AuthReducer);
   const searchRef = useRef();
   const searchRef1 = useRef();
-
-  // const btnRef = React.useRef();
 
   // ...........................
 
@@ -115,7 +94,6 @@ export const Navbar = () => {
       });
     }
   };
-  
 
   return (
     <>
@@ -153,26 +131,22 @@ export const Navbar = () => {
               <Menu>
                 <MenuButton
                   as={IconButton}
-                  // aria-label="Options"
                   icon={<HamburgerIcon />}
                   variant="outline"
                 />
                 <MenuList>
-                  {/* <MenuItem icon={<AddIcon />} command="⌘T"> */}
                   <MenuItem
                     fontWeight={"500"}
                     fontSize="15px"
                     color={"#282c3f"}
                     p="20px 40%"
-                    // onClick={() => navigate("/store?type=Men")}
                     onClick={() => navigate("/")}
                     cursor="pointer"
                   >
                     {" "}
                     Home
                   </MenuItem>
-                  {/* </MenuItem>
-                  <MenuItem icon={<ExternalLinkIcon />} command="⌘N"> */}
+
                   <MenuItem
                     fontWeight={"500"}
                     fontSize="15px"
@@ -183,8 +157,6 @@ export const Navbar = () => {
                   >
                     Kids
                   </MenuItem>
-                  {/* </MenuItem>
-                  <MenuItem icon={<RepeatIcon />} command="⌘⇧N"> */}
                   <MenuItem
                     fontWeight={"500"}
                     fontSize="15px"
@@ -195,8 +167,7 @@ export const Navbar = () => {
                   >
                     Offers
                   </MenuItem>
-                  {/* </MenuItem>
-                  <MenuItem icon={<EditIcon />} command="⌘O"> */}
+
                   <MenuItem
                     fontWeight={"500"}
                     fontSize="15px"
@@ -206,7 +177,6 @@ export const Navbar = () => {
                   >
                     Contact us
                   </MenuItem>
-                  {/* </MenuItem> */}
                 </MenuList>
               </Menu>
             </Box>
@@ -214,14 +184,16 @@ export const Navbar = () => {
             <HStack>
               {/* logo....................... */}
               <Box
-                display={{ lg:"inline-block",base:"none" }}
+                display={{ lg: "inline-block", base: "none" }}
                 w="100px"
                 onClick={() => navigate("/")}
               >
                 <Image
                   src={logo}
                   alt="logo"
-                  fallbackSrc={"https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"}
+                  fallbackSrc={
+                    "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"
+                  }
                   cursor="pointer"
                 />
               </Box>
@@ -247,10 +219,8 @@ export const Navbar = () => {
                   >
                     <Text
                       fontWeight={"500"}
-                      // fontSize="14px"
                       color={"#282c3f"}
                       p="20px 0px"
-                      // onClick={() => navigate("/store?type=Men")}
                       onClick={() => navigate("/")}
                     >
                       {" "}
@@ -267,7 +237,6 @@ export const Navbar = () => {
                   >
                     <Text
                       fontWeight={"500"}
-                      // fontSize="14px"
                       color={"#282c3f"}
                       p="20px 0px"
                       onClick={() => navigate("/store?type=Kids")}
@@ -285,7 +254,6 @@ export const Navbar = () => {
                   >
                     <Text
                       fontWeight={"500"}
-                      // fontSize="14px"
                       color={"#282c3f"}
                       onClick={() => navigate("/store?type=Offers")}
                       p="20px 0px"
@@ -303,58 +271,12 @@ export const Navbar = () => {
                   >
                     <Text
                       fontWeight={"500"}
-                      // fontSize="14px"
                       color={"#282c3f"}
                       p="20px 0px"
                     >
                       Contact us
                     </Text>
                   </Box>
-
-                  {/* <Box
-                  _hover={{
-                    borderBottom: "5px solid #ff3e6c",
-                  }}
-                  borderBottom="5px solid rgba(0,0,0,0.0)"
-                  cursor="pointer"
-                >
-                  <Text
-                    fontWeight={"500"}
-                    fontSize="14px"
-                    color={"#282c3f"}
-                    p="20px 0px"
-                  >
-                    BEAUTY
-                  </Text>
-                </Box>
-
-                <Box
-                  _hover={{
-                    borderBottom: "5px solid #ff3e6c",
-                  }}
-                  borderBottom="5px solid rgba(0,0,0,0.0)"
-                  cursor="pointer"
-                >
-                  <Text
-                    fontWeight={"500"}
-                    fontSize="14px"
-                    color={"#282c3f"}
-                    p="20px 0px"
-                  >
-                    STUDIO{" "}
-                    <sup>
-                      <Badge
-                        variant={"subtle"}
-                        colorScheme="pink"
-                        fontSize={".8em"}
-                        ml="0px"
-                        padding="0px"
-                      >
-                        NEW
-                      </Badge>
-                    </sup>
-                  </Text>
-                </Box> */}
                 </HStack>
               </Box>
             </HStack>
@@ -418,7 +340,6 @@ export const Navbar = () => {
                 spacing={"3px"}
                 onClick={() => navigate("/cart")}
               >
-                
                 <Icon
                   as={PiHandbagBold}
                   fontSize="xl"
@@ -440,7 +361,6 @@ export const Navbar = () => {
                 spacing={"3px"}
                 onClick={() => navigate("/wishlist")}
               >
-                
                 <Icon
                   onClick={() => navigate("/wishlist")}
                   as={PiHeartStraightBold}
@@ -458,7 +378,7 @@ export const Navbar = () => {
                 </Text>
               </VStack>
               <VStack spacing={"3px"}>
-                <Menu >
+                <Menu>
                   <MenuButton onMouseEnter={onOpen} onMouseLeave={onClose}>
                     <VStack
                       _hover={{
@@ -466,7 +386,6 @@ export const Navbar = () => {
                       }}
                       spacing={"3px"}
                     >
-                      {/* <FontAwesomeIcon icon="fa-regular fa-user" /> */}
                       <Icon as={HiOutlineUser} fontSize="xl" />
                       <Text fontWeight={"500"} color={"#282c3f"}>
                         Profile
@@ -549,10 +468,6 @@ export const Navbar = () => {
                 fontSize="14px"
                 color={"#696e79"}
                 type={"text"}
-                // w={{
-                //   lg: "300px",
-                //   md: "300px",
-                // }}
                 textColor="#696e79"
                 focusBorderColor="grey"
                 border={"1px solid"}

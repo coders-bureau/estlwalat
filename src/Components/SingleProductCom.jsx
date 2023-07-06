@@ -1,6 +1,5 @@
 import styles from "../css/SingleProductCom.module.css";
 import axios from "axios";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faMagnifyingGlass,
@@ -12,16 +11,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Circle,
-  position,
   Text,
   useToast,
   Icon,
-  Button,
-  Box,
 } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import { CiHeart } from "react-icons/ci";
-import { PiHandbagBold } from "react-icons/pi";
 import { BsHandbag } from "react-icons/bs";
 
 library.add(faMagnifyingGlass, faUser, faHeart, faBagShopping);
@@ -34,46 +29,33 @@ export default function SingleProductCom(el) {
   const { isAuth } = useSelector((store) => store.AuthReducer);
   const toast = useToast();
 
-  
-
   const handleAddCart = (el) => {
-    // toast({
-    //   title: "Please wait",
-    //   description: "We are adding your product in cart",
-    //   status: "loading",
-    //   duration: 500,
-    //   isClosable: true,
-    //   position: "top",
-    // });
     if (isAuth) {
-    axios({
-      url: process.env.REACT_APP_MYNTRA_API + "/cart",
-      method: "post",
-      data: el,
-    })
-      .then((res) => {
-        // handleCartProducts();
-        toast({
-          title: "Product added in the cart.",
-          // description: el.title,
-          status: "success",
-          duration: 1500,
-          isClosable: true,
-          variant: "top-accent",
-                    position: "top-right",
-        });
+      axios({
+        url: process.env.REACT_APP_MYNTRA_API + "/cart",
+        method: "post",
+        data: el,
       })
-      .catch((err) => {
-        toast({
-          title: "Product already present in the cart.",
-          // description: "Title: " + el.title,
-          status: "warning",
-          duration: 1500,
-          isClosable: true,
-          variant: "top-accent",
-                    position: "top-right",
+        .then((res) => {
+          toast({
+            title: "Product added in the cart.",
+            status: "success",
+            duration: 1500,
+            isClosable: true,
+            variant: "top-accent",
+            position: "top-right",
+          });
+        })
+        .catch((err) => {
+          toast({
+            title: "Product already present in the cart.",
+            status: "warning",
+            duration: 1500,
+            isClosable: true,
+            variant: "top-accent",
+            position: "top-right",
+          });
         });
-      });
     } else {
       navigate("/signup");
     }
@@ -87,7 +69,6 @@ export default function SingleProductCom(el) {
         onMouseLeave={() => setShowWish(false)}
       >
         <Circle
-          // width={"10px"}
           left={"80%"}
           zIndex={1}
           onClick={() => {
@@ -128,7 +109,6 @@ export default function SingleProductCom(el) {
           _
           p="4px 4px"
           size={{ lg: "9", md: "8", base: "9" }}
-          // left={{lg:"80%",md:"70%",base:"50%"}}
           top={{ lg: "4vw", md: "5vw", base: "6vw" }}
         >
           <Icon as={CiHeart} fontSize={{ lg: "4xl", md: "3xl", base: "4xl" }} />
@@ -156,44 +136,9 @@ export default function SingleProductCom(el) {
             <div className={styles.hoverWish}>
               <div
                 className={styles.wishlist}
-                // onClick={() => {
-                //   if (isAuth) {
-                //     axios({
-                //       method: "post",
-                //       url: `${process.env.REACT_APP_MYNTRA_API}/wishlist`,
-                //       data: el,
-                //     })
-                //       .then((res) => {
-                //         toast({
-                //           duration: 1500,
-                //           status: "info",
-                //           title: "item successfully added in wishlist",
-                //           isClosable: true,
-                //           variant: "top-accent",
-                //           position: "bottom-right",
-                //         });
-                //       })
-                //       .catch((err) => {
-                //         toast({
-                //           duration: 1500,
-                //           status: "warning",
-                //           title: "item already present in wishlist",
-                //           isClosable: true,
-                //           variant: "top-accent",
-                //           position: "bottom-right",
-                //         });
-                //       });
-                //   } else {
-                //     navigate("/signup");
-                //   }
-                // }}
-                onClick={()=>handleAddCart(el)}
+                onClick={() => handleAddCart(el)}
               >
-                <Icon
-                  as={BsHandbag}
-                  fontSize="xl"
-                 
-                />
+                <Icon as={BsHandbag} fontSize="xl" />
                 <div className={styles.wishlistWord}>Add to Cart</div>
               </div>
             </div>

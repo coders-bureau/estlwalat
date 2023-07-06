@@ -2,35 +2,29 @@ import {
   Box,
   Button,
   Center,
-  Circle,
-  Flex,
   Grid,
   Heading,
   HStack,
   Image,
   SimpleGrid,
-  StackDivider,
   Text,
   VStack,
   Icon,
   InputGroup,
   Input,
   InputRightElement,
-  Toast,
   useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  Navigate,
   useLocation,
   useNavigate,
   useParams,
   useSearchParams,
 } from "react-router-dom";
 import Footer from "../Components/Footer";
-import Navbar from "../Components/Navbar";
-import { getProducts, getSProducts } from "../Redux/AppReducer/Action";
+import { getProducts } from "../Redux/AppReducer/Action";
 import { BsHandbag, BsTruck } from "react-icons/bs";
 import { CiHeart } from "react-icons/ci";
 import axios from "axios";
@@ -70,8 +64,8 @@ const SingleProduct = () => {
     discount,
     images,
     price,
-    rating,
-    ratingT,
+    // rating,
+    // ratingT,
     size,
     title,
     type,
@@ -130,7 +124,7 @@ const SingleProduct = () => {
   ]);
 
   const setsize = (size) => {
-    if (size == sizeRef) {
+    if (size === sizeRef) {
       setSize("");
     } else {
       setSize(size);
@@ -237,8 +231,6 @@ const SingleProduct = () => {
 
   return (
     <>
-      {/* <Navbar/> */}
-      {/* ..........title path............. */}
       <Box>
         <HStack spacing={1} w={"98%"} m={"10px auto"}>
           <Text color={"#46495a"} fontSize={"14px"}>
@@ -289,13 +281,7 @@ const SingleProduct = () => {
           </Box>
           {/* ............................. */}
           <Box position={"sticky"} top="55px" h="max-content">
-            <VStack
-              spacing={4}
-              textAlign="left"
-              // top={"20px"}
-              w={"full"}
-              // divider={<StackDivider borderColor="gray.200" />}
-            >
+            <VStack spacing={4} textAlign="left" w={"full"}>
               <Box w="full">
                 <Heading
                   fontWeight={"600"}
@@ -327,36 +313,6 @@ const SingleProduct = () => {
                   {" "}
                   {discount}% OFF{" "}
                 </Heading>
-                {/* <Box w={"full"} mt="15px">
-                  <HStack
-                    w="max-content"
-                    cursor={"pointer"}
-                    transition={".5s all"}
-                    spacing={"2px"}
-                    border={"1px solid #e0e0e0"}
-                    borderRadius="3px"
-                    padding={"2px 4px"}
-                    _hover={{ borderColor: "#282c3f" }}
-                  >
-                    <HStack spacing={1}>
-                      {Math.floor(rating) === rating ? (
-                        <Text fontWeight={"bold"}>{rating}.0</Text>
-                      ) : (
-                        <Text fontWeight={"bold"}>{rating}</Text>
-                      )}
-                      <Text color="#72bfbc">&#9733;</Text>
-                    </HStack>
-                    <HStack spacing={1}>
-                      <Text color="#e0e0e0" fontWeight={"bold"}>
-                        |
-                      </Text>
-                      <Text fontWeight={300} color="#535766">
-                        {" "}
-                        {ratingT} Ratings
-                      </Text>
-                    </HStack>
-                  </HStack>
-                </Box> */}
               </Box>
               {/* .................... */}
 
@@ -451,7 +407,6 @@ const SingleProduct = () => {
                     colorScheme="cyan"
                     variant={"outline"}
                   ></Button>
-                  {/* <VStack > */}
                   <Button
                     display={{ lg: "flex", md: "flex", base: "none" }}
                     ml={"0px"}
@@ -482,7 +437,6 @@ const SingleProduct = () => {
                             replace: true,
                           })
                     }
-                    // fontSize={{ lg: "20px", md: "20px", base: "10px" }}
                     display={{ lg: "flex", md: "flex", base: "none" }}
                     textColor={"#ff3e6c"}
                     borderRadius={5}
@@ -495,7 +449,6 @@ const SingleProduct = () => {
                   >
                     ADD TO BAG
                   </Button>
-                  {/* </VStack> */}
                 </HStack>
               </VStack>
 
@@ -524,21 +477,6 @@ const SingleProduct = () => {
                     </InputRightElement>
                   </InputGroup>
                 </Box>
-
-                {/* <VStack align="flex-start" w="full" spacing={"10px"} py="20px">
-                  <Text color={"#282c3f"} fontSize="14px">
-                    100% Original Products
-                  </Text>
-                  <Text color={"#282c3f"} fontSize="14px">
-                    Pay on delivery might be available
-                  </Text>
-                  <Text color={"#282c3f"} fontSize="14px">
-                    Easy 30 days returns and exchanges
-                  </Text>
-                  <Text color={"#282c3f"} fontSize="14px">
-                    Try & Buy might be available
-                  </Text>
-                </VStack> */}
               </VStack>
             </VStack>
           </Box>
@@ -550,19 +488,10 @@ const SingleProduct = () => {
           gap={"1rem"}
           justifyContent={"center"}
           h="max-content"
-          // w={"100%"}
-          // p={{
-          //   base: "5px",
-          //   sm: "5px",
-          //   md: "0px",
-          //   lg: "0px",
-          // }}
           position={"sticky"}
           bottom={0}
         >
           <Button
-            // ml={"0px"}
-            // mr={{ lg: "20px", base: "0px" }}
             onClick={() =>
               isAuth
                 ? handleSendCart()
@@ -590,14 +519,11 @@ const SingleProduct = () => {
                     replace: true,
                   })
             }
-            // fontSize={{ lg: "20px", md: "20px", base: "10px" }}
-
             textColor={"#ff3e6c"}
             borderRadius={5}
             border={"2px"}
             borderColor={"#ff3e6c"}
             p="22px 50px"
-            // leftIcon={<BsHandbag />}
             bg="#fff"
             variant={"outline"}
           >
@@ -610,13 +536,18 @@ const SingleProduct = () => {
         <Text textAlign="left" my={8} fontWeight={"bold"} color="#282c3f">
           SIMILAR PRODUCTS
         </Text>
-      
+
         <SimpleGrid
-          columns={  { lg: similarProducts.length >= 6
-            ? 6
-            : similarProducts.length <= 3
-            ? 4
-            : similarProducts.length, md: "3", base: "2" } }
+          columns={{
+            lg:
+              similarProducts.length >= 6
+                ? 6
+                : similarProducts.length <= 3
+                ? 4
+                : similarProducts.length,
+            md: "3",
+            base: "2",
+          }}
           spacingX="40px"
           spacingY="30px"
           w="100%"

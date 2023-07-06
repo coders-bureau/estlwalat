@@ -3,45 +3,28 @@ import {
   Divider,
   HStack,
   SimpleGrid,
-  StackDivider,
   VStack,
   Text,
   Button,
   Image,
-  Icon,
-  Checkbox,
-  Circle,
   useDisclosure,
   Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
   ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  FormHelperText,
-  Input,
   Center,
-  Toast,
   useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import OtherNavbar from "../Components/OtherNavbar";
-import { BsHandbag, BsTruck } from "react-icons/bs";
-import { MdOutlineLocalOffer } from "react-icons/md";
 import axios from "axios";
 import SingleCartProduct from "../Components/SingleCartProduct";
-import SingleWishlistProduct from "../Components/SingleWishlistProduct";
 import SingleSimilarProduct from "../Components/SingleSimilarProduct";
-import OtherFooter from "../Components/OtherFooter";
 import AddressModal from "../Components/AddressModal";
 import { PaymentDetains1, PaymentDetains2 } from "../Components/PaymentDetains";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import Footer from "../Components/Footer";
 
 const Cart = () => {
   const [cartProducts, setCartProducts] = useState([]);
@@ -183,10 +166,8 @@ const Cart = () => {
         <Box>
           <Box>
             <HStack
-              // pl={"20px"}
-              // pr={"20px"}
+             
               px={{lg:"200px",md:"100px",base:"20px"}}
-              // divider={<StackDivider color={"#ededef"} />}
               alignItems="flex-start"
             >
               {/* ................................. */}
@@ -277,34 +258,6 @@ const Cart = () => {
                     </HStack>
                   </Box>
 
-                  {/* <HStack
-                    justify={"left"}
-                    spacing={1}
-                    w="full"
-                    border={"1px solid #ebebed"}
-                    p={"5px 5px"}
-                    borderRadius={"3px"}
-                  >
-                    <Image
-                      w="32px"
-                      src="https://constant.myntassets.com/checkout/assets/img/ship-free.webp"
-                    ></Image>
-                    <Text fontSize={"14px"} pt="7px" color="#626472">
-                      Yay!
-                    </Text>
-                    <Text
-                      fontSize={"14px"}
-                      pt="7px"
-                      fontWeight={"bold"}
-                      color="#535766"
-                    >
-                      No convenience fee
-                    </Text>
-                    <Text fontSize={"14px"} pt="7px" color="#626472">
-                      on this order.
-                    </Text>
-                  </HStack> */}
-
                   <Box w={"full"}>
                     <VStack
                       w={"full"}
@@ -357,70 +310,7 @@ const Cart = () => {
               >
                 <VStack
                   w={"full"}
-                  // divider={<StackDivider borderColor="gray.200" />}
                 >
-                  {/* ........................ */}
-                  {/* <Box w="full">
-  
-                  <VStack align={"flex-start"} w={"full"} >
-                    <Text fontSize={"12px"} color={"#535766"} fontWeight={700}>COUPONS</Text>
-                    <HStack justify={"space-between"} w="full">
-                      <HStack spacing={"15px"}>
-                        <Icon fontSize={"20px"} as={MdOutlineLocalOffer}></Icon>
-                        <Text fontSize={"14px"} color="535766" fontWeight={"700"}>Apply Coupons</Text>
-                      </HStack>
-                      <Button borderRadius={2} px={4} py={3} variant={"outline"} size={"xs"} colorScheme={"pink"}>APPLY</Button>
-                    </HStack>
-                  </VStack>
-  
-                </Box> */}
-
-                  {/* .......................... */}
-                  {/* <Box w="full">
-  
-                  <VStack w={"full"} align="flex-start" textAlign={"left"}>
-                    <Text
-                      fontWeight={700}
-                      fontSize={"12px"}
-                      color={"#535766"}
-                    >
-                      GIFTING & PERSONALISATION
-                    </Text>
-                    <HStack w={"full"} px={2} bgColor="#eecdfa" borderRadius={5} >
-                      <Box w={"45px"}>
-                        <Image w={"full"} src='https://constant.myntassets.com/checkout/assets/img/gift-big.webp' alt="">
-  
-                        </Image>
-                      </Box>
-                      <VStack spacing={"3px"} py={2} w={"full"} textAlign={"left"} align="flex-start">
-                        <VStack w={"full"} textAlign={"left"} align="flex-start" spacing={"0px"}>
-                          <Text fontSize={"14px"} fontWeight={"bold"} color="#282c3f">Buying for a loved one?</Text>
-                          <Text fontSize={"12px"} fontWeight={400} color="#282c3f">Gift wrap and personalised message on card, Only for ₹25</Text>
-                        </VStack>
-                        <Text fontSize={"12px"} fontWeight={600} color={"#360729"}>ADD GIFT WRAP</Text>
-                      </VStack>
-                    </HStack>
-                  </VStack>
-                </Box> */}
-
-                  {/* .......................... */}
-                  {/* <Box w="full">
-                  <VStack w="full" spacing={4} textAlign={"left"} align="flex-start">
-                    <Text
-                      fontWeight={700}
-                      fontSize={"12px"}
-                      color={"#535766"}
-                    >SUPPORT TRANSFORMATIVE SOCIAL WORK IN INDIA</Text>
-                    <Checkbox colorScheme={"pink"} color="#282c3f" size={"sm"} spacing={3} fontWeight={600}>Support Us</Checkbox>
-                    <HStack fontSize={"14px"}>
-                      <Circle color={"#282c3f"} fontWeight={700} border={"1px solid #e2e3e6"} borderRadius={"30px"} cursor={'pointer'} p="8px 16px" _hover={{ background: "#f6ccff" }}>₹10</Circle>
-                      <Circle color={"#282c3f"} fontWeight={700} border={"1px solid #e2e3e6"} borderRadius={"30px"} cursor={'pointer'} p="8px 16px" _hover={{ background: "#f6ccff" }}>₹50</Circle>
-                      <Circle color={"#282c3f"} fontWeight={700} border={"1px solid #e2e3e6"} borderRadius={"30px"} cursor={'pointer'} p="8px 16px" _hover={{ background: "#f6ccff" }}>₹100</Circle>
-                      <Circle color={"#282c3f"} fontWeight={700} border={"1px solid #e2e3e6"} borderRadius={"30px"} cursor={'pointer'} p="8px 16px" _hover={{ background: "#f6ccff" }}>Other</Circle>
-                    </HStack>
-                    <Text fontSize={"14px"} color={"#863e9c"} fontWeight={"bold"}>Know More</Text>
-                  </VStack>
-                </Box> */}
                   {/* .......................... */}
 
                   <PaymentDetains1
@@ -468,7 +358,6 @@ const Cart = () => {
         </Box>
       )}
 
-      {/* <Footer /> */}
     </VStack>
   );
 };

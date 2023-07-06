@@ -8,7 +8,6 @@ import {
   Text,
   CheckboxGroup,
   Checkbox,
-  HStack,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
@@ -45,10 +44,6 @@ const Filter = () => {
   const handleCategory = (el) => {
     setCategory(el);
   };
-
-  // const handleBrand = (el) => {
-  //   setBrand(el);
-  // };
 
   const handlePrice = (el) => {
     setPrice(el);
@@ -93,19 +88,18 @@ const Filter = () => {
   return (
     <>
       <VStack
-      border={"1px"}
+        border={"1px"}
         alignItems={"flex-start"}
         spacing={1}
         position={"sticky"}
         top={"12%"}
-        // w={{md:"100%",base:"200px"}}
         bottom={"1000px"}
       >
         <Box pl={"40%"} fontWeight={700}>
           FILTERS
         </Box>
 
-        <Divider border={"1px"} color={"#b0a9a9"}/>
+        <Divider border={"1px"} color={"#b0a9a9"} />
 
         <Box pl={4}>
           <Text
@@ -158,36 +152,6 @@ const Filter = () => {
         </Box>
         <Divider />
 
-        {/* <Box pl={4}>
-
-          <Text
-            textAlign={"left"}
-            fontSize={"14px"}
-            fontWeight={700}
-            color="#282c3f"
-
-          >BRAND</Text>
-          <CheckboxGroup
-            size={"sm"}
-            colorScheme={"pink"}
-            onChange={handleBrand}
-            defaultValue={brand}
-
-          >
-            <VStack alignItems={"flex-start"}
-              mt={1}
-              spacing={1}
-            >
-              <Checkbox value={"Puma"}>Puma</Checkbox>
-              <Checkbox value={"Levis"}>Levis</Checkbox>
-              <Checkbox value={"Mewar"}>Mewar</Checkbox>
-              <Checkbox value={"Turtle"}>Turtle</Checkbox>
-            </VStack>
-          </CheckboxGroup>
-
-        </Box> */}
-        {/* <Divider/> */}
-
         <Box pl={4}>
           <Text
             fontSize={"14px"}
@@ -213,23 +177,26 @@ const Filter = () => {
         </Box>
         <Divider />
 
-
-        <Box
-          pl={4}>
-
+        <Box pl={4}>
           <Text
             fontSize={"14px"}
             fontWeight={700}
             color="#282c3f"
             textAlign={"left"}
           >
-            DISCOUNT</Text>
-          <RadioGroup onChange={handleDiscount} value={discount} size={"sm"} colorScheme={"pink"} >
-            <VStack mt={1} alignItems={"flex-start"} spacing={1} >
-              <Radio value='10'>10% and above</Radio>
-              <Radio value='30'>30% and above</Radio>
-              <Radio value='50'>50% and above</Radio>
-              <Radio value='70'>70% and above</Radio>
+            DISCOUNT
+          </Text>
+          <RadioGroup
+            onChange={handleDiscount}
+            value={discount}
+            size={"sm"}
+            colorScheme={"pink"}
+          >
+            <VStack mt={1} alignItems={"flex-start"} spacing={1}>
+              <Radio value="10">10% and above</Radio>
+              <Radio value="30">30% and above</Radio>
+              <Radio value="50">50% and above</Radio>
+              <Radio value="70">70% and above</Radio>
             </VStack>
           </RadioGroup>
         </Box>

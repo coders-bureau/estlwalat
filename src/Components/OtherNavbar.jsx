@@ -1,7 +1,6 @@
-import { HStack, Box, Image, Divider, Text } from "@chakra-ui/react";
+import { HStack, Box, Divider, Text } from "@chakra-ui/react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "../Assets/diamond.png";
 
 const OtherNavbar = () => {
   const navigate = useNavigate();
@@ -61,24 +60,6 @@ const OtherNavbar = () => {
               </Box>
             </HStack>
           </Box>
-
-          {/* <Box>
-            <HStack>
-              <Image
-                boxSize="30px"
-                src="https://constant.myntassets.com/checkout/assets/img/sprite-secure.png"
-              />
-              <Text
-                fontFamily={"Helvetica, Arial, sans-serif"}
-                fontWeight={600}
-                color="#696b79"
-                letterSpacing="3px"
-                fontSize={"13px"}
-              >
-                100% SECURE
-              </Text>
-            </HStack>
-          </Box> */}
         </HStack>
       </Box>
     </>

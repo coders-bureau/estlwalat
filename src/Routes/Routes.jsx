@@ -10,6 +10,7 @@ import Wishlist from '../Pages/wishlist'
 import Cart from '../Pages/Cart'
 import { PrivateRoute } from './PrivateRoutes'
 import Profile from '../Pages/Profile'
+import Address from '../Pages/Address'
 
 export const MainRoutes = () => {
   return (<>
@@ -23,7 +24,7 @@ export const MainRoutes = () => {
              <Route path='/wishlist' element={<PrivateRoute><Wishlist/></PrivateRoute>} />
              <Route path='/cart' element={<PrivateRoute><Cart/></PrivateRoute>}/>
              <Route path='/profile' element={<PrivateRoute><Profile /></PrivateRoute>} />
-             
+             <Route path='/address' element={<PrivateRoute><Address/></PrivateRoute>}/>
       </Routes>
   </>
   )

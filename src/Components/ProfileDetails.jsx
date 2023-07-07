@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import {
   Box,
   Button,
+  Flex,
   FormControl,
   FormLabel,
+  HStack,
   Input,
   Select,
   Text,
@@ -12,7 +14,7 @@ import {
 const ProfileDetails = () => {
   const [editing, setEditing] = useState(false);
   const [name, setName] = useState("John Doe");
-  const [contactNumber, setContactNumber] = useState("1234567890");
+  const [contactNumber, setContactNumber] = useState(localStorage.getItem("MbNumber"));
   const [email, setEmail] = useState("johndoe@example.com");
   const [address, setAddress] = useState("123 Main St");
   const [dateOfBirth, setDateOfBirth] = useState("1990-01-01");
@@ -62,61 +64,87 @@ const ProfileDetails = () => {
       {editing ? (
         <Box>
           <FormControl>
-            <FormLabel>Name</FormLabel>
-            <Input type="text" value={name} onChange={handleChangeName} />
+            <HStack  width="100%" align="center">
+              <FormLabel flex="20%" textAlign="left">
+                Name
+              </FormLabel>
+              <Input type="text"  flex={"80%"} value={name} onChange={handleChangeName} />
+            </HStack>
           </FormControl>
           <FormControl>
-            <FormLabel>Contact Number</FormLabel>
-            <Input
-              type="text"
-              value={contactNumber}
-              onChange={handleChangeContactNumber}
-            />
+          <HStack  width="100%" align="center">
+              <FormLabel textAlign="left" flex={"20%"}>
+                Contact Number
+              </FormLabel>
+              <Input
+                type="text"
+                flex={"80%"}
+                value={contactNumber}
+                onChange={handleChangeContactNumber}
+              />
+            </HStack>
           </FormControl>
           <FormControl>
-            <FormLabel>Email</FormLabel>
-            <Input type="text" value={email} onChange={handleChangeEmail} />
+            <HStack  width="100%" align="center">
+              <FormLabel flex={"20%"} textAlign="left" >
+                Email
+              </FormLabel>
+              <Input type="text"   flex={"80%"} value={email} onChange={handleChangeEmail} />
+            </HStack >
           </FormControl>
           <FormControl>
-            <FormLabel>Address</FormLabel>
-            <Input type="text" value={address} onChange={handleChangeAddress} />
+            <HStack  width="100%" align="center">
+              <FormLabel flex={"20%"} textAlign="left" >
+                Address
+              </FormLabel>
+              <Input
+               flex={"80%"}
+                type="text"
+                value={address}
+                onChange={handleChangeAddress}
+              />
+            </HStack >
           </FormControl>
           <FormControl>
-            <FormLabel>Date of Birth</FormLabel>
-            <Input
-              type="date"
-              value={dateOfBirth}
-              onChange={handleChangeDateOfBirth}
-            />
+            <HStack  width="100%" align="center">
+              <FormLabel flex={"20%"} textAlign="left" >
+                Date of Birth
+              </FormLabel>
+              <Input
+               flex={"80%"}
+                type="date"
+                value={dateOfBirth}
+                onChange={handleChangeDateOfBirth}
+              />
+            </HStack >
           </FormControl>
           <FormControl>
-            <FormLabel>Gender</FormLabel>
-            <Select value={gender} onChange={handleChangeGender}>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-            </Select>
+            <HStack  width="100%" align="center">
+              <FormLabel flex={"20%"} textAlign="left" >
+                Gender
+              </FormLabel>
+              <Select flex={"80%"} value={gender} onChange={handleChangeGender}>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </Select>
+            </HStack >
           </FormControl>
-          <Button mt={"2"} onClick={handleSave} mr={2}>
+          <Button mt={2} onClick={handleSave} mr={2}>
             Save
           </Button>
-          <Button mt={"2"} onClick={handleCancel}>
+          <Button mt={2} onClick={handleCancel}>
             Cancel
           </Button>
         </Box>
       ) : (
         <Box>
-          <Text>Name: {name}</Text>
-          <Text>Contact Number: {contactNumber}</Text>
-          <Text>Email: {email}</Text>
-          <Text>Address: {address}</Text>
-          <Text>Date of Birth: {dateOfBirth}</Text>
-          <Text>Gender: {gender}</Text>
-          <Button
-            color={"#ff3e6c"}
-            bgColor={"#ffffff"}
-            onClick={handleEdit}
-            mt={4}
-          >
+          <Text textAlign="left">Name: <b>{name}</b></Text>
+          <Text textAlign="left">Contact Number: <b>{contactNumber}</b></Text>
+          <Text textAlign="left">Email: <b>{email}</b></Text>
+          <Text textAlign="left">Address: <b>{address}</b></Text>
+          <Text textAlign="left">Date of Birth: <b>{dateOfBirth}</b></Text>
+          <Text textAlign="left">Gender: <b>{gender}</b></Text>
+          <Button color="#ff3e6c" bgColor="#ffffff" onClick={handleEdit} mt={4}>
             Edit
           </Button>
         </Box>

@@ -1,10 +1,12 @@
 import styles from "../css/Footer.module.css";
 import { Button, Text } from "@chakra-ui/react";
 import { useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export default function Footer() {
   const [description, setDescription] = useState("");
   const [email, setEmail] = useState("");
+  const navigate = useNavigate();
 
   const handleDescriptionChange = (event) => {
     setDescription(event.target.value);
@@ -69,7 +71,7 @@ export default function Footer() {
           <p>Track Orders</p>
           <p>Cancellation</p>
           <p>Returns</p>
-          <p>Privacy policy</p>
+          <p onClick={() => navigate(`/privacypolicy`)}>Privacy policy</p>
         </div>
         <div>
           <p>Social Media</p>

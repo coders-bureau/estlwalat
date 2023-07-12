@@ -1,11 +1,11 @@
 import React from "react";
 import Footer from "../Components/Footer";
-import { Heading, ListItem, Text, UnorderedList } from "@chakra-ui/react";
+import { Box, Heading, ListItem, Text, UnorderedList } from "@chakra-ui/react";
 
 const PrivacyPolicy = () => {
   return (
     <>
-      <div style={{ textAlign: "left" ,  padding: "50px 200px", }}>
+      <Box textAlign={"left"} padding={{lg: "50px 200px" ,md: "25px 50px" ,base: "20px 30px" }}>
         <Heading textAlign={"center"}  fontWeight={300} >Privacy Policy</Heading>
         <br />
         <Text fontWeight={500} fontSize={"16px"}>Introduction</Text>
@@ -91,7 +91,7 @@ const PrivacyPolicy = () => {
           If you have any questions or concerns about our Privacy Policy, please
           contact us at privacy@estylewala.com.
         </Text>
-      </div>
+      </Box>
       <Footer />
     </>
   );

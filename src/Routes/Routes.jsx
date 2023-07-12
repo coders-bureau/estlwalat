@@ -12,6 +12,12 @@ import { PrivateRoute } from './PrivateRoutes'
 import Profile from '../Pages/Profile'
 import Address from '../Pages/Address'
 import PrivacyPolicy from '../Pages/PrivacyPolicy'
+import FAQ from '../Pages/FAQ'
+import TermsAndConditions from '../Pages/TermsAndConditions'
+import TermsOfUse from '../Pages/TermsOfUse'
+import Shipping from '../Pages/Shipping'
+import Return from '../Pages/Return'
+import Cancellation from '../Pages/Cancellation'
 
 export const MainRoutes = () => {
   return (<>
@@ -27,6 +33,12 @@ export const MainRoutes = () => {
              <Route path='/profile' element={<PrivateRoute><Profile /></PrivateRoute>} />
              <Route path='/address' element={<PrivateRoute><Address/></PrivateRoute>}/>
              <Route path="/privacypolicy" element={<PrivacyPolicy />} />
+             <Route path="/faqs" element={<FAQ />} />
+             <Route path="/tac" element={<TermsAndConditions />} />
+             <Route path="/termsofuse" element={<TermsOfUse />} />
+             <Route path="/shipping" element={<Shipping />} />
+             <Route path="/return" element={<Return />} />
+             <Route path="/cancellation" element={<Cancellation />} />
       </Routes>
   </>
   )

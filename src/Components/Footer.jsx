@@ -1,7 +1,7 @@
 import styles from "../css/Footer.module.css";
 import { Button, Text } from "@chakra-ui/react";
 import { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Footer() {
   const [description, setDescription] = useState("");
@@ -54,23 +54,21 @@ export default function Footer() {
         </div>
         <div>
           <p>Shop</p>
-          <p>Men</p>
-          <p>Women</p>
-          <p>Kids</p>
-          <p>Home & Living</p>
-          <p>Beauty</p>
-          <p>Gift Cards</p>
-          <p>Myntra Insider</p>
+          <p onClick={() => navigate("/store?type=Men")}>Men</p>
+          <p onClick={() => navigate("/store?type=Women")}>Women</p>
+          <p onClick={() => navigate("/store?type=Kids")}>Kids</p>
+          <p onClick={() => navigate("/store?q=Baby")}>Baby Care</p>
+          <p onClick={() => navigate("/store?q=Beauty")}>Beauty</p>
         </div>
         <div>
           <p>Customer Policies</p>
-          <p>FAQ</p>
-          <p>T&C</p>
-          <p>Terms Of Use</p>
-          <p>Shipping</p>
-          <p>Track Orders</p>
-          <p>Cancellation</p>
-          <p>Returns</p>
+          <p onClick={() => navigate(`/faqs`)}>FAQ</p>
+          <p onClick={() => navigate(`/tac`)}>T&C</p>
+          <p onClick={() => navigate(`/termsofuse`)}>Terms Of Use</p>
+          <p onClick={() => navigate(`/shipping`)}>Shipping</p>
+          <p onClick={() => navigate(`/orders`)}>Orders</p>
+          <p onClick={() => navigate(`/cancellation`)}>Cancellation</p>
+          <p onClick={() => navigate(`/return`)}>Returns</p>
           <p onClick={() => navigate(`/privacypolicy`)}>Privacy policy</p>
         </div>
         <div>

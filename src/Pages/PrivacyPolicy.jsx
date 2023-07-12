@@ -6,7 +6,10 @@ const PrivacyPolicy = () => {
   return (
     <>
       <Box textAlign={"left"} padding={{lg: "50px 200px" ,md: "25px 50px" ,base: "20px 30px" }}>
-        <Heading textAlign={"center"}  fontWeight={300} >Privacy Policy</Heading>
+        {/* <Heading textAlign={"center"}  fontWeight={300} >Privacy Policy</Heading> */}
+        <Heading textAlign={"center"} as="h1" mb={4}>
+        Privacy Policy
+          </Heading>
         <br />
         <Text fontWeight={500} fontSize={"16px"}>Introduction</Text>
         <Text  fontSize={"12px"} color={"rgb(153, 153, 153)"}>

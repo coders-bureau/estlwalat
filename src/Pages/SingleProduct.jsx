@@ -1,3 +1,4 @@
+import React, { useEffect, useRef, useState } from "react";
 import {
   Box,
   Button,
@@ -15,7 +16,6 @@ import {
   InputRightElement,
   useToast,
 } from "@chakra-ui/react";
-import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   useLocation,
@@ -31,6 +31,7 @@ import axios from "axios";
 import SingleProductCom from "../Components/SingleProductCom";
 import LoadingPage from "../Pages/LoadingPage";
 import PageNotFound from "../Pages/PageNotFound";
+import Review from "../Components/Review";
 
 const style = {
   hover: {
@@ -69,12 +70,15 @@ const SingleProduct = () => {
     size,
     title,
     type,
+    reviews,
   } = currentProduct;
   const toast = useToast();
   const [similarProducts, setSimilarProducts] = useState([]);
   const navigate = useNavigate();
   const [mainImage, setMainImage] = useState("");
   const [len, setLen] = useState(4);
+console.log(reviews);
+// console.log(reviews[0]);
 
   useEffect(() => {
     if (Products.length === 0) {
@@ -478,6 +482,11 @@ const SingleProduct = () => {
                   </InputGroup>
                 </Box>
               </VStack>
+
+              <VStack align="flex-start" w="full" spacing={"20px"}>
+                <Review  review={reviews}/>
+              </VStack>
+
             </VStack>
           </Box>
         </Grid>

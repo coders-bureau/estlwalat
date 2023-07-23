@@ -23,7 +23,7 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
-import logo from "../Assets/estyle.png";
+import logo from "../Assets/estylebg.png";
 import { HamburgerIcon, SearchIcon } from "@chakra-ui/icons";
 import { HiOutlineUser } from "react-icons/hi";
 import { PiHeartStraightBold, PiHandbagBold } from "react-icons/pi";
@@ -184,16 +184,18 @@ export const Navbar = () => {
             <HStack>
               {/* logo....................... */}
               <Box
+              bgColor={"white"}
                 display={{ lg: "inline-block", base: "none" }}
                 w="100px"
                 onClick={() => navigate("/")}
               >
                 <Image
                   src={logo}
-                  alt="logo"
-                  fallbackSrc={
-                    "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"
-                  }
+                  alt="eStyleWala"
+                  // mixBlendMode={"darken"}
+                  // fallbackSrc={
+                  //   "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"
+                  // }
                   cursor="pointer"
                 />
               </Box>

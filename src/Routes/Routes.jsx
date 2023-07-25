@@ -18,6 +18,10 @@ import TermsOfUse from '../Pages/TermsOfUse'
 import Shipping from '../Pages/Shipping'
 import Return from '../Pages/Return'
 import Cancellation from '../Pages/Cancellation'
+import AdminDashboard from '../Admin/AdminDashboard';
+// import AddProductsPage from '../Admin/AddProductsPage';
+// import UsersPage from "../Admin/UsersPage";
+// import AdminProfilePage from "../Admin/AdminProfilePage";
 
 export const MainRoutes = () => {
   return (<>
@@ -39,6 +43,13 @@ export const MainRoutes = () => {
              <Route path="/shipping" element={<Shipping />} />
              <Route path="/return" element={<Return />} />
              <Route path="/cancellation" element={<Cancellation />} />
+             <Route path="/admin-dashboard" element={<AdminDashboard />}></Route>
+             {/* <Route path="/add-products" element={<AddProductsPage />}></Route>
+             <Route path="/admin-men" element={<MensPage />}></Route>
+             <Route path="/admin-women" element={<WomensPage />}></Route>
+             <Route path="/admin-kids" element={<KidsPage />}></Route>
+             <Route path="/admin-users" element={<UsersPage />}></Route>
+             <Route path="/admin-profile" element={<AdminProfilePage />}></Route> */}
       </Routes>
   </>
   )

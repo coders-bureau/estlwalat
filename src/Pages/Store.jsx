@@ -27,15 +27,18 @@ import { useLocation, useSearchParams } from "react-router-dom";
 import Footer from "../Components/Footer";
 import Products from "../Components/Products";
 import { getProductsSorted } from "../Redux/AppReducer/Action";
+import Pagination from "../Components/Pagination";
 
 const Store = () => {
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
-
   const [searchParams] = useSearchParams();
   const location = useLocation();
   const initQuery = searchParams.get("q");
-  const { length } = useSelector((store) => store.AppReducer.Products);
+  // const { length } = useSelector((store) => store.AppReducer.Products);
+  console.log(useSelector((store) => store.AppReducer));
+  const data = useSelector((store) => store.AppReducer);
+  console.log(data);
   const type = searchParams.get("type");
   const q = searchParams.get("q");
   const [sValue, setSValue] = useState("ALL");
@@ -54,37 +57,53 @@ const Store = () => {
     setSValue(e);
     onCloseSort();
   };
-    // sorting filter start
-    useEffect(() => {
-      //console.log(sValue);
-      if (Products.length === 0 || location || initQuery) {
-        const type = searchParams.get("type");
-        const category = searchParams.getAll("category");
-        const brand = searchParams.getAll("brand");
-        const price = searchParams.getAll("price");
-        const discount = searchParams.get("discount");
-        const q = searchParams.get("q");
-        const getProductParams = {
-          params: {
-            type,
-            category,
-            brand,
-            price_lte: price,
-            discount_gte: discount,
-            q,
-          },
-        };
-        dispatch(getProductsSorted(sValue, currentPage, getProductParams));
-      }
-    }, [
-      dispatch,
-      sValue,
-      currentPage,
-      Products.length,
-      location.search,
-      searchParams,
-      initQuery,
-    ]);
+  // const { Products, totalPages } = useSelector(
+  //   (store) => store.AppReducer
+  // );
+  const totalPages = data.totalPages;
+  const length = data.Products.length;
+
+  const handlePage = (val) => {
+    setCurrentPage((prev) => prev + val);
+  };
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to top of the page
+  }, [currentPage]);
+
+  useEffect(() => {
+    setCurrentPage(1); // Scroll to top of the page
+  }, [type]);
+  // sorting filter start
+  useEffect(() => {
+    //console.log(sValue);
+    if (Products.length === 0 || location || initQuery) {
+      const type = searchParams.get("type");
+      const category = searchParams.getAll("category");
+      const brand = searchParams.getAll("brand");
+      const price = searchParams.getAll("price");
+      const discount = searchParams.get("discount");
+      const q = searchParams.get("q");
+      const getProductParams = {
+        params: {
+          type,
+          category,
+          brand,
+          price_lte: price,
+          discount_gte: discount,
+          q,
+        },
+      };
+      dispatch(getProductsSorted(sValue, currentPage, getProductParams));
+    }
+  }, [
+    dispatch,
+    sValue,
+    currentPage,
+    Products.length,
+    location.search,
+    searchParams,
+    initQuery,
+  ]);
   return (
     <>
       <Box>
@@ -147,6 +166,14 @@ const Store = () => {
             </Box>
             {/* Products  */}
             <Products />
+            <Box>
+              <Pagination
+                handlePage={handlePage}
+                setCurrentPage={setCurrentPage}
+                currentPage={currentPage}
+                totalPages={totalPages}
+              />
+            </Box>
             {/* {filter and sort mobile view} */}
             <HStack
               zIndex={1001}

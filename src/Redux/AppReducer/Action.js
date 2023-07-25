@@ -91,7 +91,7 @@ const getProductsSorting = async (val, page,params) => {
   }
 }
 
-export const getProductsSorted = (val, page,params) => async (dispatch) => {
+export const getProductsSorted = (val, page, params) => async (dispatch) => {
 
   dispatch(getProductsLoading());
 

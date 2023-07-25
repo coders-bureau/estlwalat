@@ -7,7 +7,7 @@ const Pagination = ({
   currentPage,
   totalPages,
 }) => {
-  totalPages = Math.ceil(+totalPages / 10);
+  totalPages = Math.ceil(+totalPages / 12);
 
   let buttonArr = [];
   for (let i = 0; i < +totalPages; i++) {

@@ -2,106 +2,17 @@ import {
   SimpleGrid,
   Box,
   } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useSearchParams } from "react-router-dom";
-import {
-  getProducts,
-  getProductsPage,
-  getProductsSorted,
-} from "../Redux/AppReducer/Action";
 import SingleProductCom from "./SingleProductCom";
 import LoadingPage from "../Pages/LoadingPage";
 import PageNotFound from "../Pages/PageNotFound";
-import Pagination from "./Pagination";
 
 const Products = () => {
-  const dispatch = useDispatch();
-  const location = useLocation();
-  const [searchParams] = useSearchParams();
-  const initQuery = searchParams.get("q");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [sValue, setSValue] = useState("ALL");
 
-  const { Products, isLoading, isError, totalPages } = useSelector(
+  const { Products, isLoading, isError } = useSelector(
     (store) => store.AppReducer
   );
-  console.log(useSelector((store) => store.AppReducer));
-  // useEffect(() => {
-  //   if (Products.length == 0 || location || initQuery) {
-  //     const type = searchParams.get("type");
-  //     const category = searchParams.getAll("category");
-  //     const brand = searchParams.getAll("brand");
-  //     const price = searchParams.getAll("price");
-  //     const discount = searchParams.get("discount");
-  //     const q = searchParams.get("q");
-  //     const getProductParams = {
-  //       params: {
-  //         type,
-  //         category,
-  //         brand,
-  //         price_lte: price,
-  //         discount_gte: discount,
-  //         q,
-  //       },
-  //     };
-
-  //     dispatch(getProductsPage(getProductParams, currentPage));
-  //   }
-  // }, [
-  //   Products.length,
-  //   dispatch,
-  //   location.search,
-  //   searchParams,
-  //   initQuery,
-  //   currentPage,
-  // ]);
-
-  const handlePage = (val) => {
-    setCurrentPage((prev) => prev + val);
-  };
-
-  // sorting filter start
-  // useEffect(() => {
-  //   //console.log(sValue);
-  //   if (Products.length === 0 || location || initQuery) {
-  //     const type = searchParams.get("type");
-  //     const category = searchParams.getAll("category");
-  //     const brand = searchParams.getAll("brand");
-  //     const price = searchParams.getAll("price");
-  //     const discount = searchParams.get("discount");
-  //     const q = searchParams.get("q");
-  //     const getProductParams = {
-  //       params: {
-  //         type,
-  //         category,
-  //         brand,
-  //         price_lte: price,
-  //         discount_gte: discount,
-  //         q,
-  //       },
-  //     };
-  //     dispatch(getProductsSorted(sValue, currentPage, getProductParams));
-  //   }
-  // }, [
-  //   dispatch,
-  //   sValue,
-  //   currentPage,
-  //   Products.length,
-  //   location.search,
-  //   searchParams,
-  //   initQuery,
-  // ]);
-
-  // const handleChange = (e) => {
-  //   setSValue(e);
-  //   onCloseSort();
-  // };
-  // sorting filter ends here
-
-  useEffect(() => {
-    window.scrollTo(0, 0); // Scroll to top of the page
-  }, [currentPage]);
 
   if (isLoading)
     return (
@@ -115,7 +26,6 @@ const Products = () => {
         <PageNotFound />
       </>
     );
-  console.log(sValue);
   return (
     <>
       {/* sort by desktop */}
@@ -153,14 +63,14 @@ const Products = () => {
           return <SingleProductCom key={el.id} {...el} />;
         })}
       </SimpleGrid>
-      <Box>
+      {/* <Box>
         <Pagination
           handlePage={handlePage}
           setCurrentPage={setCurrentPage}
           currentPage={currentPage}
           totalPages={totalPages}
         />
-      </Box>
+      </Box> */}
       {/* {filter and sort mobile view} */}
       {/* <HStack
         zIndex={1001}

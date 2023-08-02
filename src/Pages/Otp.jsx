@@ -11,11 +11,11 @@ import {
   Img,
   useToast,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Navbar from "../Components/Navbar";
 import { useDispatch } from "react-redux";
 import { login } from "../Redux/AuthReducer/Action";
+import Navbar from "../Components/Navbar";
 
 const Otp = () => {
   const [otpVal, setOtp] = useState(Math.floor(1000 + Math.random() * 9000));
@@ -25,10 +25,15 @@ const Otp = () => {
   const toast = useToast();
   const location = useLocation();
   const comingFrom = location?.state || "/";
+  const prevLocation = useRef();
+  
   const dispatch = useDispatch();
 
-  console.log(comingFrom);
-
+  console.log(prevLocation);
+  useEffect(() => {
+    prevLocation.current = location;
+  }, [location]);
+  
   useEffect(() => {
     try {
       let nmbr = JSON.parse(localStorage.getItem("MbNumber")) || false;
@@ -55,7 +60,8 @@ const Otp = () => {
           isClosable: true,
           duration: 1500,
         });
-
+        
+        // navigate("/profile", { replace: true });
         navigate(comingFrom, { replace: true });
       } else {
         toast({
@@ -84,6 +90,7 @@ const Otp = () => {
 
   return (
     <>
+    <Navbar />
       <Box>
         <Center w={"full"} bgColor="#fceeea" h={"100vh"}>
           <Box bgColor="white" w={"400px"} p="50px">

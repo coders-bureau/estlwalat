@@ -13,13 +13,15 @@ import React from "react";
 import { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { getUserDetails } from "../Redux/UserReducer/Action";
 
 const SingleCartProduct = ({
   MRP,
   brand,
   currentSize,
   discount,
-  id,
+  _id,
   img,
   price,
   size,
@@ -28,14 +30,17 @@ const SingleCartProduct = ({
   setTotalMRP,
   setTotalMRPDiscount,
   handleCartProducts,
+  userId
 }) => {
+  const mobileNumber = localStorage.getItem("MbNumber");
+  const dispatch= useDispatch();
   const [currentSizeShow, setCurrentSize] = useState(currentSize || size[0]);
   const [currentQty, setCurrentQty] = useState(1);
   const toast = useToast();
   const handleSize = (e) => {
     axios({
       method: "patch",
-      url: process.env.REACT_APP_MYNTRA_API + "/cart/" + id,
+      url: process.env.REACT_APP_MYNTRA_API + "/cart/" + _id,
       data: {
         currentSize: e.target.value,
       },
@@ -60,24 +65,35 @@ const SingleCartProduct = ({
     setTotalAmount((prev) => prev + price);
   }, []);
 
-  const handleDelete = () => {
+  const handleDelete = (_id) => {
     axios({
       method: "delete",
-      url: process.env.REACT_APP_MYNTRA_API + `/cart/${id}`,
-    }).then(() => {
-      handleCartProducts();
-      setTotalMRP((prev) => prev - MRP * currentQty);
-      setTotalAmount((prev) => prev - price * currentQty);
-      setTotalMRPDiscount((prev) => prev - currentQty * (MRP - price));
+      // url: process.env.REACT_APP_MYNTRA_API + `/cart/${id}`,
+      url: "http://localhost:5000/user/"+userId+"/cart/"+ _id,
+    })
+      .then(() => {
+        dispatch(getUserDetails(mobileNumber));
+        setTotalMRP((prev) => prev - MRP * currentQty);
+        setTotalAmount((prev) => prev - price * currentQty);
+        setTotalMRPDiscount((prev) => prev - currentQty * (MRP - price));
 
-      toast({
-        title: "Product successfully deleted.",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-        position: "top",
+        toast({
+          title: "Product successfully deleted.",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+          position: "top",
+        });
+      })
+      .catch((err) => {
+        toast({
+          title: "Please Wait.... Deleting",
+          status: "warning",
+          duration: 3000,
+          isClosable: true,
+          position: "top",
+        });
       });
-    });
   };
 
   return (
@@ -196,7 +212,7 @@ const SingleCartProduct = ({
           fontSize={"20px"}
           color="282c3f"
           cursor={"pointer"}
-          onClick={() => handleDelete(id)}
+          onClick={() => handleDelete(_id)}
         >
           &#x2715;
         </Box>

@@ -14,17 +14,27 @@ import {
   FormErrorMessage,
   Link as ChakraLink,
   Button,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import Navbar from "../Components/Navbar";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserDetails, userRegister } from "../Redux/UserReducer/Action";
+import axios from "axios";
 
 const Signup = () => {
+  const toast = useToast();
   const navigate = useNavigate();
   const [input, setInput] = useState("");
   const [isError, setIsError] = useState(false);
   const location = useLocation();
   const comingFrom = location?.state || "/";
-  console.log(comingFrom);
+  const dispatch = useDispatch();
+  const user = useSelector((store) => store.UserReducer);
+
+  // console.log(user);
+  // console.log(comingFrom);
   const handleInputChange = (e) => {
     setInput(e.target.value);
     if (isError) {
@@ -32,14 +42,48 @@ const Signup = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (input.length !== 10 || +input != input) {
       setIsError(true);
     } else {
       try {
         localStorage.setItem("MbNumber", +input);
+        const mobileNumber = input;
+
+        try {
+          const config = { headers: { "Contnet-Type": "application/json" } };
+          console.log(input);
+          await axios.post(
+            "http://localhost:5000/user/signup",
+            { mobileNumber },
+            config
+          );
+          toast({
+            title: "User Registered successfully",
+            variant: "top-accent",
+            isClosable: true,
+            position: "top-center",
+            status: "success",
+            duration: 1500,
+          });
+         dispatch(getUserDetails(mobileNumber));
         navigate("/otp", { state: comingFrom, replace: true });
+
+
+        } catch (error) {
+          console.log(error.response.data.error);
+          toast({
+            title: error.response.data.error,
+            variant: "top-accent",
+            isClosable: true,
+            position: "top-center",
+            status: "error",
+            duration: 1500,
+          });
+        }
+
+        // console.log("enter");
       } catch (error) {
         console.log(error);
       }
@@ -48,6 +92,7 @@ const Signup = () => {
 
   return (
     <>
+      <Navbar />
       <Box>
         <Center w={"full"} bgColor="#fceeea" h={"100vh"}>
           <VStack w={"420px"} spacing="0">
@@ -112,7 +157,7 @@ const Signup = () => {
                     fontWeight={"bold"}
                     _hover={{ textDecoration: "none" }}
                     color={"#ff3f6c"}
-                    href="#"
+                    href="/termsofuse"
                   >
                     Terms of Use&nbsp;
                   </ChakraLink>
@@ -121,7 +166,7 @@ const Signup = () => {
                     fontWeight={"bold"}
                     _hover={{ textDecoration: "none" }}
                     color={"#ff3f6c"}
-                    href="#"
+                    href="/privacypolicy"
                   >
                     Privacy Policy&nbsp;
                   </ChakraLink>
@@ -149,7 +194,7 @@ const Signup = () => {
                   fontWeight={"bold"}
                   _hover={{ textDecoration: "none" }}
                   color={"#ff3f6c"}
-                  href="#"
+                  href="/faqs"
                 >
                   &nbsp;Get help
                 </ChakraLink>

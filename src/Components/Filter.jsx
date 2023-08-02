@@ -28,8 +28,11 @@ const Filter = () => {
   const [brand, setBrand] = useState(initBrand || []);
   // ............................
 
-  const initPrice = searchParams.getAll("price");
-  const [price, setPrice] = useState(initPrice || []);
+  const initPricel = searchParams.getAll("pricelte");
+  const initPriceg = searchParams.getAll("pricegte");
+  const [pricelte, setPricelte] = useState(initPricel || []);
+  const [pricegte, setPricegte] = useState(initPriceg || []);
+
   // ............................
   const initDiscount = searchParams.get("discount");
   const [discount, setDiscount] = useState(initDiscount || "");
@@ -46,7 +49,8 @@ const Filter = () => {
   };
 
   const handlePrice = (el) => {
-    setPrice(el);
+    setPricegte(el);
+    // setPricegte();
   };
 
   const handleDiscount = (el) => {
@@ -66,7 +70,8 @@ const Filter = () => {
     type && (params.type = type);
     category && (params.category = category);
     brand && (params.brand = brand);
-    price && (params.price = price);
+    pricelte && (params.pricelte = pricelte);
+    pricegte && (params.pricegte = pricegte);
     discount && (params.discount = discount);
     q && (params.q = q);
     setSearchParams(params);
@@ -77,8 +82,10 @@ const Filter = () => {
     setCategory,
     brand,
     setBrand,
-    price,
-    setPrice,
+    pricelte,
+    pricegte,
+    setPricelte,
+    setPricegte,
     discount,
     setDiscount,
     q,
@@ -164,7 +171,7 @@ const Filter = () => {
           <CheckboxGroup
             size={"sm"}
             colorScheme={"pink"}
-            defaultValue={price}
+            defaultValue={pricelte}
             onChange={handlePrice}
           >
             <VStack mt={1} spacing={1} alignItems={"flex-start"}>

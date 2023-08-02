@@ -1,8 +1,15 @@
 import { Box, Button, HStack, VStack, Text, Divider } from "@chakra-ui/react";
 import React, { useState } from "react";
 import ProfileDetails from "../Components/ProfileDetails";
+import Navbar from "../Components/Navbar";
+import { login } from "../Redux/AuthReducer/Action";
+import { useSelector } from "react-redux";
 
+// const userinfo = localStorage.getItem("userInfo");
+// console.log(userinfo);
 const Profile = () => {
+
+
   const [activeTab, setActiveTab] = useState("tab1");
 
   const handleTabChange = (tab) => {
@@ -10,11 +17,13 @@ const Profile = () => {
   };
 
   return (
+    <>
+    <Navbar />
     <Box
       display="flex"
       justifyContent="center"
       alignItems="center"
-      height={{lg:"100vh",md:"100vh"}}
+      height={{lg:"80vh",md:"100vh"}}
       mt={{lg:"0px",md:"0px",base:"30px"}}
     >
       <VStack
@@ -93,6 +102,8 @@ const Profile = () => {
         </VStack>
       </HStack>
     </Box>
+    </>
+
   );
 };
 

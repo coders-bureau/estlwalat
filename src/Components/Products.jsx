@@ -60,7 +60,7 @@ const Products = () => {
         p="0px 20px 20px 20px"
       >
         {Products?.map((el) => {
-          return <SingleProductCom key={el.id} {...el} />;
+          return <SingleProductCom key={el._id} {...el} />;
         })}
       </SimpleGrid>
       {/* <Box>

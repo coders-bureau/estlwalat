@@ -24,7 +24,7 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import Footer from "../Components/Footer";
-import { getProducts } from "../Redux/AppReducer/Action";
+import { getProducts, getProductsData } from "../Redux/AppReducer/Action";
 import { BsHandbag, BsTruck } from "react-icons/bs";
 import { CiHeart } from "react-icons/ci";
 import axios from "axios";
@@ -32,6 +32,8 @@ import SingleProductCom from "../Components/SingleProductCom";
 import LoadingPage from "../Pages/LoadingPage";
 import PageNotFound from "../Pages/PageNotFound";
 import Review from "../Components/Review";
+import Navbar from "../Components/Navbar";
+import { getUserDetails } from "../Redux/UserReducer/Action";
 
 const style = {
   hover: {
@@ -48,14 +50,20 @@ const style = {
 
 const SingleProduct = () => {
   const dispatch = useDispatch();
+  const mobileNumber = localStorage.getItem("MbNumber");
+  const [userId,setUserID] =useState("");
+
   const pinInputRef = useRef("");
   const { id } = useParams();
+  console.log(id);
   const [sizeRef, setSize] = useState("");
   const location = useLocation();
   const [searchParams] = useSearchParams();
   const { Products, isLoading, isError } = useSelector(
     (store) => store.AppReducer
   );
+  const { user } = useSelector((store) => store.UserReducer);
+
   const { isAuth } = useSelector((store) => store.AuthReducer);
   const [currentProduct, setCurrentProduct] = useState({});
   const {
@@ -77,8 +85,8 @@ const SingleProduct = () => {
   const navigate = useNavigate();
   const [mainImage, setMainImage] = useState("");
   const [len, setLen] = useState(4);
-console.log(reviews);
-// console.log(reviews[0]);
+  // console.log(reviews);
+  // console.log(reviews[0]);
 
   useEffect(() => {
     if (Products.length === 0) {
@@ -97,13 +105,24 @@ console.log(reviews);
         },
       };
 
-      dispatch(getProducts(getProductParams));
+      // dispatch(getProducts(getProductParams));
+       dispatch(getProductsData(getProductParams));
     }
   }, [Products.length, dispatch, location.search]);
 
+  console.log(Products);
+  useEffect(() => {
+    if (!user) {
+      dispatch(getUserDetails(mobileNumber));
+    }else{
+      setUserID(user._id)
+    }
+  }, [user, dispatch]);
+
   useEffect(() => {
     if (Products) {
-      const currentProduct = Products.find((item) => item.id === +id);
+      const currentProduct = Products.find((item) => item._id === id);
+      console.log(currentProduct);
       currentProduct && setCurrentProduct(currentProduct);
       currentProduct && setMainImage(currentProduct.images[0]);
       currentProduct && setLen(currentProduct.images.length);
@@ -113,7 +132,7 @@ console.log(reviews);
   useEffect(() => {
     if (Products.length !== 0) {
       const newSimilarProducts = Products?.filter((el) => {
-        return category == el.category && type == el.type && el.id != +id;
+        return category == el.category && type == el.type && el._id != id;
       });
 
       setSimilarProducts(newSimilarProducts);
@@ -153,7 +172,85 @@ console.log(reviews);
     });
   };
 
+  const handleBuyNow = () => {
+    if (sizeRef) {
+      axios({
+        method: "post",
+        url: process.env.REACT_APP_MYNTRA_API + "/cart",
+        data: { ...currentProduct, currentSize: sizeRef },
+      })
+        .then((res) => {
+          toast({
+            title: "Product successfully added in cart",
+            variant: "top-accent",
+            isClosable: true,
+            position: "top-right",
+            status: "success",
+            duration: 1500,
+          });
+          navigate("/cart");
+        })
+        .catch((err) => {
+          // toast({
+          //   title: "Product already present in cart",
+          //   variant: "top-accent",
+          //   isClosable: true,
+          //   position: "top-right",
+          //   status: "error",
+          //   duration: 1500,
+          // });
+          navigate("/cart");
+        });
+    } else {
+      toast({
+        title: "Please select size",
+        variant: "solid",
+        isClosable: true,
+        position: "top",
+        status: "info",
+        duration: 1500,
+      });
+    }
+  };
+
   const handleSendCart = () => {
+    // if (sizeRef) {
+    //   axios({
+    //     method: "post",
+    //     url: process.env.REACT_APP_MYNTRA_API + "/cart",
+    //     data: { ...currentProduct, currentSize: sizeRef },
+    //   })
+    //     .then((res) => {
+    //       toast({
+    //         title: "Product successfully added in cart",
+    //         variant: "top-accent",
+    //         isClosable: true,
+    //         position: "top-right",
+    //         status: "success",
+    //         duration: 1500,
+    //       });
+    //     })
+    //     .catch((err) => {
+    //       toast({
+    //         title: "Product already present in cart",
+    //         variant: "top-accent",
+    //         isClosable: true,
+    //         position: "top-right",
+    //         status: "error",
+    //         duration: 1500,
+    //       });
+    //     });
+    // } else {
+    //   toast({
+    //     title: "Please select size",
+    //     variant: "solid",
+    //     isClosable: true,
+    //     position: "top",
+    //     status: "info",
+    //     duration: 1500,
+    //   });
+    // }
+
     if (sizeRef) {
       axios({
         method: "post",
@@ -195,8 +292,7 @@ console.log(reviews);
   const handleSendWishlist = () => {
     axios({
       method: "post",
-      url: process.env.REACT_APP_MYNTRA_API + "/wishlist",
-      data: { ...currentProduct, currentSize: sizeRef },
+      url: `http://localhost:5000/user/`+userId+`/wishlist/`+id,
     })
       .then((res) => {
         toast({
@@ -235,6 +331,7 @@ console.log(reviews);
 
   return (
     <>
+    <Navbar />
       <Box>
         <HStack spacing={1} w={"98%"} m={"10px auto"}>
           <Text color={"#46495a"} fontSize={"14px"}>
@@ -417,7 +514,7 @@ console.log(reviews);
                     mr={{ lg: "20px", base: "0px" }}
                     onClick={() =>
                       isAuth
-                        ? handleSendCart()
+                        ? handleBuyNow()
                         : navigate("/signup", {
                             state: `/single_product/${id}`,
                             replace: true,
@@ -484,9 +581,8 @@ console.log(reviews);
               </VStack>
 
               <VStack align="flex-start" w="full" spacing={"20px"}>
-                <Review  review={reviews}/>
+                <Review review={reviews} />
               </VStack>
-
             </VStack>
           </Box>
         </Grid>
@@ -503,7 +599,7 @@ console.log(reviews);
           <Button
             onClick={() =>
               isAuth
-                ? handleSendCart()
+                ? handleBuyNow()
                 : navigate("/signup", {
                     state: `/single_product/${id}`,
                     replace: true,

@@ -104,3 +104,37 @@ export const getProductsSorted = (val, page, params) => async (dispatch) => {
      dispatch(getProductsFailure());
   }
 }
+
+export const getProductsData = (params) => async (dispatch) => {
+  dispatch(getProductsLoading());
+  try {
+    // const r = await axios.get(
+    //   `${process.env.REACT_APP_MYNTRA_API}/Products`,
+    //   params
+    // );
+    const r = await axios.get(
+      `http://localhost:5000/Products`,
+      params
+    );
+    console.log(r.data);
+    dispatch(getProductsSuccess(r.data));
+  } catch (err) {
+    dispatch(getProductsFailure());
+  }
+};
+
+export const getAllProductsData = (params) => async (dispatch) => {
+  dispatch(getProductsLoading());
+  try {
+    const r = await axios.get(
+      `http://localhost:5000/allproducts`,
+      params
+    );
+    console.log(r.data);
+    dispatch(getProductsSuccess(r.data));
+  } catch (err) {
+    console.log(err);
+    dispatch(getProductsFailure());
+  }
+};
+

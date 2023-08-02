@@ -12,7 +12,7 @@ import React from "react";
 const SingleWishlistProduct = ({ el, handleAddCart, handleDelete }) => {
   const { MRP, discount, brand, img, price, title } =
     el;
-
+  console.log(el._id);
   return (
     <>
       <VStack
@@ -23,7 +23,7 @@ const SingleWishlistProduct = ({ el, handleAddCart, handleDelete }) => {
       >
         <Circle
           zIndex={1}
-          onClick={() => handleDelete(el.id)}
+          onClick={() => handleDelete(el._id)}
           bgColor={"#eeeded"}
           p="4px 8px"
           cursor={"pointer"}

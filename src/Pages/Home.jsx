@@ -3,6 +3,7 @@ import CarouselCom from "../Components/Carousel";
 import { Box, Heading, Image, SimpleGrid, Text } from "@chakra-ui/react";
 import Footer from "../Components/Footer";
 import Slide from "../Components/Slide";
+import Navbar from "../Components/Navbar"
 
 const homePageCarousel = [
   "https://assets.myntassets.com/f_webp,w_980,c_limit,fl_progressive,dpr_2.0/assets/images/2022/8/1/70a3d1a4-f16a-45ca-9bb4-64dc2315352b1659297228544-Desktop-Banners_unisex-with-kids.jpg",
@@ -101,6 +102,7 @@ const data3 = [
 const Home = () => {
   return (
     <>
+    <Navbar />
       {/* home page Carousel */}
       <CarouselCom data={homePageCarousel} />
       <Box

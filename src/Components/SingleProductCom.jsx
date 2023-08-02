@@ -7,7 +7,7 @@ import {
   faHeart,
   faBagShopping,
 } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Circle,
@@ -15,26 +15,44 @@ import {
   useToast,
   Icon,
 } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { CiHeart } from "react-icons/ci";
 import { BsHandbag } from "react-icons/bs";
+import { getUserDetails } from "../Redux/UserReducer/Action";
 
 library.add(faMagnifyingGlass, faUser, faHeart, faBagShopping);
 
 export default function SingleProductCom(el) {
-  const { MRP, discount, id, brand, img, price, rating, ratingT, size, title } =
+  const mobileNumber = localStorage.getItem("MbNumber");
+  
+  const { user } = useSelector((store) => store.UserReducer);
+  const dispatch = useDispatch();
+  const [userId,setUserID] =useState("");
+
+  const { MRP, discount, _id, brand, img, price, rating, ratingT, size, title } =
     el;
   const [showWish, setShowWish] = useState(false);
   const navigate = useNavigate();
   const { isAuth } = useSelector((store) => store.AuthReducer);
   const toast = useToast();
 
+  useEffect(() => {
+    if (!user) {
+      dispatch(getUserDetails(mobileNumber));
+    }else{
+      setUserID(user._id)
+    }
+  }, [user, dispatch]);
   const handleAddCart = (el) => {
     if (isAuth) {
+      // axios({
+      //   url: process.env.REACT_APP_MYNTRA_API + "/cart",
+      //   method: "post",
+      //   data: el,
+      // })
       axios({
-        url: process.env.REACT_APP_MYNTRA_API + "/cart",
         method: "post",
-        data: el,
+        url: `http://localhost:5000/user/`+userId+`/cart/`+el._id,
       })
         .then((res) => {
           toast({
@@ -75,10 +93,10 @@ export default function SingleProductCom(el) {
             if (isAuth) {
               axios({
                 method: "post",
-                url: `${process.env.REACT_APP_MYNTRA_API}/wishlist`,
-                data: el,
+                url: `http://localhost:5000/user/`+userId+`/wishlist/`+_id,
               })
                 .then((res) => {
+                  dispatch(getUserDetails(mobileNumber));
                   toast({
                     duration: 1500,
                     status: "info",
@@ -113,9 +131,9 @@ export default function SingleProductCom(el) {
         >
           <Icon as={CiHeart} fontSize={{ lg: "4xl", md: "3xl", base: "4xl" }} />
         </Circle>
-        <div style={{ width: "100%" }}>
+        <div style={{ w_idth: "100%" }}>
           <img
-            onClick={() => navigate(`../single_product/${id}`)}
+            onClick={() => navigate(`../single_product/${_id}`)}
             src={img}
             alt=""
           />
@@ -145,7 +163,7 @@ export default function SingleProductCom(el) {
           )}
           {showWish && (
             <div
-              onClick={() => navigate(`../single_product/${id}`)}
+              onClick={() => navigate(`../single_product/${_id}`)}
               className={styles.size}
             >
               <p>Sizes: {size.join(", ")} </p>
@@ -154,7 +172,7 @@ export default function SingleProductCom(el) {
           {!showWish && (
             <Text
               isTruncated
-              onClick={() => navigate(`../single_product/${id}`)}
+              onClick={() => navigate(`../single_product/${_id}`)}
               className={styles.title}
             >
               {brand}
@@ -166,14 +184,14 @@ export default function SingleProductCom(el) {
               fontWeight="400"
               color={"#53575f"}
               fontSize="14px"
-              onClick={() => navigate(`../single_product/${id}`)}
+              onClick={() => navigate(`../single_product/${_id}`)}
               isTruncated
             >
               {title}
             </Text>
           )}
           <div
-            onClick={() => navigate(`../single_product/${id}`)}
+            onClick={() => navigate(`../single_product/${_id}`)}
             className={styles.prc}
           >
             <p>Rs.{price}</p>

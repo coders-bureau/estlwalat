@@ -1,394 +1,454 @@
-import React, { useState } from 'react';
+// //
+
+// // src/components/AddProductPage.js
+// import React, { useState } from 'react';
+// import axios from 'axios';
+
+// const AddProductPage = () => {
+//   const [productData, setProductData] = useState({
+//     title: '',
+//     brand: '',
+//     rating: 0,
+//     ratingT: 0,
+//     category: '',
+//     type: '',
+//     price: 0,
+//     MRP: 0,
+//     discount: 0,
+//     size: [],
+//     img: '', // Main image link
+//     images: [], // Array of additional image links
+//     reviews: [],
+//   });
+
+//   const handleChange = (e) => {
+//     const { name, value } = e.target;
+//     setProductData((prevData) => ({
+//       ...prevData,
+//       [name]: value,
+//     }));
+//   };
+
+//   const handleAddImage = () => {
+//     // Add a new empty string to the images array when plus button is clicked
+//     setProductData((prevData) => ({
+//       ...prevData,
+//       images: [...prevData.images, ''],
+//     }));
+//   };
+
+//   const handleImageChange = (index, value) => {
+//     // Update the image link at the specified index in the images array
+//     setProductData((prevData) => {
+//       const updatedImages = [...prevData.images];
+//       updatedImages[index] = value;
+//       return {
+//         ...prevData,
+//         images: updatedImages,
+//       };
+//     });
+//   };
+
+//   const handleSubmit = (e) => {
+//     e.preventDefault();
+//     // Send the product data to the backend API
+//     axios.post('/api/products', productData)
+//       .then((response) => {
+//         console.log('Product added successfully:', response.data);
+//         // Clear the form after successful submission
+//         setProductData({
+//           title: '',
+//           brand: '',
+//           rating: 0,
+//           ratingT: 0,
+//           category: '',
+//           type: '',
+//           price: 0,
+//           MRP: 0,
+//           discount: 0,
+//           size: [],
+//           img: '',
+//           images: [],
+//           reviews: [],
+//         });
+//       })
+//       .catch((error) => {
+//         console.error('Error adding product:', error);
+//       });
+//   };
+
+//   return (
+//     <div>
+//       <h1>Add Product</h1>
+//       <form onSubmit={handleSubmit}>
+//         <div>
+//           <label>Main Image Link:</label>
+//           <input type="text" name="img" value={productData.img} onChange={handleChange} />
+//         </div>
+//         <div>
+//           <label>Additional Images:</label>
+//           {productData.images.map((image, index) => (
+//             <div key={index}>
+//               <input
+//                 type="text"
+//                 value={image}
+//                 onChange={(e) => handleImageChange(index, e.target.value)}
+//               />
+//             </div>
+//           ))}
+//           <button type="button" onClick={handleAddImage}>+</button>
+//         </div>
+//         {/* Add form fields for each product property */}
+//         <input type="text" name="title" value={productData.title} onChange={handleChange} />
+//         <input type="text" name="brand" value={productData.brand} onChange={handleChange} />
+//         {/* Add other fields */}
+//         <button type="submit">Add Product</button>
+//       </form>
+//     </div>
+//   );
+// };
+
+// export default AddProductPage;
+
+// src/components/AddProductPage.js
+import React, { useState } from "react";
 import {
-  Progress,
   Box,
-  ButtonGroup,
   Button,
-  Heading,
-  Flex,
+  Center,
   FormControl,
-  GridItem,
   FormLabel,
   Input,
   Select,
-  SimpleGrid,
-  InputLeftAddon,
-  InputGroup,
-  Textarea,
-  FormHelperText
-} from '@chakra-ui/react';
-import BeatLoader from "react-spinners/BeatLoader";
-import { useToast } from '@chakra-ui/react';
-import AdminNavbar from './AdminNavbar';
-import {useDispatch} from 'react-redux';
-import { postKidsData, postMensData, postWomensData } from '../Redux/Admin/Admin.action';
+  VStack,
+  Spacer,
+  Checkbox,
+  HStack,
+  useToast,
+  IconButton,
+} from "@chakra-ui/react";
+import axios from "axios";
+import { Navigate, useNavigate } from "react-router-dom";
+import AdminNavbar from "./AdminNavbar";
+import { CloseIcon } from "@chakra-ui/icons";
 
-
-const Form1 = ({productDetails,setProductDetails}) => {
-  return (
-    <>
-      <Heading w="100%" textAlign={'center'} fontWeight="normal" mb="2%">
-        Product Details
-      </Heading>
-      <Flex>
-        <FormControl mr="5%">
-          <FormLabel htmlFor="title" fontWeight={500}>
-            Title
-          </FormLabel>
-          <Input id="first-name" placeholder="Enter Product Name" value={productDetails.title} onChange={(e)=>setProductDetails({...productDetails,title:e.target.value})} />
-        </FormControl>
-
-        <FormControl>
-          <FormLabel htmlFor="brand" fontWeight={500}>
-            Brand
-          </FormLabel>
-          <Input id="last-name" placeholder="Enter Brand Name" value={productDetails.brand} onChange={(e)=>setProductDetails({...productDetails,brand:e.target.value})}  />
-        </FormControl>
-      </Flex>
-      <FormControl mt="2%">
-        <FormLabel htmlFor="category"  fontWeight={500}>
-          Category
-        </FormLabel>
-        <Select
-          id="category"
-          autoComplete="category"
-          placeholder="Select Category"
-          focusBorderColor="brand.400"
-          shadow="sm"
-          size="md"
-          w="full"
-          value={productDetails.category} onChange={(e)=>setProductDetails({...productDetails,category:e.target.value})} 
-          rounded="md">
-          <option value={"Mens"} >Mens</option>
-          <option value={"Womens"} >Womens</option>
-          <option value={"Kids"} >Kids</option>
-        </Select>
-      </FormControl>
-
-      <FormControl mt="2%">
-        <FormLabel htmlFor="price"  fontWeight={500}>
-          Price
-        </FormLabel>
-        <Input id="price" type="text" placeholder='Enter Price' value={productDetails.discounted_price} onChange={(e)=>setProductDetails({...productDetails,discounted_price:+e.target.value})}  />
-      </FormControl>
-
-    </>
-  );
-};
-
-const Form2 = ({productDetails,setProductDetails}) => {
-  return (
-    <>
-      <Heading w="100%" textAlign={'center'} fontWeight="normal" mb="2%">
-        Additional Details
-      </Heading>
-      <FormControl as={GridItem} colSpan={[6, 6, null, 2]}>
-        <FormLabel
-          htmlFor="city"
-          fontSize="sm"
-          fontWeight={500}
-          color="gray.700"
-          _dark={{
-            color: 'gray.50',
-          }}
-          mt="2%">
-          Discount Rate
-        </FormLabel>
-        <Input
-          type="text"
-          id="city"
-          autoComplete="city"
-          focusBorderColor="brand.400"
-          shadow="sm"
-          size="sm"
-          w="full"
-          placeholder='Enter Discount Amount'
-          rounded="md"
-          value={productDetails.discount} 
-          onChange={(e)=>setProductDetails({...productDetails,discount:+e.target.value})}
-        />
-      </FormControl>
-
-      <FormControl as={GridItem} colSpan={[6, 3, null, 2]}>
-        <FormLabel
-          htmlFor="state"
-          fontSize="sm"
-          fontWeight={500}
-          color="gray.700"
-          _dark={{
-            color: 'gray.50',
-          }}
-          mt="2%">
-          Strike Amount
-        </FormLabel>
-        <Input
-          type="text"
-          id="state"
-          autoComplete="state"
-          focusBorderColor="brand.400"
-          shadow="sm"
-          size="sm"
-          w="full"
-          placeholder='Enter Strike Amount'
-          rounded="md"
-          value={productDetails.strike} 
-          onChange={(e)=>setProductDetails({...productDetails,strike_price:+e.target.value})}
-        />
-      </FormControl>
-
-      <FormControl as={GridItem} colSpan={[6, 3, null, 2]}>
-        <FormLabel
-          htmlFor="postal_code"
-          fontSize="sm"
-          fontWeight={500}
-          color="gray.700"
-          _dark={{
-            color: 'gray.50',
-          }}
-          mt="2%">
-          Size
-        </FormLabel>
-          <Select
-          id="size"
-          autoComplete="size"
-          placeholder="Select size"
-          focusBorderColor="brand.400"
-          shadow="sm"
-          size="sm"
-          w="full"
-          value={productDetails.size} 
-          onChange={(e)=>setProductDetails({...productDetails,size:e.target.value})}
-          rounded="md">
-          <option value={"XS"} >XS --(Extra Small) </option>
-          <option value={"S"} >S --(Small)</option>
-          <option value={"M"} >M --(Medium)</option>
-          <option value={"L"} >L --(Large)</option>
-          <option value={"XL"} >XL --(Extra Large)</option>
-          <option value={"XXL"} >XXL --(Double Extra Large)</option>
-        </Select>
-      </FormControl>
-
-      <FormControl as={GridItem} colSpan={[6, 3, null, 2]}>
-          <FormLabel
-            fontSize="sm"
-            fontWeight={500}
-            color="gray.700"
-            _dark={{
-              color: 'gray.50',
-            }}
-            mt="2%"
-            >
-            Image
-          </FormLabel>
-          <InputGroup size="sm">
-            <InputLeftAddon
-              bg="gray.50"
-              _dark={{
-                bg: 'gray.800',
-              }}
-              color="gray.500"
-              rounded="md">
-              http://
-            </InputLeftAddon>
-            <Input
-              type="url"
-              placeholder="Enter Image URL"
-              focusBorderColor="brand.400"
-              rounded="md"
-              value={productDetails.images}
-              onChange={(e)=>setProductDetails({...productDetails,images:[e.target.value]})}
-            />
-          </InputGroup>
-        </FormControl>
-
-    </>
-  );
-};
-
-const Form3 = ({productDetails,setProductDetails}) => {
-  return (
-    <>
-      <Heading w="100%" textAlign={'center'} fontWeight="normal">
-        Optional Details
-      </Heading>
-      <SimpleGrid columns={1} spacing={6}>
-
-        <FormControl as={GridItem} colSpan={[6, 3]}>
-        <FormLabel
-          htmlFor="country"
-          fontSize="sm"
-          fontWeight={500}
-          color="gray.700"
-          _dark={{
-            color: 'gray.50',
-          }}>
-          Country / Region
-        </FormLabel>
-        <Select
-          id="country"
-          autoComplete="country"
-          placeholder="Select Country"
-          focusBorderColor="brand.400"
-          shadow="sm"
-          size="md"
-          w="full"
-          value={productDetails.country}
-          onChange={(e)=>setProductDetails({...productDetails,country:e.target.value})}
-          rounded="md">
-          <option value={"India"} >India</option>
-          <option value={"United States"} >United States</option>
-          <option value={"Canada"} >Canada</option>
-          <option value={"Mexico"} >Mexico</option>
-        </Select>
-      </FormControl>
-
-        <FormControl id="email" mt={1}>
-          <FormLabel
-            fontSize="sm"
-            fontWeight={500}
-            color="gray.700"
-            _dark={{
-              color: 'gray.50',
-            }}>
-            Product Description
-          </FormLabel>
-          <Textarea
-            placeholder="Enter Product Description"
-            rows={3}
-            shadow="sm"
-            focusBorderColor="brand.400"
-            fontSize={{
-              sm: 'sm',
-            }}
-            value={productDetails.description}
-            onChange={(e)=>setProductDetails({...productDetails,description:e.target.value})}
-          />
-          <FormHelperText>
-            Brief description about product.
-          </FormHelperText>
-        </FormControl>
-      </SimpleGrid>
-    </>
-  );
-};
-  
-const initialProduct={category:"",
-brand:"",
-title:"",
-discounted_price:"",
-strike_price:"",
-discount:"",
-images:[],
-size:"",
-country:"",
-description:"",}
-
-export default function AddProductsPage() {
+const AddProductPage = () => {
+  const navigate = useNavigate();
   const toast = useToast();
-  const [step, setStep] = useState(1);
-  const [loading,setLoading]=useState(false)
-  const [progress, setProgress] = useState(33.33);
-  const [productDetails,setProductDetails]=useState(initialProduct);
+  const [productData, setProductData] = useState({
+    title: "",
+    brand: "",
+    rating: 0,
+    ratingT: 0,
+    category: "",
+    type: "Men",
+    price: 0,
+    MRP: 0,
+    discount: 0,
+    size: [],
+    currentSize: "",
+    img: "", // Main image link
+    images: [], // Array of additional image links
+    reviews: [],
+  });
 
-  //const loading = useSelector((store)=>store.adminManager.loading);
-  const dispatch = useDispatch();
-  //console.log(loading);
-  const handleSubmit=()=>{
-    if(productDetails.category==="Mens"){
-      dispatch(postMensData(productDetails))
-    }else if(productDetails.category==="Womens"){
-      dispatch(postWomensData(productDetails))
-    }else if(productDetails.category==="Kids"){
-      dispatch(postKidsData(productDetails))
-    }
-    setTimeout(()=>{
-      toast({
-        title: 'Successfully Added.',
-        description: "You have added product successfully.",
-        status: 'success',
-        duration:1500,
-        isClosable: true,
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setProductData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+    console.log(productData);
+  };
+
+  const handleAddImage = () => {
+    // Add a new empty string to the images array when plus button is clicked
+    setProductData((prevData) => ({
+      ...prevData,
+      images: [...prevData.images, ""],
+    }));
+  };
+
+  const handleRemoveImage = (index) => {
+    setProductData((prevData) => {
+      const updatedImages = [...prevData.images];
+      updatedImages.splice(index, 1);
+      return {
+        ...prevData,
+        images: updatedImages,
+      };
+    });
+  };
+
+  const handleImageChange = (index, value) => {
+    // Update the image link at the specified index in the images array
+    setProductData((prevData) => {
+      const updatedImages = [...prevData.images];
+      updatedImages[index] = value;
+      return {
+        ...prevData,
+        images: updatedImages,
+      };
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Send the product data to the backend API
+    axios
+      .post("http://localhost:5000/addproduct", productData)
+      .then((response) => {
+        console.log("Product added successfully:", response.data);
+        toast({
+          title: "Product successfully added in Databse",
+          variant: "top-accent",
+          isClosable: true,
+          position: "top-right",
+          status: "success",
+          duration: 2500,
+        });
+        // Clear the form after successful submission
+        setProductData({
+          title: "",
+          brand: "",
+          rating: 0,
+          ratingT: 0,
+          category: "",
+          type: "",
+          price: 0,
+          MRP: 0,
+          discount: 0,
+          size: [],
+          img: "",
+          images: [],
+          reviews: [],
+        });
+        navigate("/product-list");
+        
+      })
+      .catch((error) => {
+        toast({
+          title: "Error adding product",
+          variant: "top-accent",
+          isClosable: true,
+          position: "top-right",
+          status: "error",
+          duration: 2500,
+        });
+        console.error("Error adding product:", error);
       });
-      setLoading(false);
-      setStep(1);
-      setProgress(33.33);
-    },2000)
-    setLoading(true); 
-  
-    setProductDetails(initialProduct)
+  };
+
+  const handleSizeChange = (e) => {
+    const sizeValue = e.target.value;
+    const checked = e.target.checked;
+    
+    if (checked) {
+      // If the size checkbox is checked, add it to the size array
+      setProductData({
+        ...productData,
+        size: [...productData.size, sizeValue],
+      });
+    } else {
+      // If the size checkbox is unchecked, remove it from the size array
+      const updatedSizes = productData.size.filter(
+        (size) => size !== sizeValue
+      );
+      setProductData({ ...productData, size: updatedSizes });
     }
-    console.log("Image",productDetails.images);
+  };
+
   return (
-    <Box minH="100vh" bg={'gray.100'} >
-      <AdminNavbar/>
-      <Box
-        bg={'white'}
-        borderWidth="1px"
-        rounded="lg"
-        shadow="1px 1px 3px rgba(0,0,0,0.3)"
-        maxWidth={800}
-        p={6}
-        m="10px auto"
-        // mt={'150px'}
-        pos={"absolute"}
-        top={150}
-        left={'33%'}
-        right={'18%'}
-        as="form"
-        >
-        <Progress
-          hasStripe
-          colorScheme='pink'
-          value={progress}
-          mb="5%"
-          mx="5%"
-          isAnimated></Progress>
-        {step === 1 ? <Form1 productDetails={productDetails} setProductDetails={setProductDetails} /> : step === 2 ? <Form2  productDetails={productDetails} setProductDetails={setProductDetails} /> : <Form3  productDetails={productDetails} setProductDetails={setProductDetails}  />}
-        <ButtonGroup mt="5%" w="100%">
-          <Flex w="100%" justifyContent="space-between">
-            <Flex>
-              <Button
-                onClick={() => {
-                  setStep(step - 1);
-                  setProgress(progress - 33.33);
-                }}
-                isDisabled={step === 1}
-                colorScheme="pink"
-                variant="solid"
-                w="7rem"
-                mr="5%">
-                Back
+    <Box width={"100%"}>
+      <AdminNavbar />
+      <VStack spacing={4} align="center">
+        <Box marginTop={"100px"} marginLeft={{lg:"250px",md:"250px",base:"10px"}} as="form" onSubmit={handleSubmit} w="70%">
+          <VStack spacing={4}>
+            {/* Add form fields for each product property */}
+            <FormControl isRequired>
+              <FormLabel>Title:</FormLabel>
+              <Input
+                type="text"
+                name="title"
+                value={productData.title}
+                onChange={handleChange}
+              />
+            </FormControl>
+            <FormControl isRequired>
+              <FormLabel>Brand:</FormLabel>
+              <Input
+                type="text"
+                name="brand"
+                value={productData.brand}
+                onChange={handleChange}
+              />
+            </FormControl>
+            <FormControl isRequired>
+              <FormLabel>Type:</FormLabel>
+              <Select
+                name="type"
+                value={productData.type}
+                onChange={handleChange}
+              >
+                <option value="Men">Men</option>
+                <option value="Women">Women</option>
+                <option value="Kids">Kids</option>
+              </Select>
+            </FormControl>
+            <FormControl isRequired>
+              <FormLabel>Category:</FormLabel>
+              <Input
+                type="text"
+                name="category"
+                value={productData.category}
+                onChange={handleChange}
+              />
+            </FormControl>
+            <FormControl isRequired>
+              <FormLabel>Price:</FormLabel>
+              <Input
+                type="number"
+                name="price"
+                value={productData.price}
+                onChange={handleChange}
+              />
+            </FormControl>
+            <FormControl isRequired>
+              <FormLabel>MRP:</FormLabel>
+              <Input
+                type="number"
+                name="MRP"
+                value={productData.MRP}
+                onChange={handleChange}
+              />
+            </FormControl>
+            <FormControl isRequired>
+              <FormLabel>Discount:</FormLabel>
+              <Input
+                type="number"
+                name="discount"
+                value={productData.discount}
+                onChange={handleChange}
+              />
+            </FormControl>
+            {/* Add other fields */}
+            <FormControl isRequired>
+              <FormLabel>Main Image Link:</FormLabel>
+              <Input
+                type="text"
+                name="img"
+                value={productData.img}
+                onChange={handleChange}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Additional Images:</FormLabel>
+              {productData.images.map((image, index) => (
+                 <HStack key={index} mb={2}>
+                <Input
+                  key={index}
+                  type="text"
+                  value={image}
+                  onChange={(e) => handleImageChange(index, e.target.value)}
+                />
+                <IconButton
+                icon={<CloseIcon />}
+                colorScheme="red"
+                size="sm"
+                onClick={() => handleRemoveImage(index)}
+              />
+                </HStack>
+              ))}
+              <Button type="button" onClick={handleAddImage}>
+                +
               </Button>
-              <Button
-                w="7rem"
-                isDisabled={step === 3}
-                onClick={() => {
-                  setStep(step + 1);
-                  if (step === 3) {
-                    setProgress(100);
-                  } else {
-                    setProgress(progress + 33.33);
-                  }
-                }}
-                colorScheme="pink"
-                variant="outline">
-                Next
-              </Button>
-            </Flex>
-            {step === 3 ? (
-              <Button
-                colorScheme="blue"
-                variant="solid"
-                isLoading={loading}
-                loadingText='Submitting'
-                spinner={<BeatLoader size={10} color='white' />}
-                onClick={handleSubmit}>
-                Submit
-              </Button>
-            ) : null}
-          </Flex>
-        </ButtonGroup>
-      </Box>
+            </FormControl>{" "}
+            {/* ... (rest of the code remains the same) */}
+            <FormControl>
+              <FormLabel>Standard Sizes:</FormLabel>
+              <HStack>
+                <Checkbox value="S" onChange={handleSizeChange}>
+                  S
+                </Checkbox>
+                <Checkbox value="M" onChange={handleSizeChange}>
+                  M
+                </Checkbox>
+                <Checkbox value="L" onChange={handleSizeChange}>
+                  L
+                </Checkbox>
+                <Checkbox value="XL" onChange={handleSizeChange}>
+                  XL
+                </Checkbox>
+                <Checkbox value="XXL" onChange={handleSizeChange}>
+                  XXL
+                </Checkbox>
+                <Checkbox value="3XL" onChange={handleSizeChange}>
+                  3XL
+                </Checkbox>
+              </HStack>
+            </FormControl>
+            <FormControl>
+              <FormLabel>Waist Sizes:</FormLabel>
+              <HStack>
+                <Checkbox value="28" onChange={handleSizeChange}>
+                  28
+                </Checkbox>
+                <Checkbox value="30" onChange={handleSizeChange}>
+                  30
+                </Checkbox>
+                <Checkbox value="32" onChange={handleSizeChange}>
+                  32
+                </Checkbox>
+                <Checkbox value="34" onChange={handleSizeChange}>
+                  34
+                </Checkbox>
+                <Checkbox value="36" onChange={handleSizeChange}>
+                  36
+                </Checkbox>
+              </HStack>
+            </FormControl>
+            <FormControl>
+              <FormLabel>Age Sizes:</FormLabel>
+              <HStack>
+                <Checkbox value="6-12M" onChange={handleSizeChange}>
+                  6-12M
+                </Checkbox>
+                <Checkbox value="1-1.5Y" onChange={handleSizeChange}>
+                  1-1.5Y
+                </Checkbox>
+                <Checkbox value="1.5-2Y" onChange={handleSizeChange}>
+                  1.5-2Y
+                </Checkbox>
+                <Checkbox value="2-3Y" onChange={handleSizeChange}>
+                  2-3Y
+                </Checkbox>
+                <Checkbox value="4-6Y" onChange={handleSizeChange}>
+                  4-6Y
+                </Checkbox>
+                <Checkbox value="6-8Y" onChange={handleSizeChange}>
+                  6-8Y
+                </Checkbox>
+                <Checkbox value="9-11Y" onChange={handleSizeChange}>
+                  9-11Y
+                </Checkbox>
+                <Checkbox value="12-14Y" onChange={handleSizeChange}>
+                  12-14Y
+                </Checkbox>
+                <Checkbox value="15-17Y" onChange={handleSizeChange}>
+                  15-17Y
+                </Checkbox>
+                {/* Add the rest of the age size checkboxes */}
+              </HStack>
+            </FormControl>
+            <Spacer />
+            <Button type="submit">Add Product</Button>
+            <Spacer />
+
+          </VStack>
+        </Box>
+      </VStack>
     </Box>
   );
-}
+};
+
+export default AddProductPage;

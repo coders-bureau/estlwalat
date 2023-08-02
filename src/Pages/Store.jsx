@@ -26,8 +26,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useSearchParams } from "react-router-dom";
 import Footer from "../Components/Footer";
 import Products from "../Components/Products";
-import { getProductsSorted } from "../Redux/AppReducer/Action";
+import { getProductsData, getProductsSorted } from "../Redux/AppReducer/Action";
 import Pagination from "../Components/Pagination";
+import Navbar from "../Components/Navbar";
+import { getUserDetails } from "../Redux/UserReducer/Action";
 
 const Store = () => {
   const dispatch = useDispatch();
@@ -41,7 +43,7 @@ const Store = () => {
   console.log(data);
   const type = searchParams.get("type");
   const q = searchParams.get("q");
-  const [sValue, setSValue] = useState("ALL");
+  const [sValue, setSValue] = useState("");
   const {
     isOpen: isOpenSort,
     onOpen: onOpenSort,
@@ -80,7 +82,8 @@ const Store = () => {
       const type = searchParams.get("type");
       const category = searchParams.getAll("category");
       const brand = searchParams.getAll("brand");
-      const price = searchParams.getAll("price");
+      const pricelte = searchParams.get("pricelte");
+      const pricegte = searchParams.get("pricegte");
       const discount = searchParams.get("discount");
       const q = searchParams.get("q");
       const getProductParams = {
@@ -88,12 +91,16 @@ const Store = () => {
           type,
           category,
           brand,
-          price_lte: price,
+          price_lte: pricelte,
+          price_gte: pricegte,
           discount_gte: discount,
           q,
+          sortType: sValue,
+          currentPage,
         },
       };
-      dispatch(getProductsSorted(sValue, currentPage, getProductParams));
+      // dispatch(getProductsSorted(sValue, currentPage, getProductParams));
+      dispatch(getProductsData(getProductParams));
     }
   }, [
     dispatch,
@@ -106,6 +113,7 @@ const Store = () => {
   ]);
   return (
     <>
+      <Navbar />
       <Box>
         <Grid
           gridTemplateColumns={"50% 50%"}

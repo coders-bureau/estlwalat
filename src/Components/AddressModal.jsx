@@ -24,39 +24,34 @@ const addressObj = {
   state: "",
 };
 
-const AddressModal = ({ onClose, setAddress }) => {
+const AddressModal = ({ onClose, setAddress,userId }) => {
   const addresRef = useRef(addressObj);
   const toast = useToast();
+  // const [userId,setUserID] =useState("");
 
   const handleAddress = () => {
     const { name, mobileNo, pinCode, area, town, city, state } =
       addresRef.current;
 
-    if (
-      name &&
-      mobileNo &&
-      pinCode &&
-      area &&
-      town &&
-      city &&
-      state &&
-      +mobileNo === mobileNo &&
-      name !== +name &&
-      pinCode === +pinCode &&
-      area !== +area &&
-      town !== +town &&
-      city !== +city &&
-      state !== +state &&
-      name.length > 2 &&
-      mobileNo.length === 10 &&
-      pinCode.length === 6
-    ) {
+      if( name && mobileNo && pinCode && area && town && city && state && +mobileNo==mobileNo &&
+        name != +name && pinCode == +pinCode && area != +area && town!= +town && city!= +city &&
+        state != +state && name.length>2 && mobileNo.length==10 && pinCode.length==6
+        ){
+      // axios({
+      //   method: "post",
+      //   url: process.env.REACT_APP_MYNTRA_API + "/Address",
+      //   data: addresRef.current,
+      // })
+      console.log(userId);
       axios({
-        method: "post",
-        url: process.env.REACT_APP_MYNTRA_API + "/Address",
-        data: addresRef.current,
-      }).then((res) => {
-        setAddress(res.data);
+          method: "patch",
+          url: "http://localhost:5000/user/"+userId+"/add-address/",
+          data: addresRef.current,
+        })
+      .then((res) => {
+        setAddress(res.data.address)
+        console.log(res.data.address)
+        // setAddress(res.data.address[res.data.address.length]);
         onClose();
       });
     } else {

@@ -61,6 +61,7 @@ export const Navbar = () => {
   // ............................
 
   const handleLogOut = () => {
+    localStorage.clear();
     dispatch(login("logout"));
   };
 
@@ -184,7 +185,7 @@ export const Navbar = () => {
             <HStack>
               {/* logo....................... */}
               <Box
-              bgColor={"white"}
+                bgColor={"white"}
                 display={{ lg: "inline-block", base: "none" }}
                 w="100px"
                 onClick={() => navigate("/")}
@@ -271,11 +272,7 @@ export const Navbar = () => {
                     borderBottom="5px solid rgba(0,0,0,0.0)"
                     cursor="pointer"
                   >
-                    <Text
-                      fontWeight={"500"}
-                      color={"#282c3f"}
-                      p="20px 0px"
-                    >
+                    <Text fontWeight={"500"} color={"#282c3f"} p="20px 0px">
                       Contact us
                     </Text>
                   </Box>
@@ -410,12 +407,13 @@ export const Navbar = () => {
                             : "To access account and manage orders"}
                         </Text>
                         <Tag
+                          _hover={{ fontWeight: "700" }}
                           variant={"outline"}
                           colorScheme="pink"
                           size={"md"}
                           fontSize={"14px"}
                           onClick={() => {
-                            isAuth ? handleLogOut() : navigate("/signup");
+                            isAuth ? handleLogOut() : navigate("/login");
                           }}
                         >
                           {isAuth ? "LOGOUT" : " LOGIN/SIGNUP"}
@@ -423,20 +421,23 @@ export const Navbar = () => {
                       </VStack>
                     </MenuItem>
                     <hr />
-                    <MenuItem
+
+                    <MenuItem _hover={{ fontWeight: "500" }}
                       fontSize={"13px"}
                       onClick={() => navigate("/profile")}
                     >
                       Profile
                     </MenuItem>
-                    <MenuItem fontSize={"13px"}>Orders</MenuItem>
                     <MenuItem
+                      _hover={{ fontWeight: "500" }}
                       fontSize={"13px"}
                       onClick={() => navigate("/wishlist")}
                     >
                       Wishlist
                     </MenuItem>
-                    <MenuItem fontSize={"13px"}>Contact Us</MenuItem>
+                    <MenuItem _hover={{ fontWeight: "500" }} fontSize={"13px"}>
+                      Contact Us
+                    </MenuItem>
                   </MenuList>
                 </Menu>
               </VStack>

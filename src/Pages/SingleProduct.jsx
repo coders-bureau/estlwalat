@@ -67,6 +67,7 @@ const SingleProduct = () => {
   const { isAuth } = useSelector((store) => store.AuthReducer);
   const [currentProduct, setCurrentProduct] = useState({});
   const {
+    _id,
     MRP,
     brand,
     category,
@@ -174,31 +175,30 @@ const SingleProduct = () => {
 
   const handleBuyNow = () => {
     if (sizeRef) {
+      // axios({
+      //   method: "post",
+      //   url: process.env.REACT_APP_MYNTRA_API + "/cart",
+      //   data: { ...currentProduct, currentSize: sizeRef },
+      // })
+      // axios({
+      //   method: "post",
+      //   url: `http://localhost:5000/user/`+userId+`/cart/`+id,
+      // })
       axios({
-        method: "post",
-        url: process.env.REACT_APP_MYNTRA_API + "/cart",
-        data: { ...currentProduct, currentSize: sizeRef },
+        method: "put",
+        url: `http://localhost:5000/user/`+userId+`/cart/`+id,
+        data: {
+              currentSize: sizeRef,
+            },
       })
         .then((res) => {
-          toast({
-            title: "Product successfully added in cart",
-            variant: "top-accent",
-            isClosable: true,
-            position: "top-right",
-            status: "success",
-            duration: 1500,
-          });
+          dispatch(getUserDetails(mobileNumber));
+          console.log("then");
           navigate("/cart");
         })
         .catch((err) => {
-          // toast({
-          //   title: "Product already present in cart",
-          //   variant: "top-accent",
-          //   isClosable: true,
-          //   position: "top-right",
-          //   status: "error",
-          //   duration: 1500,
-          // });
+          console.log("catch");
+          dispatch(getUserDetails(mobileNumber));
           navigate("/cart");
         });
     } else {
@@ -214,66 +214,41 @@ const SingleProduct = () => {
   };
 
   const handleSendCart = () => {
-    // if (sizeRef) {
-    //   axios({
-    //     method: "post",
-    //     url: process.env.REACT_APP_MYNTRA_API + "/cart",
-    //     data: { ...currentProduct, currentSize: sizeRef },
-    //   })
-    //     .then((res) => {
-    //       toast({
-    //         title: "Product successfully added in cart",
-    //         variant: "top-accent",
-    //         isClosable: true,
-    //         position: "top-right",
-    //         status: "success",
-    //         duration: 1500,
-    //       });
-    //     })
-    //     .catch((err) => {
-    //       toast({
-    //         title: "Product already present in cart",
-    //         variant: "top-accent",
-    //         isClosable: true,
-    //         position: "top-right",
-    //         status: "error",
-    //         duration: 1500,
-    //       });
-    //     });
-    // } else {
-    //   toast({
-    //     title: "Please select size",
-    //     variant: "solid",
-    //     isClosable: true,
-    //     position: "top",
-    //     status: "info",
-    //     duration: 1500,
-    //   });
-    // }
 
     if (sizeRef) {
+      // axios({
+      //   method: "post",
+      //   url: process.env.REACT_APP_MYNTRA_API + "/cart",
+      //   data: { ...currentProduct, currentSize: sizeRef },
+      // })
       axios({
-        method: "post",
-        url: process.env.REACT_APP_MYNTRA_API + "/cart",
-        data: { ...currentProduct, currentSize: sizeRef },
+        method: "put",
+        url: `http://localhost:5000/user/`+userId+`/cart/`+id,
+        data: {
+              currentSize: sizeRef,
+            },
       })
         .then((res) => {
+
+        dispatch(getUserDetails(mobileNumber));
+        console.log(res);
+          toast({
+            title: res.data.message,
+            variant: "top-accent",
+            isClosable: true,
+            position: "top-right",
+            status: "error",
+            duration: 1500,
+          });
+        })
+        .catch((err) => {
+        dispatch(getUserDetails(mobileNumber));
           toast({
             title: "Product successfully added in cart",
             variant: "top-accent",
             isClosable: true,
             position: "top-right",
             status: "success",
-            duration: 1500,
-          });
-        })
-        .catch((err) => {
-          toast({
-            title: "Product already present in cart",
-            variant: "top-accent",
-            isClosable: true,
-            position: "top-right",
-            status: "error",
             duration: 1500,
           });
         });
@@ -295,6 +270,7 @@ const SingleProduct = () => {
       url: `http://localhost:5000/user/`+userId+`/wishlist/`+id,
     })
       .then((res) => {
+        dispatch(getUserDetails(mobileNumber))
         toast({
           title: "Product successfully added in wishlist",
           variant: "top-accent",

@@ -17,15 +17,173 @@ import {
   useDisclosure,
   Heading,
   useToast,
+  Flex,
+  Stack,
 } from "@chakra-ui/react";
 import OtherNavbar from "../Components/OtherNavbar";
 import OtherFooter from "../Components/OtherFooter";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useRef, useState } from "react";
-import warning from "../Assets/warning.png";
+import { useEffect, useRef, useState } from "react";
+import warning from "../Assets/estyle.png";
+import { PaymentDetains1 } from "../Components/PaymentDetains";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserDetails } from "../Redux/UserReducer/Action";
+function getDate() {
+  const today = new Date();
+  const month = today.getMonth() + 1;
+  const year = today.getFullYear();
+  const date = today.getDate();
+  return `${month}/${date}/${year}`;
+}
 
 const Payment = () => {
   const location = useLocation();
+
+  const [currentDate, setCurrentDate] = useState(getDate());
+  const { addressLine } = location.state;
+console.log(currentDate);
+  const dispatch = useDispatch();
+  const mobileNumber = localStorage.getItem("MbNumber");
+  const { user } = useSelector((store) => store.UserReducer);
+
+  const [userId, setUserID] = useState("");
+
+
+  const [toggle, setToggle] = useState(true);
+  const [code, setCode] = useState("");
+  const [value, setValue] = useState({
+    cardno: "",
+    cardName: "",
+    month: "",
+    cvv: "",
+  });
+
+  const captcha = 3535;
+  const { cardno, cardName, month, cvv } = value;
+
+  const activeStyle = {
+    fontSize: "14px",
+    fontWeight: "700",
+    borderLeft: "5px solid #ff3f6c",
+    cursor: "pointer",
+    marginTop: "none",
+    color: "#ff3f6c",
+    backgroundColor: "#fff",
+  };
+
+  const defaultStyle = {
+    backgroundColor: "lightgray",
+    fontSize: "14px",
+    fontWeight: "700",
+    cursor: "pointer",
+    marginTop: "none",
+  };
+
+  const handleToggle = () => {
+    setToggle(!toggle);
+  };
+
+  const handleSubmit = () => {
+    // for (let i = 0; i < cartData.length; i++) {
+    //   for (let j = 0; j < checkoutData.length; j++) {
+    //     if (cartData[i].id === checkoutData[j].id) {
+    //       dispatch(deleteCartData(cartData[i].id)).then(() => dispatch(fetchCartData()));
+    //       dispatch(deleteCheckoutData(checkoutData[j].id)).then(() => dispatch(getCheckoutData()));
+    //       console.log("CD", cartData);
+    //     }
+    //   }
+    // }
+    if (code !== captcha || code === "") {
+      toast({
+        title: "Please fill the capture first",
+        // description: "We've received your payment.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top-left",
+      });
+      // toast.error("Please fill the capture first", {
+      //   position: "top-center",
+      // });
+
+      return;
+    }
+    axios({
+      method: "delete",
+      // url: process.env.REACT_APP_MYNTRA_API + `/cart/${id}`,
+      url: "http://localhost:5000/user/"+userId+"/cart",
+    })
+      .then(() => {
+        dispatch(getUserDetails(mobileNumber));
+        // toast({
+        //   title: "Product successfully deleted.",
+        //   status: "error",
+        //   duration: 3000,
+        //   isClosable: true,
+        //   position: "top",
+        // });
+      })
+      .catch((err) => {
+        // toast({
+        //   title: "Please Wait.... Deleting",
+        //   status: "warning",
+        //   duration: 3000,
+        //   isClosable: true,
+        //   position: "top",
+        // });
+        console.log(err);
+      });
+
+      axios({
+        method: "post",
+        url: "http://localhost:5000/user/"+userId+"/addOrder",
+        data: {items:user.cart,
+        addressLine:addressLine,orderDate:currentDate}
+      })
+        .then(() => {
+          dispatch(getUserDetails(mobileNumber));
+          console.log("done orders");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    navigate("/success");
+  };
+
+  useEffect(() => {
+    if (!user) {
+      dispatch(getUserDetails(mobileNumber));
+      // setIsLoading(false);
+    } else {
+      // dispatch(getUserDetails(mobileNumber));
+      // setCartProducts(user.cart);
+      // setAddress(user.address[0])
+      setUserID(user._id);
+      // setIsLoading(false);
+    }
+    // handleCartProducts();
+  }, [ user, dispatch]);
+
+  const handleSubmitCard = () => {
+    // for (let i = 0; i < cartData.length; i++) {
+    //   for (let j = 0; j < checkoutData.length; j++) {
+    //     if (cartData[i].id === checkoutData[j].id) {
+    //       dispatch(deleteCartData(cartData[i].id)).then(() => dispatch(fetchCartData()));
+    //       dispatch(deleteCheckoutData(checkoutData[j].id)).then(() => dispatch(getCheckoutData()));
+    //       console.log("CD", cartData);
+    //     }
+    //   }
+    // }
+    if (!cardName || !cardno || !month || !cvv) {
+      toast.error("Please fill the field first", {
+        position: "top-center",
+      });
+      return;
+    }
+    navigate("/success");
+  };
+
   const { totalAmount, totalMRP, totalMRPDiscount } = location.state;
   const expiryRef = useRef({ month: "", year: "" });
   const paymentRef = useRef({ name: "", cardNm: "", cvc: "" });
@@ -85,7 +243,7 @@ const Payment = () => {
   return (
     <>
       <OtherNavbar />
-      {isloading === "error" ? (
+      {/* {isloading === "error" ? (
         <Box h={"75vh"} w="100%">
           <Center height="100%">
             <Modal isOpen={isOpen}>
@@ -243,8 +401,322 @@ const Payment = () => {
             </VStack>
           </Center>
         </Box>
-      )}
-      <OtherFooter />
+      )} */}
+      {/* <OtherFooter /> */}
+
+      <Flex
+        minH={"100vh"}
+        align={"center"}
+        justify={"center"}
+        lineHeight={"18.5714px"}
+        border={"0px solid gray"}
+      >
+        <HStack
+          mt={9}
+          spacing={[0, 0, 8]}
+          mx={"auto"}
+          py={12}
+          px={6}
+          border={"0px solid gray"}
+          alignItems={"flex-start"}
+          display={["grid", "grid", "flex"]}
+          w={["full", "full", "70%"]}
+        >
+          <Box borderRight={"1px solid lightgray"} p={6} mb={4}>
+            <Stack>
+              <Box border={"1px solid lightgray"} p={2}>
+                <HStack>
+                  <Image
+                    src="https://w7.pngwing.com/pngs/679/616/png-transparent-sales-discounts-and-allowances-computer-icons-dicount-miscellaneous-angle-text.png"
+                    w="30px"
+                  />
+                  <Text fontWeight={700} fontSize="14px">
+                    Bank Offer
+                  </Text>
+                </HStack>
+                <Text
+                  margin={"10px 0px"}
+                  textAlign={"left"}
+                  paddingLeft="40px"
+                  color="gray"
+                  fontSize={"13px"}
+                >
+                  {/* • 10% Instant Discount on Credit and Debit Card on a min Spend
+                  of Rs 3,000. TCA{" "} */}
+                  NO Offers
+                </Text>
+              </Box>
+
+              <Box w="full">
+                <Heading textAlign={"left"} fontSize="16px" p={"10px 0"}>
+                  Choose Payment Mode
+                </Heading>
+                <HStack
+                  border={"1px solid lightgray"}
+                  justifyContent={"space-between"}
+                  p={5}
+                >
+                  {" "}
+                  {toggle ? (
+                    <Box marginTop={[0, 0, 0]} w="40%">
+                      <Box onClick={handleToggle} style={activeStyle} p={2}>
+                        Cash On Delivery
+                      </Box>
+                      <Box
+                        mt={2}
+                        onClick={handleToggle}
+                        style={defaultStyle}
+                        p={2}
+                      >
+                        Credit/Debit Card
+                      </Box>
+                      <Box mt={2} style={defaultStyle} p={2}>
+                        PhonePe/Google
+                      </Box>
+                      <Box mt={2} style={defaultStyle} p={2}>
+                        Pay-tm/Wallets
+                      </Box>
+                      <Box mt={2} style={defaultStyle} p={2}>
+                        Net Banking
+                      </Box>
+                      <Box mt={2} style={defaultStyle} p={2}>
+                        EMI/Pay Later
+                      </Box>
+                    </Box>
+                  ) : (
+                    <Box marginTop={[0, 0, 0]} w="40%">
+                      <Box onClick={handleToggle} style={defaultStyle} p={2}>
+                        Cash On Delivery
+                      </Box>
+                      <Box
+                        mt={2}
+                        onClick={handleToggle}
+                        style={activeStyle}
+                        p={2}
+                      >
+                        Credit/Debit Card
+                      </Box>
+                      <Box mt={2} style={defaultStyle} p={2}>
+                        PhonePe/Google
+                      </Box>
+                      <Box mt={2} style={defaultStyle} p={2}>
+                        Pay-tm/Wallets
+                      </Box>
+                      <Box mt={2} style={defaultStyle} p={2}>
+                        Net Banking
+                      </Box>
+                      <Box mt={2} style={defaultStyle} p={2}>
+                        EMI/Pay Later
+                      </Box>
+                    </Box>
+                  )}
+                  {toggle ? (
+                    <Box pl={4}>
+                      <Stack border={"0px solid"} textAlign="left" spacing={4}>
+                        <FormControl>
+                          <Stack spacing={4}>
+                            <Text marginBottom={"30px"} fontWeight={"700"}>
+                              Pay On Delivery (Cash/UPI)
+                            </Text>
+                            <Box
+                              w={"30%"}
+                              textAlign="center"
+                              p={2}
+                              border={"1px solid"}
+                              borderRadius="5px"
+                            >
+                              {captcha}
+                            </Box>
+
+                            <Input
+                              w="60%"
+                              type={"text"}
+                              value={code}
+                              fontSize={"15px"}
+                              placeholder="Enter code Show in above image*"
+                              isRequired
+                              onChange={(e) => setCode(Number(e.target.value))}
+                            />
+                            <Text fontSize={"12px"} color={"gray"}>
+                              You can pay via Cash or UPI enabled app at the
+                              time on delivery. Ask executive for these options
+                            </Text>
+                            <Button
+                              background={"#ff3f6c"}
+                              color="#fff"
+                              _hover={{
+                                backgroundColor: "#ff3f6c",
+                              }}
+                              onClick={handleSubmit}
+                            >
+                              Place Order
+                            </Button>
+                          </Stack>
+                        </FormControl>
+                      </Stack>
+                    </Box>
+                  ) : (
+                    <Box textAlign={"left"} pl={4}>
+                      <FormControl>
+                        <Text m={"10px 0px"} fontSize="14px" fontWeight={"700"}>
+                          CREDIT/DEBIT CARD
+                        </Text>
+                        <Text fontSize={"14px"} color="darkgray">
+                          please ensure your card can be used or online
+                          transaction .<Text color="#ff3f6c">know More</Text>
+                        </Text>
+                        <Stack mt={4} spacing={6}>
+                          <Input
+                            fontSize={"13px"}
+                            type="number"
+                            placeholder="Card Number"
+                            isRequired
+                            onChange={(e) =>
+                              setValue((prev) => ({
+                                ...prev,
+                                cardno: e.target.value,
+                              }))
+                            }
+                          />
+                          <Input
+                            fontSize={"13px"}
+                            type="text"
+                            marginTop={4}
+                            marginBottom={4}
+                            placeholder="Name on card"
+                            isRequired
+                            onChange={(e) =>
+                              setValue((prev) => ({
+                                ...prev,
+                                cardName: e.target.value,
+                              }))
+                            }
+                          />
+                          <HStack>
+                            <Input
+                              fontSize={"13px"}
+                              type="month"
+                              placeholder="Valid Thru(MM/YY)"
+                              isRequired
+                              onChange={(e) =>
+                                setValue((prev) => ({
+                                  ...prev,
+                                  month: e.target.value,
+                                }))
+                              }
+                            />
+                            <Input
+                              fontSize={"13px"}
+                              type="number"
+                              placeholder="CVV"
+                              isRequired
+                              onChange={(e) =>
+                                setValue((prev) => ({
+                                  ...prev,
+                                  cvv: e.target.value,
+                                }))
+                              }
+                            />
+                          </HStack>
+                          <Button
+                            mt={4}
+                            background={"#ff3f6c"}
+                            color="#fff"
+                            w="full"
+                            _hover={{
+                              backgroundColor: "#fff36c",
+                            }}
+                            onClick={handleSubmitCard}
+                          >
+                            Pay Now
+                          </Button>
+                        </Stack>
+                      </FormControl>
+                    </Box>
+                  )}
+                </HStack>
+              </Box>
+
+              <Flex marginTop="30px" flexFlow={"wrap"}>
+                <Image
+                  w="70px"
+                  src="https://constant.myntassets.com/checkout/assets/img/footer-bank-ssl.png"
+                  alt="card"
+                />
+                <Image
+                  w="70px"
+                  src="https://constant.myntassets.com/checkout/assets/img/footer-bank-visa.png"
+                  alt="card"
+                />
+                <Image
+                  w="70px"
+                  src="https://constant.myntassets.com/checkout/assets/img/footer-bank-mc.png"
+                  alt="card"
+                />
+                <Image
+                  w="70px"
+                  src="https://constant.myntassets.com/checkout/assets/img/footer-bank-ae.png"
+                  alt="card"
+                />
+                <Image
+                  w="70px"
+                  src="https://constant.myntassets.com/checkout/assets/img/footer-bank-dc.png"
+                  alt="card"
+                />
+                <Image
+                  w="70px"
+                  src="https://constant.myntassets.com/checkout/assets/img/footer-bank-nb.png"
+                  alt="card"
+                />
+                <Image
+                  w="70px"
+                  src="https://constant.myntassets.com/checkout/assets/img/footer-bank-cod.png"
+                  alt="card"
+                />
+                <Image
+                  w="70px"
+                  src="https://constant.myntassets.com/checkout/assets/img/footer-bank-rupay.png"
+                  alt="card"
+                />
+                <Image
+                  w="70px"
+                  src="https://constant.myntassets.com/checkout/assets/img/footer-bank-paypal.png"
+                  alt="card"
+                />
+                <Image
+                  w="70px"
+                  src="https://constant.myntassets.com/checkout/assets/img/footer-bank-bhim.png"
+                  alt="card"
+                />
+              </Flex>
+            </Stack>
+          </Box>
+          <Box
+            border={"px solid gray"}
+            w={["full", "full", "45%"]}
+            marginTop={[8, 8, 0]}
+          >
+            {/* ........................... */}
+            <PaymentDetains1
+              totalMRP={totalMRP}
+              totalMRPDiscount={totalMRPDiscount}
+            />
+            {/* .......................... */}
+            <br />
+            <hr/>
+            {/* <br /> */}
+            <HStack w={"full"} mt={2} justify={"space-between"}>
+              <Text fontSize={"14px"} color={"#3e4152"} fontWeight={"bold"}>
+                TOTAL Amount
+              </Text>
+              <Text fontSize={"14px"} color={"#3e4152"} fontWeight={"bold"}>
+                ₹ {totalAmount}
+              </Text>
+            </HStack>
+            {/* ........................... */}
+          </Box>
+        </HStack>
+      </Flex>
     </>
   );
 };

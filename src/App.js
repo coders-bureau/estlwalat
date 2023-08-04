@@ -11,6 +11,7 @@ function App() {
   }, [location]);
   return (
     <div className="App">
+      <div id="sign-in-button"></div>
       <MainRoutes/>
     </div>
   );

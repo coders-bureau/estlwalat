@@ -7,7 +7,7 @@ export const PrivateRoute=({children})=>{
     const location=useLocation()
 
     if(!isAuth){
-        return <Navigate to={"/signup"}  state={{data:location.pathname}} replace />
+        return <Navigate to={"/login"}  state={{data:location.pathname}} replace />
     }
     return children
 }

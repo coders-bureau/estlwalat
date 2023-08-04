@@ -30,22 +30,36 @@ const SingleCartProduct = ({
   setTotalMRP,
   setTotalMRPDiscount,
   handleCartProducts,
-  userId
+  userId,qty
 }) => {
+  
   const mobileNumber = localStorage.getItem("MbNumber");
   const dispatch= useDispatch();
   const [currentSizeShow, setCurrentSize] = useState(currentSize || size[0]);
-  const [currentQty, setCurrentQty] = useState(1);
+  const [currentQty, setCurrentQty] = useState(qty || 1);
   const toast = useToast();
   const handleSize = (e) => {
+    // axios({
+    //   method: "patch",
+    //   url: process.env.REACT_APP_MYNTRA_API + "/cart/" + _id,
+    //   data: {
+    //     currentSize: e.target.value,
+    //   },
+    // })
+    setCurrentSize(e.target.value);
     axios({
-      method: "patch",
-      url: process.env.REACT_APP_MYNTRA_API + "/cart/" + _id,
+      method: "put",
+      url: `http://localhost:5000/user/`+userId+`/cart/`+_id,
       data: {
-        currentSize: e.target.value,
-      },
-    }).then(({ data }) => {
-      setCurrentSize(data.currentSize);
+            currentSize: e.target.value,
+            item: "currentSize"
+          },
+    })
+    .then(({ data }) => {
+      setCurrentSize(data.data);
+      dispatch(getUserDetails(mobileNumber));
+    }).catch((err)=> {
+      console.log(err);
     });
   };
 
@@ -57,6 +71,20 @@ const SingleCartProduct = ({
     );
     setTotalAmount((prev) => prev + price * (e - currentQty));
     setCurrentQty(e);
+    axios({
+      method: "put",
+      url: `http://localhost:5000/user/`+userId+`/cart/`+_id,
+      data: {
+            qty: e,
+            item: "qty",
+          },
+    })
+    .then(({ data }) => {
+      dispatch(getUserDetails(mobileNumber));
+      setCurrentQty(data.data);
+    }).catch((err)=> {
+      console.log(err);
+    });
   };
 
   useEffect(() => {

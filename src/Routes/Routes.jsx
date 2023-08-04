@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 // import Navbar from '../Components/Navbar'
 import Home from '../Pages/Home'
 import Otp from '../Pages/Otp'
+import RealOtp from '../Pages/RealOtp'
 import Signup from '../Pages/Signup'
 import Store from '../Pages/Store'
 import SingleProduct from '../Pages/SingleProduct'
@@ -24,9 +25,13 @@ import ProductList from '../Pages/ProductList'
 import AddProductsPage from '../Admin/AddProductsPage'
 import ProductListPage from '../Admin/ProductListPage'
 import EditProduct from '../Admin/EditProduct'
+import Signin from '../Pages/Signin'
+import Payment from '../Pages/Payment'
 // import AddProductsPage from '../Admin/AddProductsPage';
 // import UsersPage from "../Admin/UsersPage";
 // import AdminProfilePage from "../Admin/AdminProfilePage";
+import Success from '../Pages/Success'
+import Order from '../Pages/Order'
 
 export const MainRoutes = () => {
   
@@ -35,7 +40,8 @@ export const MainRoutes = () => {
       <Routes>
              <Route path="/" element={<Home/>} />
              <Route path='/signup' element={<Signup/>} />
-             <Route path='/otp' element={<Otp/>} />
+             <Route path='/login' element={<Signin/>} />
+             <Route path='/otp' element={<RealOtp/>} />
              <Route path='/profilefill' element={<AddProfileData/>} />
              <Route path="/store" element={<Store/>} />
              <Route path='/single_product/:id' element={<SingleProduct/>} />
@@ -43,6 +49,8 @@ export const MainRoutes = () => {
              <Route path='/cart' element={<PrivateRoute><Cart/></PrivateRoute>}/>
              <Route path='/profile' element={<PrivateRoute><Profile /></PrivateRoute>} />
              <Route path='/address' element={<PrivateRoute><Address/></PrivateRoute>}/>
+             <Route path="/payment" element={<PrivateRoute><Payment/></PrivateRoute> }></Route>
+             <Route path="/success" element={<PrivateRoute><Success /></PrivateRoute>} ></Route>
              <Route path="/privacypolicy" element={<PrivacyPolicy />} />
              <Route path="/faqs" element={<FAQ />} />
              <Route path="/tac" element={<TermsAndConditions />} />
@@ -55,6 +63,9 @@ export const MainRoutes = () => {
              <Route path="/add-products" element={<AddProductsPage />}></Route>
              <Route path="/product-list" element={<ProductListPage />}></Route>
              <Route path="/edit-product/:id" element={<EditProduct />}></Route>
+             <Route path="/order" element={<Order />}></Route>
+
+
 
              {/* <Route path="/add-products" element={<AddProductsPage />}></Route>
              <Route path="/admin-men" element={<MensPage />}></Route>

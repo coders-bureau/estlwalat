@@ -50,7 +50,7 @@ const Wishlist = () => {
     })
       .then((res) => {
         dispatch(getUserDetails(mobileNumber));
-        getWishlitProd();
+        // getWishlitProd();
         toast({
           title: "Product removed from wishlist",
           variant: "top-accent",

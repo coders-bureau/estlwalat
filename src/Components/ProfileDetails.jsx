@@ -22,7 +22,7 @@ const ProfileDetails = () => {
     localStorage.getItem("MbNumber")
   );
   const [email, setEmail] = useState(" ");
-  const [address, setAddress] = useState(" ");
+  // const [address, setAddress] = useState(" ");
   const [dateOfBirth, setDateOfBirth] = useState(" ");
   const [gender, setGender] = useState(" ");
 
@@ -43,7 +43,7 @@ const ProfileDetails = () => {
     } else {
       setName(user.name);
       setEmail(user.email);
-      setAddress(user.address);
+      // setAddress(user.address);
       setDateOfBirth(user.dob);
       setGender(user.gender);
       setContactNumber(user.mobileNumber);
@@ -62,7 +62,7 @@ const ProfileDetails = () => {
         name,
         contactNumber,
         email,
-        address,
+        // address,
         dateOfBirth,
         gender,
       })
@@ -78,17 +78,17 @@ const ProfileDetails = () => {
     setName(event.target.value);
   };
 
-  const handleChangeContactNumber = (event) => {
-    setContactNumber(event.target.value);
-  };
+  // const handleChangeContactNumber = (event) => {
+  //   setContactNumber(event.target.value);
+  // };
 
   const handleChangeEmail = (event) => {
     setEmail(event.target.value);
   };
 
-  const handleChangeAddress = (event) => {
-    setAddress(event.target.value);
-  };
+  // const handleChangeAddress = (event) => {
+  //   setAddress(event.target.value);
+  // };
 
   const handleChangeDateOfBirth = (event) => {
     setDateOfBirth(event.target.value);
@@ -117,7 +117,7 @@ const ProfileDetails = () => {
               />
             </HStack>
           </FormControl>
-          <FormControl>
+          {/* <FormControl>
             <HStack width="100%" align="center">
               <FormLabel textAlign="left" flex={"20%"}>
                 Contact Number
@@ -129,7 +129,7 @@ const ProfileDetails = () => {
                 onChange={handleChangeContactNumber}
               />
             </HStack>
-          </FormControl>
+          </FormControl> */}
           <FormControl>
             <HStack width="100%" align="center">
               <FormLabel flex={"20%"} textAlign="left">
@@ -143,7 +143,7 @@ const ProfileDetails = () => {
               />
             </HStack>
           </FormControl>
-          <FormControl>
+          {/* <FormControl>
             <HStack width="100%" align="center">
               <FormLabel flex={"20%"} textAlign="left">
                 Address
@@ -155,7 +155,7 @@ const ProfileDetails = () => {
                 onChange={handleChangeAddress}
               />
             </HStack>
-          </FormControl>
+          </FormControl> */}
           <FormControl>
             <HStack width="100%" align="center">
               <FormLabel flex={"20%"} textAlign="left">
@@ -199,9 +199,9 @@ const ProfileDetails = () => {
           <Text textAlign="left">
             Email: <b>{email}</b>
           </Text>
-          <Text textAlign="left">
+          {/* <Text textAlign="left">
             Address: <b>{address}</b>
-          </Text>
+          </Text> */}
           <Text textAlign="left">
             Date of Birth: <b>{dateOfBirth}</b>
           </Text>

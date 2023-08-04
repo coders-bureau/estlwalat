@@ -55,6 +55,7 @@ export default function SingleProductCom(el) {
         url: `http://localhost:5000/user/`+userId+`/cart/`+el._id,
       })
         .then((res) => {
+          dispatch(getUserDetails(mobileNumber));
           toast({
             title: "Product added in the cart.",
             status: "success",
@@ -82,7 +83,7 @@ export default function SingleProductCom(el) {
   return (
     <>
       <div
-        // className={styles.main}
+        className={styles.main}
         onMouseEnter={() => setShowWish(true)}
         onMouseLeave={() => setShowWish(false)}
       >

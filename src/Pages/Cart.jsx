@@ -37,8 +37,8 @@ const Cart = () => {
   const [isError, setIsError] = useState(false);
   const [cartProducts, setCartProducts] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [addressD, setAddress] = useState({});
-  const { name, mobileNo, pinCode, area, town, city, state } = addressD;
+  // const [addressD, setAddress] = useState({});
+  // const { name, mobileNo, pinCode, area, town, city, state } = addressD;
   const [totalMRP, setTotalMRP] = useState(0);
   const [totalMRPDiscount, setTotalMRPDiscount] = useState(0);
   const [totalAmount, setTotalAmount] = useState(totalMRP - totalMRPDiscount);
@@ -49,12 +49,16 @@ const Cart = () => {
   const { user } = useSelector((store) => store.UserReducer);
   const [userId, setUserID] = useState("");
   const dispatch = useDispatch();
+  const addressLine = "";
+  // useEffect(() => {
+  //   axios({
+  //     url: process.env.REACT_APP_MYNTRA_API + "/Address",
+  //   }).then(({ data }) => setAddress(data));
+  // }, []);
   useEffect(() => {
-    axios({
-      url: process.env.REACT_APP_MYNTRA_API + "/Address",
-    }).then(({ data }) => setAddress(data));
+    dispatch(getUserDetails(mobileNumber));
+    // setCartProducts(user.cart);
   }, []);
-
   useEffect(() => {
     if (!user) {
       dispatch(getUserDetails(mobileNumber));
@@ -62,14 +66,16 @@ const Cart = () => {
     } else {
       // dispatch(getUserDetails(mobileNumber));
       setCartProducts(user.cart);
+      // setAddress(user.address[0])
       setUserID(user._id);
       setIsLoading(false);
     }
-    // handleCartProducts();user
-  }, [cartProducts.length,user, setCartProducts, dispatch]);
+    // handleCartProducts();
+  }, [cartProducts.length, user, setCartProducts, dispatch]);
 
   const handleCartProducts = () => {
-    
+    dispatch(getUserDetails(mobileNumber));
+
     // axios({
     //   method: "get",
     //   url: process.env.REACT_APP_MYNTRA_API + "/cart",
@@ -94,6 +100,7 @@ const Cart = () => {
       data: el,
     })
       .then((res) => {
+        dispatch(getUserDetails(mobileNumber));
         handleCartProducts();
         toast({
           title: "Product added in the cart.",
@@ -154,7 +161,7 @@ const Cart = () => {
   } else {
     return (
       <>
-        <Navbar />
+        {/* <Navbar /> */}
         <VStack justify={"center"}>
           <OtherNavbar />
 
@@ -195,10 +202,9 @@ const Cart = () => {
             </Box>
           ) : (
             <Box>
-              <Box>
                 <HStack
-                  px={{ lg: "200px", md: "100px", base: "20px" }}
-                  alignItems="flex-start"
+                  px={{ lg: "200px", md: "100px", base: "5px" }}
+                  // alignItems="flex-start"
                 >
                   {/* ................................. */}
                   <Box w={{ lg: "65%", md: "65%", base: "100%" }}>
@@ -210,89 +216,10 @@ const Cart = () => {
                         borderRadius={"7px"}
                       >
                         <HStack justify={"space-between"} w={"full"}>
-                          {name ? (
-                            <VStack spacing={0} align={"flex-start"}>
-                              <HStack w={"full"}>
-                                <Text
-                                  fontSize={{
-                                    lg: "14px",
-                                    md: "14px",
-                                    base: "10px",
-                                  }}
-                                >
-                                  Deliver to:
-                                </Text>
-                                <Text
-                                  fontSize={{
-                                    lg: "14px",
-                                    md: "14px",
-                                    base: "10px",
-                                  }}
-                                  fontWeight={"bold"}
-                                >
-                                  {name}, {pinCode}
-                                </Text>
-                              </HStack>
-
-                              <Text
-                                textAlign={"left"}
-                                fontSize={{
-                                  lg: "12px",
-                                  md: "12px",
-                                  base: "8px",
-                                }}
-                              >
-                                {town}, {area},{city},{state}
-                              </Text>
-                            </VStack>
-                          ) : (
-                            <Text
-                              fontWeight={"bold"}
-                              fontSize={{
-                                lg: "14px",
-                                md: "14px",
-                                base: "10px",
-                              }}
-                              color="#535766"
-                            >
-                              Where we need to Deliver !
-                            </Text>
-                          )}
-
-                          <Button
-                            variant={"outline"}
-                            colorScheme="pink"
-                            borderRadius={"2px"}
-                            size={"sm"}
-                            fontSize={{ lg: "13px", md: "13px", base: "6px" }}
-                            onClick={onOpen}
-                          >
-                            CHANGE ADDRESS
-                          </Button>
-                          <Modal
-                            isOpen={isOpen}
-                            onClose={onClose}
-                            colorScheme="pink"
-                          >
-                            <ModalOverlay />
-                            <ModalContent>
-                              <ModalHeader
-                                fontSize={"14px"}
-                                color={"#535766"}
-                                fontWeight={"bold"}
-                              >
-                                ADD NEW ADDRESS
-                              </ModalHeader>
-                              <ModalCloseButton
-                                color={"#535766"}
-                                fontWeight={"bold"}
-                              />
-                              <AddressModal
-                                onClose={onClose}
-                                setAddress={setAddress}
-                              />
-                            </ModalContent>
-                          </Modal>
+                          <Text fontWeight={500}>
+                            {" "}
+                            Cart: {user.cart.length} Item
+                          </Text>
                         </HStack>
                       </Box>
 
@@ -332,7 +259,9 @@ const Cart = () => {
                               totalAmount={totalAmount}
                               totalMRP={totalMRP}
                               totalMRPDiscount={totalMRPDiscount}
-                              redirect={pinCode ? "/address" : undefined}
+                              addressLine={addressLine}
+                              // redirect={addressD.pinCode ? "/address" : undefined}
+                              redirect={"/address"}
                             />
                           </Box>
                         </VStack>
@@ -359,12 +288,12 @@ const Cart = () => {
                         totalAmount={totalAmount}
                         totalMRP={totalMRP}
                         totalMRPDiscount={totalMRPDiscount}
-                        redirect={pinCode ? "/address" : undefined}
+                        // redirect={addressD.pinCode ? "/address" : undefined}
+                        redirect={"/address"}
                       />
                     </VStack>
                   </Box>
                 </HStack>
-              </Box>
 
               <Box
                 w="full"

@@ -68,6 +68,7 @@ const PaymentDetains2 = ({
   totalMRP,
   totalMRPDiscount,
   redirect,
+  addressLine
 }) => {
   const navigate = useNavigate();
   const toast = useToast();
@@ -87,7 +88,7 @@ const PaymentDetains2 = ({
             onClick={() =>
               redirect
                 ? navigate(redirect, {
-                    state: { totalAmount, totalMRP, totalMRPDiscount },
+                    state: { totalAmount, totalMRP, totalMRPDiscount, addressLine },
                   })
                 : toast({
                     title: "Please check your address.",

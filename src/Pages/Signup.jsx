@@ -58,29 +58,31 @@ const Signup = () => {
             "http://localhost:5000/user/signup",
             { mobileNumber },
             config
-          );
-          toast({
-            title: "User Registered successfully",
-            variant: "top-accent",
-            isClosable: true,
-            position: "top-center",
-            status: "success",
-            duration: 1500,
-          });
+          ).then(() => { 
+
+          })
+          // toast({
+          //   title: "User Registered successfully",
+          //   variant: "top-accent",
+          //   isClosable: true,
+          //   position: "top-center",
+          //   status: "success",
+          //   duration: 1500,
+          // });
          dispatch(getUserDetails(mobileNumber));
         navigate("/otp", { state: comingFrom, replace: true });
 
 
         } catch (error) {
-          console.log(error.response.data.error);
-          toast({
-            title: error.response.data.error,
-            variant: "top-accent",
-            isClosable: true,
-            position: "top-center",
-            status: "error",
-            duration: 1500,
-          });
+          console.log(error);
+          // toast({
+          //   title: error.response.data.error,
+          //   variant: "top-accent",
+          //   isClosable: true,
+          //   position: "top-center",
+          //   status: "error",
+          //   duration: 1500,
+          // });
         }
 
         // console.log("enter");

@@ -111,9 +111,12 @@ export const getProductsData = (params) => async (dispatch) => {
     // const r = await axios.get(
     //   `${process.env.REACT_APP_MYNTRA_API}/Products`,
     //   params
+    
     // );
+    const all = process.env.BASE_API;
+    console.log(all+"123");
     const r = await axios.get(
-      `http://localhost:5000/Products`,
+      `https://estylewalabackend.onrender.com/Products`,
       params
     );
     console.log(r.data);
@@ -126,8 +129,10 @@ export const getProductsData = (params) => async (dispatch) => {
 export const getAllProductsData = (params) => async (dispatch) => {
   dispatch(getProductsLoading());
   try {
+    const all = process.env.BASE_API;
+    console.log(all);
     const r = await axios.get(
-      `http://localhost:5000/allproducts`,
+      `https://estylewalabackend.onrender.com/allproducts`,
       params
     );
     console.log(r.data);

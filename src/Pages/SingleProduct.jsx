@@ -182,11 +182,11 @@ const SingleProduct = () => {
       // })
       // axios({
       //   method: "post",
-      //   url: `http://localhost:5000/user/`+userId+`/cart/`+id,
+      //   url: `https://estylewalabackend.onrender.com/user/`+userId+`/cart/`+id,
       // })
       axios({
         method: "put",
-        url: `http://localhost:5000/user/`+userId+`/cart/`+id,
+        url: `https://estylewalabackend.onrender.com/user/`+userId+`/cart/`+id,
         data: {
               currentSize: sizeRef,
             },
@@ -223,7 +223,7 @@ const SingleProduct = () => {
       // })
       axios({
         method: "put",
-        url: `http://localhost:5000/user/`+userId+`/cart/`+id,
+        url: `https://estylewalabackend.onrender.com/user/`+userId+`/cart/`+id,
         data: {
               currentSize: sizeRef,
             },
@@ -267,7 +267,7 @@ const SingleProduct = () => {
   const handleSendWishlist = () => {
     axios({
       method: "post",
-      url: `http://localhost:5000/user/`+userId+`/wishlist/`+id,
+      url: `https://estylewalabackend.onrender.com/user/`+userId+`/wishlist/`+id,
     })
       .then((res) => {
         dispatch(getUserDetails(mobileNumber))

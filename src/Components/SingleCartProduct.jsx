@@ -49,7 +49,7 @@ const SingleCartProduct = ({
     setCurrentSize(e.target.value);
     axios({
       method: "put",
-      url: `http://localhost:5000/user/`+userId+`/cart/`+_id,
+      url: `https://estylewalabackend.onrender.com/user/`+userId+`/cart/`+_id,
       data: {
             currentSize: e.target.value,
             item: "currentSize"
@@ -73,7 +73,7 @@ const SingleCartProduct = ({
     setCurrentQty(e);
     axios({
       method: "put",
-      url: `http://localhost:5000/user/`+userId+`/cart/`+_id,
+      url: `https://estylewalabackend.onrender.com/user/`+userId+`/cart/`+_id,
       data: {
             qty: e,
             item: "qty",
@@ -97,7 +97,7 @@ const SingleCartProduct = ({
     axios({
       method: "delete",
       // url: process.env.REACT_APP_MYNTRA_API + `/cart/${id}`,
-      url: "http://localhost:5000/user/"+userId+"/cart/"+ _id,
+      url: "https://estylewalabackend.onrender.com/user/"+userId+"/cart/"+ _id,
     })
       .then(() => {
         dispatch(getUserDetails(mobileNumber));

@@ -55,7 +55,7 @@ const Address = () => {
 console.log(selectedAddressstatus);
   const handleDeleteAddress = (addressId) => {
     // Replace 'YOUR_BACKEND_API_ENDPOINT' with your actual backend API endpoint for deleting an address
-    fetch(`http://localhost:5000/user/${userId}/address/${addressId}`, {
+    fetch(`https://estylewalabackend.onrender.com/user/${userId}/address/${addressId}`, {
       method: "DELETE",
     })
       .then((response) => response.json())
@@ -74,7 +74,7 @@ console.log(selectedAddressstatus);
 
   useEffect(() => {
     axios({
-      url: "http://localhost:5000/user/" + mobileNumber,
+      url: "https://estylewalabackend.onrender.com/user/" + mobileNumber,
     }).then(({ data }) => {
       setAddress(data.user.address);
       setPincode(data.user.address.pinCode);

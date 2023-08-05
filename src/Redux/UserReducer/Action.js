@@ -61,7 +61,7 @@ export const userRegister = (mobileNumber) => async (dispatch) => {
 export const getUserDetails = (mobileNumber) => async (dispatch) => {
   try {
 
-    const { data }  = await axios.get(`http://localhost:5000/user/${mobileNumber}`);
+    const { data }  = await axios.get(`https://estylewalabackend.onrender.com/user/${mobileNumber}`);
     console.log(data.user);
     dispatch({
       type: types.USER_DETAILS_SUCCESS,
@@ -83,7 +83,7 @@ export const getUserDetails = (mobileNumber) => async (dispatch) => {
 
 export const updateUserProfile = (user) => async (dispatch) => {
   try {
-    const { data }  = await axios.put(`http://localhost:5000/user/profile`,user);
+    const { data }  = await axios.put(`https://estylewalabackend.onrender.com/user/profile`,user);
     console.log(data);
     dispatch({
       type: types.USER_UPDATE_PROFILE_SUCCESS,

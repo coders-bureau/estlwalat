@@ -112,7 +112,7 @@ console.log(currentDate);
     axios({
       method: "delete",
       // url: process.env.REACT_APP_MYNTRA_API + `/cart/${id}`,
-      url: "http://localhost:5000/user/"+userId+"/cart",
+      url: "https://estylewalabackend.onrender.com/user/"+userId+"/cart",
     })
       .then(() => {
         dispatch(getUserDetails(mobileNumber));
@@ -137,7 +137,7 @@ console.log(currentDate);
 
       axios({
         method: "post",
-        url: "http://localhost:5000/user/"+userId+"/addOrder",
+        url: "https://estylewalabackend.onrender.com/user/"+userId+"/addOrder",
         data: {items:user.cart,
         addressLine:addressLine,orderDate:currentDate}
       })

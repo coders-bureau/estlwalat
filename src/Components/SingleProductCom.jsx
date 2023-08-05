@@ -52,7 +52,7 @@ export default function SingleProductCom(el) {
       // })
       axios({
         method: "post",
-        url: `http://localhost:5000/user/`+userId+`/cart/`+el._id,
+        url: `https://estylewalabackend.onrender.com/user/`+userId+`/cart/`+el._id,
       })
         .then((res) => {
           dispatch(getUserDetails(mobileNumber));
@@ -94,7 +94,7 @@ export default function SingleProductCom(el) {
             if (isAuth) {
               axios({
                 method: "post",
-                url: `http://localhost:5000/user/`+userId+`/wishlist/`+_id,
+                url: `https://estylewalabackend.onrender.com/user/`+userId+`/wishlist/`+_id,
               })
                 .then((res) => {
                   dispatch(getUserDetails(mobileNumber));

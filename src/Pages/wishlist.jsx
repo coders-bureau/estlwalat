@@ -46,7 +46,7 @@ const Wishlist = () => {
     axios({
       method: "delete",
       // url: process.env.REACT_APP_MYNTRA_API + "/wishlist/" + id,
-      url: "http://localhost:5000/user/"+userId+"/wishlist/"+ id,
+      url: "https://estylewalabackend.onrender.com/user/"+userId+"/wishlist/"+ id,
     })
       .then((res) => {
         dispatch(getUserDetails(mobileNumber));
@@ -73,7 +73,7 @@ const Wishlist = () => {
     // })
     axios({
       method: "post",
-      url: `http://localhost:5000/user/`+userId+`/cart/`+el._id,
+      url: `https://estylewalabackend.onrender.com/user/`+userId+`/cart/`+el._id,
     })
       .then((res) => {
         toast({

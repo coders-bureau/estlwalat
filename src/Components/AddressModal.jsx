@@ -45,7 +45,7 @@ const AddressModal = ({ onClose, setAddress,userId }) => {
       console.log(userId);
       axios({
           method: "patch",
-          url: "http://localhost:5000/user/"+userId+"/add-address/",
+          url: "https://estylewalabackend.onrender.com/user/"+userId+"/add-address/",
           data: addresRef.current,
         })
       .then((res) => {

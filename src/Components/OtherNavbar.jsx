@@ -116,7 +116,7 @@ const OtherNavbar = () => {
           </Box>
 
           <Box>
-            <HStack display={{ md: "block", base: "none" }}>
+            <HStack display={{ md: "flex", base: "none" }}>
               <Image
                 boxSize="30px"
                 src="https://constant.myntassets.com/checkout/assets/img/sprite-secure.png"

@@ -14,9 +14,12 @@ import {
   useToast,
   VStack,
   IconButton,
+  Image,
 } from "@chakra-ui/react";
 import AdminNavbar from "./AdminNavbar";
 import { CloseIcon } from "@chakra-ui/icons";
+import LoadingPage from "../Pages/LoadingPage";
+import PageNotFound from "../Pages/PageNotFound";
 
 const EditProduct = () => {
   const navigate = useNavigate();
@@ -34,15 +37,18 @@ const EditProduct = () => {
     img: "",
     images: [],
   });
-
+  const [updatedImages, setUpdateImages] = useState([]);
   useEffect(() => {
     // Fetch the product data from the backend using the product ID
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:5000/products/${id}`
-        );
-        setProduct(response.data);
+        setisLoading(true);
+        await axios
+          .get(`https://estylewalabackend.onrender.com/products/${id}`)
+          .then((response) => {
+            setProduct(response.data);
+            setisLoading(false);
+          });
       } catch (error) {
         console.error("Error fetching product:", error);
         // Handle error here, e.g., show an error message to the user
@@ -61,35 +67,52 @@ const EditProduct = () => {
     }));
   };
 
-  const handleAddImage = () => {
-    // Add a new empty string to the images array when plus button is clicked
+  // const handleAddImage = () => {
+  //   // Add a new empty string to the images array when plus button is clicked
+  //   setProduct((prevData) => ({
+  //     ...prevData,
+  //     images: [...prevData.images, ""],
+  //   }));
+  // };
+
+  // const handleImageChange = (index, value) => {
+  //   // Update the image link at the specified index in the images array
+  //   setProduct((prevData) => {
+  //     const updatedImages = [...prevData.images];
+  //     updatedImages[index] = value;
+  //     return {
+  //       ...prevData,
+  //       images: updatedImages,
+  //     };
+  //   });
+  // };
+
+  const [imasd, setimg] = useState("");
+  const handleImageChange = (e) => {
+    // setimg(URL.createObjectURL(e.target.files[0]));
+    setNormalImage(false);
+    const file = e.target.files[0];
+    console.log(file);
     setProduct((prevData) => ({
       ...prevData,
-      images: [...prevData.images, ""],
+      img: file,
     }));
-  };
-
-  const handleImageChange = (index, value) => {
-    // Update the image link at the specified index in the images array
-    setProduct((prevData) => {
-      const updatedImages = [...prevData.images];
-      updatedImages[index] = value;
-      return {
-        ...prevData,
-        images: updatedImages,
-      };
-    });
   };
 
   const handleRemoveImage = (index) => {
     setProduct((prevData) => {
-      const updatedImages = [...prevData.images];
-      updatedImages.splice(index, 1);
+      const updatedImagesO = [...prevData.images];
+      updatedImagesO.splice(index, 1);
       return {
         ...prevData,
-        images: updatedImages,
+        images: updatedImagesO,
       };
     });
+  };
+  const handleRemoveImage1 = (index) => {
+    const updatedImages1 = [...updatedImages];
+    updatedImages1.splice(index, 1);
+    setUpdateImages(updatedImages1);
   };
 
   const handleSizeCheckboxChange = (e) => {
@@ -109,12 +132,32 @@ const EditProduct = () => {
     });
   };
 
+  const handleAdditionalImagesChange = (e) => {
+    const imagesArray = Array.from(e.target.files);
+    setProduct({ ...product, images: imagesArray });
+  };
+
+  const handleAddImage = (e) => {
+    // const file = e.target.files[0];
+    setUpdateImages([...updatedImages, e.target.files[0]]);
+    setNormalImage1(false);
+    // setUpdateImages((prevData) => ({
+    //   ...prevData,
+    //   updatedImages: [...prevData.updatedImages, file],
+    // }));
+    // setProduct((prevData) => ({
+    //   ...prevData,
+    //   updateimages: [...prevData.updateimages, file],
+    // }));
+  };
+  console.log(updatedImages);
   // Handle the product update when the "Update" button is clicked
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setisLoading(true);
       const response = await axios.put(
-        `http://localhost:5000/products/${id}`,
+        `https://estylewalabackend.onrender.com/products/${id}`,
         product
       );
       toast({
@@ -136,15 +179,121 @@ const EditProduct = () => {
     }
   };
 
+  const handleUpdateProduct = async (e) => {
+    e.preventDefault();
+    setNormalImage(true);
+    setNormalImage1(true);
+    const formData = new FormData();
+    formData.append("title", product.title);
+    formData.append("brand", product.brand);
+    formData.append("rating", product.rating);
+    formData.append("ratingT", product.ratingT);
+    formData.append("category", product.category);
+    formData.append("type", product.type);
+    formData.append("price", product.price);
+    formData.append("MRP", product.MRP);
+    formData.append("discount", product.discount);
+    formData.append("size", product.size);
+    product.size.forEach((size) => {
+      formData.append("size", size);
+    });
+    formData.append("currentSize", product.currentSize);
+    formData.append("img", product.img);
+    // formData.append('images', product.images);
+    updatedImages.forEach((image1)=> {
+      formData.append("updatedImages",image1);
+    })
+    product.images.forEach((image) => {
+      formData.append("images", image);
+    });
+    formData.append("reviews", product.reviews);
+    // Append the additional images to the FormData
+    // for (let i = 0; i < product.images.length; i++) {
+    //   formData.append('images', product.images[i]);
+    // }
+    try {
+      // Make the API call to update the product
+      const response = await axios.put(
+        `https://estylewalabackend.onrender.com/updateproduct/${id}`,
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+
+      // Handle the response, e.g., show a success message
+      console.log(response.data);
+      toast({
+        title: "Product updated Successfully.",
+        variant: "top-accent",
+        isClosable: true,
+        position: "top-right",
+        status: "success",
+        duration: 2500,
+      });
+      setProduct(response.data.product)
+      // setProduct({
+      //   title: "",
+      //   brand: "",
+      //   rating: 0,
+      //   ratingT: 0,
+      //   category: "",
+      //   type: "",
+      //   price: "",
+      //   MRP: "",
+      //   discount: "",
+      //   size: [],
+      //   img: "",
+      //   images: [],
+      //   reviews: [],
+      // });
+      // Reset the form or perform other actions as needed
+      // setProduct({
+      //   title: "",
+      //   brand: "",
+      //   image: null,
+      //   images: [],
+      //   // Other product properties...
+      // });
+    } catch (error) {
+      toast({
+        title: "Error adding product",
+        variant: "top-accent",
+        isClosable: true,
+        position: "top-right",
+        status: "error",
+        duration: 2500,
+      });
+      console.log(product);
+      console.error("Error adding product:", error);
+      // Handle errors, e.g., show an error message
+      console.error(error);
+    }
+  };
+  const [isLoading, setisLoading] = useState(false);
+  const [isError, setError] = useState(false);
+  const [normalImage, setNormalImage] = useState(true);
+  const [normalImage1, setNormalImage1] = useState(true);
+  console.log(product);
+  if (isLoading)
+    return (
+      <Box height={"200px"}>
+        <LoadingPage />
+      </Box>
+    );
+  if (isError)
+    return (
+      <>
+        <PageNotFound />
+      </>
+    );
   return (
     <Box width={"100%"}>
       <AdminNavbar />
       <VStack spacing={4} align="center">
         <Box
-          marginTop={{ lg: "60px", md: "80px", base: "80px" }}
+          marginTop={{ lg: "100px", md: "80px", base: "80px" }}
           marginLeft={{ lg: "250px", md: "250px", base: "0px" }}
           as="form"
-          onSubmit={handleSubmit}
+          onSubmit={handleUpdateProduct}
           w="70%"
         >
           <FormControl mb={4}>
@@ -156,7 +305,6 @@ const EditProduct = () => {
               onChange={handleInputChange}
             />
           </FormControl>
-
           <FormControl mb={4}>
             <FormLabel>Brand</FormLabel>
             <Input
@@ -166,7 +314,6 @@ const EditProduct = () => {
               onChange={handleInputChange}
             />
           </FormControl>
-
           <FormControl mb={4}>
             <FormLabel>Category</FormLabel>
             <Input
@@ -176,7 +323,6 @@ const EditProduct = () => {
               onChange={handleInputChange}
             />
           </FormControl>
-
           <FormControl mb={4}>
             <FormLabel>Type</FormLabel>
             <Select
@@ -189,7 +335,6 @@ const EditProduct = () => {
               <option value="Kids">Kids</option>
             </Select>
           </FormControl>
-
           <FormControl mb={4}>
             <FormLabel>Price</FormLabel>
             <Input
@@ -200,7 +345,6 @@ const EditProduct = () => {
               required
             />
           </FormControl>
-
           <FormControl mb={4}>
             <FormLabel>MRP</FormLabel>
             <Input
@@ -211,7 +355,6 @@ const EditProduct = () => {
               required
             />
           </FormControl>
-
           <FormControl mb={4}>
             <FormLabel>Discount</FormLabel>
             <Input
@@ -222,7 +365,6 @@ const EditProduct = () => {
               required
             />
           </FormControl>
-
           <FormControl mb={4}>
             <FormLabel>Standard Sizes:</FormLabel>
             <Checkbox
@@ -404,44 +546,72 @@ const EditProduct = () => {
             {/* Add other size options here */}
           </FormControl>
           <FormControl mb={4}>
-            <FormLabel>Image URL</FormLabel>
-            <Input
-              type="text"
-              name="img"
-              value={product.img}
-              onChange={handleImageChange}
-              required
-            />
-          </FormControl>
-
-          <FormControl mb={4}>
-            <FormLabel>Additional Images URLs</FormLabel>
-
-            {product.images?.map((image, index) => {
-              return(
-                <HStack key={index} mb={2}>
-
-                <Input
-                key={index}
-                type="text"
-                //   name="images"
-                value={image}
-                onChange={(e) => handleImageChange(index, e.target.value)}
-                
+            <FormLabel>Main Image:</FormLabel>
+            <HStack>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+              />{" "}
+              {normalImage ? (
+                <Image
+                  src={`https://estylewalabackend.onrender.com/${product.img}`}
+                  alt="Main Image"
+                  style={{ width: "100px" }}
                 />
-                <IconButton
-                icon={<CloseIcon />}
-                colorScheme="red"
-                size="sm"
-                onClick={() => handleRemoveImage(index)}
-              />
-                </HStack>
-              )
-            })}
-             <Button type="button" onClick={handleAddImage}>
-                +
-              </Button>
+              ) : (
+                <Image
+                  src={URL.createObjectURL(product.img)}
+                  alt="Main Image"
+                  style={{ width: "100px" }}
+                />
+              )}
+            </HStack>
           </FormControl>
+          <FormControl mb={4}>
+            <FormLabel>Aditional Images</FormLabel>
+            <VStack align="flex-start" spacing={4}>
+              <input type="file" accept="image/*" onChange={handleAddImage} />{" "}
+              <HStack>
+                {product.images.map((image, index) => (
+                  <div key={index}>
+                    <Image
+                      src={`https://estylewalabackend.onrender.com/${image}`}
+                      alt={"Image " + index}
+                      style={{ width: "100px" }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveImage(index)}
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+                {!normalImage1 && (
+                  <>
+                    {updatedImages.map((image, index) => (
+                      <div key={index}>
+                        <Image
+                          src={URL.createObjectURL(image)}
+                          alt={`Image ${index + 1}`}
+                          width="100px"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveImage1(index)}
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    ))}
+                  </>
+                )}
+              </HStack>
+            </VStack>
+          </FormControl>
+
+          {/* <input type="file" accept="image/*" onChange={handleAdditionalImagesChange}/> */}
 
           <HStack mt={8}>
             <Button type="submit" colorScheme="blue">

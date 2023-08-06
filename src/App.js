@@ -2,6 +2,7 @@ import { useLocation } from 'react-router-dom';
 import './App.css';
 import { MainRoutes } from './Routes/Routes';
 import { useEffect } from 'react';
+import { Box } from '@chakra-ui/react';
 
 function App() {
   const location = useLocation();
@@ -11,7 +12,7 @@ function App() {
   }, [location]);
   return (
     <div className="App">
-      <div id="sign-in-button"></div>
+      <Box display={"none"} id="sign-in-button"></Box>
       <MainRoutes/>
     </div>
   );

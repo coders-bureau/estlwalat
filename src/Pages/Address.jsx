@@ -14,6 +14,7 @@ import {
   Image,
   Grid,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import OtherNavbar from "../Components/OtherNavbar";
@@ -29,6 +30,7 @@ const Address = () => {
   // const { name, mobileNo, pinCode, area, town, city, state } = addressD;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const location = useLocation();
+  const toast = useToast();
   const { totalAmount, totalMRP, totalMRPDiscount } = location.state;
   const mobileNumber = localStorage.getItem("MbNumber");
   const [selectedAddress, setSelectedAddress] = useState({});
@@ -60,6 +62,13 @@ console.log(selectedAddressstatus);
     })
       .then((response) => response.json())
       .then((data) => {
+        toast({
+          title: "Address Deleted",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+          position: "top",
+        });
         // Remove the deleted address from the frontend state
         setAddress((prevAddresses) =>
           prevAddresses.filter((address) => address._id !== addressId)
@@ -93,11 +102,7 @@ console.log(selectedAddressstatus);
       //   });
     });
   }, []);
-  // useEffect(() => {
-  //   axios({
-  //     url: process.env.REACT_APP_MYNTRA_API + "/Address",
-  //   }).then(({ data }) => setAddress(data));
-  // }, []);
+
   console.log(selectedAddress);
   return (
     <Box>
@@ -144,6 +149,7 @@ console.log(selectedAddressstatus);
                   {" "}
                   <HStack textAlign={"left"}>
                     <input
+                    color="#ff3f6c"
                       type="checkbox"
                       checked={address === selectedAddress}
                       onChange={() => handleAddressSelection(address)}
@@ -185,18 +191,17 @@ console.log(selectedAddressstatus);
                     &#x2022; Pay on Delivery available!
                   </Text>
                   <Button
-                    onClick={onOpen}
                     variant={"outline"}
                     fontSize={"12px"}
                     size="sm"
                     colorScheme="blackAlpha"
-                    color="#424553"
+                    color="black"
+                    fontWeight={500}
+                    onClick={() => handleDeleteAddress(address._id)}
                   >
-                    EDIT ADDRESS
-                  </Button>
-                  <button onClick={() => handleDeleteAddress(address._id)}>
                     Delete
-                  </button>
+                  </Button>
+                 
                 </VStack>
               ))}
               <Modal isOpen={isOpen} onClose={onClose} colorScheme="pink">

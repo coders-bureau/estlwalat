@@ -45,11 +45,6 @@ export default function SingleProductCom(el) {
   }, [user, dispatch]);
   const handleAddCart = (el) => {
     if (isAuth) {
-      // axios({
-      //   url: process.env.REACT_APP_MYNTRA_API + "/cart",
-      //   method: "post",
-      //   data: el,
-      // })
       axios({
         method: "post",
         url: `https://estylewalabackend.onrender.com/user/`+userId+`/cart/`+el._id,
@@ -62,7 +57,7 @@ export default function SingleProductCom(el) {
             duration: 1500,
             isClosable: true,
             variant: "top-accent",
-            position: "top-right",
+            position: "top-left",
           });
         })
         .catch((err) => {
@@ -72,7 +67,7 @@ export default function SingleProductCom(el) {
             duration: 1500,
             isClosable: true,
             variant: "top-accent",
-            position: "top-right",
+            position: "top-left",
           });
         });
     } else {

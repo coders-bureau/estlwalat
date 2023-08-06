@@ -435,8 +435,8 @@ export const Navbar = () => {
                     >
                       Wishlist
                     </MenuItem>
-                    <MenuItem _hover={{ fontWeight: "500" }} fontSize={"13px"}>
-                      Contact Us
+                    <MenuItem _hover={{ fontWeight: "500" }} fontSize={"13px"}  onClick={() => navigate("/admin-dashboard")}>
+                      Admin
                     </MenuItem>
                   </MenuList>
                 </Menu>

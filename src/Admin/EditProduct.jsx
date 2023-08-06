@@ -180,6 +180,7 @@ const EditProduct = () => {
   };
 
   const handleUpdateProduct = async (e) => {
+    setisLoading(true);
     e.preventDefault();
     setNormalImage(true);
     setNormalImage1(true);
@@ -218,6 +219,7 @@ const EditProduct = () => {
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
+      setisLoading(false)
 
       // Handle the response, e.g., show a success message
       console.log(response.data);
@@ -230,6 +232,8 @@ const EditProduct = () => {
         duration: 2500,
       });
       setProduct(response.data.product)
+      navigate("/product-list");
+
       // setProduct({
       //   title: "",
       //   brand: "",
@@ -254,6 +258,7 @@ const EditProduct = () => {
       //   // Other product properties...
       // });
     } catch (error) {
+      setisLoading(false);
       toast({
         title: "Error adding product",
         variant: "top-accent",

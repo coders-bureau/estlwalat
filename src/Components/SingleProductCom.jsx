@@ -9,12 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  Circle,
-  Text,
-  useToast,
-  Icon,
-} from "@chakra-ui/react";
+import { Circle, Text, useToast, Icon } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { CiHeart } from "react-icons/ci";
 import { BsHandbag } from "react-icons/bs";
@@ -24,13 +19,23 @@ library.add(faMagnifyingGlass, faUser, faHeart, faBagShopping);
 
 export default function SingleProductCom(el) {
   const mobileNumber = localStorage.getItem("MbNumber");
-  
+
   const { user } = useSelector((store) => store.UserReducer);
   const dispatch = useDispatch();
-  const [userId,setUserID] =useState("");
+  const [userId, setUserID] = useState("");
 
-  const { MRP, discount, _id, brand, img, price, rating, ratingT, size, title } =
-    el;
+  const {
+    MRP,
+    discount,
+    _id,
+    brand,
+    img,
+    price,
+    rating,
+    ratingT,
+    size,
+    title,
+  } = el;
   const [showWish, setShowWish] = useState(false);
   const navigate = useNavigate();
   const { isAuth } = useSelector((store) => store.AuthReducer);
@@ -39,15 +44,19 @@ export default function SingleProductCom(el) {
   useEffect(() => {
     if (!user) {
       dispatch(getUserDetails(mobileNumber));
-    }else{
-      setUserID(user._id)
+    } else {
+      setUserID(user._id);
     }
   }, [user, dispatch]);
   const handleAddCart = (el) => {
     if (isAuth) {
       axios({
         method: "post",
-        url: `https://estylewalabackend.onrender.com/user/`+userId+`/cart/`+el._id,
+        url:
+          `https://estylewalabackend.onrender.com/user/` +
+          userId +
+          `/cart/` +
+          el._id,
       })
         .then((res) => {
           dispatch(getUserDetails(mobileNumber));
@@ -89,7 +98,11 @@ export default function SingleProductCom(el) {
             if (isAuth) {
               axios({
                 method: "post",
-                url: `https://estylewalabackend.onrender.com/user/`+userId+`/wishlist/`+_id,
+                url:
+                  `https://estylewalabackend.onrender.com/user/` +
+                  userId +
+                  `/wishlist/` +
+                  _id,
               })
                 .then((res) => {
                   dispatch(getUserDetails(mobileNumber));
@@ -130,7 +143,8 @@ export default function SingleProductCom(el) {
         <div style={{ w_idth: "100%" }}>
           <img
             onClick={() => navigate(`../single_product/${_id}`)}
-            src={img}
+            src={`https://estylewalabackend.onrender.com/${img}`}
+            // src={img}
             alt=""
           />
           {!showWish && (

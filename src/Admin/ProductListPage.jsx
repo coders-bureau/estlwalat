@@ -43,11 +43,11 @@ const ProductListPage = () => {
       .catch((error) => {
         console.error("Error fetching products:", error);
         setisLoading(false);
-
       });
   };
 
   const handleDeleteProduct = async (productId) => {
+    setisLoading(true);
     try {
       await axios.delete(
         `https://estylewalabackend.onrender.com/products/${productId}`
@@ -58,9 +58,12 @@ const ProductListPage = () => {
         duration: 3000,
         isClosable: true,
       });
+      setisLoading(false);
+
       // Refresh the product list after deletion
       fetchProducts();
     } catch (error) {
+      setisLoading(false);
       console.error("Error deleting product:", error);
     }
   };
@@ -102,7 +105,7 @@ const ProductListPage = () => {
                 <Td>{index + 1}</Td>
                 <Td>
                   <Image
-                  src={`https://estylewalabackend.onrender.com/${product.img}`}
+                    src={`https://estylewalabackend.onrender.com/${product.img}`}
                     // src={product.img}
                     alt={product.title}
                     boxSize="50px"

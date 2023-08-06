@@ -19,10 +19,14 @@ import axios from "axios";
 import { Navigate, useNavigate } from "react-router-dom";
 import AdminNavbar from "./AdminNavbar";
 import { CloseIcon } from "@chakra-ui/icons";
+import LoadingPage from "../Pages/LoadingPage";
+import PageNotFound from "../Pages/PageNotFound";
 
 const AddProductPage = () => {
   const navigate = useNavigate();
   const toast = useToast();
+  const [isLoading, setisLoading] = useState(false);
+
   const [productData, setProductData] = useState({
     title: "",
     brand: "",
@@ -137,6 +141,7 @@ const AddProductPage = () => {
     }
   };
   const handleSubmit = (e) => {
+    setisLoading(true);
     e.preventDefault();
     console.log(productData);
     const formData = new FormData();
@@ -181,6 +186,7 @@ const AddProductPage = () => {
           status: "success",
           duration: 2500,
         });
+        setisLoading(false)
         // Clear the form after successful submission
         setProductData({
           title: "",
@@ -200,6 +206,7 @@ const AddProductPage = () => {
         navigate("/product-list");
       })
       .catch((error) => {
+        setisLoading(false)
         toast({
           title: "Error adding product",
           variant: "top-accent",
@@ -243,6 +250,19 @@ const AddProductPage = () => {
   };
   console.log(productData);
   console.log(imasd);
+
+  if (isLoading)
+  return (
+    <Box height={"200px"}>
+      <LoadingPage />
+    </Box>
+  );
+if (false)
+  return (
+    <>
+      <PageNotFound />
+    </>
+  );
   return (
     <Box width={"100%"}>
       <AdminNavbar />

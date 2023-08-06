@@ -9,7 +9,7 @@ const Products = () => {
   const { Products, isLoading, isError } = useSelector(
     (store) => store.AppReducer
   );
-
+console.log(Products);
   if (isLoading)
     return (
       <Box height={"200px"}>

@@ -21,6 +21,7 @@ import LoadingPage from "../Pages/LoadingPage";
 import PageNotFound from "../Pages/PageNotFound";
 
 const ProductListPage = () => {
+  
   const [products, setProducts] = useState([]);
   const [isLoading, setisLoading] = useState(false);
   const [isError, setError] = useState(false);
@@ -34,7 +35,7 @@ const ProductListPage = () => {
   const fetchProducts = async () => {
     setisLoading(true);
     await axios
-      .get("https://estylewalabackend.onrender.com/allproducts")
+      .get("http://localhost:5000/allproducts")
       .then((response) => {
         setProducts(response.data);
         console.log(response.data);
@@ -49,9 +50,7 @@ const ProductListPage = () => {
   const handleDeleteProduct = async (productId) => {
     setisLoading(true);
     try {
-      await axios.delete(
-        `https://estylewalabackend.onrender.com/products/${productId}`
-      );
+      await axios.delete(`http://localhost:5000/products/${productId}`);
       toast({
         title: "Product deleted successfully.",
         status: "success",
@@ -67,12 +66,6 @@ const ProductListPage = () => {
       console.error("Error deleting product:", error);
     }
   };
-  if (isLoading)
-    return (
-      <Box height={"200px"}>
-        <LoadingPage />
-      </Box>
-    );
   if (isError)
     return (
       <>
@@ -82,63 +75,67 @@ const ProductListPage = () => {
   return (
     <Box width={"100%"}>
       <AdminNavbar />
-      <Box
-        marginTop={{ lg: "90px", md: "80px", base: "80px" }}
-        marginLeft={{ lg: "250px", md: "250px", base: "0px" }}
-        marginRight={"10px"}
-      >
-        <Table variant="striped" colorScheme="gray">
-          <Thead>
-            <Tr>
-              <Th>Sr No.</Th>
-              <Th>Image</Th>
-              <Th>Title</Th>
-              <Th>Brand</Th>
-              <Th>Price</Th>
-              <Th>Type</Th>
-              <Th>Actions</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {products.map((product, index) => (
-              <Tr key={product._id}>
-                <Td>{index + 1}</Td>
-                <Td>
-                  <Image
-                    src={`https://estylewalabackend.onrender.com/${product.img}`}
-                    // src={product.img}
-                    alt={product.title}
-                    boxSize="50px"
-                    objectFit="cover"
-                  />
-                </Td>
-                <Td>{product.title}</Td>
-                <Td>{product.brand}</Td>
-                <Td>{product.price}</Td>
-                <Td>{product.type}</Td>
-                <Td>
-                  <Link to={`/edit-product/${product._id}`}>
-                    <IconButton
-                      icon={<EditIcon />}
-                      colorScheme="blue"
-                      size="sm"
-                      mr={2}
-                      // Add the edit functionality here
-                    />
-                  </Link>
-                  <IconButton
-                    icon={<DeleteIcon />}
-                    colorScheme="red"
-                    size="sm"
-                    onClick={() => handleDeleteProduct(product._id)}
-                    // Add the delete functionality here
-                  />
-                </Td>
+      {isLoading ? (
+        <LoadingPage />
+      ) : (
+        <Box
+          marginTop={{ lg: "90px", md: "80px", base: "80px" }}
+          marginLeft={{ lg: "250px", md: "250px", base: "0px" }}
+          marginRight={"10px"}
+        >
+          <Table variant="striped" colorScheme="gray">
+            <Thead>
+              <Tr>
+                <Th>Sr No.</Th>
+                <Th>Image</Th>
+                <Th>Title</Th>
+                <Th>Brand</Th>
+                <Th>Price</Th>
+                <Th>Type</Th>
+                <Th>Actions</Th>
               </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      </Box>
+            </Thead>
+            <Tbody>
+              {products.map((product, index) => (
+                <Tr key={product._id}>
+                  <Td>{index + 1}</Td>
+                  <Td>
+                    <Image
+                      src={`http://localhost:5000/${product.img}`}
+                      // src={product.img}
+                      alt={product.title}
+                      boxSize="50px"
+                      objectFit="cover"
+                    />
+                  </Td>
+                  <Td>{product.title}</Td>
+                  <Td>{product.brand}</Td>
+                  <Td>{product.price}</Td>
+                  <Td>{product.type}</Td>
+                  <Td>
+                    <Link to={`/edit-product/${product._id}`}>
+                      <IconButton
+                        icon={<EditIcon />}
+                        colorScheme="blue"
+                        size="sm"
+                        mr={2}
+                        // Add the edit functionality here
+                      />
+                    </Link>
+                    <IconButton
+                      icon={<DeleteIcon />}
+                      colorScheme="red"
+                      size="sm"
+                      onClick={() => handleDeleteProduct(product._id)}
+                      // Add the delete functionality here
+                    />
+                  </Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </Box>
+      )}
     </Box>
   );
 };

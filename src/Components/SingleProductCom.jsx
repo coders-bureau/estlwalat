@@ -9,7 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Circle, Text, useToast, Icon } from "@chakra-ui/react";
+import { Circle, Text, useToast, Icon, Image } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { CiHeart } from "react-icons/ci";
 import { BsHandbag } from "react-icons/bs";
@@ -53,7 +53,7 @@ export default function SingleProductCom(el) {
       axios({
         method: "post",
         url:
-          `https://estylewalabackend.onrender.com/user/` +
+          `${process.env.REACT_APP_BASE_API}/user/` +
           userId +
           `/cart/` +
           el._id,
@@ -99,7 +99,7 @@ export default function SingleProductCom(el) {
               axios({
                 method: "post",
                 url:
-                  `https://estylewalabackend.onrender.com/user/` +
+                  `${process.env.REACT_APP_BASE_API}/user/` +
                   userId +
                   `/wishlist/` +
                   _id,
@@ -141,9 +141,9 @@ export default function SingleProductCom(el) {
           <Icon as={CiHeart} fontSize={{ lg: "4xl", md: "3xl", base: "4xl" }} />
         </Circle>
         <div style={{ w_idth: "100%" }}>
-          <img
-            onClick={() => navigate(`../single_product/${_id}`)}
-            src={`https://estylewalabackend.onrender.com/${img}`}
+          <Image
+            onClick={() => window.open(`../single_product/${_id}`, '_blank')}
+            src={"http://localhost:5000/"+img}
             // src={img}
             alt=""
           />
@@ -185,7 +185,7 @@ export default function SingleProductCom(el) {
               onClick={() => navigate(`../single_product/${_id}`)}
               className={styles.title}
             >
-              {brand}
+              {title}
             </Text>
           )}
           {!showWish && (
@@ -197,7 +197,7 @@ export default function SingleProductCom(el) {
               onClick={() => navigate(`../single_product/${_id}`)}
               isTruncated
             >
-              {title}
+              {brand}
             </Text>
           )}
           <div

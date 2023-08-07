@@ -205,6 +205,8 @@ const Store = () => {
                 bg="#ff3e6c"
                 borderColor={"#ff3e6c"}
                 variant={"solid"}
+                _hover={{bgColor:"#ff3e6c"}}
+
               >
                 Sort
               </Button>
@@ -251,6 +253,7 @@ const Store = () => {
                 leftIcon={<MdFilterListAlt />}
                 bg="#fff"
                 variant={"outline"}
+                _hover={{bgColor:"#fff"}}
               >
                 Filter
               </Button>

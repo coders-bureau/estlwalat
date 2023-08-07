@@ -125,7 +125,7 @@ const SingleProduct = () => {
       const currentProduct = Products.find((item) => item._id === id);
       console.log(currentProduct);
       currentProduct && setCurrentProduct(currentProduct);
-      currentProduct && setMainImage(currentProduct.images[0]);
+      currentProduct && setMainImage(currentProduct.img);
       currentProduct && setLen(currentProduct.images.length);
     }
   }, [id, Products.length]);
@@ -182,11 +182,11 @@ const SingleProduct = () => {
       // })
       // axios({
       //   method: "post",
-      //   url: `https://estylewalabackend.onrender.com/user/`+userId+`/cart/`+id,
+      //   url: `http://localhost:5000/user/`+userId+`/cart/`+id,
       // })
       axios({
         method: "put",
-        url: `https://estylewalabackend.onrender.com/user/`+userId+`/cart/`+id,
+        url: `${process.env.REACT_APP_BASE_API}/user/`+userId+`/cart/`+id,
         data: {
               currentSize: sizeRef,
             },
@@ -223,7 +223,7 @@ const SingleProduct = () => {
       // })
       axios({
         method: "put",
-        url: `https://estylewalabackend.onrender.com/user/`+userId+`/cart/`+id,
+        url: `${process.env.REACT_APP_BASE_API}/user/`+userId+`/cart/`+id,
         data: {
               currentSize: sizeRef,
             },
@@ -267,7 +267,7 @@ const SingleProduct = () => {
   const handleSendWishlist = () => {
     axios({
       method: "post",
-      url: `https://estylewalabackend.onrender.com/user/`+userId+`/wishlist/`+id,
+      url: `${process.env.REACT_APP_BASE_API}/user/`+userId+`/wishlist/`+id,
     })
       .then((res) => {
         dispatch(getUserDetails(mobileNumber))
@@ -338,7 +338,7 @@ const SingleProduct = () => {
           <Box>
             <SimpleGrid columns={1} pb={6}>
               <Box style={style.style} w="full">
-                <Image _hover={style.hover} src={mainImage} w="full" />
+                <Image _hover={style.hover} src={`http://localhost:5000/${mainImage}`} w="full" />
               </Box>
             </SimpleGrid>
             <SimpleGrid columns={len} spacing={2}>
@@ -348,7 +348,7 @@ const SingleProduct = () => {
                     <Image
                       onClick={() => setMainImage(img)}
                       _hover={style.hover}
-                      src={img}
+                      src={"http://localhost:5000/"+img}
                       w="full"
                     />
                   </Box>
@@ -368,7 +368,7 @@ const SingleProduct = () => {
                   size="lg"
                 >
                   {" "}
-                  {brand}{" "}
+                  {title}{" "}
                 </Heading>
                 <Heading
                   fontWeight={300}
@@ -378,7 +378,7 @@ const SingleProduct = () => {
                   size="lg"
                 >
                   {" "}
-                  {title}{" "}
+                  {brand}{" "}
                 </Heading>
                 <Heading
                   fontWeight={"600"}

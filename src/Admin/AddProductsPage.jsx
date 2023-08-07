@@ -43,7 +43,7 @@ const AddProductPage = () => {
     images: [], // Array of additional image links
     reviews: [],
   });
-  console.log(productData);
+  // console.log(productData);
 
   const handleInputChange = (event) => {
     const { name, value, files } = event.target;
@@ -82,15 +82,25 @@ const AddProductPage = () => {
   //     images: [...prevData.images, ""],
   //   }));
   // };
-
+  const [showimages, setshowimages] = useState([]);
   const handleAddImage = (e) => {
     const file = e.target.files[0];
-    setProductData((prevData) => ({
-      ...prevData,
-      images: [...prevData.images, file],
-    }));
+    if (file) {
+      setProductData((prevData) => ({
+        ...prevData,
+        images: [...prevData.images, file],
+      }));
+    }
   };
   const handleRemoveImage = (index) => {
+    setProductData((prevData) => {
+      const updatedImages = [...prevData.images];
+      updatedImages.splice(index, 1);
+      return {
+        ...prevData,
+        images: updatedImages,
+      };
+    });
     setProductData((prevData) => {
       const updatedImages = [...prevData.images];
       updatedImages.splice(index, 1);
@@ -112,14 +122,16 @@ const AddProductPage = () => {
   //     };
   //   });
   // };
-  const [imasd, setimg] = useState("");
+  // const [imasd, setimg] = useState("");
   const handleImageChange = (e) => {
-    setimg(URL.createObjectURL(e.target.files[0]));
     const file = e.target.files[0];
-    setProductData((prevData) => ({
-      ...prevData,
-      img: file,
-    }));
+    if (file) {
+      setProductData((prevData) => ({
+        ...prevData,
+        img: file,
+      }));
+    }
+    // setimg(file);
   };
 
   const handleSizeChange = (e) => {
@@ -154,8 +166,7 @@ const AddProductPage = () => {
     formData.append("price", productData.price);
     formData.append("MRP", productData.MRP);
     formData.append("discount", productData.discount);
-    formData.append("size", productData.size);
-    // for (let i = 1; i < productData.size.length; i++) {
+        // for (let i = 1; i < productData.size.length; i++) {
     //     formData.append('size', productData.size[i]);
     //   }
     productData.size.forEach((size) => {
@@ -171,7 +182,7 @@ const AddProductPage = () => {
     console.log(formData);
     // Send the product data to the backend API
     axios
-      .post("https://estylewalabackend.onrender.com/add", formData, {
+      .post("http://localhost:5000/add", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -186,7 +197,7 @@ const AddProductPage = () => {
           status: "success",
           duration: 2500,
         });
-        setisLoading(false)
+        setisLoading(false);
         // Clear the form after successful submission
         setProductData({
           title: "",
@@ -206,7 +217,7 @@ const AddProductPage = () => {
         navigate("/product-list");
       })
       .catch((error) => {
-        setisLoading(false)
+        setisLoading(false);
         toast({
           title: "Error adding product",
           variant: "top-accent",
@@ -220,7 +231,7 @@ const AddProductPage = () => {
 
     // axios
     //   .put(
-    //     `https://estylewalabackend.onrender.com/updateproduct/64cf0c83059447fdb6c99468`,
+    //     `http://localhost:5000/updateproduct/64cf0c83059447fdb6c99468`,
     //     formData,
     //     {
     //       headers: { "Content-Type": "multipart/form-data" },
@@ -248,21 +259,21 @@ const AddProductPage = () => {
     //     console.error("Error adding product:", error);
     //   });
   };
-  console.log(productData);
-  console.log(imasd);
+  console.log(productData.size);
+  // console.log(imasd);
 
   if (isLoading)
-  return (
-    <Box height={"200px"}>
-      <LoadingPage />
-    </Box>
-  );
-if (false)
-  return (
-    <>
-      <PageNotFound />
-    </>
-  );
+    return (
+      <Box height={"200px"}>
+        <LoadingPage />
+      </Box>
+    );
+  if (false)
+    return (
+      <>
+        <PageNotFound />
+      </>
+    );
   return (
     <Box width={"100%"}>
       <AdminNavbar />
@@ -365,25 +376,32 @@ if (false)
 
             {/* Render input for additional images */}
 
-            <FormControl >
+            <FormControl>
               <FormLabel>Aditional Images</FormLabel>
               <VStack spacing={4}>
-                <input type="file" accept="image/*" onChange={handleAddImage} />{" "}
-                {productData.images.map((image, index) => (
-                  <div key={index}>
-                    <Image
-                      src={URL.createObjectURL(image)}
-                      alt={`Image ${index + 1}`}
-                      width="100px"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveImage(index)}
-                    >
-                      Remove
-                    </button>
-                  </div>
-                ))}
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleAddImage}
+                />{" "}
+                <>
+                  {productData.images.map((image, index) => (
+                    <div key={index}>
+                      <Image
+                        src={URL.createObjectURL(image)}
+                        alt={`Image ${index + 1}`}
+                        width="100px"
+                      />
+
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveImage(index)}
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ))}
+                </>
               </VStack>
             </FormControl>
 

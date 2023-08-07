@@ -42,9 +42,8 @@ const EditProduct = () => {
     // Fetch the product data from the backend using the product ID
     const fetchProduct = async () => {
       try {
-        setisLoading(true);
         await axios
-          .get(`https://estylewalabackend.onrender.com/products/${id}`)
+          .get(`http://localhost:5000/products/${id}`)
           .then((response) => {
             setProduct(response.data);
             setisLoading(false);
@@ -157,7 +156,7 @@ const EditProduct = () => {
     try {
       setisLoading(true);
       const response = await axios.put(
-        `https://estylewalabackend.onrender.com/products/${id}`,
+        `http://localhost:5000/products/${id}`,
         product
       );
       toast({
@@ -215,7 +214,7 @@ const EditProduct = () => {
     try {
       // Make the API call to update the product
       const response = await axios.put(
-        `https://estylewalabackend.onrender.com/updateproduct/${id}`,
+        `http://localhost:5000/updateproduct/${id}`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
@@ -273,17 +272,17 @@ const EditProduct = () => {
       console.error(error);
     }
   };
-  const [isLoading, setisLoading] = useState(false);
+  const [isLoading, setisLoading] = useState(true);
   const [isError, setError] = useState(false);
   const [normalImage, setNormalImage] = useState(true);
   const [normalImage1, setNormalImage1] = useState(true);
   console.log(product);
-  if (isLoading)
-    return (
-      <Box height={"200px"}>
-        <LoadingPage />
-      </Box>
-    );
+  // if (isLoading)
+  //   return (
+  //     <Box height={"200px"}>
+  //       <LoadingPage />
+  //     </Box>
+  //   );
   if (isError)
     return (
       <>
@@ -293,7 +292,8 @@ const EditProduct = () => {
   return (
     <Box width={"100%"}>
       <AdminNavbar />
-      <VStack spacing={4} align="center">
+      {
+        !isLoading ? <VStack spacing={4} align="center">
         <Box
           marginTop={{ lg: "100px", md: "80px", base: "80px" }}
           marginLeft={{ lg: "250px", md: "250px", base: "0px" }}
@@ -560,7 +560,7 @@ const EditProduct = () => {
               />{" "}
               {normalImage ? (
                 <Image
-                  src={`https://estylewalabackend.onrender.com/${product.img}`}
+                  src={`http://localhost:5000/${product.img}`}
                   alt="Main Image"
                   style={{ width: "100px" }}
                 />
@@ -581,7 +581,7 @@ const EditProduct = () => {
                 {product.images.map((image, index) => (
                   <div key={index}>
                     <Image
-                      src={`https://estylewalabackend.onrender.com/${image}`}
+                      src={`http://localhost:5000/${image}`}
                       alt={"Image " + index}
                       style={{ width: "100px" }}
                     />
@@ -625,7 +625,9 @@ const EditProduct = () => {
             <Button colorScheme="gray">Cancel</Button>
           </HStack>
         </Box>
-      </VStack>
+      </VStack> : <><LoadingPage /></>
+      }
+      
     </Box>
   );
 };

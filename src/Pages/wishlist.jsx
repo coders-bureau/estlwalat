@@ -8,20 +8,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUserDetails } from "../Redux/UserReducer/Action";
 
 const Wishlist = () => {
-  const mobileNumber = localStorage.getItem("MbNumber");
+  // const mobileNumber = localStorage.getItem("MbNumber");
   const {user} = useSelector((store) => store.UserReducer);
   const dispatch = useDispatch();
   const [wishlist, setWishlist] = useState([]);
   const toast = useToast();
   const [userId,setUserID] =useState("");
   
+
+  useEffect(() => {
+    getWishlitProd();
+  }, []);
+
   const getWishlitProd = () => {
     
     axios({
       method: "get",
-      url: process.env.REACT_APP_MYNTRA_API + "/wishlist",
+      url: `${process.env.REACT_APP_BASE_API}/user/wishlist/items`,
     })
-      .then((res) => setWishlist(res.data))
+      .then((res) => setWishlist(res.data.data))
       .catch((err) => {
         console.log(err);
       });
@@ -30,11 +35,12 @@ const Wishlist = () => {
 
   useEffect(() => {
     if (!user) {
-      dispatch(getUserDetails(mobileNumber));
+      dispatch(getUserDetails());
     } else {
       console.log(wishlist);
+      getWishlitProd()
       // dispatch(getUserDetails(mobileNumber));
-      setWishlist(user.wishlist);
+      // setWishlist(user.wishlist);
       setUserID(user._id)
       console.log(wishlist);
     }
@@ -46,10 +52,11 @@ const Wishlist = () => {
     axios({
       method: "delete",
       // url: process.env.REACT_APP_MYNTRA_API + "/wishlist/" + id,
-      url: "https://estylewalabackend.onrender.com/user/"+userId+"/wishlist/"+ id,
+      url: `${process.env.REACT_APP_BASE_API}/user/wishlist/${id}`,
     })
       .then((res) => {
-        dispatch(getUserDetails(mobileNumber));
+        dispatch(getUserDetails());
+      getWishlitProd()
         // getWishlitProd();
         toast({
           title: "Product removed from wishlist",
@@ -66,14 +73,10 @@ const Wishlist = () => {
   };
 
   const handleAddCart = (el) => {
-    // axios({
-    //   method: "post",
-    //   url: process.env.REACT_APP_MYNTRA_API + "/cart",
-    //   data: { ...el, currentSize: el.size[0] },
-    // })
+
     axios({
       method: "post",
-      url: `https://estylewalabackend.onrender.com/user/`+userId+`/cart/`+el._id,
+      url: `${process.env.REACT_APP_BASE_API}/user/cart/`+el._id,
     })
       .then((res) => {
         toast({

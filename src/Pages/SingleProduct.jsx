@@ -186,7 +186,7 @@ const SingleProduct = () => {
       // })
       axios({
         method: "put",
-        url: `${process.env.REACT_APP_BASE_API}/user/`+userId+`/cart/`+id,
+        url: `${process.env.REACT_APP_BASE_API}/user/cart/` + id,
         data: {
               currentSize: sizeRef,
             },
@@ -223,7 +223,7 @@ const SingleProduct = () => {
       // })
       axios({
         method: "put",
-        url: `${process.env.REACT_APP_BASE_API}/user/`+userId+`/cart/`+id,
+        url: `${process.env.REACT_APP_BASE_API}/user/cart/` + id,
         data: {
               currentSize: sizeRef,
             },
@@ -242,7 +242,7 @@ const SingleProduct = () => {
           });
         })
         .catch((err) => {
-        dispatch(getUserDetails(mobileNumber));
+        dispatch(getUserDetails());
           toast({
             title: "Product successfully added in cart",
             variant: "top-accent",
@@ -267,7 +267,7 @@ const SingleProduct = () => {
   const handleSendWishlist = () => {
     axios({
       method: "post",
-      url: `${process.env.REACT_APP_BASE_API}/user/`+userId+`/wishlist/`+id,
+      url: `${process.env.REACT_APP_BASE_API}/user/wishlist/${_id}`,
     })
       .then((res) => {
         dispatch(getUserDetails(mobileNumber))

@@ -37,7 +37,6 @@ const Store = () => {
   const [searchParams] = useSearchParams();
   const location = useLocation();
   const initQuery = searchParams.get("q");
-  // const { length } = useSelector((store) => store.AppReducer.Products);
   console.log(useSelector((store) => store.AppReducer));
   const data = useSelector((store) => store.AppReducer);
   console.log(data);
@@ -59,9 +58,6 @@ const Store = () => {
     setSValue(e);
     onCloseSort();
   };
-  // const { Products, totalPages } = useSelector(
-  //   (store) => store.AppReducer
-  // );
   const totalPages = data.totalPages;
   const length = data.Products.length;
 
@@ -75,6 +71,7 @@ const Store = () => {
   useEffect(() => {
     setCurrentPage(1); // Scroll to top of the page
   }, [type]);
+
   // sorting filter start
   useEffect(() => {
     //console.log(sValue);

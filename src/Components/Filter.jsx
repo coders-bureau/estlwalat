@@ -8,11 +8,14 @@ import {
   Text,
   CheckboxGroup,
   Checkbox,
+  Select,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import axios from "axios";
 
 const Filter = () => {
+  const [categories, setCategories] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   // ...........................
 
@@ -56,6 +59,7 @@ const Filter = () => {
   const handleDiscount = (el) => {
     setDiscount(el);
   };
+  
 
   useEffect(() => {
     setType(initType);
@@ -66,6 +70,25 @@ const Filter = () => {
   }, [initQuery]);
 
   useEffect(() => {
+    getAllCategories();
+  }, []);
+
+  const getAllCategories = async () => {
+    try {
+      // setisLoading(true);
+      const response = await axios.get(
+        "http://localhost:5000/admin//allcategories"
+      ); // Adjust the endpoint accordingly
+      setCategories(response.data.data);
+      // setisLoading(false);
+    } catch (error) {
+      console.error("Error fetching Categories:", error);
+      // setisLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getAllCategories();
     const params = {};
     type && (params.type = type);
     category && (params.category = category);
@@ -91,7 +114,16 @@ const Filter = () => {
     q,
     setQuery,
   ]);
+  const [selectedCategory, setSelectedCategory] = useState('');
 
+  const handleCategoryChange = (event) => {
+    const selectedValue = event.target.value;
+    setSelectedCategory(selectedValue);
+    setCategory(selectedValue)
+    console.log(category);
+    // onSelectCategory(selectedValue);
+  };
+  console.log(categories);
   return (
     <>
       <VStack
@@ -141,21 +173,38 @@ const Filter = () => {
           >
             CATEGORIES
           </Text>
-          <CheckboxGroup
+          {/* <CheckboxGroup
             colorScheme={"pink"}
             size={"sm"}
             onChange={handleCategory}
             defaultValue={category}
-          >
-            <VStack alignItems={"flex-start"} mt={"1"} spacing={1}>
-              <Checkbox value="TShirts" checked>
+          > */}
+          <VStack alignItems={"flex-start"} mt={"1"} spacing={1}>
+            <Select value={selectedCategory} onChange={handleCategoryChange}>
+              <option value="" disabled>
+                <Text>Select a category</Text>
+              </option>
+              {categories.map((category) => (
+                <option key={category._id} value={category.name}>
+                  {category.name}
+                </option>
+              ))}
+            </Select>
+            {/* {categories.map((category, index) => {
+                // <Checkbox value="Jeans">Jeans</Checkbox>;
+
+                // <Checkbox value={category}>
+                  // {category.name}
+                // </Checkbox>;
+              })} */}
+            {/* <Checkbox value="TShirts" checked>
                 TShirts
               </Checkbox>
               <Checkbox value="Jeans">Jeans</Checkbox>
               <Checkbox value="Kurta Sets">Kurta Sets</Checkbox>
-              <Checkbox value="Trousers">Trousers</Checkbox>
-            </VStack>
-          </CheckboxGroup>
+              <Checkbox value="Trousers">Trousers</Checkbox> */}
+          </VStack>
+          {/* </CheckboxGroup> */}
         </Box>
         <Divider />
 

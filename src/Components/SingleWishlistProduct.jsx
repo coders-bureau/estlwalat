@@ -35,7 +35,7 @@ const SingleWishlistProduct = ({ el, handleAddCart, handleDelete }) => {
           &#x2718;
         </Circle>
         <Box w={"full"}>
-          <Image w={"full"} src={img} />
+          <Image w={"full"} src={process.env.REACT_APP_BASE_API+"/"+img} />
         </Box>
         <Box
           w={"full"}

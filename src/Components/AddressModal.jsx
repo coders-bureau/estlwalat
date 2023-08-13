@@ -24,10 +24,9 @@ const addressObj = {
   state: "",
 };
 
-const AddressModal = ({ onClose, setAddress, userId }) => {
+const AddressModal = ({ onClose, setAddress }) => {
   const addresRef = useRef(addressObj);
   const toast = useToast();
-  // const [userId,setUserID] =useState("");
 
   const handleAddress = () => {
     const { name, mobileNo, pinCode, area, town, city, state } =
@@ -52,32 +51,25 @@ const AddressModal = ({ onClose, setAddress, userId }) => {
       mobileNo.length == 10 &&
       pinCode.length == 6
     ) {
-      // axios({
-      //   method: "post",
-      //   url: process.env.REACT_APP_MYNTRA_API + "/Address",
-      //   data: addresRef.current,
-      // })
-      console.log(userId);
       axios({
         method: "patch",
-        url:
-          "https://estylewalabackend.onrender.com/user/" +
-          userId +
-          "/add-address/",
+        url: `${process.env.REACT_APP_BASE_API}/user/add-address/`,
         data: addresRef.current,
-      }).then((res) => {
-        setAddress(res.data.address);
-        toast({
-          title: "New Address Added",
-          status: "success",
-          duration: 3000,
-          isClosable: true,
-          position: "top",
-        });
-        console.log(res.data.address);
-        // setAddress(res.data.address[res.data.address.length]);
-        onClose();
-      }).catch((err)=> {
+      })
+        .then((res) => {
+          setAddress(res.data.data.address);
+          toast({
+            title: "New Address Added",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+            position: "top",
+          });
+          console.log(res);
+          // setAddress(res.data.address[res.data.address.length]);
+          onClose();
+        })
+        .catch((err) => {
           console.log(err);
           toast({
             title: "Something went Wrong!",
@@ -87,7 +79,7 @@ const AddressModal = ({ onClose, setAddress, userId }) => {
             isClosable: true,
             position: "top",
           });
-      });
+        });
     } else {
       toast({
         title: "Something went Wrong!",

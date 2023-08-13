@@ -50,19 +50,19 @@ const Signin = () => {
     prevLocation.current = location;
   }, [location]);
 
-  useEffect(() => {
-    try {
-      let nmbr = JSON.parse(localStorage.getItem("MbNumber")) || false;
+  // useEffect(() => {
+  //   try {
+  //     let nmbr = JSON.parse(localStorage.getItem("MbNumber")) || false;
 
-      if (!nmbr) {
-        navigate("/login", { state: comingFrom, replace: true });
-      } else {
-        setMbNumber(nmbr);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }, [mbNumber]);
+  //     if (!nmbr) {
+  //       navigate("/login", { state: comingFrom, replace: true });
+  //     } else {
+  //       setMbNumber(nmbr);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }, [mbNumber]);
 
   const handleInputChange = (e) => {
     setInput(e.target.value);
@@ -105,18 +105,22 @@ const Signin = () => {
         console.log(input);
         axios
           .post(
-            "https://estylewalabackend.onrender.com/user/signup",
+            "http://localhost:5000/user/signup",
             { mobileNumber },
             config
           )
           .then((res) => {
             console.log(res);
+            const token = res.data.token;
+            localStorage.setItem("authToken", token);
+            // navigate("/");
+            dispatch(login());
           })
           .catch((error) => console.error("Error Adding User", error));
 
         dispatch(getUserDetails(mobileNumber));
         //   navigate("/otp", { state: comingFrom, replace: true });
-        dispatch(login());
+        // dispatch(login());
         toast({
           position: "top",
           title: `Login successful`,
@@ -127,7 +131,13 @@ const Signin = () => {
         console.log(comingFrom);
         setLoading('false');
         navigate(comingFrom, { replace: true });
-
+        toast({
+          position: "top",
+          title: `Login successful`,
+          status: "success",
+          isClosable: true,
+          duration: 1500,
+        });
       })
       .catch((error) => {
         // User couldn't sign in (bad verification code?)
@@ -202,6 +212,41 @@ const Signin = () => {
   return (
     <>
       <Navbar />
+            <button
+        onClick={() => {
+          axios
+            .post("http://localhost:5000/admin/login", {
+              mobileNumber: 7083105861,
+            })
+            .then((res) => {
+              console.log(res.data.token);
+              // document.cookie = res.data.token;
+              const token = res.data.token;
+
+              localStorage.setItem("authToken", token);
+              dispatch(login());
+
+              // const cookieOptions = {
+              //   expires: 30, // Expires in 30 days
+              //   path: "/", // Set the path for which the cookie is accessible
+              //   // httpOnly: true, // Set the cookie as HTTP-only for security
+              // };
+
+              // // Set the "auth-token" cookie using js-cookie
+              // Cookies.set("auth_token", token, cookieOptions);
+              // const authToken = Cookies.get("auth_token");
+              const authToken = localStorage.getItem("authToken");
+              console.log(authToken);
+              if(authToken){
+                navigate("/");
+                // dispatch(login());
+              }
+            })
+            .catch((error) => console.error("Error Adding User", error));
+        }}
+      >
+         click me to buypass login
+      </button>
       {!viewOtpForm ? (
         <Box>
           <Center w={"full"} bgColor="#fceeea" h={"100vh"}>

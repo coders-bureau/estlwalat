@@ -41,14 +41,10 @@ const Payment = () => {
   const location = useLocation();
 
   const [currentDate, setCurrentDate] = useState(getDate());
-  const { addressLine } = location.state;
-console.log(currentDate);
+  const { addressLine, offerPrice } = location.state;
+  console.log(currentDate);
   const dispatch = useDispatch();
-  const mobileNumber = localStorage.getItem("MbNumber");
   const { user } = useSelector((store) => store.UserReducer);
-
-  const [userId, setUserID] = useState("");
-
 
   const [toggle, setToggle] = useState(true);
   const [code, setCode] = useState("");
@@ -112,10 +108,10 @@ console.log(currentDate);
     axios({
       method: "delete",
       // url: process.env.REACT_APP_MYNTRA_API + `/cart/${id}`,
-      url: "https://estylewalabackend.onrender.com/user/"+userId+"/cart",
+      url: `${process.env.REACT_APP_BASE_API}/user/cartall`,
     })
       .then(() => {
-        dispatch(getUserDetails(mobileNumber));
+        // dispatch(getUserDetails(mobileNumber));
         // toast({
         //   title: "Product successfully deleted.",
         //   status: "error",
@@ -135,35 +131,38 @@ console.log(currentDate);
         console.log(err);
       });
 
-      axios({
-        method: "post",
-        url: "https://estylewalabackend.onrender.com/user/"+userId+"/addOrder",
-        data: {items:user.cart,
-        addressLine:addressLine,orderDate:currentDate}
+    axios({
+      method: "post",
+      url: `${process.env.REACT_APP_BASE_API}/order/addOrder`,
+      data: {
+        items: user.cart,
+        addressLine: addressLine,
+        orderDate: currentDate,
+      },
+    })
+      .then(() => {
+        dispatch(getUserDetails());
+        console.log("done orders");
       })
-        .then(() => {
-          dispatch(getUserDetails(mobileNumber));
-          console.log("done orders");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      .catch((err) => {
+        console.log(err);
+      });
     navigate("/success");
   };
 
-  useEffect(() => {
-    if (!user) {
-      dispatch(getUserDetails(mobileNumber));
-      // setIsLoading(false);
-    } else {
-      // dispatch(getUserDetails(mobileNumber));
-      // setCartProducts(user.cart);
-      // setAddress(user.address[0])
-      setUserID(user._id);
-      // setIsLoading(false);
-    }
-    // handleCartProducts();
-  }, [ user, dispatch]);
+  // useEffect(() => {
+  //   if (!user) {
+  //     dispatch(getUserDetails());
+  //     // setIsLoading(false);
+  //   } else {
+  //     // dispatch(getUserDetails(mobileNumber));
+  //     // setCartProducts(user.cart);
+  //     // setAddress(user.address[0])
+  //     setUserID(user._id);
+  //     // setIsLoading(false);
+  //   }
+  //   // handleCartProducts();
+  // }, [ user, dispatch]);
 
   const handleSubmitCard = () => {
     // for (let i = 0; i < cartData.length; i++) {
@@ -415,12 +414,12 @@ console.log(currentDate);
           mt={9}
           spacing={[0, 0, 8]}
           mx={"auto"}
-          py={12}
+          // py={12}
           px={6}
           border={"0px solid gray"}
           alignItems={"flex-start"}
           display={["grid", "grid", "flex"]}
-          w={["full", "full", "70%"]}
+          w={["full", "full", "90%"]}
         >
           <Box borderRight={"1px solid lightgray"} p={6} mb={4}>
             <Stack>
@@ -519,7 +518,7 @@ console.log(currentDate);
                               Pay On Delivery (Cash/UPI)
                             </Text>
                             <Box
-                              w={"30%"}
+                              // w={"30%"}
                               textAlign="center"
                               p={2}
                               border={"1px solid"}
@@ -529,7 +528,7 @@ console.log(currentDate);
                             </Box>
 
                             <Input
-                              w="60%"
+                              w="90%"
                               type={"text"}
                               value={code}
                               fontSize={"15px"}
@@ -548,6 +547,7 @@ console.log(currentDate);
                                 backgroundColor: "#ff3f6c",
                               }}
                               onClick={handleSubmit}
+                              display={{ md: "inline-block", base: "none" }}
                             >
                               Place Order
                             </Button>
@@ -627,6 +627,7 @@ console.log(currentDate);
                               backgroundColor: "#fff36c",
                             }}
                             onClick={handleSubmitCard}
+                            display={{ md: "inline-block", base: "none" }}
                           >
                             Pay Now
                           </Button>
@@ -636,8 +637,37 @@ console.log(currentDate);
                   )}
                 </HStack>
               </Box>
-
-              <Flex marginTop="30px" flexFlow={"wrap"}>
+              <Box
+                border={"px solid gray"}
+                display={["block", "block", "none"]}
+                w={["full", "full", "45%"]}
+                marginTop={[8, 8, 0]}
+              >
+                {/* ........................... */}
+                <PaymentDetains1
+                  totalMRP={totalMRP}
+                  totalMRPDiscount={totalMRPDiscount}
+                  offerPrice={totalMRP - totalMRPDiscount - offerPrice}
+                />
+                {/* .......................... */}
+                <br />
+                <hr />
+                {/* <br /> */}
+                <HStack w={"full"} mt={2} justify={"space-between"}>
+                  <Text fontSize={"14px"} color={"#3e4152"} fontWeight={"bold"}>
+                    TOTAL Amount
+                  </Text>
+                  <Text fontSize={"14px"} color={"#3e4152"} fontWeight={"bold"}>
+                    ₹ {totalAmount}
+                  </Text>
+                </HStack>
+                {/* ........................... */}
+              </Box>
+              <Flex
+                display={["none", "none", "flex"]}
+                marginTop="30px"
+                flexFlow={"wrap"}
+              >
                 <Image
                   w="70px"
                   src="https://constant.myntassets.com/checkout/assets/img/footer-bank-ssl.png"
@@ -693,28 +723,64 @@ console.log(currentDate);
           </Box>
           <Box
             border={"px solid gray"}
-            w={["full", "full", "45%"]}
+            w={["full", "full", "30%"]}
+            display={{ lg: "block", md: "block", base: "none" }}
             marginTop={[8, 8, 0]}
           >
             {/* ........................... */}
             <PaymentDetains1
               totalMRP={totalMRP}
               totalMRPDiscount={totalMRPDiscount}
+              offerPrice={totalMRP - totalMRPDiscount - offerPrice}
             />
             {/* .......................... */}
             <br />
-            <hr/>
+            <hr />
             {/* <br /> */}
             <HStack w={"full"} mt={2} justify={"space-between"}>
               <Text fontSize={"14px"} color={"#3e4152"} fontWeight={"bold"}>
                 TOTAL Amount
               </Text>
               <Text fontSize={"14px"} color={"#3e4152"} fontWeight={"bold"}>
-                ₹ {totalAmount}
+                ₹ {offerPrice}
               </Text>
             </HStack>
             {/* ........................... */}
           </Box>
+          <HStack
+            zIndex={1001}
+            bgColor={"#ffffff"}
+            w={"100%"}
+            display={{ lg: "none", md: "none", base: "flex" }}
+            // m={"10px"}
+            gap={"1rem"}
+            justifyContent={"right"}
+            h="max-content"
+            position={"sticky"}
+            bottom={0}
+          >
+            <HStack w={"full"} mt={2} justify={"left"}>
+              <Text fontSize={"14px"} color={"#3e4170"} fontWeight={"bold"}>
+                ₹ {offerPrice}
+              </Text>
+            </HStack>
+            <Button
+              mx={5}
+              my={2}
+              color={"#fff"}
+              borderRadius={3}
+              border={"2px"}
+              // p="22px 53px"
+              w={"50%"}
+              bg="#ff3e6c"
+              borderColor={"#ff3e6c"}
+              variant={"solid"}
+              _hover={{ bgColor: "#ff3e6c" }}
+              onClick={toggle ? handleSubmit : handleSubmitCard}
+            >
+              {toggle ? "PLACE ORDER " : "PAY NOW"}
+            </Button>
+          </HStack>
         </HStack>
       </Flex>
     </>

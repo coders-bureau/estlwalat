@@ -2,7 +2,7 @@ import { Box, HStack, VStack, Text, Button, useToast } from "@chakra-ui/react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const PaymentDetains1 = ({ totalMRP, totalMRPDiscount }) => {
+const PaymentDetains1 = ({ totalMRP, totalMRPDiscount, offerPrice }) => {
   return (
     <>
       <Box w="full">
@@ -28,10 +28,10 @@ const PaymentDetains1 = ({ totalMRP, totalMRPDiscount }) => {
           </HStack>
           <HStack w={"full"} justify={"space-between"}>
             <Text fontSize={"14px"} color="#282c3f">
-              Coupon Discount
+              Offer Discount
             </Text>
             <Text fontSize={"14px"} color="#03a685">
-              -₹0
+              -₹{offerPrice}
             </Text>
           </HStack>
           <HStack w={"full"} justify={"space-between"}>
@@ -64,11 +64,12 @@ const PaymentDetains1 = ({ totalMRP, totalMRPDiscount }) => {
 };
 
 const PaymentDetains2 = ({
+  offerPrice,
   totalAmount,
   totalMRP,
   totalMRPDiscount,
   redirect,
-  addressLine
+  addressLine,
 }) => {
   const navigate = useNavigate();
   const toast = useToast();
@@ -85,20 +86,32 @@ const PaymentDetains2 = ({
             </Text>
           </HStack>
           <Button
+            display={{
+              md: "block",
+              base: "none",
+            }}
             onClick={() =>
               redirect
                 ? navigate(redirect, {
-                    state: { totalAmount, totalMRP, totalMRPDiscount, addressLine },
+                    state: {
+                      totalAmount,
+                      totalMRP,
+                      totalMRPDiscount,
+                      addressLine,
+                      offerPrice,
+                    },
                   })
                 : toast({
                     title: "Please check your address.",
                     status: "warning",
                     duration: 2000,
-                    position: "top-right",
+                    position: "top",
                   })
             }
             w="full"
             bg={"#ff3e6c"}
+          color={"#fff"}
+
             borderRadius={3}
             fontSize={"15px"}
           >

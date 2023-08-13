@@ -48,18 +48,15 @@ export default function SingleProductCom(el) {
       setUserID(user._id);
     }
   }, [user, dispatch]);
+
   const handleAddCart = (el) => {
     if (isAuth) {
       axios({
         method: "post",
-        url:
-          `${process.env.REACT_APP_BASE_API}/user/` +
-          userId +
-          `/cart/` +
-          el._id,
+        url: `${process.env.REACT_APP_BASE_API}/user/cart/` + el._id,
       })
         .then((res) => {
-          dispatch(getUserDetails(mobileNumber));
+          dispatch(getUserDetails());
           toast({
             title: "Product added in the cart.",
             status: "success",
@@ -80,7 +77,7 @@ export default function SingleProductCom(el) {
           });
         });
     } else {
-      navigate("/signup");
+      navigate("/login");
     }
   };
 
@@ -98,14 +95,10 @@ export default function SingleProductCom(el) {
             if (isAuth) {
               axios({
                 method: "post",
-                url:
-                  `${process.env.REACT_APP_BASE_API}/user/` +
-                  userId +
-                  `/wishlist/` +
-                  _id,
+                url: `${process.env.REACT_APP_BASE_API}/user/wishlist/${_id}`,
               })
                 .then((res) => {
-                  dispatch(getUserDetails(mobileNumber));
+                  dispatch(getUserDetails());
                   toast({
                     duration: 1500,
                     status: "info",
@@ -142,8 +135,8 @@ export default function SingleProductCom(el) {
         </Circle>
         <div style={{ w_idth: "100%" }}>
           <Image
-            onClick={() => window.open(`../single_product/${_id}`, '_blank')}
-            src={"http://localhost:5000/"+img}
+            onClick={() => window.open(`../single_product/${_id}`, "_blank")}
+            src={process.env.REACT_APP_BASE_API + "/" + img}
             // src={img}
             alt=""
           />

@@ -22,6 +22,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../Components/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserDetails, updateUserProfile } from "../Redux/UserReducer/Action";
+import axios from "axios";
 const mobileNumber = localStorage.getItem("MbNumber");
 console.log(mobileNumber);
 // const userinfo = localStorage.getItem("userInfo");
@@ -37,7 +38,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (!user) {
-      dispatch(getUserDetails(mobileNumber));
+      dispatch(getUserDetails());
     } else {
     }
   }, [user, dispatch]);
@@ -341,18 +342,28 @@ const Profiledetails = ({ user }) => {
 };
 
 const Order = ({ user }) => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   console.log(user);
   // Replace this with actual data from the backend
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    if (!user) {
-      dispatch(getUserDetails(mobileNumber));
-    } else {
-      setOrders(user.order);
-    }
-  }, [user, dispatch]);
+    getOrders();
+  }, []);
+
+  const getOrders = () => {
+    
+    axios({
+      method: "get",
+      url: `${process.env.REACT_APP_BASE_API}/order/orders`,
+    })
+      .then((res) => setOrders(res.data.data))
+      .catch((err) => {
+        console.log(err);
+      });
+    
+  };
+
 
   return (
     <>

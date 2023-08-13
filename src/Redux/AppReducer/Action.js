@@ -113,14 +113,13 @@ export const getProductsData = (params) => async (dispatch) => {
     //   params
     
     // );
-    const all = process.env.BASE_API;
-    console.log(all+"123");
     const r = await axios.get(
-      `https://estylewalabackend.onrender.com/Products`,
+      `${process.env.REACT_APP_BASE_API}/product/products`,
       params
-    );
+      );
+      console.log(params)
     console.log(r.data);
-    dispatch(getProductsSuccess(r.data));
+    dispatch(getProductsSuccess(r.data.data));
   } catch (err) {
     dispatch(getProductsFailure());
   }

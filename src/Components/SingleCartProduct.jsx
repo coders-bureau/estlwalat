@@ -17,6 +17,7 @@ import { useDispatch } from "react-redux";
 import { getUserDetails } from "../Redux/UserReducer/Action";
 
 const SingleCartProduct = ({
+  offer,
   MRP,
   brand,
   currentSize,
@@ -29,6 +30,7 @@ const SingleCartProduct = ({
   setTotalAmount,
   setTotalMRP,
   setTotalMRPDiscount,
+  setOfferPrice,
   handleCartProducts,
   userId,qty
 }) => {
@@ -36,7 +38,7 @@ const SingleCartProduct = ({
   const mobileNumber = localStorage.getItem("MbNumber");
   const dispatch= useDispatch();
   const [currentSizeShow, setCurrentSize] = useState(currentSize || size[0]);
-  const [currentQty, setCurrentQty] = useState(qty || 1);
+  const [currentQty, setCurrentQty] = useState(qty || 4);
   const toast = useToast();
   const handleSize = (e) => {
     // axios({
@@ -49,15 +51,17 @@ const SingleCartProduct = ({
     setCurrentSize(e.target.value);
     axios({
       method: "put",
-      url: `https://estylewalabackend.onrender.com/user/`+userId+`/cart/`+_id,
+      // url: `https://estylewalabackend.onrender.com/user/`+userId+`/cart/`+_id,
+      url:process.env.REACT_APP_BASE_API+`/user/cart/${_id}/update`,
       data: {
             currentSize: e.target.value,
-            item: "currentSize"
+            // item: "currentSize"
           },
     })
     .then(({ data }) => {
       setCurrentSize(data.data);
-      dispatch(getUserDetails(mobileNumber));
+      console.log((data.data));
+      dispatch(getUserDetails());
     }).catch((err)=> {
       console.log(err);
     });
@@ -69,14 +73,17 @@ const SingleCartProduct = ({
     setTotalMRPDiscount(
       (prev) => prev + MRP * (e - currentQty) - price * (e - currentQty)
     );
-    setTotalAmount((prev) => prev + price * (e - currentQty));
-    setCurrentQty(e);
+    setTotalAmount((prev) => prev + (discount * (e - currentQty)));
+    setOfferPrice((prev) => prev + (price - discount) * (e - currentQty));
+  console.log();
+    setCurrentQty(e);  
     axios({
       method: "put",
-      url: `https://estylewalabackend.onrender.com/user/`+userId+`/cart/`+_id,
+      // url: `https://estylewalabackend.onrender.com/user/`+userId+`/cart/`+_id,
+      url:process.env.REACT_APP_BASE_APIPP_MYNTRA_API+`/user/cart/${_id}/update`,
       data: {
             qty: e,
-            item: "qty",
+            // item: "qty",
           },
     })
     .then(({ data }) => {
@@ -90,17 +97,19 @@ const SingleCartProduct = ({
   useEffect(() => {
     setTotalMRP((prev) => prev + MRP);
     setTotalMRPDiscount((prev) => prev + MRP - price);
-    setTotalAmount((prev) => prev + price);
+    setOfferPrice((prev) => prev + (price - discount));
+    setTotalAmount((prev) => prev + discount);
   }, []);
 
   const handleDelete = (_id) => {
     axios({
       method: "delete",
       // url: process.env.REACT_APP_MYNTRA_API + `/cart/${id}`,
-      url: "https://estylewalabackend.onrender.com/user/"+userId+"/cart/"+ _id,
+      url: `${process.env.REACT_APP_BASE_API}/user/cart/${_id}`,
     })
       .then(() => {
-        dispatch(getUserDetails(mobileNumber));
+        // dispatch(getUserDetails(mobileNumber));
+        
         setTotalMRP((prev) => prev - MRP * currentQty);
         setTotalAmount((prev) => prev - price * currentQty);
         setTotalMRPDiscount((prev) => prev - currentQty * (MRP - price));
@@ -139,7 +148,7 @@ const SingleCartProduct = ({
         borderRadius="5px"
       >
         <Box w={{ lg: "160px", md: "160px", base: "100px" }} p={"5px"}>
-          <Image src={img} alt=""></Image>
+          <Image src={process.env.REACT_APP_BASE_API + "/" + img} alt=""></Image>
         </Box>
         <Box
           w={"full"}
@@ -147,6 +156,9 @@ const SingleCartProduct = ({
           py={"15px"}
         >
           <VStack w={"full"} align="flex-start">
+          <Text fontWeight={"bold"} color="#282c3f">
+              {_id}
+            </Text>
             <Text fontWeight={"bold"} color="#282c3f">
               {brand}
             </Text>
@@ -227,7 +239,8 @@ const SingleCartProduct = ({
                 ₹ {MRP * currentQty}
               </Text>
               <Text color={"#f16565"} fontWeight={400}>
-                {discount}% OFF
+              {offer.value}  {offer.type1} OFF
+                {/* % OFF */}
               </Text>
             </HStack>
           </VStack>

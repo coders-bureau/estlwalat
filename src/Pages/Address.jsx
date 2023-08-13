@@ -15,6 +15,7 @@ import {
   Grid,
   useDisclosure,
   useToast,
+  Divider,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import OtherNavbar from "../Components/OtherNavbar";
@@ -22,27 +23,56 @@ import { PaymentDetains1, PaymentDetains2 } from "../Components/PaymentDetains";
 import OtherFooter from "../Components/OtherFooter";
 import logoPic from "../Assets/estylebg.png";
 import AddressModal from "../Components/AddressModal";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import LoadingPage from "./LoadingPage";
 const Address = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const [addressD, setAddress] = useState([]);
   const [pinCode, setPincode] = useState("");
   // const { name, mobileNo, pinCode, area, town, city, state } = addressD;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const location = useLocation();
   const toast = useToast();
-  const { totalAmount, totalMRP, totalMRPDiscount } = location.state;
+  const { totalAmount, totalMRP, totalMRPDiscount, offerPrice } =
+    location.state;
   const mobileNumber = localStorage.getItem("MbNumber");
   const [selectedAddress, setSelectedAddress] = useState({});
   const [selectedAddressstatus, setSelectedAddressStatus] = useState(false);
-  const [addressLine,setaddressLine] =  useState("");
+  const [addressLine, setaddressLine] = useState("");
   const [userId, setUserid] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setIsLoading(true);
+    axios({
+      method: "get",
+      url: `${process.env.REACT_APP_BASE_API}/user/profile/details/`,
+    }).then(({ data }) => {
+      setIsLoading(false);
+      setAddress(data.user.address);
+      setPincode(data.user.address.pinCode);
+      setUserid(data.user._id);
+      console.log(data.user.address);
+    });
+  }, []);
+
   const handleAddressSelection = (addressId) => {
     setSelectedAddress(addressId);
     setPincode(addressId.pinCode);
     setSelectedAddressStatus(true);
-    const add = addressId.area+"-"+addressId.town+" ,"+addressId.city+" "+addressId.state+"-"+addressId.pinCode;
-    setaddressLine(add)
+    const add =
+      addressId.area +
+      "-" +
+      addressId.town +
+      " ," +
+      addressId.city +
+      " " +
+      addressId.state +
+      "-" +
+      addressId.pinCode;
+    setaddressLine(add);
     console.log(add);
     // setPincode()
     // Send the selected address to the backend to update the current address for the user
@@ -54,14 +84,17 @@ const Address = () => {
     //     console.error(error);
     //   });
   };
-console.log(selectedAddressstatus);
+  console.log(selectedAddressstatus);
   const handleDeleteAddress = (addressId) => {
     // Replace 'YOUR_BACKEND_API_ENDPOINT' with your actual backend API endpoint for deleting an address
-    fetch(`https://estylewalabackend.onrender.com/user/${userId}/address/${addressId}`, {
+    // fetch(`${process.env.REACT_APP_BASE_API}/user/address/${addressId}`, {
+    //   method: "DELETE",
+    // })
+    axios({
       method: "DELETE",
+      url: `${process.env.REACT_APP_BASE_API}/user/address/${addressId}`,
     })
-      .then((response) => response.json())
-      .then((data) => {
+      .then(() => {
         toast({
           title: "Address Deleted",
           status: "success",
@@ -81,40 +114,26 @@ console.log(selectedAddressstatus);
       .catch((error) => console.error("Error deleting address:", error));
   };
 
-  useEffect(() => {
-    axios({
-      url: "https://estylewalabackend.onrender.com/user/" + mobileNumber,
-    }).then(({ data }) => {
-      setAddress(data.user.address);
-      setPincode(data.user.address.pinCode);
-      setUserid(data.user._id);
-      console.log(data.user.address);
-      // if (!selectedAddress && data.user.address.length > 0) {
-      //   setSelectedAddress(data.user.address[0]._id);
-      // }
-      // Send the selected address to the backend to update the current address for the user
-      // axios.patch(`/api/user/${userId}`, { currentAddress: response.data.addresses[0]._id })
-      //   .then((response) => {
-      //     console.log('Current address updated successfully!');
-      //   })
-      //   .catch((error) => {
-      //     console.error(error);
-      //   });
-    });
-  }, []);
+  console.log(addressD);
 
-  console.log(selectedAddress);
+  if (isLoading) {
+    return (
+      <Box height={"200px"}>
+        <LoadingPage />
+      </Box>
+    );
+  }
   return (
     <Box>
       <OtherNavbar />
       <Box my={"25px"} py={"25px"}>
         <HStack
-          px={"200px"}
+          px={"12vw"}
           divider={<StackDivider color={"#ededef"} />}
           alignItems="flex-start"
         >
           {/* ................................. */}
-          <Box w="65%">
+          <Box w={{ lg: "65%", md: "65%", base: "100%" }}>
             <VStack w="full" align={"flex-start"} spacing="20px">
               <HStack w={"full"} justify={"space-between"}>
                 <Text color={"#282c3f"} fontWeight={"bold"}>
@@ -134,6 +153,7 @@ console.log(selectedAddressstatus);
               <Text color="#535766" fontSize={"12px"} fontWeight="bold">
                 DEFAULT ADDRESS
               </Text>
+
               {addressD.map((address, index) => (
                 <VStack
                   key={index}
@@ -149,7 +169,7 @@ console.log(selectedAddressstatus);
                   {" "}
                   <HStack textAlign={"left"}>
                     <input
-                    color="#ff3f6c"
+                      color="#ff3f6c"
                       type="checkbox"
                       checked={address === selectedAddress}
                       onChange={() => handleAddressSelection(address)}
@@ -201,7 +221,6 @@ console.log(selectedAddressstatus);
                   >
                     Delete
                   </Button>
-                 
                 </VStack>
               ))}
               <Modal isOpen={isOpen} onClose={onClose} colorScheme="pink">
@@ -215,14 +234,42 @@ console.log(selectedAddressstatus);
                     ADD NEW ADDRESS
                   </ModalHeader>
                   <ModalCloseButton color={"#535766"} fontWeight={"bold"} />
-                  <AddressModal onClose={onClose} setAddress={setAddress} userId={userId}/>
+                  <AddressModal onClose={onClose} setAddress={setAddress} />
                 </ModalContent>
               </Modal>
+
+              <Box
+                display={{
+                  lg: "none",
+                  md: "none",
+                  base: "inline-block",
+                }}
+                w={"full"}
+              >
+                <PaymentDetains1
+                  totalMRP={totalMRP}
+                  totalMRPDiscount={totalMRPDiscount}
+                  offerPrice={offerPrice}
+                />
+                {/* .......................... */}
+                <Divider borderColor="gray.200" />
+                <PaymentDetains2
+                  totalAmount={totalAmount}
+                  totalMRP={totalMRP}
+                  totalMRPDiscount={totalMRPDiscount}
+                  addressLine={addressLine}
+                  offerPrice={offerPrice}
+                  // redirect={addressD.pinCode ? "/address" : undefined}
+                  redirect={selectedAddressstatus ? "/payment" : undefined}
+                />
+              </Box>
             </VStack>
           </Box>
-
           {/* ................................... */}
-          <Box w={"35%"}>
+          <Box
+            display={{ md: "inline-block", base: "none" }}
+            w={{ lg: "35%", md: "35%", base: "0%" }}
+          >
             <VStack
               w={"full"}
               divider={<StackDivider borderColor="gray.200" />}
@@ -231,22 +278,17 @@ console.log(selectedAddressstatus);
               {/* ........................... */}
 
               {/* ....................... */}
-              {/* <HStack>
-                <Image
-                  w="35px"
-                  boxShadow={"rgba(0, 0, 0, 0.02) 0px 1px 2px 0px;"}
-                  height={"50px"}
-                  src={logoPic}
-                />
+              <HStack>
                 <HStack>
                   <Text>Estimated delivery by</Text>
-                  <Text fontWeight={"bold"}>10 jun 2023</Text>
+                  <Text fontWeight={"bold"}>: 7-8 Days</Text>
                 </HStack>
-              </HStack> */}
+              </HStack>
               {/* ........................... */}
               <PaymentDetains1
                 totalMRP={totalMRP}
                 totalMRPDiscount={totalMRPDiscount}
+                offerPrice={offerPrice}
               />
               {/* .......................... */}
               <PaymentDetains2
@@ -254,6 +296,7 @@ console.log(selectedAddressstatus);
                 totalMRP={totalMRP}
                 totalMRPDiscount={totalMRPDiscount}
                 addressLine={addressLine}
+                offerPrice={offerPrice}
                 redirect={selectedAddressstatus ? "/payment" : undefined}
               />
               {/* ........................... */}
@@ -261,7 +304,53 @@ console.log(selectedAddressstatus);
           </Box>
         </HStack>
       </Box>
-      <OtherFooter />
+      {/* <OtherFooter /> */}{" "}
+      <HStack
+        zIndex={1001}
+        bgColor={"#ffffff"}
+        w={"100%"}
+        display={{ lg: "none", md: "none", base: "flex" }}
+        // m={"10px"}
+        gap={"1rem"}
+        justifyContent={"right"}
+        h="max-content"
+        position={"sticky"}
+        bottom={0}
+      >
+        <Button
+          mx={5}
+          my={2}
+          color={"#fff"}
+          borderRadius={3}
+          border={"2px"}
+          // p="22px 53px"
+          w={"100%"}
+          bg="#ff3e6c"
+          borderColor={"#ff3e6c"}
+          variant={"solid"}
+          _hover={{ bgColor: "#ff3e6c" }}
+          onClick={() =>
+            selectedAddressstatus
+              ? navigate("/payment", {
+                  state: {
+                    totalAmount,
+                    totalMRP,
+                    totalMRPDiscount,
+                    addressLine,
+                    offerPrice,
+                  },
+                })
+              : toast({
+                  title: "Please check your address.",
+                  status: "warning",
+                  duration: 2000,
+                  position: "top",
+                })
+          }
+        >
+          PLACE ORDER
+        </Button>
+      </HStack>
     </Box>
   );
 };

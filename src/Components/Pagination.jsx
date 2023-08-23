@@ -18,7 +18,7 @@ const Pagination = ({
     handlePage(page);
   };
 
-  //console.log(currentPage ,typeof totalPages)
+  console.log(currentPage , totalPages)
   return (
     <div>
       <Box mt={"2rem"} mb={"1rem"}>
@@ -54,7 +54,7 @@ const Pagination = ({
         <Button
           p={2}
           fontSize={{ sm: "0.7rem", lg: "1rem" }}
-          isDisabled={currentPage === totalPages}
+          isDisabled={currentPage === totalPages+1}
           onClick={() => handlePageChange(1)}
         >
           Next

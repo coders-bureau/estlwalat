@@ -35,6 +35,8 @@ export default function SingleProductCom(el) {
     ratingT,
     size,
     title,
+    offer,
+    currentSize
   } = el;
   const [showWish, setShowWish] = useState(false);
   const navigate = useNavigate();
@@ -53,12 +55,18 @@ export default function SingleProductCom(el) {
     if (isAuth) {
       axios({
         method: "post",
-        url: `${process.env.REACT_APP_BASE_API}/user/cart/` + el._id,
+        url: `${process.env.REACT_APP_BASE_API}/user/addcart`,
+        data: {
+          productId: el._id,
+          currentSize: size[0],
+        }
       })
         .then((res) => {
-          dispatch(getUserDetails());
+          // dispatch(getUserDetails());
+          // {res.data.message}
+          console.log(res.data.message);
           toast({
-            title: "Product added in the cart.",
+            title: res.data.message,
             status: "success",
             duration: 1500,
             isClosable: true,
@@ -206,13 +214,13 @@ export default function SingleProductCom(el) {
               display={{ lg: "flex", md: "flex", base: "none" }}
               color={"#ff905a"}
               fontSize={"13px"}
-            >{`(${discount}% OFF)`}</Text>
+            >{`(${offer.text} OFF)`}</Text>
           </div>
-          <Text
+          {/* <Text
             display={{ lg: "none", md: "none", base: "flex" }}
             color={"#ff905a"}
             fontSize={"13px"}
-          >{`(${discount}% OFF)`}</Text>
+          >{`(${offer.text}% OFF)`}</Text> */}
         </div>
       </div>
     </>

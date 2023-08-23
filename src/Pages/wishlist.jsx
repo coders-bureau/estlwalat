@@ -6,31 +6,36 @@ import SingleWishlistProduct from "../Components/SingleWishlistProduct";
 import Navbar from "../Components/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserDetails } from "../Redux/UserReducer/Action";
+import LoadingPage from "./LoadingPage";
 
 const Wishlist = () => {
   // const mobileNumber = localStorage.getItem("MbNumber");
-  const {user} = useSelector((store) => store.UserReducer);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const { user } = useSelector((store) => store.UserReducer);
   const dispatch = useDispatch();
   const [wishlist, setWishlist] = useState([]);
   const toast = useToast();
-  const [userId,setUserID] =useState("");
-  
+  const [userId, setUserID] = useState("");
 
   useEffect(() => {
     getWishlitProd();
   }, []);
 
   const getWishlitProd = () => {
-    
+    setIsLoading(true);
+
     axios({
       method: "get",
       url: `${process.env.REACT_APP_BASE_API}/user/wishlist/items`,
     })
-      .then((res) => setWishlist(res.data.data))
+      .then((res) => {
+        setIsLoading(false);
+        setWishlist(res.data.data);
+      })
       .catch((err) => {
         console.log(err);
       });
-    
   };
 
   useEffect(() => {
@@ -38,17 +43,19 @@ const Wishlist = () => {
       dispatch(getUserDetails());
     } else {
       console.log(wishlist);
-      getWishlitProd()
+      getWishlitProd();
       // dispatch(getUserDetails(mobileNumber));
       // setWishlist(user.wishlist);
-      setUserID(user._id)
+      setUserID(user._id);
       console.log(wishlist);
     }
     // getWishlitProd();
-      // dispatch(getUserDetails(mobileNumber));
-  }, [wishlist.length,user,setWishlist,dispatch]);
+    // dispatch(getUserDetails(mobileNumber));
+  }, [wishlist.length, user, setWishlist, dispatch]);
 
   const handleDelete = (id) => {
+    setIsLoading(true);
+
     axios({
       method: "delete",
       // url: process.env.REACT_APP_MYNTRA_API + "/wishlist/" + id,
@@ -56,7 +63,9 @@ const Wishlist = () => {
     })
       .then((res) => {
         dispatch(getUserDetails());
-      getWishlitProd()
+        getWishlitProd();
+        setIsLoading(false);
+
         // getWishlitProd();
         toast({
           title: "Product removed from wishlist",
@@ -65,7 +74,7 @@ const Wishlist = () => {
           position: "top-right",
           status: "error",
           duration: 2000,
-        })
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -73,10 +82,12 @@ const Wishlist = () => {
   };
 
   const handleAddCart = (el) => {
-
     axios({
       method: "post",
-      url: `${process.env.REACT_APP_BASE_API}/user/cart/`+el._id,
+      url: `${process.env.REACT_APP_BASE_API}/user/addcart`,
+      data: {
+        productId: el._id,
+      },
     })
       .then((res) => {
         toast({
@@ -101,10 +112,17 @@ const Wishlist = () => {
         });
       });
   };
+  if (isLoading) {
+    return (
+      <Box height={"200px"}>
+        <LoadingPage />
+      </Box>
+    );
+  }
   return (
     <>
       {/* .................. */}
-    <Navbar />
+      <Navbar />
       <Box
         w={"full"}
         p={{ lg: "50px 50px", md: "40px 40px", base: "20px 20px" }}
@@ -125,16 +143,28 @@ const Wishlist = () => {
           mt={0}
           mb={8}
         >
-          {wishlist?.map((el) => {
-            return (
-              <SingleWishlistProduct
-                key={el._id}
-                el={el}
-                handleAddCart={handleAddCart}
-                handleDelete={handleDelete}
-              />
-            );
-          })}
+          {wishlist.length > 0 ? (
+            wishlist?.map((el) => {
+              return (
+                <SingleWishlistProduct
+                  key={el._id}
+                  el={el}
+                  handleAddCart={handleAddCart}
+                  handleDelete={handleDelete}
+                />
+              );
+            })
+          ) : (
+            <Box mt={"20%"}>
+              <Text fontSize={"18px"} fontWeight={500} color={"#282c3f"}>
+                YOUR WISHLIST IS EMPTY
+              </Text>
+              <Text fontSize={"17px"} fontWeight={400} color={"#b2b4b9"}>
+                Add items that you like to your wishlist. Review them anytime
+                and easily move them to the bag.
+              </Text>
+            </Box>
+          )}
         </SimpleGrid>
       </Box>
 

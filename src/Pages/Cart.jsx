@@ -44,7 +44,7 @@ const Cart = () => {
   const [totalMRPDiscount, setTotalMRPDiscount] = useState(0);
   const [totalAmount, setTotalAmount] = useState(
     totalMRP - totalMRPDiscount - offerPrice
-  );
+  );  
   const navigate = useNavigate();
   const Products = useSelector((store) => store.AppReducer.Products);
   const [similerProducts, setSimilarProducts] = useState([]);
@@ -251,11 +251,13 @@ const Cart = () => {
                             key={item._id}
                             {...item}
                             {...item.product}
+                            cartId={item._id}
                             userId={userId}
                             setTotalMRP={setTotalMRP}
                             setTotalAmount={setTotalAmount}
                             setTotalMRPDiscount={setTotalMRPDiscount}
                             setOfferPrice={setOfferPrice}
+                            getCartProd={getCartProd}
                             // handleCartProducts={handleCartProducts}
                           />
                         );
@@ -268,6 +270,7 @@ const Cart = () => {
                           base: "inline-block",
                         }}
                         w={"full"}
+                        marginTop={[8, 8, 0]}
                       >
                         <PaymentDetains1
                           totalMRP={totalMRP}

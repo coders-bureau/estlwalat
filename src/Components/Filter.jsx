@@ -180,8 +180,8 @@ const Filter = () => {
             defaultValue={category}
           > */}
           <VStack alignItems={"flex-start"} mt={"1"} spacing={1}>
-            <Select value={selectedCategory} onChange={handleCategoryChange}>
-              <option value="" disabled>
+            <select value={selectedCategory} onChange={handleCategoryChange}>
+              <option value="">
                 <Text>Select a category</Text>
               </option>
               {categories.map((category) => (
@@ -189,7 +189,7 @@ const Filter = () => {
                   {category.name}
                 </option>
               ))}
-            </Select>
+            </select>
             {/* {categories.map((category, index) => {
                 // <Checkbox value="Jeans">Jeans</Checkbox>;
 

@@ -45,7 +45,7 @@ const Signin = () => {
   const [viewOtpForm, setViewOtpForm] = useState(false);
   const auth = firebase.auth();
   const [loading, setLoading] = useState(false);
-  
+
   useEffect(() => {
     prevLocation.current = location;
   }, [location]);
@@ -88,7 +88,7 @@ const Signin = () => {
 
   const onSubmitOTP = (e) => {
     e.preventDefault();
-    setLoading('true')
+    setLoading("true");
 
     const code = value;
     console.log(code);
@@ -105,9 +105,9 @@ const Signin = () => {
         console.log(input);
         axios
           .post(
-            "http://localhost:5000/user/signup",
-            { mobileNumber },
-            config
+            `${process.env.REACT_APP_BASE_API}/user/signup`,
+            { mobileNumber }
+            // config
           )
           .then((res) => {
             console.log(res);
@@ -115,34 +115,53 @@ const Signin = () => {
             localStorage.setItem("authToken", token);
             // navigate("/");
             dispatch(login());
+            toast({
+              position: "top",
+              title: `Login successful`,
+              status: "success",
+              isClosable: true,
+              duration: 1500,
+            });
+            navigate("/");
           })
-          .catch((error) => console.error("Error Adding User", error));
+          .catch((error) => {
+            setLoading(false);
+            toast({
+              position: "top",
+              title:
+                "Something went wrong. Please reload and try again. Server Issue/Network Issue",
+              status: "error",
+              isClosable: true,
+              duration: 3000,
+            });
+            console.error("Error Adding User", error);
+          });
 
-        dispatch(getUserDetails(mobileNumber));
+        // dispatch(getUserDetails(mobileNumber));
         //   navigate("/otp", { state: comingFrom, replace: true });
         // dispatch(login());
-        toast({
-          position: "top",
-          title: `Login successful`,
-          status: "success",
-          isClosable: true,
-          duration: 1500,
-        });
-        console.log(comingFrom);
-        setLoading('false');
-        navigate(comingFrom, { replace: true });
-        toast({
-          position: "top",
-          title: `Login successful`,
-          status: "success",
-          isClosable: true,
-          duration: 1500,
-        });
+        // toast({
+        //   position: "top",
+        //   title: `Login successful`,
+        //   status: "success",
+        //   isClosable: true,
+        //   duration: 1500,
+        // });
+        // console.log(comingFrom);
+        setLoading("false");
+        // navigate(comingFrom, { replace: true });
+        // toast({
+        //   position: "top",
+        //   title: `Login successful`,
+        //   status: "success",
+        //   isClosable: true,
+        //   duration: 1500,
+        // });
       })
       .catch((error) => {
         // User couldn't sign in (bad verification code?)
         // ...
-        setLoading('false');
+        setLoading("false");
 
         toast({
           position: "top",
@@ -188,7 +207,8 @@ const Signin = () => {
 
             toast({
               position: "top",
-              title: "Something went wrong. Please reload and try again",
+              title:
+                "Something went wrong. Please reload and try again",
               status: "error",
               isClosable: true,
               duration: 3000,
@@ -205,14 +225,16 @@ const Signin = () => {
           });
       } catch (error) {
         console.log(error);
+        setLoading(false);
       }
     }
+    // setLoading(false);
   };
   console.log(value);
   return (
     <>
       <Navbar />
-            <button
+      {/* <button
         onClick={() => {
           axios
             .post("http://localhost:5000/admin/login", {
@@ -237,7 +259,7 @@ const Signin = () => {
               // const authToken = Cookies.get("auth_token");
               const authToken = localStorage.getItem("authToken");
               console.log(authToken);
-              if(authToken){
+              if (authToken) {
                 navigate("/");
                 // dispatch(login());
               }
@@ -245,8 +267,8 @@ const Signin = () => {
             .catch((error) => console.error("Error Adding User", error));
         }}
       >
-         click me to buypass login
-      </button>
+        click me to buypass login
+      </button> */}
       {!viewOtpForm ? (
         <Box>
           <Center w={"full"} bgColor="#fceeea" h={"100vh"}>

@@ -51,7 +51,7 @@ const style = {
 const SingleProduct = () => {
   const dispatch = useDispatch();
   const mobileNumber = localStorage.getItem("MbNumber");
-  const [userId,setUserID] =useState("");
+  const [userId, setUserID] = useState("");
 
   const pinInputRef = useRef("");
   const { id } = useParams();
@@ -107,7 +107,7 @@ const SingleProduct = () => {
       };
 
       // dispatch(getProducts(getProductParams));
-       dispatch(getProductsData(getProductParams));
+      dispatch(getProductsData(getProductParams));
     }
   }, [Products.length, dispatch, location.search]);
 
@@ -115,8 +115,8 @@ const SingleProduct = () => {
   useEffect(() => {
     if (!user) {
       dispatch(getUserDetails(mobileNumber));
-    }else{
-      setUserID(user._id)
+    } else {
+      setUserID(user._id);
     }
   }, [user, dispatch]);
 
@@ -185,21 +185,26 @@ const SingleProduct = () => {
       //   url: `http://localhost:5000/user/`+userId+`/cart/`+id,
       // })
       axios({
-        method: "put",
-        url: `${process.env.REACT_APP_BASE_API}/user/cart/` + id,
+        method: "post",
+        // url: `${process.env.REACT_APP_BASE_API}/user/cart/` + id,
+        // data: {
+        //   currentSize: sizeRef,
+        // },
+        url: `${process.env.REACT_APP_BASE_API}/user/addcart`,
         data: {
-              currentSize: sizeRef,
-            },
+          productId: id,
+          currentSize: sizeRef,
+        },
       })
         .then((res) => {
-          dispatch(getUserDetails(mobileNumber));
+          // dispatch(getUserDetails(mobileNumber));
           console.log("then");
-          navigate("/cart");
+          navigate("/address");
         })
         .catch((err) => {
-          console.log("catch");
-          dispatch(getUserDetails(mobileNumber));
-          navigate("/cart");
+          console.log("catch",err);
+          // dispatch(getUserDetails(mobileNumber));
+          // navigate("/address");
         });
     } else {
       toast({
@@ -214,7 +219,6 @@ const SingleProduct = () => {
   };
 
   const handleSendCart = () => {
-
     if (sizeRef) {
       // axios({
       //   method: "post",
@@ -222,29 +226,34 @@ const SingleProduct = () => {
       //   data: { ...currentProduct, currentSize: sizeRef },
       // })
       axios({
-        method: "put",
-        url: `${process.env.REACT_APP_BASE_API}/user/cart/` + id,
+        method: "post",
+        // url: `${process.env.REACT_APP_BASE_API}/user/cart/` + id,
+        // data: {
+        //   currentSize: sizeRef,
+        // },
+        url: `${process.env.REACT_APP_BASE_API}/user/addcart`,
         data: {
-              currentSize: sizeRef,
-            },
+          productId: id,
+          currentSize: sizeRef,
+        },
       })
         .then((res) => {
-
-        dispatch(getUserDetails(mobileNumber));
-        console.log(res);
+          // dispatch(getUserDetails(mobileNumber));
+          console.log(res);
           toast({
             title: res.data.message,
             variant: "top-accent",
             isClosable: true,
             position: "top-right",
-            status: "error",
+            status: "success",
             duration: 1500,
           });
         })
         .catch((err) => {
-        dispatch(getUserDetails());
+          // dispatch(getUserDetails());
+          console.log(err);
           toast({
-            title: "Product successfully added in cart",
+            title: "Error in adding.",
             variant: "top-accent",
             isClosable: true,
             position: "top-right",
@@ -270,7 +279,7 @@ const SingleProduct = () => {
       url: `${process.env.REACT_APP_BASE_API}/user/wishlist/${_id}`,
     })
       .then((res) => {
-        dispatch(getUserDetails(mobileNumber))
+        dispatch(getUserDetails(mobileNumber));
         toast({
           title: "Product successfully added in wishlist",
           variant: "top-accent",
@@ -307,7 +316,7 @@ const SingleProduct = () => {
 
   return (
     <>
-    <Navbar />
+      <Navbar />
       <Box>
         <HStack spacing={1} w={"98%"} m={"10px auto"}>
           <Text color={"#46495a"} fontSize={"14px"}>
@@ -338,7 +347,11 @@ const SingleProduct = () => {
           <Box>
             <SimpleGrid columns={1} pb={6}>
               <Box style={style.style} w="full">
-                <Image _hover={style.hover} src={`http://localhost:5000/${mainImage}`} w="full" />
+                <Image
+                  _hover={style.hover}
+                  src={`http://localhost:5000/${mainImage}`}
+                  w="full"
+                />
               </Box>
             </SimpleGrid>
             <SimpleGrid columns={len} spacing={2}>
@@ -348,7 +361,7 @@ const SingleProduct = () => {
                     <Image
                       onClick={() => setMainImage(img)}
                       _hover={style.hover}
-                      src={"http://localhost:5000/"+img}
+                      src={"http://localhost:5000/" + img}
                       w="full"
                     />
                   </Box>

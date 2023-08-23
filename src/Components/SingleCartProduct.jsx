@@ -14,10 +14,12 @@ import { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { getUserDetails } from "../Redux/UserReducer/Action";
+import { useNavigate } from "react-router-dom";
+// import { getUserDetails } from "../Redux/UserReducer/Action";
 
 const SingleCartProduct = ({
   offer,
+  qty,
   MRP,
   brand,
   currentSize,
@@ -32,14 +34,18 @@ const SingleCartProduct = ({
   setTotalMRPDiscount,
   setOfferPrice,
   handleCartProducts,
-  userId,qty
+  userId,
+  getCartProd,
+  cartId,
 }) => {
-  
+  console.log(title, qty);
   const mobileNumber = localStorage.getItem("MbNumber");
-  const dispatch= useDispatch();
+  const dispatch = useDispatch();
   const [currentSizeShow, setCurrentSize] = useState(currentSize || size[0]);
-  const [currentQty, setCurrentQty] = useState(qty || 4);
+  const [currentQty, setCurrentQty] = useState(qty || 1);
   const toast = useToast();
+  const navigate = useNavigate();
+
   const handleSize = (e) => {
     // axios({
     //   method: "patch",
@@ -52,19 +58,20 @@ const SingleCartProduct = ({
     axios({
       method: "put",
       // url: `https://estylewalabackend.onrender.com/user/`+userId+`/cart/`+_id,
-      url:process.env.REACT_APP_BASE_API+`/user/cart/${_id}/update`,
+      url: process.env.REACT_APP_BASE_API + `/user/cart/${cartId}/update`,
       data: {
-            currentSize: e.target.value,
-            // item: "currentSize"
-          },
+        currentSize: e.target.value,
+        // item: "currentSize"
+      },
     })
-    .then(({ data }) => {
-      setCurrentSize(data.data);
-      console.log((data.data));
-      dispatch(getUserDetails());
-    }).catch((err)=> {
-      console.log(err);
-    });
+      .then(({ data }) => {
+        setCurrentSize(data.data.currentSize);
+        console.log(data.data);
+        // dispatch(getUserDetails());
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleQty = (e) => {
@@ -73,32 +80,34 @@ const SingleCartProduct = ({
     setTotalMRPDiscount(
       (prev) => prev + MRP * (e - currentQty) - price * (e - currentQty)
     );
-    setTotalAmount((prev) => prev + (discount * (e - currentQty)));
+    setTotalAmount((prev) => prev + discount * (e - currentQty));
     setOfferPrice((prev) => prev + (price - discount) * (e - currentQty));
-  console.log();
-    setCurrentQty(e);  
+    console.log();
+    setCurrentQty(e);
     axios({
       method: "put",
       // url: `https://estylewalabackend.onrender.com/user/`+userId+`/cart/`+_id,
-      url:process.env.REACT_APP_BASE_APIPP_MYNTRA_API+`/user/cart/${_id}/update`,
+      url: process.env.REACT_APP_BASE_API + `/user/cart/${cartId}/update`,
       data: {
-            qty: e,
-            // item: "qty",
-          },
+        qty: e,
+        // item: "qty",
+      },
     })
-    .then(({ data }) => {
-      dispatch(getUserDetails(mobileNumber));
-      setCurrentQty(data.data);
-    }).catch((err)=> {
-      console.log(err);
-    });
+      .then(({ data }) => {
+        // dispatch(getUserDetails(mobileNumber));
+        setCurrentQty(data.data.qty);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   useEffect(() => {
-    setTotalMRP((prev) => prev + MRP);
-    setTotalMRPDiscount((prev) => prev + MRP - price);
-    setOfferPrice((prev) => prev + (price - discount));
-    setTotalAmount((prev) => prev + discount);
+    console.log("use");
+    setTotalMRP((prev) => prev + MRP * currentQty);
+    setTotalMRPDiscount((prev) => prev + (MRP - price) * currentQty);
+    setOfferPrice((prev) => prev + (price - discount) * currentQty);
+    setTotalAmount((prev) => prev + discount * currentQty);
   }, []);
 
   const handleDelete = (_id) => {
@@ -108,12 +117,15 @@ const SingleCartProduct = ({
       url: `${process.env.REACT_APP_BASE_API}/user/cart/${_id}`,
     })
       .then(() => {
+        // navigate('/cart');
         // dispatch(getUserDetails(mobileNumber));
+        getCartProd();
+        console.log("del");
+        setTotalMRP(0);
+        setTotalAmount(0);
+        setOfferPrice(0);
+        setTotalMRPDiscount(0);
         
-        setTotalMRP((prev) => prev - MRP * currentQty);
-        setTotalAmount((prev) => prev - price * currentQty);
-        setTotalMRPDiscount((prev) => prev - currentQty * (MRP - price));
-
         toast({
           title: "Product successfully deleted.",
           status: "error",
@@ -148,7 +160,10 @@ const SingleCartProduct = ({
         borderRadius="5px"
       >
         <Box w={{ lg: "160px", md: "160px", base: "100px" }} p={"5px"}>
-          <Image src={process.env.REACT_APP_BASE_API + "/" + img} alt=""></Image>
+          <Image
+            src={process.env.REACT_APP_BASE_API + "/" + img}
+            alt=""
+          ></Image>
         </Box>
         <Box
           w={"full"}
@@ -156,19 +171,19 @@ const SingleCartProduct = ({
           py={"15px"}
         >
           <VStack w={"full"} align="flex-start">
-          <Text fontWeight={"bold"} color="#282c3f">
-              {_id}
-            </Text>
-            <Text fontWeight={"bold"} color="#282c3f">
-              {brand}
-            </Text>
+            {/* <Text fontWeight={"bold"} color="#282c3f">
+              {title}
+            </Text> */}
             <Text
-              color="#282c3f"
-              fontWeight={400}
+              fontWeight={"bold"}
               isTruncated
               w={{ lg: "200px", md: "200px", base: "150px" }}
+              color="#282c3f"
             >
               {title}
+            </Text>
+            <Text color="#282c3f" fontWeight={400}>
+              {brand}
             </Text>
 
             <HStack>
@@ -177,8 +192,8 @@ const SingleCartProduct = ({
                   Size:
                 </Text>
 
-                <Select
-                  textAlign="justify"
+                <select
+                  // textAlign="justify"
                   value={currentSizeShow}
                   onChange={handleSize}
                   icon={<MdArrowDropDown />}
@@ -194,14 +209,15 @@ const SingleCartProduct = ({
                       </option>
                     );
                   })}
-                </Select>
+                </select>
               </HStack>
 
               <HStack borderRadius={"5px"} bgColor={"#f5f5f6"}>
                 <Text pl={1} color={"#282c3f"} fontWeight={"bold"}>
                   Qty:
                 </Text>
-                <Select
+
+                <select
                   color={"#282c3f"}
                   icon={<MdArrowDropDown />}
                   size={"sm"}
@@ -227,7 +243,7 @@ const SingleCartProduct = ({
                   <option fontWeight="500" value={5}>
                     5
                   </option>
-                </Select>
+                </select>
               </HStack>
             </HStack>
 
@@ -239,8 +255,9 @@ const SingleCartProduct = ({
                 ₹ {MRP * currentQty}
               </Text>
               <Text color={"#f16565"} fontWeight={400}>
-              {offer.value}  {offer.type1} OFF
+                {/* {offer.value}  {offer.type1} OFF */}
                 {/* % OFF */}
+                {offer.text}
               </Text>
             </HStack>
           </VStack>

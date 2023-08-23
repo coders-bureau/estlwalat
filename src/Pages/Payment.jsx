@@ -25,7 +25,7 @@ import OtherFooter from "../Components/OtherFooter";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import warning from "../Assets/estyle.png";
-import { PaymentDetains1 } from "../Components/PaymentDetains";
+import { PaymentDetains1, PaymentDetains2 } from "../Components/PaymentDetains";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserDetails } from "../Redux/UserReducer/Action";
@@ -39,9 +39,12 @@ function getDate() {
 
 const Payment = () => {
   const location = useLocation();
-
+  const [cartProducts, setCartProducts] = useState([]);
+  console.log(cartProducts);
   const [currentDate, setCurrentDate] = useState(getDate());
-  const { addressLine, offerPrice } = location.state;
+  // const { addressLine, offerPrice } = location.state;
+  const { addressLine, totalAmount, totalMRP, totalMRPDiscount, offerPrice } =
+    location.state;
   console.log(currentDate);
   const dispatch = useDispatch();
   const { user } = useSelector((store) => store.UserReducer);
@@ -105,43 +108,42 @@ const Payment = () => {
 
       return;
     }
-    axios({
-      method: "delete",
-      // url: process.env.REACT_APP_MYNTRA_API + `/cart/${id}`,
-      url: `${process.env.REACT_APP_BASE_API}/user/cartall`,
-    })
-      .then(() => {
-        // dispatch(getUserDetails(mobileNumber));
-        // toast({
-        //   title: "Product successfully deleted.",
-        //   status: "error",
-        //   duration: 3000,
-        //   isClosable: true,
-        //   position: "top",
-        // });
-      })
-      .catch((err) => {
-        // toast({
-        //   title: "Please Wait.... Deleting",
-        //   status: "warning",
-        //   duration: 3000,
-        //   isClosable: true,
-        //   position: "top",
-        // });
-        console.log(err);
-      });
 
     axios({
       method: "post",
       url: `${process.env.REACT_APP_BASE_API}/order/addOrder`,
       data: {
-        items: user.cart,
         addressLine: addressLine,
-        orderDate: currentDate,
+        paymentMode: "COD",
       },
     })
       .then(() => {
         dispatch(getUserDetails());
+        axios({
+          method: "delete",
+          // url: process.env.REACT_APP_MYNTRA_API + `/cart/${id}`,
+          url: `${process.env.REACT_APP_BASE_API}/user/cartall`,
+        })
+          .then(() => {
+            // dispatch(getUserDetails(mobileNumber));
+            // toast({
+            //   title: "Product successfully deleted.",
+            //   status: "error",
+            //   duration: 3000,
+            //   isClosable: true,
+            //   position: "top",
+            // });
+          })
+          .catch((err) => {
+            // toast({
+            //   title: "Please Wait.... Deleting",
+            //   status: "warning",
+            //   duration: 3000,
+            //   isClosable: true,
+            //   position: "top",
+            // });
+            console.log(err);
+          });
         console.log("done orders");
       })
       .catch((err) => {
@@ -183,7 +185,7 @@ const Payment = () => {
     navigate("/success");
   };
 
-  const { totalAmount, totalMRP, totalMRPDiscount } = location.state;
+  // const { totalAmount, totalMRP, totalMRPDiscount } = location.state;
   const expiryRef = useRef({ month: "", year: "" });
   const paymentRef = useRef({ name: "", cardNm: "", cvc: "" });
   const [check, setCheck] = useState({ isloading: false, status: false });
@@ -238,6 +240,24 @@ const Payment = () => {
   const handleErrorMenu = () => {
     clearTimeout(t1);
     setCheck((prev) => ({ ...prev, status: false, isloading: false }));
+  };
+  useEffect(() => {
+    getCartProd();
+  }, []);
+
+  const getCartProd = () => {
+    // setIsLoading(true);
+    axios({
+      method: "get",
+      url: `${process.env.REACT_APP_BASE_API}/user/cart/items`,
+    })
+      .then((res) => {
+        // setIsLoading(false);
+        setCartProducts(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <>
@@ -647,7 +667,7 @@ const Payment = () => {
                 <PaymentDetains1
                   totalMRP={totalMRP}
                   totalMRPDiscount={totalMRPDiscount}
-                  offerPrice={totalMRP - totalMRPDiscount - offerPrice}
+                  offerPrice={offerPrice}
                 />
                 {/* .......................... */}
                 <br />
@@ -731,7 +751,7 @@ const Payment = () => {
             <PaymentDetains1
               totalMRP={totalMRP}
               totalMRPDiscount={totalMRPDiscount}
-              offerPrice={totalMRP - totalMRPDiscount - offerPrice}
+              offerPrice={offerPrice}
             />
             {/* .......................... */}
             <br />
@@ -742,7 +762,7 @@ const Payment = () => {
                 TOTAL Amount
               </Text>
               <Text fontSize={"14px"} color={"#3e4152"} fontWeight={"bold"}>
-                ₹ {offerPrice}
+                ₹ {totalAmount}
               </Text>
             </HStack>
             {/* ........................... */}

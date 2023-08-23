@@ -222,13 +222,13 @@ const Profiledetails = ({ user }) => {
 
   return (
     <>
-      <Box 
-            justifySelf={"center"}
-            marginTop={50}
+      <Box
+        justifySelf={"center"}
+        marginTop={50}
 
-      // fontSize={"lg"}
-      // padding={10}
-      // bgColor={"#ff3e6d"}
+        // fontSize={"lg"}
+        // padding={10}
+        // bgColor={"#ff3e6d"}
       >
         {/* <Text fontSize="2xl">Profile</Text> */}
         {editing ? (
@@ -297,9 +297,7 @@ const Profiledetails = ({ user }) => {
           </Box>
         ) : (
           <>
-            <HStack
-              fontSize={{ lg: "", md: "md", base: "sm" }}
-            >
+            <HStack fontSize={{ lg: "", md: "md", base: "sm" }}>
               <VStack align="flex-start" spacing={7}>
                 <Text textAlign="left">Name:</Text>
                 <Text textAlign="left">Mobile Number</Text>
@@ -346,13 +344,12 @@ const Order = ({ user }) => {
   console.log(user);
   // Replace this with actual data from the backend
   const [orders, setOrders] = useState([]);
-
+  console.log(orders);
   useEffect(() => {
     getOrders();
   }, []);
 
   const getOrders = () => {
-    
     axios({
       method: "get",
       url: `${process.env.REACT_APP_BASE_API}/order/orders`,
@@ -361,9 +358,7 @@ const Order = ({ user }) => {
       .catch((err) => {
         console.log(err);
       });
-    
   };
-
 
   return (
     <>
@@ -380,7 +375,7 @@ const Order = ({ user }) => {
                     "rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em"
                   }
                   height={"10vh"}
-                  width={"70vw"}
+                  width={{ md: "70vw", base: "90vw" }}
                 >
                   <Box
                     as="span"
@@ -389,7 +384,7 @@ const Order = ({ user }) => {
                     fontWeight="bold"
                     mr={2}
                   >
-                    Order {++index}
+                    Order {++index} on: {new Date(order.orderDate).toLocaleDateString()}
                   </Box>
                   {/* <Box flex="1" textAlign="left" fontWeight="bold" mr={2}>
               Address: {order.address}
@@ -400,7 +395,7 @@ const Order = ({ user }) => {
                   <AccordionIcon />
                 </AccordionButton>
               </h2>
-              <AccordionPanel w="70vw" pb={"10px"}>
+              <AccordionPanel width={{ md: "70vw", base: "90vw" }} pb={"10px"}>
                 {order.items.map((item, i) => (
                   <Grid
                     mb={"10px"}
@@ -417,12 +412,18 @@ const Order = ({ user }) => {
                     border={"1px solid #b0a9a9"}
                     borderRadius="5px"
                   >
-                    <Box w={{md:"150px",base:"75px"}} h={{md:"200px",base:"100px"}} overflow={"hidden"}>
+                    <Box
+                      w={{ md: "150px", base: "75px" }}
+                      h={{ md: "200px", base: "100px" }}
+                      overflow={"hidden"}
+                    >
                       <Image
                         w={"100%"}
                         m={"3px"}
                         borderRadius={4}
-                        src={item.img}
+                        src={
+                          process.env.REACT_APP_BASE_API + "/" + item.imgPath
+                        }
                       />
                     </Box>
                     {/* <HStack
@@ -433,7 +434,7 @@ const Order = ({ user }) => {
                       alignItems="flex-start"
                     >
                   </HStack> */}
-                    <Box  h={{md:"200px",base:"100px"}}>
+                    <Box h={{ md: "200px", base: "100px" }}>
                       <VStack m={"3px"} gap={0} alignItems={"left"}>
                         {/* <Text>{item.title}</Text> */}
                         <Text
@@ -443,16 +444,15 @@ const Order = ({ user }) => {
                           isTruncated
                           w={{ md: "35vw", base: "35vw" }}
                         >
-                          {item.title}
+                          {item.productName}
                         </Text>
                         {/* <br /> */}
                         <Text
-                          mt={{md:"10px",base:"0"}}
-
+                          mt={{ md: "10px", base: "0" }}
                           fontWeight={450}
                           fontSize={{ md: "13px", base: "10px" }}
                         >
-                          Quantity Order :<b> {item.qty} </b>
+                          Quantity Order : {item.quantity}
                         </Text>
                         {/* <Text>
                         {item.currentSize}
@@ -461,9 +461,9 @@ const Order = ({ user }) => {
                         {item.price}
                       </Text> */}
                         {/* <br /> */}
-                        
+
                         <Text
-                          mt={{md:"10px",base:"0"}}
+                          mt={{ md: "10px", base: "0" }}
                           w={{ md: "20vw", base: "40vw" }}
                           fontWeight={450}
                           fontSize={{ md: "13px", base: "10px" }}
@@ -472,12 +472,12 @@ const Order = ({ user }) => {
                         </Text>
 
                         <Text
-                          mt={{md:"5px",base:"0"}}
-
+                          mt={{ md: "5px", base: "0" }}
                           fontWeight={450}
                           fontSize={{ md: "13px", base: "10px" }}
                         >
-                          Date of Order : <b> {order.orderDate} </b>
+                          Date of Order :{" "}
+                          {new Date(order.orderDate).toLocaleDateString()}
                         </Text>
                       </VStack>
                     </Box>

@@ -10,7 +10,7 @@ import LoadingPage from "./LoadingPage";
 
 const Wishlist = () => {
   // const mobileNumber = localStorage.getItem("MbNumber");
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState();
 
   const { user } = useSelector((store) => store.UserReducer);
   const dispatch = useDispatch();
@@ -38,20 +38,20 @@ const Wishlist = () => {
       });
   };
 
-  useEffect(() => {
-    if (!user) {
-      dispatch(getUserDetails());
-    } else {
-      console.log(wishlist);
-      getWishlitProd();
-      // dispatch(getUserDetails(mobileNumber));
-      // setWishlist(user.wishlist);
-      setUserID(user._id);
-      console.log(wishlist);
-    }
-    // getWishlitProd();
-    // dispatch(getUserDetails(mobileNumber));
-  }, [wishlist.length, user, setWishlist, dispatch]);
+  // useEffect(() => {
+  //   if (!user) {
+  //     dispatch(getUserDetails());
+  //   } else {
+  //     console.log(wishlist);
+  //     getWishlitProd();
+  //     // dispatch(getUserDetails(mobileNumber));
+  //     // setWishlist(user.wishlist);
+  //     setUserID(user._id);
+  //     console.log(wishlist);
+  //   }
+  //   // getWishlitProd();
+  //   // dispatch(getUserDetails(mobileNumber));
+  // }, [wishlist.length, user, setWishlist, dispatch]);
 
   const handleDelete = (id) => {
     setIsLoading(true);
@@ -112,61 +112,70 @@ const Wishlist = () => {
         });
       });
   };
-  if (isLoading) {
-    return (
-      <Box height={"200px"}>
-        <LoadingPage />
-      </Box>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <Box height={"200px"}>
+  //       <LoadingPage />
+  //     </Box>
+  //   );
+  // }
   return (
     <>
       {/* .................. */}
       <Navbar />
-      <Box
-        w={"full"}
-        p={{ lg: "50px 50px", md: "40px 40px", base: "20px 20px" }}
-      >
-        <HStack textAlign={"center"} spacing={"5px"}>
-          <Text fontSize={"18px"} fontWeight={500} color={"#282c3f"}>
-            {" "}
-            Wishlist
-          </Text>
-          <Text fontSize={"17px"} fontWeight={400} color={"#b2b4b9"}>
-            {"( "}
-            {wishlist.length} items{" )"}
-          </Text>
-        </HStack>
-        <SimpleGrid
-          columns={{ lg: "5", md: "3", base: "2" }}
-          gap={{ lg: "50px", md: "30px", base: "10px" }}
-          mt={0}
-          mb={8}
-        >
-          {wishlist.length > 0 ? (
-            wishlist?.map((el) => {
-              return (
-                <SingleWishlistProduct
-                  key={el._id}
-                  el={el}
-                  handleAddCart={handleAddCart}
-                  handleDelete={handleDelete}
-                />
-              );
-            })
-          ) : (
-            <Box mt={"20%"}>
+
+      {!isLoading ? (
+        <>
+          <Box
+            w={"full"}
+            p={{ lg: "50px 50px", md: "40px 40px", base: "20px 20px" }}
+          >
+            <HStack textAlign={"center"} spacing={"5px"}>
               <Text fontSize={"18px"} fontWeight={500} color={"#282c3f"}>
-                YOUR WISHLIST IS EMPTY
+                {" "}
+                Wishlist
               </Text>
               <Text fontSize={"17px"} fontWeight={400} color={"#b2b4b9"}>
-                Add items that you like to your wishlist. Review them anytime
-                and easily move them to the bag.
+                {"( "}
+                {wishlist.length} items{" )"}
               </Text>
-            </Box>
-          )}
-        </SimpleGrid>
-      </Box>
+            </HStack>
+            <SimpleGrid
+              columns={{ lg: "5", md: "3", base: "2" }}
+              gap={{ lg: "50px", md: "30px", base: "10px" }}
+              mt={0}
+              mb={8}
+            >
+              {wishlist.length > 0 ? (
+                wishlist?.map((el) => {
+                  return (
+                    <SingleWishlistProduct
+                      key={el._id}
+                      el={el}
+                      handleAddCart={handleAddCart}
+                      handleDelete={handleDelete}
+                    />
+                  );
+                })
+              ) : (
+                <Box mt={"20%"}>
+                  <Text fontSize={"18px"} fontWeight={500} color={"#282c3f"}>
+                    YOUR WISHLIST IS EMPTY
+                  </Text>
+                  <Text fontSize={"17px"} fontWeight={400} color={"#b2b4b9"}>
+                    Add items that you like to your wishlist. Review them
+                    anytime and easily move them to the bag.
+                  </Text>
+                </Box>
+              )}
+            </SimpleGrid>
+          </Box>
+        </>
+      ) : (
+        <Box height={"600px"}>
+          <LoadingPage />
+        </Box>
+      )}
 
       <Footer />
     </>

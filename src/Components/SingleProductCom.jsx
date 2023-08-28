@@ -1,12 +1,12 @@
 import styles from "../css/SingleProductCom.module.css";
 import axios from "axios";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import {
-  faMagnifyingGlass,
-  faUser,
-  faHeart,
-  faBagShopping,
-} from "@fortawesome/free-solid-svg-icons";
+// import {
+//   faMagnifyingGlass,
+//   faUser,
+//   faHeart,
+//   faBagShopping,
+// } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Circle, Text, useToast, Icon, Image } from "@chakra-ui/react";
@@ -15,7 +15,7 @@ import { CiHeart } from "react-icons/ci";
 import { BsHandbag } from "react-icons/bs";
 import { getUserDetails } from "../Redux/UserReducer/Action";
 
-library.add(faMagnifyingGlass, faUser, faHeart, faBagShopping);
+// library.add(faMagnifyingGlass, faUser, faHeart, faBagShopping);
 
 export default function SingleProductCom(el) {
   const mobileNumber = localStorage.getItem("MbNumber");

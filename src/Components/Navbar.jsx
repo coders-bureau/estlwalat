@@ -29,6 +29,7 @@ import { HiOutlineUser } from "react-icons/hi";
 import { PiHeartStraightBold, PiHandbagBold } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../Redux/AuthReducer/Action";
+import axios from "axios";
 
 export const Navbar = () => {
   const { onOpen, onClose } = useDisclosure();
@@ -61,8 +62,29 @@ export const Navbar = () => {
   // ............................
 
   const handleLogOut = () => {
-    localStorage.clear();
+    // localStorage.clear();
+    // dispatch(login("logout"));
+
+    const auth_token = localStorage.getItem("authToken");
+    axios.defaults.headers.common["auth_token"] = `${auth_token}`;
+    axios
+      .get(`${process.env.REACT_APP_BASE_API}/user/account/logout`)
+      .then((response) => {
+        // setisAuth(true);
+        dispatch(login("logout"));
+        localStorage.clear();
+        // console.log("hii")
+        // console.log(response);
+      })
+      .catch((error) => {
+        // setisAuth(false);
+        dispatch(login("logout"));
+        localStorage.clear();
+        console.error("Error: ", error);
+      });
     dispatch(login("logout"));
+    localStorage.clear();
+    navigate("/");
   };
 
   const handleKeyDown = (e) => {
@@ -435,9 +457,9 @@ export const Navbar = () => {
                     >
                       Wishlist
                     </MenuItem>
-                    <MenuItem _hover={{ fontWeight: "500" }} fontSize={"13px"}  onClick={() => navigate("/admin-dashboard")}>
+                    {/* <MenuItem _hover={{ fontWeight: "500" }} fontSize={"13px"}  onClick={() => navigate("/admin-dashboard")}>
                       Admin
-                    </MenuItem>
+                    </MenuItem> */}
                   </MenuList>
                 </Menu>
               </VStack>

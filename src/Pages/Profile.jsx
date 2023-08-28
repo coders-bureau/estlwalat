@@ -23,6 +23,7 @@ import Navbar from "../Components/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserDetails, updateUserProfile } from "../Redux/UserReducer/Action";
 import axios from "axios";
+import AddReview from "../Components/AddReview";
 const mobileNumber = localStorage.getItem("MbNumber");
 console.log(mobileNumber);
 // const userinfo = localStorage.getItem("userInfo");
@@ -384,7 +385,8 @@ const Order = ({ user }) => {
                     fontWeight="bold"
                     mr={2}
                   >
-                    Order {++index} on: {new Date(order.orderDate).toLocaleDateString()}
+                    Order {++index} on:{" "}
+                    {new Date(order.orderDate).toLocaleDateString()}
                   </Box>
                   {/* <Box flex="1" textAlign="left" fontWeight="bold" mr={2}>
               Address: {order.address}
@@ -413,8 +415,8 @@ const Order = ({ user }) => {
                     borderRadius="5px"
                   >
                     <Box
-                      w={{ md: "150px", base: "75px" }}
-                      h={{ md: "200px", base: "100px" }}
+                      w={{ md: "150px", base: "85px" }}
+                      h={{ md: "200px", base: "120px" }}
                       overflow={"hidden"}
                     >
                       <Image
@@ -434,7 +436,7 @@ const Order = ({ user }) => {
                       alignItems="flex-start"
                     >
                   </HStack> */}
-                    <Box h={{ md: "200px", base: "100px" }}>
+                    <Box h={{ md: "200px", base: "120px" }}>
                       <VStack m={"3px"} gap={0} alignItems={"left"}>
                         {/* <Text>{item.title}</Text> */}
                         <Text
@@ -448,7 +450,7 @@ const Order = ({ user }) => {
                         </Text>
                         {/* <br /> */}
                         <Text
-                          mt={{ md: "10px", base: "0" }}
+                          mt={{ md: "10px", base: "5px" }}
                           fontWeight={450}
                           fontSize={{ md: "13px", base: "10px" }}
                         >
@@ -463,7 +465,7 @@ const Order = ({ user }) => {
                         {/* <br /> */}
 
                         <Text
-                          mt={{ md: "10px", base: "0" }}
+                          mt={{ md: "10px", base: "0px" }}
                           w={{ md: "20vw", base: "40vw" }}
                           fontWeight={450}
                           fontSize={{ md: "13px", base: "10px" }}
@@ -472,15 +474,36 @@ const Order = ({ user }) => {
                         </Text>
 
                         <Text
-                          mt={{ md: "5px", base: "0" }}
+                          mt={{ md: "5px", base: "5px" }}
                           fontWeight={450}
                           fontSize={{ md: "13px", base: "10px" }}
                         >
                           Date of Order :{" "}
                           {new Date(order.orderDate).toLocaleDateString()}
                         </Text>
+                        <Text
+                          mt={{ md: "5px", base: "5px" }}
+                          fontWeight={450}
+                          fontSize={{ md: "13px", base: "10px" }}
+                        >
+                          Order Status : <em>{order.orderStatus}</em>
+                        </Text>
                       </VStack>
                     </Box>
+                    {order.orderStatus === "processing" && (
+                      <Button colorScheme="teal" 
+                      // onClick={handleAddReview}
+                      >
+                        Add Review
+                      </Button>
+                    )}
+
+                    {/* AddReview modal */}
+                    <AddReview
+                      // isOpen={isReviewModalOpen}
+                      // onClose={handleCloseReviewModal}
+                      // onSubmit={handleSubmitReview}
+                    />
                   </Grid>
                 ))}
               </AccordionPanel>

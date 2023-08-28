@@ -88,7 +88,7 @@ const Signin = () => {
 
   const onSubmitOTP = (e) => {
     e.preventDefault();
-    setLoading("true");
+    setLoading(true);
 
     const code = value;
     console.log(code);
@@ -234,10 +234,10 @@ const Signin = () => {
   return (
     <>
       <Navbar />
-      {/* <button
+      <button
         onClick={() => {
           axios
-            .post("http://localhost:5000/admin/login", {
+            .post("http://localhost:5000/user/signup", {
               mobileNumber: 7083105861,
             })
             .then((res) => {
@@ -268,7 +268,7 @@ const Signin = () => {
         }}
       >
         click me to buypass login
-      </button> */}
+      </button>
       {!viewOtpForm ? (
         <Box>
           <Center w={"full"} bgColor="#fceeea" h={"100vh"}>

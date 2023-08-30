@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CarouselCom from "../Components/Carousel";
 import { Box, Heading, Image, SimpleGrid, Text } from "@chakra-ui/react";
 import Footer from "../Components/Footer";
 import Slide from "../Components/Slide";
 import Navbar from "../Components/Navbar"
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const homePageCarousel = [
   "https://assets.myntassets.com/f_webp,w_980,c_limit,fl_progressive,dpr_2.0/assets/images/2022/8/1/70a3d1a4-f16a-45ca-9bb4-64dc2315352b1659297228544-Desktop-Banners_unisex-with-kids.jpg",
@@ -100,11 +102,59 @@ const data3 = [
   },
 ];
 const Home = () => {
+  const navigate = useNavigate();
+  const [imageData, setImageData] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [offers, setOffers] = useState([]);
+
+
+  useEffect(() => {
+    fetchImageData();
+    fetchCategories();
+    fetchOffers();
+  }, []);
+
+  const fetchImageData = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_API}/slider/getImageData`
+      );
+      setImageData(response.data.data);
+    } catch (error) {
+      console.error("Error fetching image data:", error);
+    }
+  };
+  const fetchCategories = async () => {
+    try {
+      // setisLoading(true);
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_API}/admin/allcategories`
+      ); // Adjust the endpoint accordingly
+      setCategories(response.data.data);
+      // setisLoading(false);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+      // setisLoading(false);
+    }
+  };
+  const fetchOffers = async () => {
+    // setisLoading(true);
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_API}/offer/fetchoffers`
+      );
+      setOffers(response.data.data);
+    } catch (error) {
+      console.error("Error fetching offers:", error);
+    }
+    // setisLoading(false);
+  };
+
   return (
     <>
     <Navbar />
       {/* home page Carousel */}
-      <CarouselCom data={homePageCarousel} />
+      <CarouselCom data={imageData} />
       <Box
         m={{
           sm: "0px 25px 0px 25px",
@@ -211,12 +261,15 @@ const Home = () => {
             spacingX={{ base: "3", sm: "3", md: "10", lg: "10" }}
             spacingY={{ sm: "0" }}
           >
-            {data2.map((item, i) => (
+            {categories.map((item, i) => (
               <Box
+              
                 position={"relative"}
                 fontWeight={"500"}
                 fontSize={"2.2vw"}
                 color={"#282c3f"}
+                onClick={() => navigate(`store?category=${item.name}`)}
+                cursor="pointer"
               >
                 <Box w={"100%"} h={"17vw"}>
                   <Image
@@ -224,7 +277,7 @@ const Home = () => {
                     w={"100%"}
                     objectFit={"fill"}
                     key={item.image + i}
-                    src={item.image}
+                    src={process.env.REACT_APP_BASE_API + `/${item.image}`}
                   />
                 </Box>
 
@@ -243,7 +296,7 @@ const Home = () => {
                   boxShadow="dark-lg"
                   rounded="md"
                 >
-                  <Text>{item.title}</Text>
+                  <Text>{item.name}</Text>
                 </Box>
               </Box>
             ))}
@@ -273,7 +326,7 @@ const Home = () => {
             fontWeight={700}
             fontSize={{ lg: "40px", md: "40px" }}
           >
-            OFFERS
+            Percent Offers
           </Heading>
           <SimpleGrid
             m={2}
@@ -290,8 +343,10 @@ const Home = () => {
             //     : navigate("/store?type=Men")
             // }
           >
-            {data3.map((item, i) => (
+            {offers.filter((item) => item.type === 'percent').map((item, i) => (
               <Box
+              // onClick={() => navigate(`store?category=${item.name}`)}
+              cursor="pointer"
                 position={"relative"}
                 fontWeight={"500"}
                 // fontSize={{ base: "13px", sm: "13px", md: "20px", lg: "20px" }}
@@ -304,7 +359,7 @@ const Home = () => {
                     w={"100%"}
                     objectFit={"fill"}
                     key={item.image + i}
-                    src={item.image}
+                    src={process.env.REACT_APP_BASE_API + `/${item.image}`}
                   />
                 </Box>
                 <Box
@@ -324,13 +379,106 @@ const Home = () => {
                   // p="1"
                   rounded="md"
                 >
-                  <Text>{item.pricetitle}</Text>
-                  <Text fontSize={"1vw"}>{item.title}</Text>
+                  <Text>{item.text}</Text>
+                  <Text fontSize={"1vw"}>{item.type}</Text>
                 </Box>
               </Box>
             ))}
           </SimpleGrid>
-          {/* <SimpleGrid columns={5} spacing={10}>
+          
+        </Box>
+        <Box
+          display={{
+            sm: "none",
+            base: "none",
+            md: "grid",
+            lg: "grid",
+          }}
+          textAlign={"center"}
+          paddingBottom={"40px"}
+        >
+          <Heading
+            display={"block"}
+            bgGradient="linear(to-b,#1414e3,#b0b0ff)"
+            bgClip="text"
+            as={"h2"}
+            m={{
+              md: "30px 0px 13px 0px",
+              lg: "50px 0px 20px 0px",
+            }}
+            // m={"50px 0px 20px 0px"}
+            fontWeight={700}
+            fontSize={{ lg: "40px", md: "40px" }}
+          >
+            Flat OFFERS
+          </Heading>
+          <SimpleGrid
+            m={2}
+            // column={5}
+            gridTemplateColumns={"repeat(5, minmax(0, 1fr))"}
+            spacingX={{ base: "3", sm: "3", md: "10", lg: "10" }}
+            spacingY={{ sm: "0" }}
+
+            // onClick={() =>
+            //   endpoint === "/DayDeals" ||
+            //   endpoint === "/BestExclusiveBrand" ||
+            //   endpoint === "/TopPicks"
+            //     ? navigate("/store?type=Women")
+            //     : navigate("/store?type=Men")
+            // }
+          >
+            {offers.filter((item) => item.type === 'flat').map((item, i) => (
+              <Box
+                position={"relative"}
+                fontWeight={"500"}
+                // fontSize={{ base: "13px", sm: "13px", md: "20px", lg: "20px" }}
+                fontSize={"1.7vw"}
+                color={"#282c3f"}
+              >
+                <Box w={"100%"} h={"17vw"}>
+                  <Image
+                    h={"100%"}
+                    w={"100%"}
+                    objectFit={"fill"}
+                    key={item.image + i}
+                    src={process.env.REACT_APP_BASE_API + `/${item.image}`}
+                  />
+                </Box>
+                <Box
+                  textAlign={"center"}
+                  justifyContent={"center"}
+                  width={"80%"}
+                  height={"25%"}
+                  bg="#fff"
+                  position={"absolute"}
+                  // top={"100%"}
+                  left={"50%"}
+                  transform={"translate(-50%, -50%)"}
+                  fontWeight={"500"}
+                  // fontSize="20px"
+                  color={"#282c3f"}
+                  boxShadow="dark-lg"
+                  // p="1"
+                  rounded="md"
+                >
+                  <Text>{item.text}</Text>
+                  <Text fontSize={"1vw"}>{item.type}</Text>
+                </Box>
+              </Box>
+            ))}
+          </SimpleGrid>
+          
+        </Box>
+      </Box>
+      <Box mt={16}>
+        <Footer />
+      </Box>
+    </>
+  );
+};
+
+export default Home;
+{/* <SimpleGrid columns={5} spacing={10}>
             <Box position={"relative"}>
               <Image
                 src={
@@ -457,13 +605,3 @@ const Home = () => {
               </Box>
             </Box>
           </SimpleGrid> */}
-        </Box>
-      </Box>
-      <Box mt={16}>
-        <Footer />
-      </Box>
-    </>
-  );
-};
-
-export default Home;

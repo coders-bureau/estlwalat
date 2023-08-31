@@ -3,7 +3,7 @@ import CarouselCom from "../Components/Carousel";
 import { Box, Heading, Image, SimpleGrid, Text } from "@chakra-ui/react";
 import Footer from "../Components/Footer";
 import Slide from "../Components/Slide";
-import Navbar from "../Components/Navbar"
+import Navbar from "../Components/Navbar";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -107,7 +107,6 @@ const Home = () => {
   const [categories, setCategories] = useState([]);
   const [offers, setOffers] = useState([]);
 
-
   useEffect(() => {
     fetchImageData();
     fetchCategories();
@@ -152,7 +151,7 @@ const Home = () => {
 
   return (
     <>
-    <Navbar />
+      <Navbar />
       {/* home page Carousel */}
       <CarouselCom data={imageData} />
       <Box
@@ -164,7 +163,7 @@ const Home = () => {
         }}
       >
         {/* MOBILE VIEW SLIDE CAROUSEL */}
-        <Slide data2={data2} data1={data1} data3={data3} />
+        <Slide data2={categories} data1={data1} data3={offers} />
 
         {/* Desktop VIEW SLIDE */}
         {/* Get Ready for the Daily Deal Deligth! */}
@@ -263,7 +262,6 @@ const Home = () => {
           >
             {categories.map((item, i) => (
               <Box
-              
                 position={"relative"}
                 fontWeight={"500"}
                 fontSize={"2.2vw"}
@@ -343,49 +341,55 @@ const Home = () => {
             //     : navigate("/store?type=Men")
             // }
           >
-            {offers.filter((item) => item.type === 'percent').map((item, i) => (
-              <Box
-              // onClick={() => navigate(`store?category=${item.name}`)}
-              cursor="pointer"
-                position={"relative"}
-                fontWeight={"500"}
-                // fontSize={{ base: "13px", sm: "13px", md: "20px", lg: "20px" }}
-                fontSize={"1.7vw"}
-                color={"#282c3f"}
-              >
-                <Box w={"100%"} h={"17vw"}>
-                  <Image
-                    h={"100%"}
-                    w={"100%"}
-                    objectFit={"fill"}
-                    key={item.image + i}
-                    src={process.env.REACT_APP_BASE_API + `/${item.image}`}
-                  />
-                </Box>
+            {offers
+              .filter((item) => item.type === "percent")
+              .map((item, i) => (
                 <Box
-                  textAlign={"center"}
-                  justifyContent={"center"}
-                  width={"80%"}
-                  height={"25%"}
-                  bg="#fff"
-                  position={"absolute"}
-                  // top={"100%"}
-                  left={"50%"}
-                  transform={"translate(-50%, -50%)"}
+                  // onClick={() => navigate(`store?category=${item.name}`)}
+                  cursor="pointer"
+                  position={"relative"}
                   fontWeight={"500"}
-                  // fontSize="20px"
+                  // fontSize={{ base: "13px", sm: "13px", md: "20px", lg: "20px" }}
+                  fontSize={"1.7vw"}
                   color={"#282c3f"}
-                  boxShadow="dark-lg"
-                  // p="1"
-                  rounded="md"
+                  onClick={() =>
+                    navigate(
+                      `store?offerType1=percent&offerValue=${item.value}`
+                    )
+                  }
                 >
-                  <Text>{item.text}</Text>
-                  <Text fontSize={"1vw"}>{item.type}</Text>
+                  <Box w={"100%"} h={"17vw"}>
+                    <Image
+                      h={"100%"}
+                      w={"100%"}
+                      objectFit={"fill"}
+                      key={item.image + i}
+                      src={process.env.REACT_APP_BASE_API + `/${item.image}`}
+                    />
+                  </Box>
+                  <Box
+                    textAlign={"center"}
+                    justifyContent={"center"}
+                    width={"80%"}
+                    height={"25%"}
+                    bg="#fff"
+                    position={"absolute"}
+                    // top={"100%"}
+                    left={"50%"}
+                    transform={"translate(-50%, -50%)"}
+                    fontWeight={"500"}
+                    // fontSize="20px"
+                    color={"#282c3f"}
+                    boxShadow="dark-lg"
+                    // p="1"
+                    rounded="md"
+                  >
+                    <Text>{item.text}</Text>
+                    <Text fontSize={"1vw"}>"OFF"</Text>
+                  </Box>
                 </Box>
-              </Box>
-            ))}
+              ))}
           </SimpleGrid>
-          
         </Box>
         <Box
           display={{
@@ -427,47 +431,54 @@ const Home = () => {
             //     : navigate("/store?type=Men")
             // }
           >
-            {offers.filter((item) => item.type === 'flat').map((item, i) => (
-              <Box
-                position={"relative"}
-                fontWeight={"500"}
-                // fontSize={{ base: "13px", sm: "13px", md: "20px", lg: "20px" }}
-                fontSize={"1.7vw"}
-                color={"#282c3f"}
-              >
-                <Box w={"100%"} h={"17vw"}>
-                  <Image
-                    h={"100%"}
-                    w={"100%"}
-                    objectFit={"fill"}
-                    key={item.image + i}
-                    src={process.env.REACT_APP_BASE_API + `/${item.image}`}
-                  />
-                </Box>
+            {offers
+              .filter((item) => item.type === "flat")
+              .map((item, i) => (
                 <Box
-                  textAlign={"center"}
-                  justifyContent={"center"}
-                  width={"80%"}
-                  height={"25%"}
-                  bg="#fff"
-                  position={"absolute"}
-                  // top={"100%"}
-                  left={"50%"}
-                  transform={"translate(-50%, -50%)"}
+                  position={"relative"}
                   fontWeight={"500"}
-                  // fontSize="20px"
+                  // fontSize={{ base: "13px", sm: "13px", md: "20px", lg: "20px" }}
+                  fontSize={"1.7vw"}
                   color={"#282c3f"}
-                  boxShadow="dark-lg"
-                  // p="1"
-                  rounded="md"
+                  onClick={() =>
+                    navigate(
+                      `store?offerType1=flat&offerValue=${item.value}`
+                    )
+                  }
+                  cursor={"pointer"}
                 >
-                  <Text>{item.text}</Text>
-                  <Text fontSize={"1vw"}>{item.type}</Text>
+                  <Box w={"100%"} h={"17vw"}>
+                    <Image
+                      h={"100%"}
+                      w={"100%"}
+                      objectFit={"fill"}
+                      key={item.image + i}
+                      src={process.env.REACT_APP_BASE_API + `/${item.image}`}
+                    />
+                  </Box>
+                  <Box
+                    textAlign={"center"}
+                    justifyContent={"center"}
+                    width={"80%"}
+                    height={"25%"}
+                    bg="#fff"
+                    position={"absolute"}
+                    // top={"100%"}
+                    left={"50%"}
+                    transform={"translate(-50%, -50%)"}
+                    fontWeight={"500"}
+                    // fontSize="20px"
+                    color={"#282c3f"}
+                    boxShadow="dark-lg"
+                    // p="1"
+                    rounded="md"
+                  >
+                    <Text>{item.text}</Text>
+                    <Text fontSize={"1vw"}>"OFF"</Text>
+                  </Box>
                 </Box>
-              </Box>
-            ))}
+              ))}
           </SimpleGrid>
-          
         </Box>
       </Box>
       <Box mt={16}>
@@ -478,7 +489,8 @@ const Home = () => {
 };
 
 export default Home;
-{/* <SimpleGrid columns={5} spacing={10}>
+{
+  /* <SimpleGrid columns={5} spacing={10}>
             <Box position={"relative"}>
               <Image
                 src={
@@ -604,4 +616,5 @@ export default Home;
                 <Text fontSize={"14px"}>Foot Wear</Text>
               </Box>
             </Box>
-          </SimpleGrid> */}
+          </SimpleGrid> */
+}

@@ -37,8 +37,15 @@ const Filter = () => {
   const [pricegte, setPricegte] = useState(initPriceg || []);
 
   // ............................
-  const initDiscount = searchParams.get("discount");
+  const initDiscount = searchParams.getAll("discount");
   const [discount, setDiscount] = useState(initDiscount || "");
+  // ............................
+
+  const initOfferType1 = searchParams.get("offerType1");
+  const [offerType1, setOfferT] = useState(initOfferType1 || "");
+
+  const initOfferValue = searchParams.get("offerValue");
+  const [offerValue, setOfferV] = useState(initOfferValue || "");
   // ............................
   const initQuery = searchParams.get("q");
   const [q, setQuery] = useState(initQuery || "");
@@ -59,7 +66,6 @@ const Filter = () => {
   const handleDiscount = (el) => {
     setDiscount(el);
   };
-  
 
   useEffect(() => {
     setType(initType);
@@ -96,6 +102,8 @@ const Filter = () => {
     pricelte && (params.pricelte = pricelte);
     pricegte && (params.pricegte = pricegte);
     discount && (params.discount = discount);
+    offerType1 && (params.offerType1 = offerType1);
+    offerValue && (params.offerValue = offerValue);
     q && (params.q = q);
     setSearchParams(params);
   }, [
@@ -114,12 +122,12 @@ const Filter = () => {
     q,
     setQuery,
   ]);
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   const handleCategoryChange = (event) => {
     const selectedValue = event.target.value;
     setSelectedCategory(selectedValue);
-    setCategory(selectedValue)
+    setCategory(selectedValue);
     console.log(category);
     // onSelectCategory(selectedValue);
   };
@@ -242,19 +250,19 @@ const Filter = () => {
           >
             DISCOUNT
           </Text>
-          <RadioGroup
+          <CheckboxGroup
             onChange={handleDiscount}
             value={discount}
             size={"sm"}
             colorScheme={"pink"}
           >
             <VStack mt={1} alignItems={"flex-start"} spacing={1}>
-              <Radio value="10">10% and above</Radio>
-              <Radio value="30">30% and above</Radio>
-              <Radio value="50">50% and above</Radio>
-              <Radio value="70">70% and above</Radio>
+              <Checkbox value="10">10% and above</Checkbox>
+              <Checkbox value="30">30% and above</Checkbox>
+              <Checkbox value="50">50% and above</Checkbox>
+              <Checkbox value="70">70% and above</Checkbox>
             </VStack>
-          </RadioGroup>
+          </CheckboxGroup>
         </Box>
       </VStack>
     </>

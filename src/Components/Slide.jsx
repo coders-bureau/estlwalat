@@ -1,8 +1,11 @@
 import { Box, Divider, Heading, Image, Text } from "@chakra-ui/react";
 import React from "react";
 import Carousel from "react-multi-carousel";
+import { useNavigate } from "react-router-dom";
 
 const Slide = ({ data3, data2, data1 }) => {
+  console.log(data1,data2,data3);
+  const navigate = useNavigate();
   return (
     <Box
       display={{
@@ -184,6 +187,8 @@ const Slide = ({ data3, data2, data1 }) => {
             fontSize={"25px"}
             color={"#282c3f"}
             margin={"10px 10px 10px 10px"}
+            onClick={() => navigate(`store?category=${item.name}`)}
+            cursor="pointer"
           >
             <Box w={"100%"} h={"55vw"}>
               <Image
@@ -191,7 +196,7 @@ const Slide = ({ data3, data2, data1 }) => {
                 w={"100%"}
                 objectFit={"fill"}
                 key={item.image + i}
-                src={item.image}
+                src={process.env.REACT_APP_BASE_API + `/${item.image}`}
               />
             </Box>
             <Box
@@ -208,7 +213,7 @@ const Slide = ({ data3, data2, data1 }) => {
               boxShadow="dark-lg"
               rounded="md"
             >
-              <Text margin={"1.2vw"}>{item.title}</Text>
+              <Text margin={"1.2vw"}>{item.name}</Text>
             </Box>
           </Box>
         ))}
@@ -223,7 +228,7 @@ const Slide = ({ data3, data2, data1 }) => {
         fontWeight={700}
         fontSize={"40px"}
       >
-        Offers
+        Discount Offers
       </Heading>
       <Carousel
         additionalTransfrom={0}
@@ -277,42 +282,147 @@ const Slide = ({ data3, data2, data1 }) => {
         sliderClass=""
         swipeable
       >
-        {data3.map((item, i) => (
-          <Box
-            position={"relative"}
-            fontWeight={"200"}
-            fontSize={"2.px"}
-            color={"#282c3f"}
-            margin={"10px 10px 10px 10px"}
-          >
-            <Box w={"100%"} h={"55vw"}>
-              <Image
-                h={"100%"}
-                w={"100%"}
-                objectFit={"fill"}
-                key={item.image + i}
-                src={item.image}
-              />
-            </Box>
+        {data3
+          .filter((item) => item.type === "percent")
+          .map((item, i) => (
             <Box
-              textAlign={"center"}
-              width={"80%"}
-              height={"20%"}
-              bg="#fff"
-              position={"absolute"}
-              top={"80%"}
-              left={"50%"}
-              transform={"translate(-50%, -50%)"}
-              fontWeight={"500"}
+              position={"relative"}
+              fontWeight={"200"}
+              fontSize={"2.px"}
               color={"#282c3f"}
-              boxShadow="dark-lg"
-              rounded="md"
+              margin={"10px 10px 10px 10px"}
             >
-              <Text>{item.pricetitle}</Text>
-              <Text fontSize={"2.5vw"}>{item.title}</Text>
+              <Box w={"100%"} h={"55vw"}>
+                <Image
+                  h={"100%"}
+                  w={"100%"}
+                  objectFit={"fill"}
+                  key={item.image + i}
+                  src={process.env.REACT_APP_BASE_API + `/${item.image}`}
+                />
+              </Box>
+              <Box
+                textAlign={"center"}
+                width={"80%"}
+                height={"20%"}
+                bg="#fff"
+                position={"absolute"}
+                top={"80%"}
+                left={"50%"}
+                transform={"translate(-50%, -50%)"}
+                fontWeight={"500"}
+                color={"#282c3f"}
+                boxShadow="dark-lg"
+                rounded="md"
+              >
+                <Text>{item.text}</Text>
+                <Text fontSize={"2.5vw"}>"OFF"</Text>
+              </Box>
             </Box>
-          </Box>
-        ))}
+          ))}
+      </Carousel>
+      <Divider my={"15px"} />
+
+      {/* 4th slide home page */}
+      <Heading
+        bgGradient="linear(to-b,#1414e3,#b0b0ff)"
+        bgClip="text"
+        as={"h2"}
+        fontWeight={700}
+        fontSize={"40px"}
+      >
+        Flat Offers
+      </Heading>
+      <Carousel
+        additionalTransfrom={0}
+        arrows
+        autoPlaySpeed={3000}
+        centerMode={false}
+        className=""
+        containerClass="container"
+        dotListClass=""
+        draggable
+        focusOnSelect={false}
+        infinite={false}
+        itemClass=""
+        keyBoardControl
+        minimumTouchDrag={80}
+        pauseOnHover
+        renderArrowsWhenDisabled={false}
+        renderButtonGroupOutside={false}
+        renderDotsOutside={false}
+        responsive={{
+          desktop: {
+            breakpoint: {
+              max: 3000,
+              min: 1024,
+            },
+            items: 3,
+            partialVisibilityGutter: 40,
+          },
+          mobile: {
+            breakpoint: {
+              max: 464,
+              min: 0,
+            },
+            items: 2,
+            partialVisibilityGutter: 30,
+          },
+          tablet: {
+            breakpoint: {
+              max: 1024,
+              min: 464,
+            },
+            items: 2,
+            partialVisibilityGutter: 30,
+          },
+        }}
+        rewind={false}
+        rewindWithAnimation={false}
+        rtl={false}
+        shouldResetAutoplay
+        showDots={false}
+        sliderClass=""
+        swipeable
+      >
+        {data3
+          .filter((item) => item.type === "flat")
+          .map((item, i) => (
+            <Box
+              position={"relative"}
+              fontWeight={"200"}
+              fontSize={"2.px"}
+              color={"#282c3f"}
+              margin={"10px 10px 10px 10px"}
+            >
+              <Box w={"100%"} h={"55vw"}>
+                <Image
+                  h={"100%"}
+                  w={"100%"}
+                  objectFit={"fill"}
+                  key={item.image + i}
+                  src={process.env.REACT_APP_BASE_API + `/${item.image}`}
+                />
+              </Box>
+              <Box
+                textAlign={"center"}
+                width={"80%"}
+                height={"20%"}
+                bg="#fff"
+                position={"absolute"}
+                top={"80%"}
+                left={"50%"}
+                transform={"translate(-50%, -50%)"}
+                fontWeight={"500"}
+                color={"#282c3f"}
+                boxShadow="dark-lg"
+                rounded="md"
+              >
+                <Text>{item.text}</Text>
+                <Text fontSize={"2.5vw"}>"OFF"</Text>
+              </Box>
+            </Box>
+          ))}
       </Carousel>
     </Box>
   );

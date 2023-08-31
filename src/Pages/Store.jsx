@@ -81,7 +81,9 @@ const Store = () => {
       const brand = searchParams.getAll("brand");
       const pricelte = searchParams.get("pricelte");
       const pricegte = searchParams.get("pricegte");
-      const discount = searchParams.get("discount");
+      const offerType1 = searchParams.get("offerType1");
+      const offerValue = searchParams.get("offerValue");
+      const discount = searchParams.getAll("discount");
       const q = searchParams.get("q");
       const getProductParams = {
         params: {
@@ -94,6 +96,8 @@ const Store = () => {
           q,
           sortType: sValue,
           currentPage,
+          offerType1: offerType1,
+          offerValue: offerValue
         },
       };
       // dispatch(getProductsSorted(sValue, currentPage, getProductParams));

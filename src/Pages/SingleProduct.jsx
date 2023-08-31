@@ -71,7 +71,7 @@ const SingleProduct = () => {
     MRP,
     brand,
     category,
-    discount,
+    offer,
     images,
     price,
     // rating,
@@ -81,11 +81,17 @@ const SingleProduct = () => {
     type,
     reviews,
   } = currentProduct;
+  // console.log(offer);
   const toast = useToast();
   const [similarProducts, setSimilarProducts] = useState([]);
   const navigate = useNavigate();
   const [mainImage, setMainImage] = useState("");
   const [len, setLen] = useState(4);
+  const [offer1, setOffer] = useState({
+    type1 : "",
+    value : "",
+    text : "",
+  })
   // console.log(reviews);
   // console.log(reviews[0]);
 
@@ -111,7 +117,7 @@ const SingleProduct = () => {
     }
   }, [Products.length, dispatch, location.search]);
 
-  console.log(Products);
+  console.log(currentProduct);
   useEffect(() => {
     if (!user) {
       dispatch(getUserDetails(mobileNumber));
@@ -127,6 +133,7 @@ const SingleProduct = () => {
       currentProduct && setCurrentProduct(currentProduct);
       currentProduct && setMainImage(currentProduct.img);
       currentProduct && setLen(currentProduct.images.length);
+      currentProduct && setOffer(currentProduct.offer);
     }
   }, [id, Products.length]);
 
@@ -147,7 +154,8 @@ const SingleProduct = () => {
     setSimilarProducts,
   ]);
 
-  const setsize = (size) => {
+  const 
+  setsize = (size) => {
     if (size === sizeRef) {
       setSize("");
     } else {
@@ -401,7 +409,7 @@ const SingleProduct = () => {
                   size="lg"
                 >
                   {" "}
-                  {discount}% OFF{" "}
+                  {offer1.text}{" "}OFF{" "}
                 </Heading>
               </Box>
               {/* .................... */}

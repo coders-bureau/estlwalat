@@ -124,7 +124,7 @@ export default function Footer() {
 
       <div>
         <div>
-          <p>© 2023 www.estylewala.com. All rights reserved</p>
+          <p>© 2023 www.estylewala.com Manage by Shirazi Kids Wear. All rights reserved</p>
         </div>
       </div>
 

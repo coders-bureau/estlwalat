@@ -17,6 +17,7 @@ import {
   AccordionIcon,
   Image,
   Grid,
+  Heading,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import Navbar from "../Components/Navbar";
@@ -24,7 +25,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUserDetails, updateUserProfile } from "../Redux/UserReducer/Action";
 import axios from "axios";
 import AddReview from "../Components/AddReview";
+import ReviewForm from "../Components/ReviewForm";
+import { useNavigate } from "react-router-dom";
 const mobileNumber = localStorage.getItem("MbNumber");
+
 console.log(mobileNumber);
 // const userinfo = localStorage.getItem("userInfo");
 // console.log(userinfo);
@@ -36,7 +40,6 @@ const Profile = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((store) => store.UserReducer);
   const [activeTab, setActiveTab] = useState("tab1");
-
   useEffect(() => {
     if (!user) {
       dispatch(getUserDetails());
@@ -341,6 +344,13 @@ const Profiledetails = ({ user }) => {
 };
 
 const Order = ({ user }) => {
+  const navigate = useNavigate();
+
+  const userReview = true;
+  const handleReviewSubmit = (reviewData) => {
+    // Add logic here to submit the review data to your backend API
+    console.log("Review Data:", reviewData);
+  };
   // const dispatch = useDispatch();
   console.log(user);
   // Replace this with actual data from the backend
@@ -410,25 +420,29 @@ const Order = ({ user }) => {
                     // }}
                     w={"full"}
                     textAlign="left"
-                    gap="10px"
+                    // gap="10px"
                     border={"1px solid #b0a9a9"}
                     borderRadius="5px"
                   >
-                    <Box
-                      w={{ md: "150px", base: "85px" }}
-                      h={{ md: "200px", base: "120px" }}
-                      overflow={"hidden"}
-                    >
-                      <Image
-                        w={"100%"}
-                        m={"3px"}
-                        borderRadius={4}
-                        src={
-                          process.env.REACT_APP_BASE_API + "/" + item.imgPath
-                        }
-                      />
-                    </Box>
-                    {/* <HStack
+                    <VStack gap={0}>
+                      <HStack>
+                        <Box
+                          w={{ md: "150px", base: "85px" }}
+                          h={{ md: "200px", base: "120px" }}
+                          overflow={"hidden"}
+                        >
+                          <Image
+                            w={"100%"}
+                            m={"3px"}
+                            borderRadius={4}
+                            src={
+                              process.env.REACT_APP_BASE_API +
+                              "/" +
+                              item.imgPath
+                            }
+                          />
+                        </Box>
+                        {/* <HStack
                       display={{ lg: "flex", md: "flex", base: "none" }}
                       border="2px"
                       spacing={2}
@@ -436,74 +450,79 @@ const Order = ({ user }) => {
                       alignItems="flex-start"
                     >
                   </HStack> */}
-                    <Box h={{ md: "200px", base: "120px" }}>
-                      <VStack m={"3px"} gap={0} alignItems={"left"}>
-                        {/* <Text>{item.title}</Text> */}
-                        <Text
-                          fontSize={{ md: "16px", base: "13px" }}
-                          color="#282c3f"
-                          fontWeight={550}
-                          isTruncated
-                          w={{ md: "35vw", base: "35vw" }}
-                        >
-                          {item.productName}
-                        </Text>
-                        {/* <br /> */}
-                        <Text
-                          mt={{ md: "10px", base: "5px" }}
-                          fontWeight={450}
-                          fontSize={{ md: "13px", base: "10px" }}
-                        >
-                          Quantity Order : {item.quantity}
-                        </Text>
-                        {/* <Text>
+                        <Box h={{ md: "200px", base: "120px" }}>
+                          <VStack m={"3px"} gap={0} alignItems={"left"}>
+                            {/* <Text>{item.title}</Text> */}
+                            <Text
+                              fontSize={{ md: "16px", base: "13px" }}
+                              color="#282c3f"
+                              fontWeight={550}
+                              isTruncated
+                              w={{ md: "35vw", base: "35vw" }}
+                            >
+                              {item.productName}
+                            </Text>
+                            {/* <br /> */}
+                            <Text
+                              mt={{ md: "10px", base: "5px" }}
+                              fontWeight={450}
+                              fontSize={{ md: "13px", base: "10px" }}
+                            >
+                              Quantity Order : {item.quantity}
+                            </Text>
+                            {/* <Text>
                         {item.currentSize}
                         </Text>
                         <Text>
                         {item.price}
                       </Text> */}
-                        {/* <br /> */}
+                            {/* <br /> */}
 
-                        <Text
-                          mt={{ md: "10px", base: "0px" }}
-                          w={{ md: "20vw", base: "40vw" }}
-                          fontWeight={450}
-                          fontSize={{ md: "13px", base: "10px" }}
-                        >
-                          Address : {order.addressLine}
-                        </Text>
+                            <Text
+                              mt={{ md: "10px", base: "0px" }}
+                              w={{ md: "30vw", base: "40vw" }}
+                              fontWeight={450}
+                              fontSize={{ md: "13px", base: "10px" }}
+                            >
+                              Address : {order.addressLine}
+                            </Text>
 
-                        <Text
-                          mt={{ md: "5px", base: "5px" }}
-                          fontWeight={450}
-                          fontSize={{ md: "13px", base: "10px" }}
-                        >
-                          Date of Order :{" "}
-                          {new Date(order.orderDate).toLocaleDateString()}
-                        </Text>
-                        <Text
-                          mt={{ md: "5px", base: "5px" }}
-                          fontWeight={450}
-                          fontSize={{ md: "13px", base: "10px" }}
-                        >
-                          Order Status : <em>{order.orderStatus}</em>
-                        </Text>
-                      </VStack>
-                    </Box>
-                    {order.orderStatus === "processing" && (
-                      <Button colorScheme="teal" 
-                      // onClick={handleAddReview}
-                      >
-                        Add Review
-                      </Button>
-                    )}
-
-                    {/* AddReview modal */}
-                    <AddReview
-                      // isOpen={isReviewModalOpen}
-                      // onClose={handleCloseReviewModal}
-                      // onSubmit={handleSubmitReview}
-                    />
+                            <Text
+                              mt={{ md: "5px", base: "5px" }}
+                              fontWeight={450}
+                              fontSize={{ md: "13px", base: "10px" }}
+                            >
+                              Date of Order :{" "}
+                              {new Date(order.orderDate).toLocaleDateString()}
+                            </Text>
+                            <Text
+                              mt={{ md: "5px", base: "5px" }}
+                              fontWeight={450}
+                              fontSize={{ md: "13px", base: "10px" }}
+                            >
+                              Order Status : <em>{order.orderStatus}</em>
+                            </Text>
+                          </VStack>
+                        </Box>
+                      </HStack>
+                      <Box m={{md:"3px",base:"0px 0px 3px 3px"}} alignSelf={"flex-start"}>
+                        {order.orderStatus === "shipped" && (
+                          
+                            // <HStack>
+                              <Button alignSelf={"end"}
+                                bgColor={"#ff3e6c"}
+                                color={"#ffffff"}
+                                onClick={() => navigate(`/write-review/${item.product}`)}
+                                // fontSize={"10px"}
+                                size={{md:"lg", base:"xs"}}
+                                borderRadius={0}
+                              >
+                                Add Review
+                              </Button>
+                            // </HStack>
+                        )}
+                      </Box>
+                    </VStack>
                   </Grid>
                 ))}
               </AccordionPanel>

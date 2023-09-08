@@ -207,7 +207,7 @@ const SingleProduct = () => {
         .then((res) => {
           // dispatch(getUserDetails(mobileNumber));
           console.log("then");
-          navigate("/address");
+          navigate("/cart");
         })
         .catch((err) => {
           console.log("catch",err);

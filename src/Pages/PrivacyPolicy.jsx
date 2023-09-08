@@ -13,7 +13,7 @@ const PrivacyPolicy = () => {
         <br />
         <Text fontWeight={500} fontSize={"16px"}>Introduction</Text>
         <Text  fontSize={"12px"} color={"rgb(153, 153, 153)"}>
-          At eStyleWala, we are committed to protecting your privacy and
+          At eStyleWala manage by Shirazi Kids Wear, we are committed to protecting your privacy and
           ensuring the security of your personal information. We understand the
           importance of keeping your data safe and confidential. This Privacy
           Policy explains how we collect, use, and safeguard your information

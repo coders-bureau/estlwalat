@@ -13,7 +13,7 @@ const TermsOfUse = () => {
         </Heading>
 
         <Text mb={4} fontSize={"14px"}>
-          Welcome to eStyleWala! Please read these terms carefully before using
+          Welcome to eStyleWala!, Manage by Shirazi Kids Wear, Please read these terms carefully before using
           our website. By accessing and using this website, you agree to be
           bound by the following terms and conditions.
         </Text>

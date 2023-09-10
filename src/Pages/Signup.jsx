@@ -55,7 +55,7 @@ const Signup = () => {
           const config = { headers: { "Contnet-Type": "application/json" } };
           console.log(input);
           await axios.post(
-            "https://estylewalabackend.onrender.com/user/signup",
+            "https://api.estylewala.com/user/signup",
             { mobileNumber },
             config
           ).then(() => { 

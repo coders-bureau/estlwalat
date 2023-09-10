@@ -20,7 +20,7 @@ const ProductList = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('https://estylewalabackend.onrender.com/products', getProductParams);
+        const response = await axios.get('https://api.estylewala.com/products', getProductParams);
         setProducts(response.data);
       } catch (error) {
         console.error('Error fetching products:', error);

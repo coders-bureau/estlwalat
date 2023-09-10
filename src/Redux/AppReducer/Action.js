@@ -131,7 +131,7 @@ export const getAllProductsData = (params) => async (dispatch) => {
     const all = process.env.BASE_API;
     console.log(all);
     const r = await axios.get(
-      `https://estylewalabackend.onrender.com/allproducts`,
+      `https://api.estylewala.com/allproducts`,
       params
     );
     console.log(r.data);

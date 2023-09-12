@@ -33,6 +33,7 @@ import Payment from '../Pages/Payment'
 import Success from '../Pages/Success'
 import Order from '../Pages/Order'
 import ReviewForm from '../Components/ReviewForm'
+import ContactUs from '../Pages/ContactUs'
 
 export const MainRoutes = () => {
   
@@ -66,6 +67,7 @@ export const MainRoutes = () => {
              <Route path="/edit-product/:id" element={<EditProduct />}></Route>
              <Route path="/order" element={<Order />}></Route>
              <Route path="/write-review" element={<ReviewForm />}></Route>
+             <Route path="/contact" element={<ContactUs />}></Route>
 
 
 

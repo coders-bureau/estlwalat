@@ -197,6 +197,7 @@ export const Navbar = () => {
                     color={"#282c3f"}
                     p="20px 32%"
                     cursor="pointer"
+                    onClick={() => navigate("/contact")}
                   >
                     Contact us
                   </MenuItem>
@@ -293,6 +294,8 @@ export const Navbar = () => {
                     }}
                     borderBottom="5px solid rgba(0,0,0,0.0)"
                     cursor="pointer"
+                    onClick={() => navigate("/contact")}
+
                   >
                     <Text fontWeight={"500"} color={"#282c3f"} p="20px 0px">
                       Contact us

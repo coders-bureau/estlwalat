@@ -165,6 +165,7 @@ const Store = () => {
                 variant="outline"
                 placeholder="All"
                 bg={"rgb(229 231 235)"}
+                value={sValue}
                 onChange={(e) => handleChange(e.target.value)}
               >
                 <option value="rating">Rating </option>

@@ -234,7 +234,7 @@ const Signin = () => {
   return (
     <>
       <Navbar />
-      <button
+      {/* <button
         onClick={() => {
           axios
             .post("http://localhost:5000/user/signup", {
@@ -268,7 +268,7 @@ const Signin = () => {
         }}
       >
         click me to buypass login
-      </button>
+      </button> */}
       {!viewOtpForm ? (
         <Box>
           <Center w={"full"} bgColor="#fceeea" h={"100vh"}>

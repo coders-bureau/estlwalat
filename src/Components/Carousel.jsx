@@ -69,23 +69,25 @@ const CarouselCom = ({ data }) => {
             swipeable
             removeArrowOnDeviceType={["desktop"]}
           >
-            {data.map((item, id) => {
-              return (
-                <Image
-                  style={{
-                    paddingBottom: "30px",
-                    position: "relative",
-                  }}
-                  key={id}
-                  // w={{lg:"100%",}}
-                  h={{ lg: "100%", md: "100%", sm: "200px", base: "200px" }}
-                  objectFit="cover"
-                  // src={item.image}
-                  src={process.env.REACT_APP_BASE_API + `/${item.imageUrl}`}
-                  onClick={() => navigate(`store?${item.url}`)}
-                />
-              );
-            })}
+            {data
+              .sort((a, b) => a.slideOrder - b.slideOrder)
+              .map((item, id) => {
+                return (
+                  <Image
+                    style={{
+                      paddingBottom: "30px",
+                      position: "relative",
+                    }}
+                    key={id}
+                    // w={{lg:"100%",}}
+                    h={{ lg: "100%", md: "100%", sm: "200px", base: "200px" }}
+                    objectFit="cover"
+                    // src={item.image}
+                    src={process.env.REACT_APP_BASE_API + `/${item.imageUrl}`}
+                    onClick={() => navigate(`store?${item.url}`)}
+                  />
+                );
+              })}
           </Carousel>
         </Box>
       </>

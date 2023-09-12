@@ -43,14 +43,14 @@ export default function Footer() {
             Step into Style: Discover Endless Possibilities
           </Text>
           <br />
-          <div>
+          {/* <div>
             <p>Office Address</p>
             <p>
               Jama Masjid Road <br></br> Aarif Colony<br></br> Aurangabad{" "}
               <br></br>Maharashtra - 431005<br></br>
               India
             </p>
-          </div>
+          </div> */}
         </div>
         <div>
           <p>Shop</p>
@@ -78,7 +78,7 @@ export default function Footer() {
           <p>Youtube</p>
           <p>Twitter</p>
         </div>
-        <div>
+        {/* <div>
           <p>Contact Us</p>
           <form onSubmit={handleSubmit}>
             <div>
@@ -114,7 +114,7 @@ export default function Footer() {
               Submit
             </Button>
           </form>
-        </div>
+        </div> */}
       </div>
       <div className={styles.hr}>
         <div>

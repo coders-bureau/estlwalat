@@ -88,10 +88,10 @@ const SingleProduct = () => {
   const [mainImage, setMainImage] = useState("");
   const [len, setLen] = useState(4);
   const [offer1, setOffer] = useState({
-    type1 : "",
-    value : "",
-    text : "",
-  })
+    type1: "",
+    value: "",
+    text: "",
+  });
   // console.log(reviews);
   // console.log(reviews[0]);
 
@@ -154,8 +154,7 @@ const SingleProduct = () => {
     setSimilarProducts,
   ]);
 
-  const 
-  setsize = (size) => {
+  const setsize = (size) => {
     if (size === sizeRef) {
       setSize("");
     } else {
@@ -210,7 +209,7 @@ const SingleProduct = () => {
           navigate("/cart");
         })
         .catch((err) => {
-          console.log("catch",err);
+          console.log("catch", err);
           // dispatch(getUserDetails(mobileNumber));
           // navigate("/address");
         });
@@ -357,7 +356,7 @@ const SingleProduct = () => {
               <Box style={style.style} w="full">
                 <Image
                   _hover={style.hover}
-                  src={`http://localhost:5000/${mainImage}`}
+                  src={`${process.env.REACT_APP_BASE_API}+"/"+${mainImage}`}
                   w="full"
                 />
               </Box>
@@ -369,7 +368,7 @@ const SingleProduct = () => {
                     <Image
                       onClick={() => setMainImage(img)}
                       _hover={style.hover}
-                      src={"http://localhost:5000/" + img}
+                      src={`${process.env.REACT_APP_BASE_API}+"/" + ${img}`}
                       w="full"
                     />
                   </Box>
@@ -409,7 +408,7 @@ const SingleProduct = () => {
                   size="lg"
                 >
                   {" "}
-                  {offer1.text}{" "}OFF{" "}
+                  {offer1.text} OFF{" "}
                 </Heading>
               </Box>
               {/* .................... */}

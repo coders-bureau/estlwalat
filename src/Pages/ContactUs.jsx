@@ -11,6 +11,7 @@ import {
   Center,
 } from "@chakra-ui/react";
 import Navbar from "../Components/Navbar";
+import axios from "axios";
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -23,10 +24,26 @@ const ContactUs = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // You can handle form submission logic here
-    console.log("Form submitted:", formData);
+    // console.log("Form submitted:", formData);
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_BASE_API}/user/contactus`, formData);
+
+      if (response.status === 201) {
+        alert('Contact form submission successful');
+        setFormData({
+          email: '',
+          description: '',
+        });
+      } else {
+        alert('Contact form submission failed');
+      }
+    } catch (error) {
+      console.error('Error submitting contact form:', error);
+      alert('Contact form submission failed');
+    }
   };
 
   return (

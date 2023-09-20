@@ -80,6 +80,14 @@ const SingleProduct = () => {
     title,
     type,
     reviews,
+    net_weight,
+    description,
+    countryoforigin,
+    manufacturerdetails,
+    topColor,
+    topFabric,
+    bottomColor,
+    bottomFabric,
   } = currentProduct;
   // console.log(offer);
   const toast = useToast();
@@ -356,7 +364,7 @@ const SingleProduct = () => {
               <Box style={style.style} w="full">
                 <Image
                   _hover={style.hover}
-                  src={`${process.env.REACT_APP_BASE_API}+"/"+${mainImage}`}
+                  src={process.env.REACT_APP_BASE_API + "/" + mainImage}
                   w="full"
                 />
               </Box>
@@ -368,7 +376,7 @@ const SingleProduct = () => {
                     <Image
                       onClick={() => setMainImage(img)}
                       _hover={style.hover}
-                      src={`${process.env.REACT_APP_BASE_API}+"/" + ${img}`}
+                      src={process.env.REACT_APP_BASE_API + "/" + img}
                       w="full"
                     />
                   </Box>
@@ -464,7 +472,7 @@ const SingleProduct = () => {
                   </Text>
                 </HStack>
 
-                <SimpleGrid columns={7} spacing={"10px"}>
+                <SimpleGrid    columns={{ lg: "7", md: "4", base: "3  " }} spacing={"10px"}>
                   {size?.map((el, i) => {
                     return (
                       <Box
@@ -549,7 +557,7 @@ const SingleProduct = () => {
                 </HStack>
               </VStack>
 
-              <VStack align="flex-start" w="full" spacing={"20px"}>
+              {/* <VStack align="flex-start" w="full" spacing={"20px"}>
                 <HStack>
                   <Text>DELIVERY OPTIONS</Text>
                   <Icon as={BsTruck} fontSize="xl" />
@@ -573,6 +581,24 @@ const SingleProduct = () => {
                       </Button>
                     </InputRightElement>
                   </InputGroup>
+                </Box>
+              </VStack> */}
+              <VStack align="flex-start" w="full" spacing={"20px"}>
+                <HStack>
+                  <Text fontWeight={"700"} color="#282c3f">
+                    PRODUCT DETAILS
+                  </Text>
+                </HStack>
+
+                <Box>
+                  <Text fontSize={"14px"}><b>Name: </b> {title}</Text>
+                  <Text fontSize={"14px"}><b>Description: </b>{description}</Text>
+                  <Text fontSize={"14px"}><b>Top Color: </b>{topColor}</Text>
+                  <Text fontSize={"14px"}><b>Top Fabric: </b>{topFabric}</Text>
+                  <Text fontSize={"14px"}><b>Bottom Color: </b>{bottomColor}</Text>
+                  <Text fontSize={"14px"}><b>Bottom Fabric: </b>{bottomFabric}</Text>
+                  <Text fontSize={"14px"}><b>Manufacturer Details: </b>{manufacturerdetails}</Text>
+
                 </Box>
               </VStack>
 

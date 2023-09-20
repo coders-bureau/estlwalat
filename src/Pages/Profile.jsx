@@ -18,6 +18,7 @@ import {
   Image,
   Grid,
   Heading,
+  CircularProgress,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import Navbar from "../Components/Navbar";
@@ -27,6 +28,7 @@ import axios from "axios";
 import AddReview from "../Components/AddReview";
 import ReviewForm from "../Components/ReviewForm";
 import { useNavigate } from "react-router-dom";
+import LoadingPage from "./LoadingPage";
 const mobileNumber = localStorage.getItem("MbNumber");
 
 console.log(mobileNumber);
@@ -344,6 +346,8 @@ const Profiledetails = ({ user }) => {
 };
 
 const Order = ({ user }) => {
+  const [isLoading, setisLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const userReview = true;
@@ -361,16 +365,67 @@ const Order = ({ user }) => {
   }, []);
 
   const getOrders = () => {
+    setisLoading(true);
     axios({
       method: "get",
       url: `${process.env.REACT_APP_BASE_API}/order/orders`,
     })
-      .then((res) => setOrders(res.data.data))
+      .then((res) => {
+        setisLoading(false);
+
+        setOrders(res.data.data);
+      })
       .catch((err) => {
+        setisLoading(false);
+
         console.log(err);
       });
   };
+  const [loading, setLoading] = useState(false);
 
+  const invoiceGenerate = async (orderNo) => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_API}/user/order/invoice`,
+        {
+          responseType: "blob", // Specify the response type as a blob
+          params: {
+            orderNo: orderNo, // Pass the orderNo as a query parameter
+          },
+        }
+      );
+      if (response) {
+        setLoading(false);
+      }
+  
+      // Create a blob URL for the PDF
+      const blob = new Blob([response.data], { type: "application/pdf" });
+      const url = window.URL.createObjectURL(blob);
+  
+      // Create a link element to trigger the download
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "invoice.pdf";
+      document.body.appendChild(a);
+      a.click();
+  
+      // Clean up
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (error) {
+      console.error("Error downloading PDF", error);
+      setLoading(false);
+    }
+  };
+  
+
+  if (isLoading)
+    return (
+      <Box height={"200px"}>
+        <LoadingPage />
+      </Box>
+    );
   return (
     <>
       {/* <Box my={"25px"}> */}
@@ -505,22 +560,57 @@ const Order = ({ user }) => {
                           </VStack>
                         </Box>
                       </HStack>
-                      <Box m={{md:"3px",base:"0px 0px 3px 3px"}} alignSelf={"flex-start"}>
+                      <Box
+                        m={{ md: "3px", base: "0px 0px 3px 3px" }}
+                        alignSelf={"flex-start"}
+                      >
                         {order.orderStatus === "shipped" && (
-                          
-                            // <HStack>
-                              <Button alignSelf={"end"}
-                                bgColor={"#ff3e6c"}
-                                color={"#ffffff"}
-                                onClick={() => navigate(`/write-review/${item.product}`)}
-                                // fontSize={"10px"}
-                                size={{md:"lg", base:"xs"}}
-                                borderRadius={0}
-                              >
-                                Add Review
-                              </Button>
-                            // </HStack>
+                          // <HStack>
+                          <Button
+                            alignSelf={"end"}
+                            bgColor={"#ff3e6c"}
+                            color={"#ffffff"}
+                            onClick={() =>
+                              navigate(`/write-review/${item.product}`)
+                            }
+                            // fontSize={"10px"}
+                            size={{ md: "lg", base: "xs" }}
+                            borderRadius={0}
+                          >
+                            Add Review
+                          </Button>
+                          // </HStack>
                         )}
+                      </Box>
+                      <Box
+                        m={{ md: "3px", base: "0px 0px 3px 3px" }}
+                        alignSelf={"flex-start"}
+                      >
+                        {order.orderStatus !== "inprocess" &&
+                          order.orderStatus !== "cancelled" && (
+                            // <HStack>
+                            <Button
+                              alignSelf={"end"}
+                              bgColor={"teal"}
+                              color={"#ffffff"}
+                              size={{ md: "lg", base: "xs" }}
+                              borderRadius={0}
+                              _hover={{ textDecoration: "none" }}
+                              onClick={() => invoiceGenerate(order.orderNo)}
+                            >
+                              {loading ? (
+                                <CircularProgress
+                                  isIndeterminate
+                                  size={7}
+                                  margin={"0 10px"}
+                                  color="white"
+                                />
+                              ) : (
+                                "Invoice"
+                              )}
+                            </Button>
+                            // </HStack>
+                          )}
                       </Box>
                     </VStack>
                   </Grid>

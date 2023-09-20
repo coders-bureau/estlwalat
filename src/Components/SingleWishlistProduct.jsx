@@ -10,8 +10,7 @@ import {
 import React from "react";
 
 const SingleWishlistProduct = ({ el, handleAddCart, handleDelete }) => {
-  const { MRP, discount, brand, img, price, title } =
-    el;
+  const { MRP, discount, brand, img, price, title } = el;
   console.log(el._id);
   return (
     <>
@@ -35,7 +34,12 @@ const SingleWishlistProduct = ({ el, handleAddCart, handleDelete }) => {
           &#x2718;
         </Circle>
         <Box w={"full"}>
-          <Image w={"full"} src={process.env.REACT_APP_BASE_API+"/"+img} />
+          <Image
+            boxSize={{ lg: "20vw", md: "37vw", base: "59vw" }}
+            objectFit="contain"
+            w={"full"}
+            src={process.env.REACT_APP_BASE_API + "/" + img}
+          />
         </Box>
         <Box
           w={"full"}
@@ -46,7 +50,7 @@ const SingleWishlistProduct = ({ el, handleAddCart, handleDelete }) => {
           <HStack>
             <Text
               isTruncated
-              fontSize={{ lg: "14px", md: "14px", base: "10px" }}
+              fontSize={{ lg: "14px", md: "14px", base: "13px" }}
               fontWeight={500}
               color={"#2e364b"}
             >
@@ -54,7 +58,7 @@ const SingleWishlistProduct = ({ el, handleAddCart, handleDelete }) => {
             </Text>
             <Text
               fontWeight={500}
-              fontSize={{ lg: "10px", md: "10px", base: "8px" }}
+              fontSize={{ lg: "10px", md: "10px", base: "10px" }}
               color={"#ff915c"}
             >
               ({discount}% OFF)
@@ -62,9 +66,10 @@ const SingleWishlistProduct = ({ el, handleAddCart, handleDelete }) => {
           </HStack>
           <Text
             w={"full"}
+            align={"left"}
             fontWeight="400"
             color={"#53575f"}
-            fontSize={{ lg: "14px", md: "14px", base: "10px" }}
+            fontSize={{ lg: "14px", md: "14px", base: "13px" }}
             isTruncated
           >
             {title}
@@ -72,7 +77,7 @@ const SingleWishlistProduct = ({ el, handleAddCart, handleDelete }) => {
           <HStack>
             <Text
               fontWeight={500}
-              fontSize={{ lg: "12px", md: "12px", base: "8px" }}
+              fontSize={{ lg: "12px", md: "12px", base: "10px" }}
               color={"#2e364b"}
             >
               Rs.{price}
@@ -80,7 +85,7 @@ const SingleWishlistProduct = ({ el, handleAddCart, handleDelete }) => {
             <Text
               textDecor={"line-through"}
               fontWeight={400}
-              fontSize={{ lg: "12px", md: "12px", base: "8px" }}
+              fontSize={{ lg: "12px", md: "12px", base: "10px" }}
               color={"#afb0b7"}
             >
               Rs.{MRP}

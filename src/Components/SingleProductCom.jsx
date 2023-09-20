@@ -9,7 +9,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 // } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Circle, Text, useToast, Icon, Image } from "@chakra-ui/react";
+import { Circle, Text, useToast, Icon, Image, Skeleton } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { CiHeart } from "react-icons/ci";
 import { BsHandbag } from "react-icons/bs";
@@ -36,7 +36,7 @@ export default function SingleProductCom(el) {
     size,
     title,
     offer,
-    currentSize
+    currentSize,
   } = el;
   const [showWish, setShowWish] = useState(false);
   const navigate = useNavigate();
@@ -59,7 +59,7 @@ export default function SingleProductCom(el) {
         data: {
           productId: el._id,
           currentSize: size[0],
-        }
+        },
       })
         .then((res) => {
           // dispatch(getUserDetails());
@@ -143,10 +143,14 @@ export default function SingleProductCom(el) {
         </Circle>
         <div style={{ w_idth: "100%" }}>
           <Image
-            onClick={() => window.open(`../single_product/${_id}`, "_blank")}
+            onClick={() => navigate(`../single_product/${_id}`)}
             src={process.env.REACT_APP_BASE_API + "/" + img}
             // src={img}
             alt=""
+            // boxSize="50px"
+            boxSize={{ lg: "22vw", md: "30vw", base: "58vw" }}
+            // width={"40vw"}
+            objectFit="contain"
           />
           {!showWish && (
             <div className={styles.rating}>

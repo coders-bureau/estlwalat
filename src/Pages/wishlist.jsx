@@ -87,6 +87,7 @@ const Wishlist = () => {
       url: `${process.env.REACT_APP_BASE_API}/user/addcart`,
       data: {
         productId: el._id,
+        currentSize: el.size[0],
       },
     })
       .then((res) => {

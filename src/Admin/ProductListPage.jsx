@@ -35,7 +35,7 @@ const ProductListPage = () => {
   const fetchProducts = async () => {
     setisLoading(true);
     await axios
-      .get("http://localhost:5000/allproducts")
+      .get("${process.env.REACT_APP_BASE_API}/allproducts")
       .then((response) => {
         setProducts(response.data);
         console.log(response.data);
@@ -50,7 +50,7 @@ const ProductListPage = () => {
   const handleDeleteProduct = async (productId) => {
     setisLoading(true);
     try {
-      await axios.delete(`http://localhost:5000/products/${productId}`);
+      await axios.delete(`${process.env.REACT_APP_BASE_API}/products/${productId}`);
       toast({
         title: "Product deleted successfully.",
         status: "success",
@@ -101,7 +101,7 @@ const ProductListPage = () => {
                   <Td>{index + 1}</Td>
                   <Td>
                     <Image
-                      src={`http://localhost:5000/${product.img}`}
+                      src={`${process.env.REACT_APP_BASE_API}/${product.img}`}
                       // src={product.img}
                       alt={product.title}
                       boxSize="50px"

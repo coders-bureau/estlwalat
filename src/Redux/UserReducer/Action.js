@@ -40,7 +40,7 @@ export const userRegister = (mobileNumber) => async (dispatch) => {
     const config = { headers: { "Contnet-Type": "application/json" } };
 
     const msg = await axios.post(
-      "http://localhost:5000/user/signup",
+      `${process.env.REACT_APP_BASE_API}/user/signup`,
       { mobileNumber },
       config
     );

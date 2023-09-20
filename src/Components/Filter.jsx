@@ -35,12 +35,12 @@ const Filter = () => {
   const initPriceg = searchParams.getAll("pricegte");
   const [pricelte, setPricelte] = useState(initPricel || "");
   const [pricegte, setPricegte] = useState(initPriceg || "");
-console.log(pricegte);
+  console.log(pricegte);
   // ............................
   const initDiscount = searchParams.getAll("discount");
   const [discount, setDiscount] = useState(initDiscount || "");
   // ............................
-console.log(discount);
+  console.log(discount);
   const initOfferType1 = searchParams.get("offerType1");
   const [offerType1, setOfferT] = useState(initOfferType1 || "");
 
@@ -83,7 +83,7 @@ console.log(discount);
     try {
       // setisLoading(true);
       const response = await axios.get(
-        "http://localhost:5000/admin//allcategories"
+        `${process.env.REACT_APP_BASE_API}/admin//allcategories`
       ); // Adjust the endpoint accordingly
       setCategories(response.data.data);
       // setisLoading(false);

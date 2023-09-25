@@ -1,13 +1,16 @@
 import { Box, Heading, Text } from "@chakra-ui/react";
 import Footer from "../Components/Footer";
+import Navbar from "../Components/Navbar";
 
 const Cancellation = () => {
   return (
     <>
-      <Box textAlign={"left"}
+      <Navbar />
+      <Box
+        textAlign={"left"}
         padding={{ lg: "50px 200px", md: "25px 50px", base: "20px 30px" }}
       >
-        <Heading  textAlign={"center"} as="h1" mb={4}>
+        <Heading textAlign={"center"} as="h1" mb={4}>
           Cancellation Policy
         </Heading>
         <Box mb={4}>

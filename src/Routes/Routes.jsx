@@ -66,7 +66,7 @@ export const MainRoutes = () => {
              <Route path="/product-list" element={<ProductListPage />}></Route>
              <Route path="/edit-product/:id" element={<EditProduct />}></Route>
              <Route path="/order" element={<Order />}></Route>
-             <Route path="/write-review" element={<ReviewForm />}></Route>
+             <Route path="/write-review/:id" element={<ReviewForm />}></Route>
              <Route path="/contact" element={<ContactUs />}></Route>
 
 

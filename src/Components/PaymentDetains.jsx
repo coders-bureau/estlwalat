@@ -2,13 +2,18 @@ import { Box, HStack, VStack, Text, Button, useToast } from "@chakra-ui/react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const PaymentDetains1 = ({ totalMRP, totalMRPDiscount, offerPrice }) => {
+const PaymentDetains1 = ({
+  totalMRP,
+  totalMRPDiscount,
+  offerPrice,
+  couponDiscount,
+}) => {
   return (
     <>
       <Box w="full">
         <VStack w={"full"} align={"left"} textAlign="left">
-          <Text fontSize={"12px"} fontWeight={"bold"} color={"#535766"}>
-            PRICE DETAILS (2 Items)
+          <Text fontSize={"16px"} fontWeight={"bold"} color={"#535766"}>
+            PRICE DETAILS
           </Text>
           <HStack w={"full"} justify={"space-between"}>
             <Text fontSize={"14px"} color="#282c3f">
@@ -32,6 +37,14 @@ const PaymentDetains1 = ({ totalMRP, totalMRPDiscount, offerPrice }) => {
             </Text>
             <Text fontSize={"14px"} color="#03a685">
               -₹{offerPrice}
+            </Text>
+          </HStack>
+          <HStack w={"full"} justify={"space-between"}>
+            <Text fontSize={"14px"} color="#282c3f">
+              Coupon Discount
+            </Text>
+            <Text fontSize={"14px"} color="#03a685">
+              -₹{couponDiscount}
             </Text>
           </HStack>
           <HStack w={"full"} justify={"space-between"}>
@@ -68,11 +81,13 @@ const PaymentDetains2 = ({
   totalAmount,
   totalMRP,
   totalMRPDiscount,
+  couponDiscount,
   redirect,
   addressLine,
 }) => {
   const navigate = useNavigate();
   const toast = useToast();
+  const finalAmount = totalAmount-couponDiscount;
   return (
     <>
       <Box w="full">
@@ -82,7 +97,7 @@ const PaymentDetains2 = ({
               TOTAL Amount
             </Text>
             <Text fontSize={"14px"} color={"#3e4152"} fontWeight={"bold"}>
-              ₹ {totalAmount}
+              ₹ {totalAmount - couponDiscount}
             </Text>
           </HStack>
           <Button
@@ -97,8 +112,10 @@ const PaymentDetains2 = ({
                       totalAmount,
                       totalMRP,
                       totalMRPDiscount,
+                      couponDiscount,
                       addressLine,
                       offerPrice,
+                      finalAmount
                     },
                   })
                 : toast({
@@ -110,8 +127,7 @@ const PaymentDetains2 = ({
             }
             w="full"
             bg={"#ff3e6c"}
-          color={"#fff"}
-
+            color={"#fff"}
             borderRadius={3}
             fontSize={"15px"}
           >

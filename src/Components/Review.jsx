@@ -12,7 +12,10 @@ import {
   DrawerBody,
   DrawerCloseButton,
   Image,
+  Icon,
+  HStack,
 } from "@chakra-ui/react";
+import { StarIcon } from "@chakra-ui/icons";
 
 const Review = ({ review }) => {
   const review1 = review ? review : [];
@@ -94,10 +97,33 @@ const Review = ({ review }) => {
       </Heading>
       <VStack align="flex-start" spacing={4}>
         {firstReviews.map((review) => (
-          <Box key={review.id}>
-            <Text fontWeight={500} fontSize="lg">{review.name}</Text>
+          <Box key={review._id} border={1} w={"100%"}>
+            <Text fontWeight={500} fontSize="lg">
+              {review.userId.name ? review.userId.name : "eStyleWala Buyer" }
+            </Text>
+            <HStack pr={3} py={3}>
+              {[1, 2, 3, 4, 5].map((star) => (
+                <Icon
+                  key={star}
+                  as={StarIcon}
+                  boxSize={6}
+                  color={star <= review.rating ? "teal.500" : "gray.200"}
+                  cursor="pointer"
+                  // onClick={() => handleRatingClick(star)}
+                />
+              ))}
+              <Text>{review.rating}</Text>
+            </HStack>
             <Text>{review.content}</Text>
-            <Image src={review.image} w="10%" />
+            {review.img && (
+              <Image
+                boxSize={"100px"}
+                objectFit="contain"
+                // w={"full"}
+                src={process.env.REACT_APP_BASE_API + "/" + review.img}
+                alt="Selected"
+              />
+            )}
             <br />
             <hr />
           </Box>
@@ -123,8 +149,11 @@ const Review = ({ review }) => {
             <VStack align="flex-start" spacing={4}>
               {loadedReviews.map((review) => (
                 <Box key={review.id}>
-                  <Text fontWeight={500} fontSize="lg">{review.name}</Text>
+                  <Text fontWeight={500} fontSize="lg">
+                    {review.userId}
+                  </Text>
                   <Text>{review.content}</Text>
+                  <Text>{review.rating}</Text>
                   <Image src={review.image} w="10%" />
                   <br />
                   <hr />

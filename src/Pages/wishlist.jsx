@@ -64,7 +64,7 @@ const Wishlist = () => {
       .then((res) => {
         dispatch(getUserDetails());
         getWishlitProd();
-        setIsLoading(false);
+        // setIsLoading(false);
 
         // getWishlitProd();
         toast({
@@ -82,6 +82,7 @@ const Wishlist = () => {
   };
 
   const handleAddCart = (el) => {
+    setIsLoading(true);
     axios({
       method: "post",
       url: `${process.env.REACT_APP_BASE_API}/user/addcart`,

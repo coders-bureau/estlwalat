@@ -52,7 +52,7 @@ const SingleProduct = () => {
   const dispatch = useDispatch();
   const mobileNumber = localStorage.getItem("MbNumber");
   const [userId, setUserID] = useState("");
-
+   const [reviews, setReviews] = useState("");
   const pinInputRef = useRef("");
   const { id } = useParams();
   console.log(id);
@@ -79,7 +79,6 @@ const SingleProduct = () => {
     size,
     title,
     type,
-    reviews,
     net_weight,
     description,
     countryoforigin,
@@ -126,6 +125,7 @@ const SingleProduct = () => {
   }, [Products.length, dispatch, location.search]);
 
   console.log(currentProduct);
+
   useEffect(() => {
     if (!user) {
       dispatch(getUserDetails(mobileNumber));
@@ -161,6 +161,26 @@ const SingleProduct = () => {
     currentProduct,
     setSimilarProducts,
   ]);
+
+
+  useEffect(() => {
+    if(_id){
+      axios
+      .get(`${process.env.REACT_APP_BASE_API}/user/reviews/${_id}`)
+      .then((response) => {
+        // setisLoading(false);
+        // const { data } = response.data;
+        console.log(response.data);
+        setReviews(response.data);
+        // setRating(data.data)
+      })
+      .catch((error) => {
+        // setisLoading(false);
+        console.error("Error fetching reviews:", error);
+      });
+    }
+   
+  },[_id])
 
   const setsize = (size) => {
     if (size === sizeRef) {
@@ -268,11 +288,11 @@ const SingleProduct = () => {
           // dispatch(getUserDetails());
           console.log(err);
           toast({
-            title: "Error in adding.",
+            title: "Error in adding",
             variant: "top-accent",
             isClosable: true,
             position: "top-right",
-            status: "success",
+            status: "error",
             duration: 1500,
           });
         });
@@ -675,7 +695,7 @@ const SingleProduct = () => {
             md: "3",
             base: "2",
           }}
-          spacingX="40px"
+          spacingX={{lg:"40px", md:"40px",base:"10px"}}
           spacingY="30px"
           w="100%"
         >

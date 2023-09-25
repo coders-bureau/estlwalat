@@ -8,6 +8,7 @@ import {
   Heading,
 } from "@chakra-ui/react";
 import Footer from "../Components/Footer";
+import Navbar from "../Components/Navbar";
 
 const FAQ = () => {
   const faqData = [
@@ -48,6 +49,7 @@ const FAQ = () => {
 
   return (
     <>
+    <Navbar/>
       <Box padding={{lg: "50px 200px" ,md: "25px 50px" ,base: "20px 30px" }}>
         <Box borderBottomColor={"black"} borderBottom={"2px"}>
           <Heading textAlign={"center"} as="h1" mb={4}>

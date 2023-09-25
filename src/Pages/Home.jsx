@@ -580,7 +580,7 @@ const Home = () => {
                   .map((item, i) => (
                     <Box
                       position={"relative"}
-                      fontWeight={"500"}
+                      fontWeight={"600"}
                       fontSize={{ md: "1.7vw", base: "5vw" }}
                       color={"#282c3f"}
                       onClick={() => navigate(`store?pricelte=${item.value}`)}
@@ -588,11 +588,16 @@ const Home = () => {
                       mx={{ base: "10px", md: "10px", lg: "20px" }}
                       mt={"10px"}
                     >
-                      <Box w={"100%"} h={{ md: "17vw", base: "50vw" }}>
+                      <Box
+                        w={"full"}
+                        // h={{ md: "17vw", base: "50vw" }}
+                      >
                         <Image
-                          h={"100%"}
-                          w={"100%"}
-                          objectFit={"fill"}
+                          // h={"100%"}
+                          w={"full"}
+                          boxSize={{ md: "19vw", base: "50vw" }}
+                          objectFit={"cover"}
+                          // objectFit={"fill"}
                           key={item.image + i}
                           src={
                             process.env.REACT_APP_BASE_API + `/${item.image}`
@@ -673,9 +678,9 @@ const Home = () => {
                   tablet: {
                     breakpoint: {
                       max: 1024,
-                      min: 464,
+                      min: 768,
                     },
-                    items: 2,
+                    items: 5,
                     partialVisibilityGutter: 30,
                   },
                 }}
@@ -691,20 +696,27 @@ const Home = () => {
                 {categories.map((item, i) => (
                   <Box
                     position={"relative"}
-                    fontWeight={"200"}
+                    fontWeight={"650"}
                     fontSize={{ md: "1.7vw", base: "5vw" }}
                     color={"#282c3f"}
                     // margin={"10px 10px 10px 10px"}
                     onClick={() => navigate(`store?category=${item.name}`)}
                     cursor="pointer"
-                    my={{ base: "10px", lg: "10px" }}
-                    mx={{ base: "10px", lg: "20px" }}
+                    my={{ base: "10px", md:"10px", lg: "10px" }}
+                    mx={{ base: "10px", md:"10px", lg: "20px" }}
                   >
-                    <Box w={"100%"} h={{ md: "17vw", base: "50vw" }}>
+                    <Box
+                      w={"full"}
+
+                      // h={{ md: "17vw", base: "50vw" }}
+                    >
                       <Image
-                        h={"100%"}
-                        w={"100%"}
-                        objectFit={"fill"}
+                        // h={"100%"}
+                        // w={"100%"}
+                        // objectFit={"fill"}
+                        w={"full"}
+                        boxSize={{ md: "18vw", base: "50vw" }}
+                        objectFit={"cover"}
                         key={item.image + i}
                         src={process.env.REACT_APP_BASE_API + `/${item.image}`}
                       />
@@ -718,12 +730,11 @@ const Home = () => {
                       top={"80%"}
                       left={"50%"}
                       transform={"translate(-50%, -50%)"}
-                      fontWeight={"500"}
                       color={"#282c3f"}
                       boxShadow="dark-lg"
                       rounded="md"
                     >
-                      <Text margin={{ lg: "0", base: "1.2vw" }}>
+                      <Text margin={{ lg: "2",md:"1", base: "1.2vw" }}>
                         {item.name}
                       </Text>
                     </Box>
@@ -742,11 +753,11 @@ const Home = () => {
               // }}
               display={"grid"}
               textAlign={"center"}
-              paddingBottom={"40px"}
+              // paddingBottom={"40px"}
             >
               <Heading
                 display={"block"}
-                bgGradient="linear(to-b,#1414e3,#b0b0ff)"
+                bgGradient="linear(to-b,#0700FF,#D5D4FF)"
                 bgClip="text"
                 as={"h2"}
                 m={{
@@ -816,7 +827,7 @@ const Home = () => {
                   .map((item, i) => (
                     <Box
                       position={"relative"}
-                      fontWeight={"500"}
+                      fontWeight={"650"}
                       fontSize={{ md: "1.7vw", base: "5vw" }}
                       // fontSize={{ base: "13px", sm: "13px", md: "20px", lg: "20px" }}
                       // fontSize={"1.7vw"}
@@ -831,11 +842,14 @@ const Home = () => {
                       mb={{ lg: "90px", base: "90px" }}
                       mt={"10px"}
                     >
-                      <Box w={"100%"} h={{ md: "17vw", base: "50vw" }}>
+                      <Box w={"full"}>
                         <Image
-                          h={"100%"}
-                          w={"100%"}
-                          objectFit={"fill"}
+                          // h={"100%"}
+                          // w={"100%"}
+                          // objectFit={"fill"}
+                          w={"full"}
+                          boxSize={{ md: "19vw", base: "50vw" }}
+                          objectFit={"cover"}
                           key={item.image + i}
                           src={
                             process.env.REACT_APP_BASE_API + `/${item.image}`
@@ -852,7 +866,6 @@ const Home = () => {
                         // top={"100%"}
                         left={"50%"}
                         transform={"translate(-50%, -50%)"}
-                        fontWeight={"500"}
                         // fontSize="20px"
                         color={"#282c3f"}
                         boxShadow="dark-lg"
@@ -860,7 +873,10 @@ const Home = () => {
                         rounded="md"
                       >
                         <Text>{item.text}</Text>
-                        <Text fontSize={{ md: "1vw", base: "3.7vw" }}>
+                        <Text
+                          fontWeight={"650"}
+                          fontSize={{ md: "1vw", base: "3.7vw" }}
+                        >
                           "OFF"
                         </Text>
                       </Box>
@@ -881,7 +897,7 @@ const Home = () => {
             >
               <Heading
                 display={"block"}
-                bgGradient="linear(to-b,#1414e3,#b0b0ff)"
+                bgGradient="linear(to-b,#F2840D,#ffdba3)"
                 bgClip="text"
                 as={"h2"}
                 m={{
@@ -951,8 +967,8 @@ const Home = () => {
                   .map((item, i) => (
                     <Box
                       position={"relative"}
-                      fontWeight={"500"}
                       fontSize={{ md: "1.7vw", base: "5vw" }}
+                      fontWeight={"550"}
                       // fontSize={{ base: "13px", sm: "13px", md: "20px", lg: "20px" }}
                       // fontSize={"1.7vw"}
                       color={"#282c3f"}
@@ -966,11 +982,14 @@ const Home = () => {
                       mb={{ lg: "90px", base: "90px" }}
                       mt={"10px"}
                     >
-                      <Box w={"100%"} h={{ md: "17vw", base: "50vw" }}>
+                      <Box w={"full"} >
                         <Image
-                          h={"100%"}
-                          w={"100%"}
-                          objectFit={"fill"}
+                          // h={"100%"}
+                          // w={"100%"}
+                          // objectFit={"fill"}
+                          w={"full"}
+                          boxSize={{ md: "18vw", base: "50vw" }}
+                          objectFit={"cover"}
                           key={item.image + i}
                           src={
                             process.env.REACT_APP_BASE_API + `/${item.image}`
@@ -987,7 +1006,7 @@ const Home = () => {
                         // top={"100%"}
                         left={"50%"}
                         transform={"translate(-50%, -50%)"}
-                        fontWeight={"500"}
+                        // fontWeight={"500"}
                         // fontSize="20px"
                         color={"#282c3f"}
                         boxShadow="dark-lg"
@@ -995,7 +1014,10 @@ const Home = () => {
                         rounded="md"
                       >
                         <Text>{item.text}</Text>
-                        <Text fontSize={{ md: "1vw", base: "3.7vw" }}>
+                        <Text
+                          fontWeight={"650"}
+                          fontSize={{ md: "1vw", base: "3.7vw" }}
+                        >
                           "OFF"
                         </Text>
                       </Box>
@@ -1005,16 +1027,14 @@ const Home = () => {
             </Box>
           </Box>
           <Box mt={16}>
-        <Footer />
-      </Box>
+            <Footer />
+          </Box>
         </>
       ) : (
         <Box height={"600px"}>
           <LoadingPage />
         </Box>
       )}
-
-      
     </>
   );
 };

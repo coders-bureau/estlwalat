@@ -9,16 +9,26 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 // } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Circle, Text, useToast, Icon, Image, Skeleton } from "@chakra-ui/react";
+import {
+  Circle,
+  Text,
+  useToast,
+  Icon,
+  Image,
+  Skeleton,
+  Box,
+} from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { CiHeart } from "react-icons/ci";
 import { BsHandbag } from "react-icons/bs";
 import { getUserDetails } from "../Redux/UserReducer/Action";
+import loading from "../Assets/loading.gif";
 
 // library.add(faMagnifyingGlass, faUser, faHeart, faBagShopping);
 
 export default function SingleProductCom(el) {
   const mobileNumber = localStorage.getItem("MbNumber");
+  const [loadingadd, setLoadingadd] = useState(false);
 
   const { user } = useSelector((store) => store.UserReducer);
   const dispatch = useDispatch();
@@ -53,6 +63,7 @@ export default function SingleProductCom(el) {
 
   const handleAddCart = (el) => {
     if (isAuth) {
+      setLoadingadd(true);
       axios({
         method: "post",
         url: `${process.env.REACT_APP_BASE_API}/user/addcart`,
@@ -62,6 +73,7 @@ export default function SingleProductCom(el) {
         },
       })
         .then((res) => {
+          setLoadingadd(false);
           // dispatch(getUserDetails());
           // {res.data.message}
           console.log(res.data.message);
@@ -75,6 +87,7 @@ export default function SingleProductCom(el) {
           });
         })
         .catch((err) => {
+          setLoadingadd(false);
           toast({
             title: "Product already present in the cart.",
             status: "warning",
@@ -91,22 +104,47 @@ export default function SingleProductCom(el) {
 
   return (
     <>
+      {loadingadd && (
+        <Box
+          // height={"200px"}
+          zIndex={99999}
+          borderRadius={100}
+          boxShadow={
+            "rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em"
+          }
+          position={"fixed"}
+          top={{ lg: "50%", md: "50%", base: "40%" }}
+          left={{ lg: "60%", md: "50%", base: "50%" }}
+          transform={"translate(-50% , -50%)"}
+        >
+          <Image
+            w={"50px"}
+            m={"auto"}
+            align={"center"}
+            src={loading}
+            alt="loading"
+          />
+        </Box>
+      )}
       <div
         className={styles.main}
         onMouseEnter={() => setShowWish(true)}
         onMouseLeave={() => setShowWish(false)}
       >
+        {}
         <Circle
           left={"80%"}
           zIndex={1}
           onClick={() => {
             if (isAuth) {
+              setLoadingadd(true);
               axios({
                 method: "post",
                 url: `${process.env.REACT_APP_BASE_API}/user/wishlist/${_id}`,
               })
                 .then((res) => {
                   dispatch(getUserDetails());
+                  setLoadingadd(false);
                   toast({
                     duration: 1500,
                     status: "info",
@@ -117,6 +155,7 @@ export default function SingleProductCom(el) {
                   });
                 })
                 .catch((err) => {
+                  setLoadingadd(false);
                   toast({
                     duration: 1500,
                     status: "warning",
@@ -141,14 +180,14 @@ export default function SingleProductCom(el) {
         >
           <Icon as={CiHeart} fontSize={{ lg: "4xl", md: "3xl", base: "4xl" }} />
         </Circle>
-        <div style={{ w_idth: "100%" }}>
+        <div style={{ width: "100%" }}>
           <Image
             onClick={() => navigate(`../single_product/${_id}`)}
             src={process.env.REACT_APP_BASE_API + "/" + img}
             // src={img}
             alt=""
             // boxSize="50px"
-            boxSize={{ lg: "22vw", md: "30vw", base: "58vw" }}
+            boxSize={{ lg: "18vw", md: "37vw", base: "50vw" }}
             // width={"40vw"}
             objectFit="contain"
           />
@@ -181,7 +220,8 @@ export default function SingleProductCom(el) {
               onClick={() => navigate(`../single_product/${_id}`)}
               className={styles.size}
             >
-              <p>Sizes: {size.join(", ")} </p>
+              {/* <p>Sizes: {size.join(", ")} </p> */}
+              <p>Sizes: {size[0]} </p>
             </div>
           )}
           {!showWish && (

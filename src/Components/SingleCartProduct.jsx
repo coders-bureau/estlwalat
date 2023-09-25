@@ -37,6 +37,7 @@ const SingleCartProduct = ({
   userId,
   getCartProd,
   cartId,
+  loadingFun,
 }) => {
   console.log(title, qty);
   const mobileNumber = localStorage.getItem("MbNumber");
@@ -47,21 +48,12 @@ const SingleCartProduct = ({
   const navigate = useNavigate();
 
   const handleSize = (e) => {
-    // axios({
-    //   method: "patch",
-    //   url: process.env.REACT_APP_MYNTRA_API + "/cart/" + _id,
-    //   data: {
-    //     currentSize: e.target.value,
-    //   },
-    // })
     setCurrentSize(e.target.value);
     axios({
       method: "put",
-      // url: `https://estylewalabackend.onrender.com/user/`+userId+`/cart/`+_id,
       url: process.env.REACT_APP_BASE_API + `/user/cart/${cartId}/update`,
       data: {
         currentSize: e.target.value,
-        // item: "currentSize"
       },
     })
       .then(({ data }) => {
@@ -86,7 +78,6 @@ const SingleCartProduct = ({
     setCurrentQty(e);
     axios({
       method: "put",
-      // url: `https://estylewalabackend.onrender.com/user/`+userId+`/cart/`+_id,
       url: process.env.REACT_APP_BASE_API + `/user/cart/${cartId}/update`,
       data: {
         qty: e,
@@ -94,7 +85,6 @@ const SingleCartProduct = ({
       },
     })
       .then(({ data }) => {
-        // dispatch(getUserDetails(mobileNumber));
         setCurrentQty(data.data.qty);
       })
       .catch((err) => {
@@ -111,21 +101,19 @@ const SingleCartProduct = ({
   }, []);
 
   const handleDelete = (_id) => {
+    loadingFun(true);
     axios({
       method: "delete",
-      // url: process.env.REACT_APP_MYNTRA_API + `/cart/${id}`,
       url: `${process.env.REACT_APP_BASE_API}/user/cart/${_id}`,
     })
       .then(() => {
-        // navigate('/cart');
-        // dispatch(getUserDetails(mobileNumber));
         getCartProd();
         console.log("del");
         setTotalMRP(0);
         setTotalAmount(0);
         setOfferPrice(0);
         setTotalMRPDiscount(0);
-        
+
         toast({
           title: "Product successfully deleted.",
           status: "error",
@@ -159,8 +147,11 @@ const SingleCartProduct = ({
         border={"2px solid #b0a9a9"}
         borderRadius="5px"
       >
-        <Box w={{ lg: "160px", md: "160px", base: "100px" }} p={"5px"}>
+        <Box w={{ lg: "9vw", md: "13vw", base: "25vw" }} p={"5px"}>
           <Image
+            boxSize={{lg: "11vw",md:"15vw",base:"30vw"}}
+            objectFit="contain"
+            w={"full"}
             src={process.env.REACT_APP_BASE_API + "/" + img}
             alt=""
           ></Image>
@@ -168,7 +159,7 @@ const SingleCartProduct = ({
         <Box
           w={"full"}
           fontSize={{ lg: "14px", md: "14px", base: "3vw" }}
-          py={"15px"}
+          // py={"15px"}
         >
           <VStack w={"full"} align="flex-start">
             {/* <Text fontWeight={"bold"} color="#282c3f">

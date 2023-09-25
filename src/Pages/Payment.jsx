@@ -43,7 +43,7 @@ const Payment = () => {
   console.log(cartProducts);
   const [currentDate, setCurrentDate] = useState(getDate());
   // const { addressLine, offerPrice } = location.state;
-  const { addressLine, totalAmount, totalMRP, totalMRPDiscount, offerPrice } =
+  const { addressLine, totalAmount, totalMRP, totalMRPDiscount, offerPrice,  couponDiscount } =
     location.state;
   console.log(currentDate);
   const dispatch = useDispatch();
@@ -668,6 +668,8 @@ const Payment = () => {
                   totalMRP={totalMRP}
                   totalMRPDiscount={totalMRPDiscount}
                   offerPrice={offerPrice}
+                  couponDiscount={couponDiscount}
+
                 />
                 {/* .......................... */}
                 <br />
@@ -678,7 +680,7 @@ const Payment = () => {
                     TOTAL Amount
                   </Text>
                   <Text fontSize={"14px"} color={"#3e4152"} fontWeight={"bold"}>
-                    ₹ {totalAmount}
+                    ₹ {totalAmount-couponDiscount}
                   </Text>
                 </HStack>
                 {/* ........................... */}
@@ -752,6 +754,7 @@ const Payment = () => {
               totalMRP={totalMRP}
               totalMRPDiscount={totalMRPDiscount}
               offerPrice={offerPrice}
+              couponDiscount={couponDiscount}
             />
             {/* .......................... */}
             <br />
@@ -762,7 +765,7 @@ const Payment = () => {
                 TOTAL Amount
               </Text>
               <Text fontSize={"14px"} color={"#3e4152"} fontWeight={"bold"}>
-                ₹ {totalAmount}
+                ₹ {totalAmount-couponDiscount}
               </Text>
             </HStack>
             {/* ........................... */}
@@ -781,12 +784,14 @@ const Payment = () => {
           >
             <HStack w={"full"} mt={2} justify={"left"}>
               <Text fontSize={"14px"} color={"#3e4170"} fontWeight={"bold"}>
-                ₹ {offerPrice}
+                ₹ {totalAmount - couponDiscount}
               </Text>
             </HStack>
             <Button
+            size={"md"}
               mx={5}
               my={2}
+              px={7}
               color={"#fff"}
               borderRadius={3}
               border={"2px"}

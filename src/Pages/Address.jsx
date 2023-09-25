@@ -35,7 +35,7 @@ const Address = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const location = useLocation();
   const toast = useToast();
-  const { totalAmount, totalMRP, totalMRPDiscount, offerPrice } =
+  const { totalAmount, totalMRP, totalMRPDiscount, offerPrice, couponDiscount } =
     location.state;
   const mobileNumber = localStorage.getItem("MbNumber");
   const [selectedAddress, setSelectedAddress] = useState({});
@@ -250,6 +250,7 @@ const Address = () => {
                   totalMRP={totalMRP}
                   totalMRPDiscount={totalMRPDiscount}
                   offerPrice={offerPrice}
+                  couponDiscount={couponDiscount}
                 />
                 {/* .......................... */}
                 <Divider borderColor="gray.200" />
@@ -259,6 +260,8 @@ const Address = () => {
                   totalMRPDiscount={totalMRPDiscount}
                   addressLine={addressLine}
                   offerPrice={offerPrice}
+                  couponDiscount={couponDiscount}
+
                   // redirect={addressD.pinCode ? "/address" : undefined}
                   redirect={selectedAddressstatus ? "/payment" : undefined}
                 />
@@ -289,6 +292,8 @@ const Address = () => {
                 totalMRP={totalMRP}
                 totalMRPDiscount={totalMRPDiscount}
                 offerPrice={offerPrice}
+                couponDiscount={couponDiscount}
+
               />
               {/* .......................... */}
               <PaymentDetains2
@@ -297,6 +302,7 @@ const Address = () => {
                 totalMRPDiscount={totalMRPDiscount}
                 addressLine={addressLine}
                 offerPrice={offerPrice}
+                couponDiscount={couponDiscount}
                 redirect={selectedAddressstatus ? "/payment" : undefined}
               />
               {/* ........................... */}
@@ -338,6 +344,7 @@ const Address = () => {
                     totalMRPDiscount,
                     addressLine,
                     offerPrice,
+                    couponDiscount,
                   },
                 })
               : toast({

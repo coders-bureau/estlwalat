@@ -167,6 +167,8 @@ const Profile = () => {
 };
 
 const Profiledetails = ({ user }) => {
+  const [isLoading, setisLoading] = useState(true);
+  console.log(isLoading);
   const [editing, setEditing] = useState(false);
   const [name, setName] = useState(" ");
   const [contactNumber, setContactNumber] = useState(
@@ -181,6 +183,7 @@ const Profiledetails = ({ user }) => {
     if (!user) {
       dispatch(getUserDetails(mobileNumber));
     } else {
+      setisLoading(false);
       setName(user.name);
       setEmail(user.email);
       setDateOfBirth(user.dob);
@@ -226,6 +229,12 @@ const Profiledetails = ({ user }) => {
     setGender(event.target.value);
   };
 
+  if (isLoading)
+    return (
+      <Box height={"200px"}>
+        <LoadingPage />
+      </Box>
+    );
   return (
     <>
       <Box
@@ -398,18 +407,18 @@ const Order = ({ user }) => {
       if (response) {
         setLoading(false);
       }
-  
+
       // Create a blob URL for the PDF
       const blob = new Blob([response.data], { type: "application/pdf" });
       const url = window.URL.createObjectURL(blob);
-  
+
       // Create a link element to trigger the download
       const a = document.createElement("a");
       a.href = url;
       a.download = "invoice.pdf";
       document.body.appendChild(a);
       a.click();
-  
+
       // Clean up
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
@@ -418,7 +427,6 @@ const Order = ({ user }) => {
       setLoading(false);
     }
   };
-  
 
   if (isLoading)
     return (
@@ -573,6 +581,7 @@ const Order = ({ user }) => {
                             onClick={() =>
                               navigate(`/write-review/${item.product}`)
                             }
+                            colorScheme="pink"
                             // fontSize={"10px"}
                             size={{ md: "lg", base: "xs" }}
                             borderRadius={0}

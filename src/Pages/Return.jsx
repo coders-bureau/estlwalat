@@ -1,9 +1,11 @@
 import { Box, Heading, Text } from "@chakra-ui/react";
 import Footer from "../Components/Footer";
+import Navbar from "../Components/Navbar";
 
 const Return = () => {
   return (
     <>
+    <Navbar />
       {" "}
       <Box  textAlign={"left"}
         padding={{ lg: "50px 200px", md: "25px 50px", base: "20px 30px" }}

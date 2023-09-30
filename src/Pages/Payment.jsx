@@ -21,6 +21,7 @@ import {
   Stack,
   Radio,
   RadioGroup,
+  CircularProgress,
 } from "@chakra-ui/react";
 import OtherNavbar from "../Components/OtherNavbar";
 import OtherFooter from "../Components/OtherFooter";
@@ -51,6 +52,8 @@ const Payment = () => {
       anchorRef.current.click();
     }
   };
+  const [loading, setLoading] = useState(false);
+
   const [currentDate, setCurrentDate] = useState(getDate());
   // const { addressLine, offerPrice } = location.state;
   // if (!location.state) {
@@ -122,6 +125,7 @@ const Payment = () => {
     //     }
     //   }
     // }
+    setLoading(true);
     if (code !== captcha || code === "") {
       toast({
         title: "Please fill the capture first",
@@ -137,6 +141,7 @@ const Payment = () => {
 
       return;
     }
+    setLoading(true);
 
     axios({
       method: "post",
@@ -170,23 +175,27 @@ const Payment = () => {
                 //   Redirecturl,
                 //   "ChildWindowName",
                 //   windowFeatures
-                // ); 
+                // );
                 // window.location.href =
                 //   res.data.data.data.instrumentResponse.redirectInfo.url;
                 // history.push(res.data.data.data.instrumentResponse.redirectInfo.url);
                 setPaymentLink(
                   res.data.data.data.instrumentResponse.redirectInfo.url
                 );
+                // setLoading(false);
+
                 // handleClick()
                 // window.open(res.data.data.data.instrumentResponse.redirectInfo.url);
               } else {
                 console.log("no");
               }
+              // setLoading(false);
 
               // navigate("/"+res.data.data.data.instrumentResponse.redirectInfo.url)
             })
             .catch((err) => {
               console.log(err);
+              // setLoading(false);
             });
         }
 
@@ -201,10 +210,12 @@ const Payment = () => {
         //     console.log(err);
         //   });
         console.log("done orders");
+        // setLoading(false);
       })
       .catch((err) => {
         console.log(err);
       });
+    // setLoading(false);
     if (selectedPaymentMode == "cod") {
       navigate("/success");
     }
@@ -554,6 +565,7 @@ const Payment = () => {
                       <Radio value="online">Online Payment</Radio>
                     </VStack>
                   </RadioGroup>
+
                   {!paymentLink && (
                     <>
                       <Box pl={4}>
@@ -613,7 +625,22 @@ const Payment = () => {
                         onClick={handleSubmit}
                         display={{ md: "inline-block", base: "none" }}
                       >
-                        {toggle ? "PLACE ORDER " : "CONTINUE"}
+                        {toggle ? (
+                          "PLACE ORDER "
+                        ) : (
+                          <>
+                            {loading ? (
+                              <CircularProgress
+                                isIndeterminate
+                                size={7}
+                                margin={"0 10px"}
+                                color="white"
+                              />
+                            ) : (
+                              "CONTINUE"
+                            )}
+                          </>
+                        )}
                       </Button>
                     </>
                   )}

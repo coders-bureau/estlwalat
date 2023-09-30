@@ -175,10 +175,12 @@ export const Navbar = () => {
                     fontSize="15px"
                     color={"#282c3f"}
                     p="20px 43%"
-                    onClick={() => navigate("/store?type=Kids")}
+                    onClick={() => navigate("/store")}
+                    // onClick={() => navigate("/store?type=Kids")}
                     cursor="pointer"
                   >
-                    Kids
+                    {/* Kids */}
+                    Store
                   </MenuItem>
                   <MenuItem
                     fontWeight={"500"}
@@ -265,9 +267,11 @@ export const Navbar = () => {
                       fontWeight={"500"}
                       color={"#282c3f"}
                       p="20px 0px"
-                      onClick={() => navigate("/store?type=Kids")}
+                      // onClick={() => navigate("/store?type=Kids")}
+                      onClick={() => navigate("/store")}
                     >
-                      Kids
+                      {/* Kids */}
+                      Store
                     </Text>
                   </Box>
 

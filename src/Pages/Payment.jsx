@@ -19,10 +19,12 @@ import {
   useToast,
   Flex,
   Stack,
+  Radio,
+  RadioGroup,
 } from "@chakra-ui/react";
 import OtherNavbar from "../Components/OtherNavbar";
 import OtherFooter from "../Components/OtherFooter";
-import { useLocation, useNavigate } from "react-router-dom";
+import { redirect, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import warning from "../Assets/estyle.png";
 import { PaymentDetains1, PaymentDetains2 } from "../Components/PaymentDetains";
@@ -38,17 +40,43 @@ function getDate() {
 }
 
 const Payment = () => {
+  const anchorRef = useRef(null);
   const location = useLocation();
   const [cartProducts, setCartProducts] = useState([]);
   console.log(cartProducts);
+  const navigate = useNavigate();
+  const handleClick = () => {
+    // Programmatically trigger a click on the anchor tag
+    if (anchorRef.current) {
+      anchorRef.current.click();
+    }
+  };
   const [currentDate, setCurrentDate] = useState(getDate());
   // const { addressLine, offerPrice } = location.state;
-  const { addressLine, totalAmount, totalMRP, totalMRPDiscount, offerPrice,  couponDiscount } =
-    location.state;
+  // if (!location.state) {
+  //   // Redirect to the cart page (replace '/cart' with your cart page's path)
+  //   navigate("/cart");
+  //   return null; // Return null or a loading message while redirecting
+  // }
+
+  if (!location.state) {
+    navigate("/cart");
+  } else {
+  }
+
+  const {
+    addressLine,
+    totalAmount,
+    totalMRP,
+    totalMRPDiscount,
+    offerPrice,
+    couponDiscount,
+  } = location.state ? location.state : {};
+
   console.log(currentDate);
   const dispatch = useDispatch();
   const { user } = useSelector((store) => store.UserReducer);
-
+  // const history = useHistory();
   const [toggle, setToggle] = useState(true);
   const [code, setCode] = useState("");
   const [value, setValue] = useState({
@@ -79,10 +107,11 @@ const Payment = () => {
     marginTop: "none",
   };
 
-  const handleToggle = () => {
+  const handleToggle = (value) => {
     setToggle(!toggle);
+    setSelectedPaymentMode(value);
   };
-
+  const [paymentLink, setPaymentLink] = useState("");
   const handleSubmit = () => {
     // for (let i = 0; i < cartData.length; i++) {
     //   for (let j = 0; j < checkoutData.length; j++) {
@@ -114,42 +143,71 @@ const Payment = () => {
       url: `${process.env.REACT_APP_BASE_API}/order/addOrder`,
       data: {
         addressLine: addressLine,
-        paymentMode: "COD",
+        paymentMode: selectedPaymentMode,
       },
     })
-      .then(() => {
-        dispatch(getUserDetails());
-        axios({
-          method: "delete",
-          // url: process.env.REACT_APP_MYNTRA_API + `/cart/${id}`,
-          url: `${process.env.REACT_APP_BASE_API}/user/cartall`,
-        })
-          .then(() => {
-            // dispatch(getUserDetails(mobileNumber));
-            // toast({
-            //   title: "Product successfully deleted.",
-            //   status: "error",
-            //   duration: 3000,
-            //   isClosable: true,
-            //   position: "top",
-            // });
+      .then((orderRes) => {
+        // dispatch(getUserDetails());
+        console.log(orderRes);
+        if (selectedPaymentMode == "online") {
+          axios({
+            method: "post",
+            url: `${process.env.REACT_APP_BASE_API}/order/initiatePayement`,
+            data: { orderData: orderRes.data.data },
           })
-          .catch((err) => {
-            // toast({
-            //   title: "Please Wait.... Deleting",
-            //   status: "warning",
-            //   duration: 3000,
-            //   isClosable: true,
-            //   position: "top",
-            // });
-            console.log(err);
-          });
+            .then((res) => {
+              console.log(res);
+              if (res.data.data.data.instrumentResponse.redirectInfo.url) {
+                // window.location.replace(res.data.data.data.instrumentResponse.redirectInfo.url)
+                // let Redirecturl =
+                //   res.data.data.data.instrumentResponse.redirectInfo.url;
+                // window.location.replace(Redirecturl);
+                // Define the window features (optional)
+                // const windowFeatures = "width=600,height=400";
+
+                // Open the child window
+                // const childWindow = window.open(
+                //   Redirecturl,
+                //   "ChildWindowName",
+                //   windowFeatures
+                // ); 
+                // window.location.href =
+                //   res.data.data.data.instrumentResponse.redirectInfo.url;
+                // history.push(res.data.data.data.instrumentResponse.redirectInfo.url);
+                setPaymentLink(
+                  res.data.data.data.instrumentResponse.redirectInfo.url
+                );
+                // handleClick()
+                // window.open(res.data.data.data.instrumentResponse.redirectInfo.url);
+              } else {
+                console.log("no");
+              }
+
+              // navigate("/"+res.data.data.data.instrumentResponse.redirectInfo.url)
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+
+        // axios({
+        //   method: "delete",
+        //   url: `${process.env.REACT_APP_BASE_API}/user/cartall`,
+        // })
+        //   .then(() => {
+        //     // dispatch(getUserDetails(mobileNumber));
+        //   })
+        //   .catch((err) => {
+        //     console.log(err);
+        //   });
         console.log("done orders");
       })
       .catch((err) => {
         console.log(err);
       });
-    navigate("/success");
+    if (selectedPaymentMode == "cod") {
+      navigate("/success");
+    }
   };
 
   // useEffect(() => {
@@ -190,7 +248,6 @@ const Payment = () => {
   const paymentRef = useRef({ name: "", cardNm: "", cvc: "" });
   const [check, setCheck] = useState({ isloading: false, status: false });
   const { isloading, status } = check;
-  const navigate = useNavigate();
   const { isOpen, onClose } = useDisclosure({ defaultIsOpen: true });
   const toast = useToast();
   let t1;
@@ -258,6 +315,17 @@ const Payment = () => {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const [selectedPaymentMode, setSelectedPaymentMode] = useState("cod"); // Default selection
+
+  const handlePaymentModeChange = (value) => {
+    setSelectedPaymentMode(value);
+  };
+
+  const handlePaymentSubmit = () => {
+    // Pass the selected payment mode to the parent component
+    // onSelectPaymentMode(selectedPaymentMode);
   };
   return (
     <>
@@ -470,7 +538,122 @@ const Payment = () => {
                 <Heading textAlign={"left"} fontSize="16px" p={"10px 0"}>
                   Choose Payment Mode
                 </Heading>
-                <HStack
+                <VStack
+                  border={"1px solid lightgray"}
+                  alignItems={"flex-start"}
+                  p={5}
+                  spacing={4}
+                >
+                  <RadioGroup
+                    colorScheme={"pink"}
+                    onChange={handleToggle}
+                    value={selectedPaymentMode}
+                  >
+                    <VStack alignItems="start">
+                      <Radio value="cod">Cash on Delivery (COD)</Radio>
+                      <Radio value="online">Online Payment</Radio>
+                    </VStack>
+                  </RadioGroup>
+                  {!paymentLink && (
+                    <>
+                      <Box pl={4}>
+                        <Stack
+                          border={"0px solid"}
+                          textAlign="left"
+                          spacing={4}
+                        >
+                          <FormControl>
+                            <Stack spacing={4}>
+                              {/* <Text marginBottom={"30px"} fontWeight={"700"}>
+                              Pay On Delivery (Cash/UPI)
+                            </Text> */}
+                              <Box
+                                w={"full"}
+                                textAlign="center"
+                                p={2}
+                                border={"1px solid"}
+                                borderRadius="5px"
+                              >
+                                {captcha}
+                              </Box>
+
+                              <Input
+                                w={"full"}
+                                type={"text"}
+                                value={code}
+                                fontSize={"15px"}
+                                placeholder="Enter code Show in above image*"
+                                isRequired
+                                onChange={(e) =>
+                                  setCode(Number(e.target.value))
+                                }
+                              />
+                              {/* <Text fontSize={"12px"} color={"gray"}>
+                              You can pay via Cash or UPI enabled app at the
+                              time on delivery. Ask executive for these options
+                            </Text> */}
+                            </Stack>
+                          </FormControl>
+                        </Stack>
+                      </Box>
+                      <Button
+                        size={"md"}
+                        // mx={5}
+                        // my={2}
+                        // px={7}
+                        w={"full"}
+                        color={"#fff"}
+                        borderRadius={3}
+                        border={"2px"}
+                        // p="22px 53px"
+                        bg="#ff3e6c"
+                        borderColor={"#ff3e6c"}
+                        variant={"solid"}
+                        _hover={{ bgColor: "#c73054" }}
+                        onClick={handleSubmit}
+                        display={{ md: "inline-block", base: "none" }}
+                      >
+                        {toggle ? "PLACE ORDER " : "CONTINUE"}
+                      </Button>
+                    </>
+                  )}
+                  {paymentLink && (
+                    <Button
+                      size={"md"}
+                      w={"full"}
+                      color={"#fff"}
+                      borderRadius={3}
+                      border={"2px"}
+                      // p="22px 53px"
+                      bg="#ff3e6c"
+                      borderColor={"#ff3e6c"}
+                      variant={"solid"}
+                      _hover={{ bgColor: "#c73054" }}
+                      display={{ md: "inline-block", base: "none" }}
+                    >
+                      {/* <p>Payment Link:</p> */}
+                      <a
+                        href={paymentLink}
+                        // ref={anchorRef}
+                        rel="noopener noreferrer"
+                      >
+                        PAY NOW
+                      </a>
+                    </Button>
+                  )}
+
+                  {/* <Button
+                    w={"full"}
+                    color={"#fff"}
+                    bgColor={"#ff3f6c"}
+                    onClick={handlePaymentSubmit}
+                    display={{ md: "inline-block", base: "none" }}
+                  >
+                    Continue
+                  </Button> */}
+                </VStack>
+
+                {/* <HStack
                   border={"1px solid lightgray"}
                   justifyContent={"space-between"}
                   p={5}
@@ -490,7 +673,7 @@ const Payment = () => {
                         Credit/Debit Card
                       </Box>
                       <Box mt={2} style={defaultStyle} p={2}>
-                        PhonePe/Google
+                        Online Payment
                       </Box>
                       <Box mt={2} style={defaultStyle} p={2}>
                         Pay-tm/Wallets
@@ -655,7 +838,7 @@ const Payment = () => {
                       </FormControl>
                     </Box>
                   )}
-                </HStack>
+                </HStack> */}
               </Box>
               <Box
                 border={"px solid gray"}
@@ -669,7 +852,6 @@ const Payment = () => {
                   totalMRPDiscount={totalMRPDiscount}
                   offerPrice={offerPrice}
                   couponDiscount={couponDiscount}
-
                 />
                 {/* .......................... */}
                 <br />
@@ -680,7 +862,7 @@ const Payment = () => {
                     TOTAL Amount
                   </Text>
                   <Text fontSize={"14px"} color={"#3e4152"} fontWeight={"bold"}>
-                    ₹ {totalAmount-couponDiscount}
+                    ₹ {totalAmount - couponDiscount}
                   </Text>
                 </HStack>
                 {/* ........................... */}
@@ -765,7 +947,7 @@ const Payment = () => {
                 TOTAL Amount
               </Text>
               <Text fontSize={"14px"} color={"#3e4152"} fontWeight={"bold"}>
-                ₹ {totalAmount-couponDiscount}
+                ₹ {totalAmount - couponDiscount}
               </Text>
             </HStack>
             {/* ........................... */}
@@ -788,7 +970,7 @@ const Payment = () => {
               </Text>
             </HStack>
             <Button
-            size={"md"}
+              size={"md"}
               mx={5}
               my={2}
               px={7}
@@ -801,7 +983,7 @@ const Payment = () => {
               borderColor={"#ff3e6c"}
               variant={"solid"}
               _hover={{ bgColor: "#ff3e6c" }}
-              onClick={toggle ? handleSubmit : handleSubmitCard}
+              onClick={handleSubmit}
             >
               {toggle ? "PLACE ORDER " : "PAY NOW"}
             </Button>

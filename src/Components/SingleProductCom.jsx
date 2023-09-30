@@ -133,7 +133,7 @@ export default function SingleProductCom(el) {
       >
         {}
         <Circle
-          left={"80%"}
+          left={"85%"}
           zIndex={1}
           onClick={() => {
             if (isAuth) {
@@ -176,18 +176,18 @@ export default function SingleProductCom(el) {
           _
           p="4px 4px"
           size={{ lg: "9", md: "8", base: "9" }}
-          top={{ lg: "4vw", md: "5vw", base: "6vw" }}
+          top={{ lg: "1vw", md: "2vw", base: "3vw" }}
         >
           <Icon as={CiHeart} fontSize={{ lg: "4xl", md: "3xl", base: "4xl" }} />
         </Circle>
-        <div style={{ width: "100%" }}>
+        <Box w={{ lg: "100%", md: "100%", base: "100%" }}>
           <Image
             onClick={() => navigate(`../single_product/${_id}`)}
             src={process.env.REACT_APP_BASE_API + "/" + img}
             // src={img}
             alt=""
             // boxSize="50px"
-            boxSize={{ lg: "18vw", md: "37vw", base: "50vw" }}
+            boxSize={{ lg: "20vw", md: "28vw", base: "53vw" }}
             // width={"40vw"}
             objectFit="contain"
           />
@@ -201,7 +201,7 @@ export default function SingleProductCom(el) {
               <div>{ratingT}</div>
             </div>
           )}
-        </div>
+        </Box>
 
         <div>
           {showWish && (

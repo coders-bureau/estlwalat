@@ -136,10 +136,10 @@ const Store = () => {
       </Box>
       <Box mb={"50px"}>
         <Grid
-          gridTemplateColumns={{ lg: "20% 80%", md: "20% 80%", base: "100%" }}
+          // gridTemplateColumns={{ lg: "20% 80%", md: "20% 80%", base: "100%" }}
         >
           {/* filter products */}
-          <Box
+          {/* <Box
             display={{
               base: "none",
               md: "inline-block",
@@ -147,7 +147,7 @@ const Store = () => {
             }}
           >
             <Filter />
-          </Box>
+          </Box> */}
 
           <Box>
             <Box
@@ -244,7 +244,7 @@ const Store = () => {
                 </ModalContent>
               </Modal>
 
-              <Button
+              {/* <Button
                 ref={btnRef}
                 onClick={onOpenFilter}
                 textColor={"#ff3e6c"}
@@ -258,7 +258,7 @@ const Store = () => {
                 _hover={{bgColor:"#fff"}}
               >
                 Filter
-              </Button>
+              </Button> */}
               <Modal
                 size={"full"}
                 onClose={onCloseFilter}

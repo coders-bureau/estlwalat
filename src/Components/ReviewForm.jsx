@@ -84,7 +84,12 @@ import LoadingPage from "../Pages/LoadingPage";
 
 const ReviewForm = () => {
   const { id } = useParams();
-  const [userReview, setUserReview] = useState("");
+  const [userReview, setUserReview] = useState({
+    rating: "",
+    content: "",
+    _id: "",
+    img: "",
+  });
   // const [rating, setRating] = useState(userReview ? userReview.rating : "");
   // const [content, setContent] = useState(userReview ? userReview.content : "");
   const [rating, setRating] = useState("");
@@ -269,10 +274,16 @@ const ReviewForm = () => {
               <FormControl p={3} mt={4}>
                 <FormLabel>Review</FormLabel>
                 <Textarea
-                  value={
-                    content ? content : userReview ? userReview.content : ""
-                  }
-                  onChange={(e) => setContent(e.target.value)}
+                name="content"
+                  value={userReview.content}
+                  onChange={(e) => {
+                    const { name, value } = e.target;
+                    setUserReview((prevContent) => ({
+                      ...prevContent,
+                      [name]: value,
+                    }));
+                    setContent(e.target.value)
+                  }}
                   required
                 />
               </FormControl>
@@ -297,7 +308,6 @@ const ReviewForm = () => {
                 </label>
                 {userReview && (
                   <Image
-                   
                     boxSize={"100px"}
                     objectFit="contain"
                     // w={"full"}

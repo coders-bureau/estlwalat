@@ -52,11 +52,12 @@ const Products = () => {
   return (
     <>
       <SimpleGrid
+      px={"5vw"}
         columns={{ lg: "4", md: "3", base: "2" }}
         spacingX={{ lg: "40px", md: "40px", base: "15px" }}
         spacingY={{ lg: "30px", md: "30px", base: "15px" }}
         w="100%"
-        p="0px 20px 20px 20px"
+        // p="0px 20px 20px 20px"
       >
         {Products?.map((el) => {
           return <SingleProductCom key={el._id} {...el} />;

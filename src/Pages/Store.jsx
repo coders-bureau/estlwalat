@@ -123,11 +123,11 @@ const Store = () => {
           m={"10px auto"}
         >
           <Box textAlign={"left"}>
-            <Text color={"#46495a"} fontSize={"14px"}>
+            {/* <Text color={"#46495a"} fontSize={"14px"}>
               Home / {type} {q}
-            </Text>
+            </Text> */}
           </Box>
-          <Box textAlign={"right"}>
+          <Box textAlign={"right"} mr={"20px"}>
             <Text fontWeight={500} fontSize={"14px"} color="#282c3f">
               Total Items - {length} items
             </Text>
@@ -151,6 +151,7 @@ const Store = () => {
 
           <Box>
             <Box
+            px={"4vw"}
               display={{
                 base: "none",
                 md: "flex",

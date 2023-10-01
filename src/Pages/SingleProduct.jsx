@@ -34,6 +34,7 @@ import PageNotFound from "../Pages/PageNotFound";
 import Review from "../Components/Review";
 import Navbar from "../Components/Navbar";
 import { getUserDetails } from "../Redux/UserReducer/Action";
+import { FaHeart } from "react-icons/fa";
 
 const style = {
   hover: {
@@ -52,7 +53,7 @@ const SingleProduct = () => {
   const dispatch = useDispatch();
   const mobileNumber = localStorage.getItem("MbNumber");
   const [userId, setUserID] = useState("");
-   const [reviews, setReviews] = useState("");
+  const [reviews, setReviews] = useState("");
   const pinInputRef = useRef("");
   const { id } = useParams();
   console.log(id);
@@ -101,6 +102,8 @@ const SingleProduct = () => {
   });
   // console.log(reviews);
   // console.log(reviews[0]);
+  const [addedToWish, setAddedToWish] = useState(false);
+  const [addedToBag, setAddedToBag] = useState(false);
 
   useEffect(() => {
     if (Products.length === 0) {
@@ -162,25 +165,23 @@ const SingleProduct = () => {
     setSimilarProducts,
   ]);
 
-
   useEffect(() => {
-    if(_id){
+    if (_id) {
       axios
-      .get(`${process.env.REACT_APP_BASE_API}/user/reviews/${_id}`)
-      .then((response) => {
-        // setisLoading(false);
-        // const { data } = response.data;
-        console.log(response.data);
-        setReviews(response.data);
-        // setRating(data.data)
-      })
-      .catch((error) => {
-        // setisLoading(false);
-        console.error("Error fetching reviews:", error);
-      });
+        .get(`${process.env.REACT_APP_BASE_API}/user/reviews/${_id}`)
+        .then((response) => {
+          // setisLoading(false);
+          // const { data } = response.data;
+          console.log(response.data);
+          setReviews(response.data);
+          // setRating(data.data)
+        })
+        .catch((error) => {
+          // setisLoading(false);
+          console.error("Error fetching reviews:", error);
+        });
     }
-   
-  },[_id])
+  }, [_id]);
 
   const setsize = (size) => {
     if (size === sizeRef) {
@@ -274,6 +275,7 @@ const SingleProduct = () => {
       })
         .then((res) => {
           // dispatch(getUserDetails(mobileNumber));
+          setAddedToBag(true);
           console.log(res);
           toast({
             title: res.data.message,
@@ -315,6 +317,7 @@ const SingleProduct = () => {
     })
       .then((res) => {
         dispatch(getUserDetails(mobileNumber));
+        setAddedToWish(true);
         toast({
           title: "Product successfully added in wishlist",
           variant: "top-accent",
@@ -325,6 +328,7 @@ const SingleProduct = () => {
         });
       })
       .catch((err) => {
+        setAddedToWish(true);
         toast({
           title: "Product already present in wishlist",
           variant: "top-accent",
@@ -492,7 +496,10 @@ const SingleProduct = () => {
                   </Text>
                 </HStack>
 
-                <SimpleGrid    columns={{ lg: "7", md: "4", base: "3  " }} spacing={"10px"}>
+                <SimpleGrid
+                  columns={{ lg: "7", md: "4", base: "3  " }}
+                  spacing={"10px"}
+                >
                   {size?.map((el, i) => {
                     return (
                       <Box
@@ -528,8 +535,23 @@ const SingleProduct = () => {
                     }
                     color={"#000"}
                     border={0}
-                    leftIcon={<Icon as={CiHeart} fontSize="5xl" />}
-                    colorScheme="cyan"
+                    leftIcon={
+                      addedToWish ? (
+                        <Icon
+                          as={FaHeart}
+                          fill={"#ff3e6f"}
+                          fontSize={"4xl"}
+                        />
+                      ) : (
+                        <Icon
+                          as={CiHeart}
+                          _hover={{ fill: "#ff3e6c" }}
+                          fontSize="5xl"
+                        />
+                      )
+                    }
+                    // colorScheme="cyan"
+                    _hover={{ bgColor: "white" }}
                     variant={"outline"}
                   ></Button>
                   <Button
@@ -549,6 +571,9 @@ const SingleProduct = () => {
                     border={"2px"}
                     p="22px 70px"
                     bg="#ff3e6c"
+                    _hover={{
+                      backgroundColor: "#b32b4b",
+                    }}
                     variant={"solid"}
                   >
                     BUY NOW
@@ -611,14 +636,33 @@ const SingleProduct = () => {
                 </HStack>
 
                 <Box>
-                  <Text fontSize={"14px"}><b>Name: </b> {title}</Text>
-                  <Text fontSize={"14px"}><b>Description: </b>{description}</Text>
-                  <Text fontSize={"14px"}><b>Top Color: </b>{topColor}</Text>
-                  <Text fontSize={"14px"}><b>Top Fabric: </b>{topFabric}</Text>
-                  <Text fontSize={"14px"}><b>Bottom Color: </b>{bottomColor}</Text>
-                  <Text fontSize={"14px"}><b>Bottom Fabric: </b>{bottomFabric}</Text>
-                  <Text fontSize={"14px"}><b>Manufacturer Details: </b>{manufacturerdetails}</Text>
-
+                  <Text fontSize={"14px"}>
+                    <b>Name: </b> {title}
+                  </Text>
+                  <Text fontSize={"14px"}>
+                    <b>Description: </b>
+                    {description}
+                  </Text>
+                  <Text fontSize={"14px"}>
+                    <b>Top Color: </b>
+                    {topColor}
+                  </Text>
+                  <Text fontSize={"14px"}>
+                    <b>Top Fabric: </b>
+                    {topFabric}
+                  </Text>
+                  <Text fontSize={"14px"}>
+                    <b>Bottom Color: </b>
+                    {bottomColor}
+                  </Text>
+                  <Text fontSize={"14px"}>
+                    <b>Bottom Fabric: </b>
+                    {bottomFabric}
+                  </Text>
+                  <Text fontSize={"14px"}>
+                    <b>Manufacturer Details: </b>
+                    {manufacturerdetails}
+                  </Text>
                 </Box>
               </VStack>
 
@@ -695,7 +739,7 @@ const SingleProduct = () => {
             md: "3",
             base: "2",
           }}
-          spacingX={{lg:"40px", md:"40px",base:"10px"}}
+          spacingX={{ lg: "40px", md: "40px", base: "10px" }}
           spacingY="30px"
           w="100%"
         >

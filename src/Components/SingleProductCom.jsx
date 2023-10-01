@@ -20,7 +20,9 @@ import {
 } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { CiHeart } from "react-icons/ci";
-import { BsHandbag } from "react-icons/bs";
+import { BsHandbag, BsHeart } from "react-icons/bs";
+import { FaHeart } from "react-icons/fa";
+
 import { getUserDetails } from "../Redux/UserReducer/Action";
 import loading from "../Assets/loading.gif";
 
@@ -29,6 +31,9 @@ import loading from "../Assets/loading.gif";
 export default function SingleProductCom(el) {
   const mobileNumber = localStorage.getItem("MbNumber");
   const [loadingadd, setLoadingadd] = useState(false);
+  const [addedToBag, setAddedToBag] = useState(false);
+  const [addedToWish, setAddedToWish] = useState(false);
+
 
   const { user } = useSelector((store) => store.UserReducer);
   const dispatch = useDispatch();
@@ -74,6 +79,7 @@ export default function SingleProductCom(el) {
       })
         .then((res) => {
           setLoadingadd(false);
+          setAddedToBag(true);
           // dispatch(getUserDetails());
           // {res.data.message}
           console.log(res.data.message);
@@ -114,7 +120,7 @@ export default function SingleProductCom(el) {
           }
           position={"fixed"}
           top={{ lg: "50%", md: "50%", base: "40%" }}
-          left={{ lg: "60%", md: "50%", base: "50%" }}
+          left={{ lg: "50%", md: "50%", base: "50%" }}
           transform={"translate(-50% , -50%)"}
         >
           <Image
@@ -133,7 +139,7 @@ export default function SingleProductCom(el) {
       >
         {}
         <Circle
-          left={"85%"}
+            // boxShadow="0 2px 4px rgba(0, 0, 0, 0.1)"
           zIndex={1}
           onClick={() => {
             if (isAuth) {
@@ -145,6 +151,7 @@ export default function SingleProductCom(el) {
                 .then((res) => {
                   dispatch(getUserDetails());
                   setLoadingadd(false);
+                  setAddedToWish(true);
                   toast({
                     duration: 1500,
                     status: "info",
@@ -156,6 +163,7 @@ export default function SingleProductCom(el) {
                 })
                 .catch((err) => {
                   setLoadingadd(false);
+                  setAddedToWish(true);
                   toast({
                     duration: 1500,
                     status: "warning",
@@ -169,17 +177,25 @@ export default function SingleProductCom(el) {
               navigate("/signup");
             }
           }}
-          bgColor={"#eeeded"}
+          // bgColor={"white"}
           cursor={"pointer"}
           position="relative"
           display={"flex"}
-          _
+          // borderColor="gray.300"
+          // borderWidth="1px"
           p="4px 4px"
           size={{ lg: "9", md: "8", base: "9" }}
-          top={{ lg: "1vw", md: "2vw", base: "3vw" }}
+          left={{lg:"88%",md:"73%",base:"77%"}}
+          top={{ lg: "1vw", md: "5vw", base: "10vw" }}
         >
-          <Icon as={CiHeart} fontSize={{ lg: "4xl", md: "3xl", base: "4xl" }} />
+          <Icon as={FaHeart} fill={addedToWish ? "#ff3e6f" : "gray.500"} fontSize={{ lg: "3xl", md: "2xl", base: "3xl" }} />
+          {/* <Icon
+            as={FaHeart}
+            fill={"#ff3e6f"}
+            fontSize={{ lg: "3xl", md: "2xl", base: "3xl" }}
+          /> */}
         </Circle>
+
         <Box w={{ lg: "100%", md: "100%", base: "100%" }}>
           <Image
             onClick={() => navigate(`../single_product/${_id}`)}
@@ -207,11 +223,13 @@ export default function SingleProductCom(el) {
           {showWish && (
             <div className={styles.hoverWish}>
               <div
-                className={styles.wishlist}
+                className={addedToBag ? styles.wishlistadd : styles.wishlist}
                 onClick={() => handleAddCart(el)}
               >
                 <Icon as={BsHandbag} fontSize="xl" />
-                <div className={styles.wishlistWord}>Add to Cart</div>
+                <div className={styles.wishlistWord}>
+                  {addedToBag ? "Added to Bag" : "Add to Bag"}
+                </div>
               </div>
             </div>
           )}

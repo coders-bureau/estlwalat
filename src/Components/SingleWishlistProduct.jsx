@@ -97,14 +97,14 @@ const SingleWishlistProduct = ({ el, handleAddCart, handleDelete }) => {
           onClick={() => handleAddCart(el)}
           fontWeight={"500"}
           color={"#fff"}
-          bg="#d53f8c"
+          bg="#ff3e6c"
           w={"full"}
           borderRadius="0"
           borderTop={"1px solid #e8ecf3"}
           variant={"unstyled"}
           _hover={{ bgColor: "none" }}
         >
-          ADD TO BAG
+          MOVE TO BAG
         </Button>
       </VStack>
     </>

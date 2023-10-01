@@ -7,7 +7,7 @@ const initialState = {
   totalPages:0,
 };
 
-const reducer = (state = initialState, { type, payload }) => {
+const reducer = (state = initialState, { type, payload,totalPages }) => {
   switch (type) {
     // isLoading state...................
 
@@ -26,14 +26,16 @@ const reducer = (state = initialState, { type, payload }) => {
         ...state,
         Products: payload,
         isLoading: false,
+        totalPages: totalPages
       };
-      case types.GET_PRODUCTS_SUCCESS1:
-      return {
-        ...state,
-        Products: payload.data,
-        isLoading: false,
-        totalPages:payload.headers["x-total-count"],
-      };
+      // case types.GET_PRODUCTS_SUCCESS1:
+      // return {
+      //   ...state,
+      //   Products: payload.data,
+      //   isLoading: false,
+      //   // totalPages:payload.headers["x-total-count"],
+      //   // payloaddata: payload,
+      // };
 
     // ...............................
 

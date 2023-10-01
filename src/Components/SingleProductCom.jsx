@@ -187,7 +187,7 @@ export default function SingleProductCom(el) {
             // src={img}
             alt=""
             // boxSize="50px"
-            boxSize={{ lg: "20vw", md: "28vw", base: "53vw" }}
+            boxSize={{ lg: "24vw", md: "28vw", base: "53vw" }}
             // width={"40vw"}
             objectFit="contain"
           />

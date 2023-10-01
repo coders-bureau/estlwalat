@@ -13,18 +13,19 @@ export const getProductsLoading = () => {
 
 // ...................Success state
 
-export const getProductsSuccess = (payload) => {
+export const getProductsSuccess = (payload, totalPages) => {
   return {
     type: types.GET_PRODUCTS_SUCCESS,
     payload: payload,
+    totalPages: totalPages,
   };
 };
-export const getProductsSuccess1 = (payload) => {
-  return {
-    type: types.GET_PRODUCTS_SUCCESS1,
-    payload: payload,
-  };
-};
+// export const getProductsSuccess1 = (payload) => {
+//   return {
+//     type: types.GET_PRODUCTS_SUCCESS1,
+//     payload: payload,
+//   };
+// };
 // .................................
 
 // .................isError state
@@ -62,7 +63,7 @@ export const getProductsPage = (params,page) => async (dispatch) => {
     const r = await axios.get(
       `${process.env.REACT_APP_MYNTRA_API}/Products?_limit=12&_page=${page}`,params);
     console.log(r.data);
-    dispatch(getProductsSuccess1(r));
+    // dispatch(getProductsSuccess1(r));
   } catch (err) {
     dispatch(getProductsFailure());
   }
@@ -99,7 +100,7 @@ export const getProductsSorted = (val, page, params) => async (dispatch) => {
      let r = await getProductsSorting(val, page,params)
 
      //console.log("data:", data)
-     dispatch(getProductsSuccess1(r));
+    //  dispatch(getProductsSuccess1(r));
   } catch (err) {
      dispatch(getProductsFailure());
   }
@@ -113,13 +114,20 @@ export const getProductsData = (params) => async (dispatch) => {
     //   params
     
     // );
+    // const totalpro = await axios.get(
+    //   `${process.env.REACT_APP_BASE_API}/product/allproducts`
+    // );
+
     const r = await axios.get(
       `${process.env.REACT_APP_BASE_API}/product/products`,
       params
       );
       console.log(params)
     console.log(r.data);
-    dispatch(getProductsSuccess(r.data.data));
+    const proleng = r.data.totalPro;
+    let totalPages =Math.ceil( proleng / 12);
+    console.log(totalPages);
+    dispatch(getProductsSuccess(r.data.data,totalPages));
   } catch (err) {
     dispatch(getProductsFailure());
   }

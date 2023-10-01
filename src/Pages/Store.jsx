@@ -69,8 +69,8 @@ const Store = () => {
   }, [currentPage]);
 
   useEffect(() => {
-    setCurrentPage(1); // Scroll to top of the page
-  }, [type]);
+    setCurrentPage(1); 
+  }, [sValue]);
 
   // sorting filter start
   useEffect(() => {

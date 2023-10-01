@@ -14,6 +14,7 @@ const Products = () => {
   console.log(Products);
   if (isLoading)
     return (
+  <>
       <Box
         // height={"200px"}
         borderRadius={100}
@@ -22,7 +23,7 @@ const Products = () => {
         }
         position={"fixed"}
         top={{ lg: "50%", md: "50%", base: "40%" }}
-        left={{ lg: "60%", md: "50%", base: "50%" }}
+        left={{ lg: "50%", md: "50%", base: "50%" }}
         transform={"translate(-50% , -50%)"}
       >
         <Image
@@ -33,6 +34,14 @@ const Products = () => {
           alt="loading"
         />
       </Box>
+      <SimpleGrid
+        w="100%"
+        h={"66vh"}
+        // p="0px 20px 20px 20px"
+      >
+       
+      </SimpleGrid>
+  </>
     );
   if (isError)
     return (

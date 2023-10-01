@@ -7,13 +7,13 @@ const Pagination = ({
   currentPage,
   totalPages,
 }) => {
-  totalPages = Math.ceil(+totalPages / 12);
-
+  // totalPages = Math.ceil(+totalPages / 12);
+  console.log(currentPage,totalPages);
   let buttonArr = [];
   for (let i = 0; i < +totalPages; i++) {
     buttonArr.push(i + 1);
   }
-
+  
   const handlePageChange = (page) => {
     handlePage(page);
   };
@@ -32,7 +32,7 @@ const Pagination = ({
         </Button>
         {buttonArr.map((btn, i) => (
           <Button
-            _hover={{ backgroundColor: "pink.500", color: "white" }}
+            // _hover={{ backgroundColor: "", color: "white" }}
             display={{ base: "none", md: "inline-block" }}
             p={2}
             fontSize={{ sm: "0.7rem" }}
@@ -41,7 +41,7 @@ const Pagination = ({
             key={i}
             style={
               currentPage === btn
-                ? { backgroundColor: "#ED64A6", color: "white" }
+                ? { backgroundColor: "#ff3e6f", color: "white" }
                 : null
             }
           >
@@ -54,7 +54,7 @@ const Pagination = ({
         <Button
           p={2}
           fontSize={{ sm: "0.7rem", lg: "1rem" }}
-          isDisabled={currentPage === totalPages+1}
+          isDisabled={currentPage === totalPages}
           onClick={() => handlePageChange(1)}
         >
           Next

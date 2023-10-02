@@ -92,33 +92,51 @@ const Review = ({ review }) => {
 
   return (
     <Box w="full" p={4} borderWidth="1px" borderRadius="md">
-      <Heading fontSize="xl" mb={2}>
+      <Heading fontSize="16px" mb={2}>
         Customer Reviews
       </Heading>
       <VStack align="flex-start" spacing={4}>
         {firstReviews.map((review) => (
           <Box key={review._id} border={1} w={"100%"}>
-            <Text fontWeight={500} fontSize="lg">
-              {review.userId.name ? review.userId.name : "eStyleWala Buyer" }
-            </Text>
-            <HStack pr={3} py={3}>
+            {/* <HStack pr={3} py={3}>
               {[1, 2, 3, 4, 5].map((star) => (
                 <Icon
                   key={star}
                   as={StarIcon}
-                  boxSize={6}
+                  boxSize={4}
                   color={star <= review.rating ? "teal.500" : "gray.200"}
                   cursor="pointer"
                   // onClick={() => handleRatingClick(star)}
                 />
               ))}
               <Text>{review.rating}</Text>
+            </HStack> */}
+            <HStack>
+              <HStack fontSize={"14px"} w={"29px"} bg={"teal.500"}>
+                {/* {[1, 2, 3, 4, 5].map((star) => ( */}
+                <Text ml={1} color={"white"}>
+                  {review.rating}
+                  <Icon
+                    ml={0.5}
+                    mb={1}
+                    as={StarIcon}
+                    boxSize={3}
+                    color={"white"}
+                    cursor="pointer"
+                  />
+                </Text>
+                {/* ))} */}
+              </HStack>
+              <Text fontWeight={500} fontSize="14px">
+                {review.userId.name ? review.userId.name : "eStyleWala Buyer"}
+              </Text>
             </HStack>
             <Text>{review.content}</Text>
             {review.img && (
               <Image
-                boxSize={"100px"}
-                objectFit="contain"
+              my={"10px"}
+                boxSize={"80px"}
+                objectFit="cover"
                 // w={"full"}
                 src={process.env.REACT_APP_BASE_API + "/" + review.img}
                 alt="Selected"

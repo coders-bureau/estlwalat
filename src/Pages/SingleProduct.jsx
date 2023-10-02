@@ -15,6 +15,13 @@ import {
   Input,
   InputRightElement,
   useToast,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
 } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -104,7 +111,11 @@ const SingleProduct = () => {
   // console.log(reviews[0]);
   const [addedToWish, setAddedToWish] = useState(false);
   const [addedToBag, setAddedToBag] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const btnRef = React.useRef(null);
 
+  const onClose = () => setIsOpen(false);
+  const onOpen = () => setIsOpen(true);
   useEffect(() => {
     if (Products.length === 0) {
       const type = searchParams.get("type");
@@ -373,12 +384,11 @@ const SingleProduct = () => {
       <Box w={"full"} p={{ base: "10px 30px", lg: "10px 100px" }}>
         <Grid
           templateColumns={{
-            lg: "40% 50%",
-            md: "40% 50%",
-            sm: "100%",
+            lg: "30% 50%",
+            md: "30% 50%",
             base: "100%",
           }}
-          gap={8}
+          gap={{ lg: "80px", md: "80px", base: "10px" }}
           w="full"
         >
           {/* ..........Image............. */}
@@ -416,8 +426,8 @@ const SingleProduct = () => {
                   fontWeight={"600"}
                   as={"h2"}
                   color="#282c3f"
-                  fontSize="28px"
-                  size="lg"
+                  fontSize="20px"
+                  // size="lg"
                 >
                   {" "}
                   {title}{" "}
@@ -426,8 +436,8 @@ const SingleProduct = () => {
                   fontWeight={300}
                   as={"h2"}
                   color="#535665"
-                  fontSize="20px"
-                  size="lg"
+                  fontSize="14px"
+                  // size="lg"
                 >
                   {" "}
                   {brand}{" "}
@@ -436,8 +446,8 @@ const SingleProduct = () => {
                   fontWeight={"600"}
                   as={"h2"}
                   color="#ff3e6c"
-                  fontSize="20px"
-                  size="lg"
+                  fontSize="14px"
+                  // size="lg"
                 >
                   {" "}
                   {offer1.text} OFF{" "}
@@ -453,7 +463,7 @@ const SingleProduct = () => {
                       as={"h2"}
                       color="#282c3f"
                       fontSize="20px"
-                      size="lg"
+                      // size="lg"
                     >
                       {" "}
                       ₹{price}{" "}
@@ -464,7 +474,7 @@ const SingleProduct = () => {
                         as={"h2"}
                         color="#535665"
                         fontSize="20px"
-                        size="lg"
+                        // size="lg"
                       >
                         {" "}
                         MRP
@@ -474,7 +484,7 @@ const SingleProduct = () => {
                         as={"h2"}
                         color="#535665"
                         fontSize="20px"
-                        size="lg"
+                        // size="lg"
                         textDecoration={"line-through"}
                       >
                         {" "}
@@ -491,9 +501,32 @@ const SingleProduct = () => {
                   <Text fontWeight={"bold"} color="#282c3f">
                     SELECT SIZE
                   </Text>
-                  <Text fontWeight={500} color="#ff3e6c">
+                  {/* <Text fontWeight={500} color="#ff3e6c">
+                    SIZE CHART &#62;
+                  </Text> */}
+                  <Text   cursor={"pointer"} fontWeight={500} color="#ff3e6c" onClick={onOpen}>
                     SIZE CHART &#62;
                   </Text>
+
+                  <Modal
+                    size={{md:"lg",base:"full"}}
+                    finalFocusRef={btnRef}
+                    scrollBehavior={"inside"}
+                    isOpen={isOpen}
+                    onClose={onClose}
+                    isCentered
+                  >
+                    <ModalOverlay />
+                    <ModalContent>
+                      <ModalHeader mt={{md:"0px",base:"100px"}}>Size Chart</ModalHeader>
+                      <ModalCloseButton />
+                      <ModalBody>
+                        {/* Add your size chart content here */}
+                        <p>Your size chart goes here...</p>
+                      </ModalBody>
+                      <Button mb={"40px"} onClick={onClose}>Close</Button>
+                    </ModalContent>
+                  </Modal>
                 </HStack>
 
                 <SimpleGrid
@@ -505,7 +538,7 @@ const SingleProduct = () => {
                       <Box
                         key={i + toString(i)}
                         onClick={() => setsize(el)}
-                        borderRadius={"full"}
+                        // borderRadius={"full"}
                         border={`1px solid ${
                           sizeRef === el ? "#ff3e6c" : "#b8b8b8cb"
                         }`}
@@ -523,7 +556,7 @@ const SingleProduct = () => {
                   })}
                 </SimpleGrid>
 
-                <HStack wrap={"wrap"}>
+                <HStack my={"10px"} wrap={"wrap"}>
                   <Button
                     onClick={() =>
                       isAuth
@@ -537,11 +570,7 @@ const SingleProduct = () => {
                     border={0}
                     leftIcon={
                       addedToWish ? (
-                        <Icon
-                          as={FaHeart}
-                          fill={"#ff3e6f"}
-                          fontSize={"4xl"}
-                        />
+                        <Icon as={FaHeart} fill={"#ff3e6f"} fontSize={"4xl"} />
                       ) : (
                         <Icon
                           as={CiHeart}
@@ -555,6 +584,7 @@ const SingleProduct = () => {
                     variant={"outline"}
                   ></Button>
                   <Button
+                    fontSize="16px"
                     display={{ lg: "flex", md: "flex", base: "none" }}
                     ml={"0px"}
                     mr={{ lg: "20px", base: "0px" }}
@@ -569,7 +599,7 @@ const SingleProduct = () => {
                     color={"#fff"}
                     borderRadius={5}
                     border={"2px"}
-                    p="22px 70px"
+                    p="22px 64px"
                     bg="#ff3e6c"
                     _hover={{
                       backgroundColor: "#b32b4b",
@@ -592,10 +622,11 @@ const SingleProduct = () => {
                     borderRadius={5}
                     border={"2px"}
                     borderColor={"#ff3e6c"}
-                    p="22px 50px"
+                    p="22px 44px"
                     leftIcon={<BsHandbag />}
                     bg="#fff"
                     variant={"outline"}
+                    fontSize={"16px"}
                   >
                     ADD TO BAG
                   </Button>
@@ -628,39 +659,45 @@ const SingleProduct = () => {
                   </InputGroup>
                 </Box>
               </VStack> */}
-              <VStack align="flex-start" w="full" spacing={"20px"}>
+              <VStack
+                fontSize={"14px"}
+                align="flex-start"
+                w="full"
+                spacing={"20px"}
+              >
+                {/* <hr /> */}
+
                 <HStack>
                   <Text fontWeight={"700"} color="#282c3f">
-                    PRODUCT DETAILS
+                    PRODUCT DESCRIPTION
                   </Text>
                 </HStack>
-
                 <Box>
                   <Text fontSize={"14px"}>
-                    <b>Name: </b> {title}
+                    <b>Name - </b> {title}
                   </Text>
                   <Text fontSize={"14px"}>
-                    <b>Description: </b>
+                    <b>Description - </b>
                     {description}
                   </Text>
                   <Text fontSize={"14px"}>
-                    <b>Top Color: </b>
+                    <b>Top Color - </b>
                     {topColor}
                   </Text>
                   <Text fontSize={"14px"}>
-                    <b>Top Fabric: </b>
+                    <b>Top Fabric - </b>
                     {topFabric}
                   </Text>
                   <Text fontSize={"14px"}>
-                    <b>Bottom Color: </b>
+                    <b>Bottom Color - </b>
                     {bottomColor}
                   </Text>
                   <Text fontSize={"14px"}>
-                    <b>Bottom Fabric: </b>
+                    <b>Bottom Fabric - </b>
                     {bottomFabric}
                   </Text>
                   <Text fontSize={"14px"}>
-                    <b>Manufacturer Details: </b>
+                    <b>Manufacturer Details - </b>
                     {manufacturerdetails}
                   </Text>
                 </Box>

@@ -22,7 +22,15 @@ import {
   Radio,
   RadioGroup,
   CircularProgress,
+  // CardActions,
+  CardBody,
+  CardHeader,
+  Divider,
+  TextField,
+  Icon,
+  Card,
 } from "@chakra-ui/react";
+import BiRevision from "@chakra-ui/icons";
 import OtherNavbar from "../Components/OtherNavbar";
 import OtherFooter from "../Components/OtherFooter";
 import { redirect, useLocation, useNavigate } from "react-router-dom";
@@ -32,6 +40,7 @@ import { PaymentDetains1, PaymentDetains2 } from "../Components/PaymentDetains";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserDetails } from "../Redux/UserReducer/Action";
+import { MdRefresh } from "react-icons/md";
 function getDate() {
   const today = new Date();
   const month = today.getMonth() + 1;
@@ -88,8 +97,15 @@ const Payment = () => {
     month: "",
     cvv: "",
   });
+  const randomString = Math.random().toString(36).slice(8);
+  const [captcha, setCaptcha] = useState(randomString);
 
-  const captcha = 3535;
+  const refreshString = () => {
+    setCode("");
+    setCaptcha(Math.random().toString(36).slice(8));
+  };
+
+  // const captcha = 3535;
   const { cardno, cardName, month, cvv } = value;
 
   const activeStyle = {
@@ -126,6 +142,7 @@ const Payment = () => {
     //   }
     // }
     setLoading(true);
+
     if (code !== captcha || code === "") {
       toast({
         title: "Please fill the capture first",
@@ -579,26 +596,38 @@ const Payment = () => {
                               {/* <Text marginBottom={"30px"} fontWeight={"700"}>
                               Pay On Delivery (Cash/UPI)
                             </Text> */}
-                              <Box
-                                w={"full"}
-                                textAlign="center"
-                                p={2}
-                                border={"1px solid"}
-                                borderRadius="5px"
-                              >
-                                {captcha}
-                              </Box>
+                              <HStack>
+                                <Box
+                                  w={"full"}
+                                  textAlign="center"
+                                  p={2}
+                                  border={"1px solid"}
+                                  color={"#fff"}
+                                  textDecoration={"line-through"}
+                                  userSelect={"none"}
+                                  backgroundColor={"black"}
+                                  borderRadius={"5px"}
+                                  width={"100px"}
+                                  // height={"30px"}
+                                  fontSize={"22px"}
+                                  // marginBottom={"10px"}
+                                >
+                                  {captcha}
+                                </Box>
+                                <Button
+                                  leftIcon={<MdRefresh />}
+                                  onClick={() => refreshString()}
+                                ></Button>
+                              </HStack>
 
                               <Input
                                 w={"full"}
-                                type={"text"}
+                                // type={"text"}
                                 value={code}
                                 fontSize={"15px"}
                                 placeholder="Enter code Show in above image*"
                                 isRequired
-                                onChange={(e) =>
-                                  setCode(Number(e.target.value))
-                                }
+                                onChange={(e) => setCode(e.target.value)}
                               />
                               {/* <Text fontSize={"12px"} color={"gray"}>
                               You can pay via Cash or UPI enabled app at the
@@ -679,193 +708,6 @@ const Payment = () => {
                     Continue
                   </Button> */}
                 </VStack>
-
-                {/* <HStack
-                  border={"1px solid lightgray"}
-                  justifyContent={"space-between"}
-                  p={5}
-                >
-                  {" "}
-                  {toggle ? (
-                    <Box marginTop={[0, 0, 0]} w="40%">
-                      <Box onClick={handleToggle} style={activeStyle} p={2}>
-                        Cash On Delivery
-                      </Box>
-                      <Box
-                        mt={2}
-                        onClick={handleToggle}
-                        style={defaultStyle}
-                        p={2}
-                      >
-                        Credit/Debit Card
-                      </Box>
-                      <Box mt={2} style={defaultStyle} p={2}>
-                        Online Payment
-                      </Box>
-                      <Box mt={2} style={defaultStyle} p={2}>
-                        Pay-tm/Wallets
-                      </Box>
-                      <Box mt={2} style={defaultStyle} p={2}>
-                        Net Banking
-                      </Box>
-                      <Box mt={2} style={defaultStyle} p={2}>
-                        EMI/Pay Later
-                      </Box>
-                    </Box>
-                  ) : (
-                    <Box marginTop={[0, 0, 0]} w="40%">
-                      <Box onClick={handleToggle} style={defaultStyle} p={2}>
-                        Cash On Delivery
-                      </Box>
-                      <Box
-                        mt={2}
-                        onClick={handleToggle}
-                        style={activeStyle}
-                        p={2}
-                      >
-                        Credit/Debit Card
-                      </Box>
-                      <Box mt={2} style={defaultStyle} p={2}>
-                        PhonePe/Google
-                      </Box>
-                      <Box mt={2} style={defaultStyle} p={2}>
-                        Pay-tm/Wallets
-                      </Box>
-                      <Box mt={2} style={defaultStyle} p={2}>
-                        Net Banking
-                      </Box>
-                      <Box mt={2} style={defaultStyle} p={2}>
-                        EMI/Pay Later
-                      </Box>
-                    </Box>
-                  )}
-                  {toggle ? (
-                    <Box pl={4}>
-                      <Stack border={"0px solid"} textAlign="left" spacing={4}>
-                        <FormControl>
-                          <Stack spacing={4}>
-                            <Text marginBottom={"30px"} fontWeight={"700"}>
-                              Pay On Delivery (Cash/UPI)
-                            </Text>
-                            <Box
-                              // w={"30%"}
-                              textAlign="center"
-                              p={2}
-                              border={"1px solid"}
-                              borderRadius="5px"
-                            >
-                              {captcha}
-                            </Box>
-
-                            <Input
-                              w="90%"
-                              type={"text"}
-                              value={code}
-                              fontSize={"15px"}
-                              placeholder="Enter code Show in above image*"
-                              isRequired
-                              onChange={(e) => setCode(Number(e.target.value))}
-                            />
-                            <Text fontSize={"12px"} color={"gray"}>
-                              You can pay via Cash or UPI enabled app at the
-                              time on delivery. Ask executive for these options
-                            </Text>
-                            <Button
-                              background={"#ff3f6c"}
-                              color="#fff"
-                              _hover={{
-                                backgroundColor: "#ff3f6c",
-                              }}
-                              onClick={handleSubmit}
-                              display={{ md: "inline-block", base: "none" }}
-                            >
-                              Place Order
-                            </Button>
-                          </Stack>
-                        </FormControl>
-                      </Stack>
-                    </Box>
-                  ) : (
-                    <Box textAlign={"left"} pl={4}>
-                      <FormControl>
-                        <Text m={"10px 0px"} fontSize="14px" fontWeight={"700"}>
-                          CREDIT/DEBIT CARD
-                        </Text>
-                        <Text fontSize={"14px"} color="darkgray">
-                          please ensure your card can be used or online
-                          transaction .<Text color="#ff3f6c">know More</Text>
-                        </Text>
-                        <Stack mt={4} spacing={6}>
-                          <Input
-                            fontSize={"13px"}
-                            type="number"
-                            placeholder="Card Number"
-                            isRequired
-                            onChange={(e) =>
-                              setValue((prev) => ({
-                                ...prev,
-                                cardno: e.target.value,
-                              }))
-                            }
-                          />
-                          <Input
-                            fontSize={"13px"}
-                            type="text"
-                            marginTop={4}
-                            marginBottom={4}
-                            placeholder="Name on card"
-                            isRequired
-                            onChange={(e) =>
-                              setValue((prev) => ({
-                                ...prev,
-                                cardName: e.target.value,
-                              }))
-                            }
-                          />
-                          <HStack>
-                            <Input
-                              fontSize={"13px"}
-                              type="month"
-                              placeholder="Valid Thru(MM/YY)"
-                              isRequired
-                              onChange={(e) =>
-                                setValue((prev) => ({
-                                  ...prev,
-                                  month: e.target.value,
-                                }))
-                              }
-                            />
-                            <Input
-                              fontSize={"13px"}
-                              type="number"
-                              placeholder="CVV"
-                              isRequired
-                              onChange={(e) =>
-                                setValue((prev) => ({
-                                  ...prev,
-                                  cvv: e.target.value,
-                                }))
-                              }
-                            />
-                          </HStack>
-                          <Button
-                            mt={4}
-                            background={"#ff3f6c"}
-                            color="#fff"
-                            w="full"
-                            _hover={{
-                              backgroundColor: "#fff36c",
-                            }}
-                            onClick={handleSubmitCard}
-                            display={{ md: "inline-block", base: "none" }}
-                          >
-                            Pay Now
-                          </Button>
-                        </Stack>
-                      </FormControl>
-                    </Box>
-                  )}
-                </HStack> */}
               </Box>
               <Box
                 border={"px solid gray"}
@@ -996,24 +838,66 @@ const Payment = () => {
                 ₹ {totalAmount - couponDiscount}
               </Text>
             </HStack>
-            <Button
-              size={"md"}
-              mx={5}
-              my={2}
-              px={7}
-              color={"#fff"}
-              borderRadius={3}
-              border={"2px"}
-              // p="22px 53px"
-              w={"50%"}
-              bg="#ff3e6c"
-              borderColor={"#ff3e6c"}
-              variant={"solid"}
-              _hover={{ bgColor: "#ff3e6c" }}
-              onClick={handleSubmit}
-            >
-              {toggle ? "PLACE ORDER " : "PAY NOW"}
-            </Button>
+            {!paymentLink && (
+              <Button
+                size={"md"}
+                mx={5}
+                my={2}
+                px={7}
+                color={"#fff"}
+                borderRadius={3}
+                border={"2px"}
+                // p="22px 53px"
+                w={"50%"}
+                bg="#ff3e6c"
+                borderColor={"#ff3e6c"}
+                variant={"solid"}
+                _hover={{ bgColor: "#ff3e6c" }}
+                onClick={handleSubmit}
+              >
+                {toggle ? (
+                  "PLACE ORDER "
+                ) : (
+                  <>
+                    {loading ? (
+                      <CircularProgress
+                        isIndeterminate
+                        size={7}
+                        margin={"0 10px"}
+                        color="white"
+                      />
+                    ) : (
+                      "CONTINUE"
+                    )}
+                  </>
+                )}
+              </Button>
+            )}
+            {paymentLink && (
+              <Button
+                size={"md"}
+                mx={5}
+                my={2}
+                px={7}
+                color={"#fff"}
+                borderRadius={3}
+                border={"2px"}
+                // p="22px 53px"
+                w={"50%"}
+                bg="#ff3e6c"
+                borderColor={"#ff3e6c"}
+                variant={"solid"}
+                _hover={{ bgColor: "#ff3e6c" }}
+              >
+                <a
+                  href={paymentLink}
+                  // ref={anchorRef}
+                  rel="noopener noreferrer"
+                >
+                  PAY NOW
+                </a>
+              </Button>
+            )}
           </HStack>
         </HStack>
       </Flex>

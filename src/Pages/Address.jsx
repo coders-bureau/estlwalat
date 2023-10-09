@@ -26,6 +26,7 @@ import AddressModal from "../Components/AddressModal";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import LoadingPage from "./LoadingPage";
+import CouponDetails from "../Components/CouponDetails";
 const Address = () => {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -35,8 +36,15 @@ const Address = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const location = useLocation();
   const toast = useToast();
-  const { totalAmount, totalMRP, totalMRPDiscount, offerPrice, couponDiscount } =
-    location.state;
+  const {
+    totalAmount,
+    totalMRP,
+    totalMRPDiscount,
+    offerPrice,
+    couponDiscount,
+    cart
+  } = location.state;
+  console.log(location.state);
   const mobileNumber = localStorage.getItem("MbNumber");
   const [selectedAddress, setSelectedAddress] = useState({});
   const [selectedAddressstatus, setSelectedAddressStatus] = useState(false);
@@ -246,6 +254,12 @@ const Address = () => {
                 }}
                 w={"full"}
               >
+                {/* <CouponDetails
+                  totalMRP={totalMRP}
+                  totalMRPDiscount={totalMRPDiscount}
+                  offerPrice={offerPrice}
+                  setCouponDiscount={setCouponDiscount}
+                /> */}
                 <PaymentDetains1
                   totalMRP={totalMRP}
                   totalMRPDiscount={totalMRPDiscount}
@@ -261,7 +275,6 @@ const Address = () => {
                   addressLine={addressLine}
                   offerPrice={offerPrice}
                   couponDiscount={couponDiscount}
-
                   // redirect={addressD.pinCode ? "/address" : undefined}
                   redirect={selectedAddressstatus ? "/payment" : undefined}
                 />
@@ -293,7 +306,6 @@ const Address = () => {
                 totalMRPDiscount={totalMRPDiscount}
                 offerPrice={offerPrice}
                 couponDiscount={couponDiscount}
-
               />
               {/* .......................... */}
               <PaymentDetains2
@@ -303,6 +315,7 @@ const Address = () => {
                 addressLine={addressLine}
                 offerPrice={offerPrice}
                 couponDiscount={couponDiscount}
+                cart={cart}
                 redirect={selectedAddressstatus ? "/payment" : undefined}
               />
               {/* ........................... */}
@@ -345,6 +358,7 @@ const Address = () => {
                     addressLine,
                     offerPrice,
                     couponDiscount,
+                    cart,
                   },
                 })
               : toast({

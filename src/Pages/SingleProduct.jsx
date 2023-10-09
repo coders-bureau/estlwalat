@@ -42,6 +42,7 @@ import Review from "../Components/Review";
 import Navbar from "../Components/Navbar";
 import { getUserDetails } from "../Redux/UserReducer/Action";
 import { FaHeart } from "react-icons/fa";
+import loading from "../Assets/loading.gif";
 
 const style = {
   hover: {
@@ -95,6 +96,8 @@ const SingleProduct = () => {
     topFabric,
     bottomColor,
     bottomFabric,
+    sleeveLength,
+    pantClosure,
   } = currentProduct;
   // console.log(offer);
   const toast = useToast();
@@ -107,12 +110,34 @@ const SingleProduct = () => {
     value: "",
     text: "",
   });
-  // console.log(reviews);
-  // console.log(reviews[0]);
+
+  const [offerPrice, setOfferPrice] = useState(0);
+  const [totalMRP, setTotalMRP] = useState(0);
+  const [totalMRPDiscount, setTotalMRPDiscount] = useState(0);
+  const [couponDiscount, setCouponDiscount] = useState(0);
+  const [totalAmount, setTotalAmount] = useState(0);
+  // Initialize the shopping cart state as an empty array
+  const [cart, setCart] = useState([]);
+
+  // Function to add an item to the cart
+  const addToCart = (product, currentSize, quantity) => {
+    // Create a new item object
+    const newItem = {
+      product,
+      currentSize,
+      quantity,
+    };
+
+    // Update the cart state by adding the new item
+    setCart(newItem);
+  };
+
+  console.log("cart", cart);
   const [addedToWish, setAddedToWish] = useState(false);
   const [addedToBag, setAddedToBag] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const btnRef = React.useRef(null);
+  const [loadingbuynow, setLoadingBuyNow] = useState(false)
 
   const onClose = () => setIsOpen(false);
   const onOpen = () => setIsOpen(true);
@@ -156,9 +181,23 @@ const SingleProduct = () => {
       currentProduct && setMainImage(currentProduct.img);
       currentProduct && setLen(currentProduct.images.length);
       currentProduct && setOffer(currentProduct.offer);
+      if (currentProduct) {
+        setOfferPrice(currentProduct.price - currentProduct.discount);
+        setTotalMRP(currentProduct.MRP);
+        setTotalMRPDiscount(currentProduct.MRP - currentProduct.price);
+        setCouponDiscount(0);
+        setTotalAmount(currentProduct.discount);
+      }
     }
   }, [id, Products.length]);
 
+  console.log(
+    offerPrice,
+    totalAmount,
+    totalMRP,
+    totalMRPDiscount,
+    couponDiscount
+  );
   useEffect(() => {
     if (Products.length !== 0) {
       const newSimilarProducts = Products?.filter((el) => {
@@ -199,6 +238,7 @@ const SingleProduct = () => {
       setSize("");
     } else {
       setSize(size);
+      addToCart(currentProduct._id, size, 1);
     }
   };
 
@@ -220,8 +260,33 @@ const SingleProduct = () => {
     });
   };
 
-  const handleBuyNow = () => {
+  const handleBuyNow = async () => {
     if (sizeRef) {
+      try {
+        const response = await axios.post(
+          `${process.env.REACT_APP_BASE_API}/user/addbuynow`,
+          {
+            productId: currentProduct._id,
+            currentSize: sizeRef,
+          }
+        );
+
+        console.log(response.data); // You can handle success response here
+      } catch (error) {
+        console.error("Error adding to Buy Now:", error);
+      }
+
+      navigate("/address", {
+        state: {
+          totalAmount,
+          totalMRP,
+          totalMRPDiscount,
+          // addressLine,
+          offerPrice,
+          couponDiscount,
+          cart,
+        },
+      });
       // axios({
       //   method: "post",
       //   url: process.env.REACT_APP_MYNTRA_API + "/cart",
@@ -231,28 +296,28 @@ const SingleProduct = () => {
       //   method: "post",
       //   url: `http://localhost:5000/user/`+userId+`/cart/`+id,
       // })
-      axios({
-        method: "post",
-        // url: `${process.env.REACT_APP_BASE_API}/user/cart/` + id,
-        // data: {
-        //   currentSize: sizeRef,
-        // },
-        url: `${process.env.REACT_APP_BASE_API}/user/addcart`,
-        data: {
-          productId: id,
-          currentSize: sizeRef,
-        },
-      })
-        .then((res) => {
-          // dispatch(getUserDetails(mobileNumber));
-          console.log("then");
-          navigate("/cart");
-        })
-        .catch((err) => {
-          console.log("catch", err);
-          // dispatch(getUserDetails(mobileNumber));
-          // navigate("/address");
-        });
+      // axios({
+      //   method: "post",
+      //   // url: `${process.env.REACT_APP_BASE_API}/user/cart/` + id,
+      //   // data: {
+      //   //   currentSize: sizeRef,
+      //   // },
+      //   url: `${process.env.REACT_APP_BASE_API}/user/addcart`,
+      //   data: {
+      //     productId: id,
+      //     currentSize: sizeRef,
+      //   },
+      // })
+      //   .then((res) => {
+      //     // dispatch(getUserDetails(mobileNumber));
+      //     console.log("then");
+      //     navigate("/cart");
+      //   })
+      //   .catch((err) => {
+      //     console.log("catch", err);
+      //     // dispatch(getUserDetails(mobileNumber));
+      //     // navigate("/address");
+      //   });
     } else {
       toast({
         title: "Please select size",
@@ -267,6 +332,7 @@ const SingleProduct = () => {
 
   const handleSendCart = () => {
     if (sizeRef) {
+      setLoadingBuyNow(true);
       // axios({
       //   method: "post",
       //   url: process.env.REACT_APP_MYNTRA_API + "/cart",
@@ -288,6 +354,8 @@ const SingleProduct = () => {
           // dispatch(getUserDetails(mobileNumber));
           setAddedToBag(true);
           console.log(res);
+    setLoadingBuyNow(false);
+
           toast({
             title: res.data.message,
             variant: "top-accent",
@@ -299,6 +367,8 @@ const SingleProduct = () => {
         })
         .catch((err) => {
           // dispatch(getUserDetails());
+    setLoadingBuyNow(false);
+
           console.log(err);
           toast({
             title: "Error in adding",
@@ -320,13 +390,15 @@ const SingleProduct = () => {
       });
     }
   };
-
   const handleSendWishlist = () => {
+    setLoadingBuyNow(true);
     axios({
       method: "post",
       url: `${process.env.REACT_APP_BASE_API}/user/wishlist/${_id}`,
     })
       .then((res) => {
+    setLoadingBuyNow(false);
+
         dispatch(getUserDetails(mobileNumber));
         setAddedToWish(true);
         toast({
@@ -340,6 +412,7 @@ const SingleProduct = () => {
       })
       .catch((err) => {
         setAddedToWish(true);
+    setLoadingBuyNow(false);
         toast({
           title: "Product already present in wishlist",
           variant: "top-accent",
@@ -367,6 +440,27 @@ const SingleProduct = () => {
   return (
     <>
       <Navbar />
+      {loadingbuynow ? <><Box
+      w={"100%"}
+      h={"100%"}
+      zIndex={10000}
+      justifyContent={"center"}
+      alignItems={"center"}
+      // display={"flex"}
+      // bgColor={"rgba(0, 0, 0, 0.5)"}
+      opacity={"0.5"}
+      // borderRadius={100}
+        // boxShadow={
+        //   "rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em"
+        // }
+        backgroundColor={"white"}
+        position={"fixed"}
+        // top={{ lg: "50%", md: "50%", base: "40%" }}
+        // left={{ lg: "50%", md: "50%", base: "50%" }}
+        // transform={"translate(-50% , -50%)"}
+      >
+       <LoadingPage/>
+      </Box> </>: <></>}
       <Box>
         <HStack spacing={1} w={"98%"} m={"10px auto"}>
           <Text color={"#46495a"} fontSize={"14px"}>
@@ -439,8 +533,7 @@ const SingleProduct = () => {
                   fontSize="14px"
                   // size="lg"
                 >
-                  {" "}
-                  {brand}{" "}
+                  cart {brand}{" "}
                 </Heading>
                 <Heading
                   fontWeight={"600"}
@@ -504,12 +597,17 @@ const SingleProduct = () => {
                   {/* <Text fontWeight={500} color="#ff3e6c">
                     SIZE CHART &#62;
                   </Text> */}
-                  <Text   cursor={"pointer"} fontWeight={500} color="#ff3e6c" onClick={onOpen}>
+                  <Text
+                    cursor={"pointer"}
+                    fontWeight={500}
+                    color="#ff3e6c"
+                    onClick={onOpen}
+                  >
                     SIZE CHART &#62;
                   </Text>
 
                   <Modal
-                    size={{md:"lg",base:"full"}}
+                    size={{ md: "lg", base: "full" }}
                     finalFocusRef={btnRef}
                     scrollBehavior={"inside"}
                     isOpen={isOpen}
@@ -518,13 +616,17 @@ const SingleProduct = () => {
                   >
                     <ModalOverlay />
                     <ModalContent>
-                      <ModalHeader mt={{md:"0px",base:"100px"}}>Size Chart</ModalHeader>
+                      <ModalHeader mt={{ md: "0px", base: "100px" }}>
+                        Size Chart
+                      </ModalHeader>
                       <ModalCloseButton />
                       <ModalBody>
                         {/* Add your size chart content here */}
                         <p>Your size chart goes here...</p>
                       </ModalBody>
-                      <Button mb={"40px"} onClick={onClose}>Close</Button>
+                      <Button mb={"40px"} onClick={onClose}>
+                        Close
+                      </Button>
                     </ModalContent>
                   </Modal>
                 </HStack>
@@ -561,7 +663,7 @@ const SingleProduct = () => {
                     onClick={() =>
                       isAuth
                         ? handleSendWishlist()
-                        : navigate("/signup", {
+                        : navigate("/login", {
                             state: `/single_product/${id}`,
                             replace: true,
                           })
@@ -591,7 +693,7 @@ const SingleProduct = () => {
                     onClick={() =>
                       isAuth
                         ? handleBuyNow()
-                        : navigate("/signup", {
+                        : navigate("/login", {
                             state: `/single_product/${id}`,
                             replace: true,
                           })
@@ -612,7 +714,7 @@ const SingleProduct = () => {
                     onClick={() =>
                       isAuth
                         ? handleSendCart()
-                        : navigate("/signup", {
+                        : navigate("/login", {
                             state: `/single_product/${id}`,
                             replace: true,
                           })
@@ -628,7 +730,7 @@ const SingleProduct = () => {
                     variant={"outline"}
                     fontSize={"16px"}
                   >
-                    ADD TO BAG
+                     TO BAG
                   </Button>
                 </HStack>
               </VStack>
@@ -680,25 +782,41 @@ const SingleProduct = () => {
                     <b>Description - </b>
                     {description}
                   </Text>
+                  <div>
+                    <strong>Sleeve Length:</strong>{" "}
+                    {sleeveLength
+                      ? sleeveLength.length > 0
+                        ? sleeveLength.join(", ")
+                        : "N/A"
+                      : ""}
+                  </div>
+                  <div>
+                    <strong>Pant Closure:</strong>{" "}
+                    {pantClosure
+                      ? pantClosure.length > 0
+                        ? pantClosure.join(", ")
+                        : "N/A"
+                      : ""}
+                  </div>
                   <Text fontSize={"14px"}>
                     <b>Top Color - </b>
-                    {topColor}
+                    {topColor ? topColor : "N/A"}
                   </Text>
                   <Text fontSize={"14px"}>
                     <b>Top Fabric - </b>
-                    {topFabric}
+                    {topFabric ? topFabric : "N/A"}
                   </Text>
                   <Text fontSize={"14px"}>
                     <b>Bottom Color - </b>
-                    {bottomColor}
+                    {bottomColor ? bottomColor : "N/A"}
                   </Text>
                   <Text fontSize={"14px"}>
                     <b>Bottom Fabric - </b>
-                    {bottomFabric}
+                    {bottomFabric ? bottomFabric : "N/A"}
                   </Text>
                   <Text fontSize={"14px"}>
                     <b>Manufacturer Details - </b>
-                    {manufacturerdetails}
+                    {manufacturerdetails ? manufacturerdetails : "N/A"}
                   </Text>
                 </Box>
               </VStack>
@@ -723,7 +841,7 @@ const SingleProduct = () => {
             onClick={() =>
               isAuth
                 ? handleBuyNow()
-                : navigate("/signup", {
+                : navigate("/login", {
                     state: `/single_product/${id}`,
                     replace: true,
                   })
@@ -742,7 +860,7 @@ const SingleProduct = () => {
             onClick={() =>
               isAuth
                 ? handleSendCart()
-                : navigate("/signup", {
+                : navigate("/login", {
                     state: `/single_product/${id}`,
                     replace: true,
                   })

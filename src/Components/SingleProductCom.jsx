@@ -188,11 +188,12 @@ export default function SingleProductCom(el) {
           left={{lg:"88%",md:"73%",base:"77%"}}
           top={{ lg: "1vw", md: "5vw", base: "10vw" }}
         >
-          <Icon as={FaHeart} fill={addedToWish ? "#ff3e6f" : "gray.500"} fontSize={{ lg: "3xl", md: "2xl", base: "3xl" }} />
+          <Icon as={FaHeart} style={{ opacity: 0.7 }}  fill={addedToWish ? "#ff3e6f" : "gray.500"} fontSize={{ lg: "3xl", md: "2xl", base: "3xl" }} />
           {/* <Icon
-            as={FaHeart}
+            as={CiHeart}
             fill={"#ff3e6f"}
             fontSize={{ lg: "3xl", md: "2xl", base: "3xl" }}
+            dropShadow={"10px 10px 20px #000000"}
           /> */}
         </Circle>
 

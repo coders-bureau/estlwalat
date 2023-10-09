@@ -52,7 +52,7 @@ export const MainRoutes = () => {
              <Route path='/profile' element={<PrivateRoute><Profile /></PrivateRoute>} />
              <Route path='/address' element={<PrivateRoute><Address/></PrivateRoute>}/>
              <Route path="/payment" element={<PrivateRoute><Payment/></PrivateRoute> }></Route>
-             <Route path="/success" element={<PrivateRoute><Success /></PrivateRoute>} ></Route>
+             <Route path="/success/:payment/:tranxId" element={<PrivateRoute><Success /></PrivateRoute>} ></Route>
              <Route path="/privacypolicy" element={<PrivacyPolicy />} />
              <Route path="/faqs" element={<FAQ />} />
              <Route path="/tac" element={<TermsAndConditions />} />

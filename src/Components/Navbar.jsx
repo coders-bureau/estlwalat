@@ -66,9 +66,13 @@ export const Navbar = () => {
     // dispatch(login("logout"));
 
     const auth_token = localStorage.getItem("authToken");
-    axios.defaults.headers.common["auth_token"] = `${auth_token}`;
+    // axios.defaults.headers.common["auth_token"] = `${auth_token}`;
     axios
-      .get(`${process.env.REACT_APP_BASE_API}/user/account/logout`)
+      .get(`${process.env.REACT_APP_BASE_API}/user/account/logout`,{
+        headers: {
+          "auth_token": auth_token,
+        },
+      })
       .then((response) => {
         // setisAuth(true);
         dispatch(login("logout"));

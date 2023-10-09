@@ -82,7 +82,7 @@ const Payment = () => {
     totalMRPDiscount,
     offerPrice,
     couponDiscount,
-    cart,
+    cart
   } = location.state ? location.state : {};
 
   console.log(location.state);
@@ -128,14 +128,22 @@ const Payment = () => {
 
   const handleToggle = (value) => {
     setToggle(!toggle);
-    setSelectedPaymentMode(value);
-    console.log(value);
+    setSelectedPaymentMode(value);console.log(value);
   };
   const [paymentLink, setPaymentLink] = useState("");
   const handleSubmit = () => {
+    // for (let i = 0; i < cartData.length; i++) {
+    //   for (let j = 0; j < checkoutData.length; j++) {
+    //     if (cartData[i].id === checkoutData[j].id) {
+    //       dispatch(deleteCartData(cartData[i].id)).then(() => dispatch(fetchCartData()));
+    //       dispatch(deleteCheckoutData(checkoutData[j].id)).then(() => dispatch(getCheckoutData()));
+    //       console.log("CD", cartData);
+    //     }
+    //   }
+    // }
     setLoading(true);
 
-    if (code === "") {
+    if (code !== captcha || code === "") {
       toast({
         title: "Please fill the capture first",
         // description: "We've received your payment.",
@@ -144,35 +152,21 @@ const Payment = () => {
         isClosable: true,
         position: "top-left",
       });
-
       // toast.error("Please fill the capture first", {
       //   position: "top-center",
       // });
       setLoading(false);
       return;
     }
-
-    if (code !== captcha) {
-      toast({
-        title: "Captcha is Incorrect",
-        // description: "We've received your payment.",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-        position: "top-left",
-      });
-      setLoading(false);
-      return;
-    }
     setLoading(true);
-
+    
     axios({
       method: "post",
       url: `${process.env.REACT_APP_BASE_API}/order/addOrder`,
       data: {
         addressLine: addressLine,
         paymentMode: selectedPaymentMode,
-        cartBuyNow: cart,
+        cartBuyNow : cart,
       },
     })
       .then((orderRes) => {
@@ -222,31 +216,27 @@ const Payment = () => {
               // setLoading(false);
             });
         }
-        if (selectedPaymentMode == "cod") {
-          console.log(orderRes.data.data.tranxId);
-          navigate(
-            `/success/${selectedPaymentMode}/${orderRes.data.data.tranxId}`
-          );
-        }
-       
+
+        // axios({
+        //   method: "delete",
+        //   url: `${process.env.REACT_APP_BASE_API}/user/cartall`,
+        // })
+        //   .then(() => {
+        //     // dispatch(getUserDetails(mobileNumber));
+        //   })
+        //   .catch((err) => {
+        //     console.log(err);
+        //   });
         console.log("done orders");
         // setLoading(false);
       })
       .catch((err) => {
         console.log(err);
       });
-      axios({
-        method: "delete",
-        url: `${process.env.REACT_APP_BASE_API}/user/cartall`,
-      })
-        .then((response) => {
-          console.log("response", response);
-          // dispatch(getUserDetails(mobileNumber));
-        })
-        .catch((err) => {
-          console.log(err);
-        });
     // setLoading(false);
+    if (selectedPaymentMode == "cod") {
+      navigate("/success");
+    }
   };
 
   // useEffect(() => {

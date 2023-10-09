@@ -16,6 +16,7 @@ import {
   ModalFooter,
   useDisclosure,
   Select,
+  Image,
 } from "@chakra-ui/react";
 
 import Filter from "../Components/Filter";
@@ -30,7 +31,6 @@ import { getProductsData, getProductsSorted } from "../Redux/AppReducer/Action";
 import Pagination from "../Components/Pagination";
 import Navbar from "../Components/Navbar";
 import { getUserDetails } from "../Redux/UserReducer/Action";
-
 const Store = () => {
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
@@ -69,7 +69,7 @@ const Store = () => {
   }, [currentPage]);
 
   useEffect(() => {
-    setCurrentPage(1); 
+    setCurrentPage(1);
   }, [sValue]);
 
   // sorting filter start
@@ -97,11 +97,12 @@ const Store = () => {
           sortType: sValue,
           currentPage,
           offerType1: offerType1,
-          offerValue: offerValue
+          offerValue: offerValue,
         },
       };
       // dispatch(getProductsSorted(sValue, currentPage, getProductParams));
       dispatch(getProductsData(getProductParams));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, [
     dispatch,
@@ -136,7 +137,7 @@ const Store = () => {
       </Box>
       <Box mb={"50px"}>
         <Grid
-          // gridTemplateColumns={{ lg: "20% 80%", md: "20% 80%", base: "100%" }}
+        // gridTemplateColumns={{ lg: "20% 80%", md: "20% 80%", base: "100%" }}
         >
           {/* filter products */}
           {/* <Box
@@ -151,7 +152,7 @@ const Store = () => {
 
           <Box>
             <Box
-            px={"4vw"}
+              px={"4vw"}
               display={{
                 base: "none",
                 md: "flex",
@@ -177,20 +178,27 @@ const Store = () => {
             </Box>
             {/* Products  */}
             <Products />
-            <Box>
-              <Pagination
-                handlePage={handlePage}
-                setCurrentPage={setCurrentPage}
-                currentPage={currentPage}
-                totalPages={totalPages}
-              />
-            </Box>
+            
+            {/* <Products /> */}
+            {totalPages !== 0 ? (
+              <Box>
+                <Pagination
+                  handlePage={handlePage}
+                  setCurrentPage={setCurrentPage}
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                />
+              </Box>
+            ) : (
+              <></>
+            )}
             {/* {filter and sort mobile view} */}
             <HStack
               zIndex={1001}
               bgColor={"#ffffff"}
+              w={"full"}
               display={{ lg: "none", md: "none", base: "flex" }}
-              m={"10px"}
+              // m={"10px"}
               gap={"1rem"}
               justifyContent={"center"}
               h="max-content"
@@ -202,14 +210,14 @@ const Store = () => {
                 onClick={onOpenSort}
                 leftIcon={<TbArrowsSort />}
                 color={"#fff"}
-                borderRadius={5}
+                borderRadius={0}
                 border={"2px"}
                 p="22px 53px"
                 bg="#ff3e6c"
                 borderColor={"#ff3e6c"}
                 variant={"solid"}
-                _hover={{bgColor:"#ff3e6c"}}
-
+                _hover={{ bgColor: "#ff3e6c" }}
+                w="full"
               >
                 Sort
               </Button>

@@ -10,11 +10,14 @@ import {
 import React from "react";
 
 const SingleWishlistProduct = ({ el, handleAddCart, handleDelete }) => {
-  const { MRP, discount, brand, img, price, title } = el;
-  console.log(el._id);
+  const { MRP, discount, brand, img, price, title, offer } = el;
+  console.log(el);
   return (
     <>
       <VStack
+      display="flex"
+      flexDirection="column"
+      justifyContent="space-between"
         minHeight={"140px"}
         border={"1px solid #e8ecf3"}
         w={"full"}
@@ -61,7 +64,7 @@ const SingleWishlistProduct = ({ el, handleAddCart, handleDelete }) => {
               fontSize={{ lg: "10px", md: "10px", base: "10px" }}
               color={"#ff915c"}
             >
-              ({discount}% OFF)
+              ({offer.text} OFF)
             </Text>
           </HStack>
           <Text

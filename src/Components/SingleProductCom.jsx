@@ -34,7 +34,6 @@ export default function SingleProductCom(el) {
   const [addedToBag, setAddedToBag] = useState(false);
   const [addedToWish, setAddedToWish] = useState(false);
 
-
   const { user } = useSelector((store) => store.UserReducer);
   const dispatch = useDispatch();
   const [userId, setUserID] = useState("");
@@ -139,7 +138,7 @@ export default function SingleProductCom(el) {
       >
         {}
         <Circle
-            // boxShadow="0 2px 4px rgba(0, 0, 0, 0.1)"
+          // boxShadow="0 2px 4px rgba(0, 0, 0, 0.1)"
           zIndex={1}
           onClick={() => {
             if (isAuth) {
@@ -185,10 +184,19 @@ export default function SingleProductCom(el) {
           // borderWidth="1px"
           p="4px 4px"
           size={{ lg: "9", md: "8", base: "9" }}
-          left={{lg:"88%",md:"73%",base:"77%"}}
+          left={{ lg: "88%", md: "73%", base: "77%" }}
           top={{ lg: "1vw", md: "5vw", base: "10vw" }}
         >
-          <Icon as={FaHeart} style={{ opacity: 0.7 }}  fill={addedToWish ? "#ff3e6f" : "gray.500"} fontSize={{ lg: "3xl", md: "2xl", base: "3xl" }} />
+          <Icon
+            as={FaHeart}
+            fill={addedToWish ? "#ff3e6f" : "#ffffff"}
+            fontSize={{ lg: "3xl", md: "2xl", base: "3xl" }}
+            style={{
+              opacity: 0.8,
+              filter: "drop-shadow(3px 3px 3px black)",
+              // boxShadow: "4px 4px 6px rgba(0, 0, 0, 0.1)", // Add your shadow CSS here
+            }}
+          />
           {/* <Icon
             as={CiHeart}
             fill={"#ff3e6f"}
@@ -198,7 +206,7 @@ export default function SingleProductCom(el) {
         </Circle>
 
         <Box w={{ lg: "100%", md: "100%", base: "100%" }}>
-          <Image
+          {/* <Image
             onClick={() => navigate(`../single_product/${_id}`)}
             src={process.env.REACT_APP_BASE_API + "/" + img}
             // src={img}
@@ -207,7 +215,25 @@ export default function SingleProductCom(el) {
             boxSize={{ lg: "24vw", md: "28vw", base: "53vw" }}
             // width={"40vw"}
             objectFit="contain"
-          />
+          /> */}
+          <Box
+            w={"full"}
+            onClick={() => navigate(`../single_product/${_id}`)}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            // bg="gray.200" // Set the background color to light gray
+            // overflow="hidden" // Hide any content that overflows the box size
+            // borderRadius="md" // Optional: Add border radius for rounded corners
+          >
+            <Image
+              src={process.env.REACT_APP_BASE_API + "/" + img}
+              alt=""
+              objectFit="contain"
+              w={"full"}
+              boxSize={{ lg: "24vw", md: "28vw", base: "57vw" }}
+            />
+          </Box>
           {!showWish && (
             <div className={styles.rating}>
               <div>
@@ -248,16 +274,17 @@ export default function SingleProductCom(el) {
               isTruncated
               onClick={() => navigate(`../single_product/${_id}`)}
               className={styles.title}
+              fontSize={"13px"}
             >
               {title}
             </Text>
           )}
           {!showWish && (
             <Text
-              m={"2px 0px"}
+              // m={"2px 0px"}
               fontWeight="400"
               color={"#53575f"}
-              fontSize="14px"
+              fontSize="13px"
               onClick={() => navigate(`../single_product/${_id}`)}
               isTruncated
             >
@@ -274,9 +301,9 @@ export default function SingleProductCom(el) {
               {MRP}
             </p>
             <Text
-              display={{ lg: "flex", md: "flex", base: "none" }}
+              display={{ lg: "flex", md: "flex", base: "flex" }}
               color={"#ff905a"}
-              fontSize={"13px"}
+              // fontSize={"13px"}
             >{`(${offer.text} OFF)`}</Text>
           </div>
           {/* <Text

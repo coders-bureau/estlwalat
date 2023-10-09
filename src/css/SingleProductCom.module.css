@@ -3,6 +3,7 @@
 .main{
     text-align: left;
     cursor: pointer;
+    border:1px solid #e8ecf3;
 
 }
 .main:hover{
@@ -60,10 +61,11 @@ justify-content: space-between;
 width: max-content;
 align-items: center;
 gap: 0px 5px;
+/* font-size: 13px; */
 }
 
 .prc>P:first-child{
-    font-size: 14px;
+    font-size: 11px;
 margin: 3px 0px;
 font-weight: bold;
 color: #393d45;
@@ -71,7 +73,7 @@ color: #393d45;
 
 }
 .prc>p:nth-child(2){
-    font-size: 14px;
+    font-size: 11px;
     font-weight: 400;
     color:#6f737b;
    text-decoration: line-through;
@@ -79,9 +81,7 @@ color: #393d45;
 }
 .prc>:last-child{
     color: #ff905a;
-    font-size: 13px;
-
-
+    font-size: 10px;
 }
 
 .wishlist{

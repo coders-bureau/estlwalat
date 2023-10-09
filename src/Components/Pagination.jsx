@@ -8,7 +8,7 @@ const Pagination = ({
   totalPages,
 }) => {
   // totalPages = Math.ceil(+totalPages / 12);
-  console.log(currentPage,totalPages);
+  console.log("cp",currentPage,"tp",totalPages);
   let buttonArr = [];
   for (let i = 0; i < +totalPages; i++) {
     buttonArr.push(i + 1);
@@ -54,7 +54,7 @@ const Pagination = ({
         <Button
           p={2}
           fontSize={{ sm: "0.7rem", lg: "1rem" }}
-          isDisabled={currentPage === totalPages}
+          isDisabled={currentPage === totalPages || totalPages === 0}
           onClick={() => handlePageChange(1)}
         >
           Next

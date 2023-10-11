@@ -34,6 +34,8 @@ const Wishlist = () => {
         setWishlist(res.data.data);
       })
       .catch((err) => {
+        setIsLoading(false);
+
         console.log(err);
       });
   };
@@ -64,7 +66,7 @@ const Wishlist = () => {
       .then((res) => {
         dispatch(getUserDetails());
         getWishlitProd();
-        // setIsLoading(false);
+        setIsLoading(false);
 
         // getWishlitProd();
         toast({
@@ -77,6 +79,8 @@ const Wishlist = () => {
         });
       })
       .catch((err) => {
+        setIsLoading(false);
+
         console.log(err);
       });
   };
@@ -92,6 +96,8 @@ const Wishlist = () => {
       },
     })
       .then((res) => {
+        setIsLoading(false);
+
         toast({
           title: "Product successfully added in cart",
           variant: "top-accent",
@@ -103,6 +109,8 @@ const Wishlist = () => {
         handleDelete(el._id);
       })
       .catch((err) => {
+        setIsLoading(false);
+
         handleDelete(el.id);
         toast({
           title: "Product already present in cart",

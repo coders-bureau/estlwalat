@@ -142,6 +142,7 @@ const Cart = () => {
         setCartProducts(res.data.data);
       })
       .catch((err) => {
+        setIsLoading(false);
         console.log(err);
       });
   };

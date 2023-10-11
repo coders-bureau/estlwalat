@@ -274,7 +274,7 @@ export default function SingleProductCom(el) {
               isTruncated
               onClick={() => navigate(`../single_product/${_id}`)}
               className={styles.title}
-              fontSize={"13px"}
+              fontSize={{ md: "16px", base: "14px" }}
             >
               {title}
             </Text>
@@ -284,9 +284,9 @@ export default function SingleProductCom(el) {
               // m={"2px 0px"}
               fontWeight="400"
               color={"#53575f"}
-              fontSize="13px"
               onClick={() => navigate(`../single_product/${_id}`)}
               isTruncated
+              fontSize={{ md: "14px", base: "12px" }}
             >
               {brand}
             </Text>
@@ -295,14 +295,15 @@ export default function SingleProductCom(el) {
             onClick={() => navigate(`../single_product/${_id}`)}
             className={styles.prc}
           >
-            <p>Rs.{price}</p>
-            <p>
+            <Text fontSize={{ md: "14px", base: "11px" }}>Rs.{price}</Text>
+            <Text fontSize={{ md: "14px", base: "11px" }}>
               <span>Rs.</span>
               {MRP}
-            </p>
+            </Text>
             <Text
               display={{ lg: "flex", md: "flex", base: "flex" }}
               color={"#ff905a"}
+              fontSize={{ md: "12px", base: "10px" }}
               // fontSize={"13px"}
             >{`(${offer.text} OFF)`}</Text>
           </div>

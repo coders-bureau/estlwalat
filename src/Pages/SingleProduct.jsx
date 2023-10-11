@@ -43,6 +43,7 @@ import Navbar from "../Components/Navbar";
 import { getUserDetails } from "../Redux/UserReducer/Action";
 import { FaHeart } from "react-icons/fa";
 import loading from "../Assets/loading.gif";
+import { login } from "../Redux/AuthReducer/Action";
 
 const style = {
   hover: {
@@ -137,7 +138,7 @@ const SingleProduct = () => {
   const [addedToBag, setAddedToBag] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const btnRef = React.useRef(null);
-  const [loadingbuynow, setLoadingBuyNow] = useState(false)
+  const [loadingbuynow, setLoadingBuyNow] = useState(false);
 
   const onClose = () => setIsOpen(false);
   const onOpen = () => setIsOpen(true);
@@ -270,23 +271,25 @@ const SingleProduct = () => {
             currentSize: sizeRef,
           }
         );
-
+        if (response) {
+          navigate("/address", {
+            state: {
+              totalAmount,
+              totalMRP,
+              totalMRPDiscount,
+              // addressLine,
+              offerPrice,
+              couponDiscount,
+              cart,
+            },
+          });
+        }
         console.log(response.data); // You can handle success response here
       } catch (error) {
-        console.error("Error adding to Buy Now:", error);
+        console.log("Buy Now:", error);
+        dispatch(login("logout"))
       }
 
-      navigate("/address", {
-        state: {
-          totalAmount,
-          totalMRP,
-          totalMRPDiscount,
-          // addressLine,
-          offerPrice,
-          couponDiscount,
-          cart,
-        },
-      });
       // axios({
       //   method: "post",
       //   url: process.env.REACT_APP_MYNTRA_API + "/cart",
@@ -354,7 +357,7 @@ const SingleProduct = () => {
           // dispatch(getUserDetails(mobileNumber));
           setAddedToBag(true);
           console.log(res);
-    setLoadingBuyNow(false);
+          setLoadingBuyNow(false);
 
           toast({
             title: res.data.message,
@@ -367,7 +370,7 @@ const SingleProduct = () => {
         })
         .catch((err) => {
           // dispatch(getUserDetails());
-    setLoadingBuyNow(false);
+          setLoadingBuyNow(false);
 
           console.log(err);
           toast({
@@ -397,7 +400,7 @@ const SingleProduct = () => {
       url: `${process.env.REACT_APP_BASE_API}/user/wishlist/${_id}`,
     })
       .then((res) => {
-    setLoadingBuyNow(false);
+        setLoadingBuyNow(false);
 
         dispatch(getUserDetails(mobileNumber));
         setAddedToWish(true);
@@ -412,7 +415,7 @@ const SingleProduct = () => {
       })
       .catch((err) => {
         setAddedToWish(true);
-    setLoadingBuyNow(false);
+        setLoadingBuyNow(false);
         toast({
           title: "Product already present in wishlist",
           variant: "top-accent",
@@ -440,27 +443,33 @@ const SingleProduct = () => {
   return (
     <>
       <Navbar />
-      {loadingbuynow ? <><Box
-      w={"100%"}
-      h={"100%"}
-      zIndex={10000}
-      justifyContent={"center"}
-      alignItems={"center"}
-      // display={"flex"}
-      // bgColor={"rgba(0, 0, 0, 0.5)"}
-      opacity={"0.5"}
-      // borderRadius={100}
-        // boxShadow={
-        //   "rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em"
-        // }
-        backgroundColor={"white"}
-        position={"fixed"}
-        // top={{ lg: "50%", md: "50%", base: "40%" }}
-        // left={{ lg: "50%", md: "50%", base: "50%" }}
-        // transform={"translate(-50% , -50%)"}
-      >
-       <LoadingPage/>
-      </Box> </>: <></>}
+      {loadingbuynow ? (
+        <>
+          <Box
+            w={"100%"}
+            h={"100%"}
+            zIndex={10000}
+            justifyContent={"center"}
+            alignItems={"center"}
+            // display={"flex"}
+            // bgColor={"rgba(0, 0, 0, 0.5)"}
+            opacity={"0.5"}
+            // borderRadius={100}
+            // boxShadow={
+            //   "rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em"
+            // }
+            backgroundColor={"white"}
+            position={"fixed"}
+            // top={{ lg: "50%", md: "50%", base: "40%" }}
+            // left={{ lg: "50%", md: "50%", base: "50%" }}
+            // transform={"translate(-50% , -50%)"}
+          >
+            <LoadingPage />
+          </Box>{" "}
+        </>
+      ) : (
+        <></>
+      )}
       <Box>
         <HStack spacing={1} w={"98%"} m={"10px auto"}>
           <Text color={"#46495a"} fontSize={"14px"}>
@@ -730,7 +739,7 @@ const SingleProduct = () => {
                     variant={"outline"}
                     fontSize={"16px"}
                   >
-                     TO BAG
+                    ADD TO BAG
                   </Button>
                 </HStack>
               </VStack>

@@ -65,15 +65,14 @@ gap: 0px 5px;
 }
 
 .prc>P:first-child{
-    font-size: 11px;
+    /* font-size: 11px; */
 margin: 3px 0px;
 font-weight: bold;
 color: #393d45;
-
-
 }
+
 .prc>p:nth-child(2){
-    font-size: 11px;
+    /* font-size: 11px; */
     font-weight: 400;
     color:#6f737b;
    text-decoration: line-through;
@@ -81,7 +80,7 @@ color: #393d45;
 }
 .prc>:last-child{
     color: #ff905a;
-    font-size: 10px;
+    /* font-size: 10px; */
 }
 
 .wishlist{
@@ -90,7 +89,7 @@ color: #393d45;
     justify-content: center;
     gap: 10px;
     border: 1px solid rgb(185, 185, 185);
-    border-radius: 5px;
+    border-radius: 2px;
    width: 85%;
    margin:5px auto;
    color: rgb(33, 34, 41);
@@ -105,7 +104,7 @@ color: #393d45;
     justify-content: center;
     gap: 10px;
     border: 1px solid rgb(185, 185, 185);
-    border-radius: 5px;
+    border-radius: 2px;
    width: 85%;
    margin:5px auto;
    color: rgb(33, 34, 41);
@@ -119,7 +118,7 @@ color: #393d45;
 }
 .wishlist:hover{
     border: 1px solid;
-    border-radius: 5px;
+    border-radius: 2px;
     cursor: pointer;
     z-index: 4;
 }
@@ -134,7 +133,7 @@ color: #393d45;
 }
 .wishlistWord{
     font-weight: 400;
-    padding: 10px;
+    padding: 5px;
 }
 
 .size{ 

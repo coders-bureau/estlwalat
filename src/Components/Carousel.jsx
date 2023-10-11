@@ -19,6 +19,7 @@ const CarouselCom = ({ data }) => {
     <>
       <>
         <Box
+        // bgColor={"gray.100"}
           paddingTop={{ sm: "30px" }}
           paddingBottom={{ sm: "30px" }}
           style={{
@@ -80,8 +81,10 @@ const CarouselCom = ({ data }) => {
                     }}
                     key={id}
                     // w={{lg:"100%",}}
-                    h={{ lg: "100%", md: "100%", sm: "200px", base: "200px" }}
+                    h={{ lg: "400px", md: "400px", base: "55vw" }}
                     objectFit="cover"
+                    // objectFit={"contain"}
+                    // boxSize={"240px"}
                     // src={item.image}
                     src={process.env.REACT_APP_BASE_API + `/${item.imageUrl}`}
                     onClick={() => navigate(`store?${item.url}`)}

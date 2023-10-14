@@ -21,10 +21,13 @@ export const PrivateRoute=({children})=>{
       })
       .catch((error) => {
         // setisAuth(false);
-        console.error("Error: ", error);
+        // console.error("Error: ", error);
         dispatch(login("logout"));
         localStorage.clear();
       });
+    }else{
+      dispatch(login("logout"));
+      localStorage.clear();
     }
 
     const isAuth=useSelector((store)=>store.AuthReducer.isAuth)

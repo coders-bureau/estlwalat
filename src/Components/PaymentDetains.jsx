@@ -6,7 +6,7 @@ const PaymentDetains1 = ({
   totalMRP,
   totalMRPDiscount,
   offerPrice,
-  couponDiscount,
+  couponDiscount
 }) => {
   return (
     <>
@@ -33,10 +33,10 @@ const PaymentDetains1 = ({
           </HStack>
           <HStack w={"full"} justify={"space-between"}>
             <Text fontSize={"14px"} color="#282c3f">
-              Offer Discount
+              Gst
             </Text>
             <Text fontSize={"14px"} color="#03a685">
-              -₹{offerPrice}
+              +₹{offerPrice}
             </Text>
           </HStack>
           <HStack w={"full"} justify={"space-between"}>

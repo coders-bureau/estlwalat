@@ -42,6 +42,7 @@ const Signin = () => {
   const [isError, setIsError] = useState(false);
   const location = useLocation();
   const comingFrom = location?.state || "/";
+  console.log(comingFrom);
   const dispatch = useDispatch();
   const user = useSelector((store) => store.UserReducer);
   const [viewOtpForm, setViewOtpForm] = useState(false);
@@ -115,7 +116,7 @@ const Signin = () => {
           isClosable: true,
           duration: 1500,
         });
-        navigate("/");
+        navigate(comingFrom);
       })
       .catch((error) => {
         setLoading(false);

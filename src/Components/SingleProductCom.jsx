@@ -25,6 +25,7 @@ import { FaHeart } from "react-icons/fa";
 
 import { getUserDetails } from "../Redux/UserReducer/Action";
 import loading from "../Assets/loading.gif";
+import { userloginStatus } from "../Redux/AuthReducer/Action";
 
 // library.add(faMagnifyingGlass, faUser, faHeart, faBagShopping);
 
@@ -103,9 +104,56 @@ export default function SingleProductCom(el) {
           });
         });
     } else {
-      navigate("/login");
+      navigate("/login", {
+        state: `/store`,
+        replace: true,
+      });
     }
   };
+
+  const handleWishlist = () => {
+    if (isAuth) {
+
+      setLoadingadd(true);
+      axios({
+        method: "post",
+        url: `${process.env.REACT_APP_BASE_API}/user/wishlist/${_id}`,
+      })
+        .then((res) => {
+          dispatch(getUserDetails());
+          setLoadingadd(false);
+          setAddedToWish(true);
+          toast({
+            duration: 1500,
+            status: "info",
+            title: "item successfully added in wishlist",
+            isClosable: true,
+            variant: "top-accent",
+            position: "top-right",
+          });
+        })
+        .catch((err) => {
+          setLoadingadd(false);
+          setAddedToWish(true);
+          toast({
+            duration: 1500,
+            status: "warning",
+            title: "item already present in wishlist",
+            isClosable: true,
+            variant: "top-accent",
+            position: "top-right",
+          });
+        });
+    } else {
+      
+      navigate("/login", {
+        state: `/store`,
+        replace: true,
+      });
+    }
+  };
+
+
 
   return (
     <>
@@ -140,42 +188,7 @@ export default function SingleProductCom(el) {
         <Circle
           // boxShadow="0 2px 4px rgba(0, 0, 0, 0.1)"
           zIndex={1}
-          onClick={() => {
-            if (isAuth) {
-              setLoadingadd(true);
-              axios({
-                method: "post",
-                url: `${process.env.REACT_APP_BASE_API}/user/wishlist/${_id}`,
-              })
-                .then((res) => {
-                  dispatch(getUserDetails());
-                  setLoadingadd(false);
-                  setAddedToWish(true);
-                  toast({
-                    duration: 1500,
-                    status: "info",
-                    title: "item successfully added in wishlist",
-                    isClosable: true,
-                    variant: "top-accent",
-                    position: "top-right",
-                  });
-                })
-                .catch((err) => {
-                  setLoadingadd(false);
-                  setAddedToWish(true);
-                  toast({
-                    duration: 1500,
-                    status: "warning",
-                    title: "item already present in wishlist",
-                    isClosable: true,
-                    variant: "top-accent",
-                    position: "top-right",
-                  });
-                });
-            } else {
-              navigate("/signup");
-            }
-          }}
+          onClick={() => handleWishlist()}
           // bgColor={"white"}
           cursor={"pointer"}
           position="relative"
@@ -305,7 +318,10 @@ export default function SingleProductCom(el) {
               color={"#ff905a"}
               fontSize={{ md: "12px", base: "10px" }}
               // fontSize={"13px"}
-            >{`(${offer.text} OFF)`}</Text>
+            >
+              {/* {`(${offer.text} OFF)`} */}
+              {Math.round(((MRP - price) / MRP) * 100)}% OFF
+            </Text>
           </div>
           {/* <Text
             display={{ lg: "none", md: "none", base: "flex" }}

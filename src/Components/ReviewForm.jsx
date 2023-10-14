@@ -120,7 +120,7 @@ const ReviewForm = () => {
           setContent(userReview.content);
           // setImage();
         } else {
-          setUserReview(null);
+          // setUserReview(null);
         }
         // setRating(data.data)
       })
@@ -128,7 +128,7 @@ const ReviewForm = () => {
         setisLoading(false);
         console.error("Error fetching reviews:", error);
       });
-  }, [id]);
+  }, []);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -146,7 +146,7 @@ const ReviewForm = () => {
     setError("");
     setSuccess("");
     try {
-      if (userReview) {
+      if (userReview.rating) {
         const formData = new FormData();
         // formData.append("productId", id);
         formData.append("rating", rating ? rating : userReview.rating);
@@ -275,7 +275,7 @@ const ReviewForm = () => {
                 <FormLabel>Review</FormLabel>
                 <Textarea
                 name="content"
-                  value={userReview.content}
+                  value={content ? content : userReview ? userReview.content: ""}
                   onChange={(e) => {
                     const { name, value } = e.target;
                     setUserReview((prevContent) => ({
@@ -306,18 +306,18 @@ const ReviewForm = () => {
                     cursor="pointer"
                   />
                 </label>
-                {userReview && (
+                {userReview.img && (
                   <Image
                     boxSize={"100px"}
                     objectFit="contain"
                     // w={"full"}
-                    src={process.env.REACT_APP_BASE_API + "/" + userReview.img}
+                    src={userReview.img ? process.env.REACT_APP_BASE_API + "/" + userReview.img : ""}
                     alt="Selected"
                   />
                 )}
                 {image && (
                   <>
-                    <Text>Updated Image ⬇</Text>
+                    <Text>Image Uploading ⬇</Text>
                     <Image
                       boxSize={"100px"}
                       objectFit="contain"
@@ -329,7 +329,7 @@ const ReviewForm = () => {
                 )}
               </FormControl>
               <Button m={4} type="submit" bgColor={"#ff3e6c"} color={"#ffffff"}>
-                {userReview ? "Edit Review" : "Add Review"}
+                {userReview.rating ? "Edit Review" : "Add Review"}
               </Button>
             </Box>
           </Grid>

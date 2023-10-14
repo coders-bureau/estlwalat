@@ -43,8 +43,9 @@ import Navbar from "../Components/Navbar";
 import { getUserDetails } from "../Redux/UserReducer/Action";
 import { FaHeart } from "react-icons/fa";
 import loading from "../Assets/loading.gif";
-import { login } from "../Redux/AuthReducer/Action";
-
+import { login, userloginStatus } from "../Redux/AuthReducer/Action";
+const auth_token = localStorage.getItem("authToken");
+axios.defaults.headers.common["auth_token"] = `${auth_token}`;
 const style = {
   hover: {
     transform: "scale(110%)",
@@ -65,7 +66,7 @@ const SingleProduct = () => {
   const [reviews, setReviews] = useState("");
   const pinInputRef = useRef("");
   const { id } = useParams();
-  console.log(id);
+  // console.log(id);
   const [sizeRef, setSize] = useState("");
   const location = useLocation();
   const [searchParams] = useSearchParams();
@@ -133,7 +134,7 @@ const SingleProduct = () => {
     setCart(newItem);
   };
 
-  console.log("cart", cart);
+  // console.log("cart", cart);
   const [addedToWish, setAddedToWish] = useState(false);
   const [addedToBag, setAddedToBag] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -142,6 +143,12 @@ const SingleProduct = () => {
 
   const onClose = () => setIsOpen(false);
   const onOpen = () => setIsOpen(true);
+  useEffect(() => {
+    if (auth_token) {
+      dispatch(userloginStatus());
+    }
+    // dispatch(userloginStatus());
+  }, []);
   useEffect(() => {
     if (Products.length === 0) {
       const type = searchParams.get("type");
@@ -177,7 +184,7 @@ const SingleProduct = () => {
   useEffect(() => {
     if (Products) {
       const currentProduct = Products.find((item) => item._id === id);
-      console.log(currentProduct);
+      // console.log(currentProduct);
       currentProduct && setCurrentProduct(currentProduct);
       currentProduct && setMainImage(currentProduct.img);
       currentProduct && setLen(currentProduct.images.length);
@@ -192,13 +199,13 @@ const SingleProduct = () => {
     }
   }, [id, Products.length]);
 
-  console.log(
-    offerPrice,
-    totalAmount,
-    totalMRP,
-    totalMRPDiscount,
-    couponDiscount
-  );
+  // console.log(
+  //   offerPrice,
+  //   totalAmount,
+  //   totalMRP,
+  //   totalMRPDiscount,
+  //   couponDiscount
+  // );
   useEffect(() => {
     if (Products.length !== 0) {
       const newSimilarProducts = Products?.filter((el) => {
@@ -223,7 +230,7 @@ const SingleProduct = () => {
         .then((response) => {
           // setisLoading(false);
           // const { data } = response.data;
-          console.log(response.data);
+          // console.log(response.data);
           setReviews(response.data);
           // setRating(data.data)
         })
@@ -242,6 +249,19 @@ const SingleProduct = () => {
       addToCart(currentProduct._id, size, 1);
     }
   };
+  const [sizeCharts, setSizeCharts] = useState([]);
+  useEffect(() => {
+    // Fetch size chart data when the component mounts
+    axios
+      .get(`${process.env.REACT_APP_BASE_API}/sizechart/getsizechart`)
+      .then((response) => {
+        setSizeCharts(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching size chart data:", error);
+      });
+  }, []);
 
   const handlePin = () => {
     const string = +pinInputRef.current.value;
@@ -271,25 +291,24 @@ const SingleProduct = () => {
             currentSize: sizeRef,
           }
         );
-        if (response) {
-          navigate("/address", {
-            state: {
-              totalAmount,
-              totalMRP,
-              totalMRPDiscount,
-              // addressLine,
-              offerPrice,
-              couponDiscount,
-              cart,
-            },
-          });
-        }
-        console.log(response.data); // You can handle success response here
+        // console.log(response.data); // You can handle success response here
       } catch (error) {
         console.log("Buy Now:", error);
-        dispatch(login("logout"))
+        dispatch(login("logout"));
       }
-
+      if (isAuth) {
+        navigate("/address", {
+          state: {
+            totalAmount,
+            totalMRP,
+            totalMRPDiscount,
+            // addressLine,
+            offerPrice,
+            couponDiscount,
+            cart,
+          },
+        });
+      }
       // axios({
       //   method: "post",
       //   url: process.env.REACT_APP_MYNTRA_API + "/cart",
@@ -356,7 +375,7 @@ const SingleProduct = () => {
         .then((res) => {
           // dispatch(getUserDetails(mobileNumber));
           setAddedToBag(true);
-          console.log(res);
+          // console.log(res);
           setLoadingBuyNow(false);
 
           toast({
@@ -542,17 +561,7 @@ const SingleProduct = () => {
                   fontSize="14px"
                   // size="lg"
                 >
-                  cart {brand}{" "}
-                </Heading>
-                <Heading
-                  fontWeight={"600"}
-                  as={"h2"}
-                  color="#ff3e6c"
-                  fontSize="14px"
-                  // size="lg"
-                >
-                  {" "}
-                  {offer1.text} OFF{" "}
+                  {brand}{" "}
                 </Heading>
               </Box>
               {/* .................... */}
@@ -592,6 +601,18 @@ const SingleProduct = () => {
                         {" "}
                         ₹{MRP}{" "}
                       </Heading>
+                      <Heading
+                        fontWeight={300}
+                        as={"h2"}
+                        color={"#ff915c"}
+                        fontSize="20px"
+                        // size="lg"
+                      >
+                        {" ("}
+                        {/* {offer1.text} OFF{" "} */}
+                        {Math.round(((MRP - price) / MRP) * 100)}% OFF
+                        {") "}
+                      </Heading>
                     </HStack>
                   </HStack>
                   <Text color={"#03a685"} fontSize="12px" fontWeight={"bold"}>
@@ -616,7 +637,7 @@ const SingleProduct = () => {
                   </Text>
 
                   <Modal
-                    size={{ md: "lg", base: "full" }}
+                    size={{ md: "xl", base: "full" }}
                     finalFocusRef={btnRef}
                     scrollBehavior={"inside"}
                     isOpen={isOpen}
@@ -629,11 +650,55 @@ const SingleProduct = () => {
                         Size Chart
                       </ModalHeader>
                       <ModalCloseButton />
-                      <ModalBody>
-                        {/* Add your size chart content here */}
-                        <p>Your size chart goes here...</p>
-                      </ModalBody>
-                      <Button mb={"40px"} onClick={onClose}>
+                      {sizeCharts.length === 0 ? (
+                        <p>Loading size chart data...</p>
+                      ) : (
+                        <ModalBody>
+                          {sizeCharts
+                            .filter((sizeChart) => sizeChart.name === category)
+                            .map((sizeChart) => (
+                              <div key={sizeChart._id}>
+                                <h3>{sizeChart.name}</h3>
+                                <Image
+                                  src={
+                                    process.env.REACT_APP_BASE_API +
+                                    "/" +
+                                    sizeChart.sizeReferenceImage
+                                  }
+                                  alt={sizeChart.name}
+                                />
+                                <Image
+                                  src={
+                                    process.env.REACT_APP_BASE_API +
+                                    "/" +
+                                    sizeChart.sizeChartImageCm
+                                  }
+                                  alt={sizeChart.name}
+                                />
+                                <Image
+                                  src={
+                                    process.env.REACT_APP_BASE_API +
+                                    "/" +
+                                    sizeChart.sizeChartImageInch
+                                  }
+                                  alt={sizeChart.name}
+                                />
+                                {sizeCharts.filter(
+                                  (sizeChart) => sizeChart.name === category
+                                ).length === 0 && <p>No Size Reference</p>}
+                              </div>
+                            ))}
+                        </ModalBody>
+                      )}
+
+                      <Button
+                        ml={"45%"}
+                        w={"70px"}
+                        p={"5px"}
+                        mt={"10px"}
+                        mb={"15px"}
+                        onClick={onClose}
+                      >
                         Close
                       </Button>
                     </ModalContent>

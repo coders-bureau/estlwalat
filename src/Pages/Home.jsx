@@ -8,103 +8,14 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Carousel from "react-multi-carousel";
 import LoadingPage from "./LoadingPage";
+// import { useDispatch } from "react-redux";
+// import { userloginStatus } from "../Redux/AuthReducer/Action";
 
-const homePageCarousel = [
-  "https://assets.myntassets.com/f_webp,w_980,c_limit,fl_progressive,dpr_2.0/assets/images/2022/8/1/70a3d1a4-f16a-45ca-9bb4-64dc2315352b1659297228544-Desktop-Banners_unisex-with-kids.jpg",
-  "https://assets.myntassets.com/f_webp,w_980,c_limit,fl_progressive,dpr_2.0/assets/images/2022/7/28/84b6a214-9eb3-49eb-9f9d-72cec56ec5d71659019908592-Indian-Wear_DK--1-.jpg",
-  "https://assets.myntassets.com/f_webp,w_980,c_limit,fl_progressive,dpr_2.0/assets/images/2022/7/28/6107d28b-2bcb-44e6-9743-655b54550b8f1659020199598-Workwear_Desk--1-.jpg",
-  "https://assets.myntassets.com/f_webp,w_980,c_limit,fl_progressive,dpr_2.0/assets/images/2022/7/28/0174e4d7-448c-4746-8572-69461ad5be101659020268081-Tops---Tees_Desk.jpg",
-  "https://assets.myntassets.com/f_webp,w_980,c_limit,fl_progressive,dpr_2.0/assets/images/2022/7/25/b656a7f4-4688-4997-bb7c-54b78793981e1658752386588-Western-Wear_Desk.jpg",
-];
-
-const data1 = [
-  {
-    image:
-      "https://assets.myntassets.com/f_webp,dpr_2.0,q_60,w_210,c_limit,fl_progressive/assets/images/19453196/2022/8/9/c89bfda0-df52-484a-b789-e5ad542503ae1660057066247KurtaSets1.jpg",
-    title: "Kids wear",
-    pricetitle: "Under 400",
-  },
-  {
-    image: "https://images.meesho.com/images/products/261005360/gyans_400.webp",
-    title: "Kids wear",
-    pricetitle: "Under 599",
-  },
-  {
-    image:
-      "https://cdn.fcglcdn.com/brainbees/images/products/438x531/13281526a.webp",
-    title: "Kids wear",
-    pricetitle: "Under 399",
-  },
-  {
-    image:
-      "https://cdn.fcglcdn.com/brainbees/images/products/438x531/13281526a.webp",
-    title: "Kids wear",
-    pricetitle: "Under 359",
-  },
-  {
-    image:
-      "https://cdn.fcglcdn.com/brainbees/images/products/438x531/13281526a.webp",
-    title: "Kids wear",
-    pricetitle: "Under 539",
-  },
-];
-
-const data2 = [
-  {
-    image: "https://m.media-amazon.com/images/I/61Mw4M+mHwL._AC._SR360,460.jpg",
-    title: "Mens",
-  },
-  {
-    image: "https://m.media-amazon.com/images/I/61Mw4M+mHwL._AC._SR360,460.jpg",
-    title: "Women",
-  },
-  {
-    image: "https://m.media-amazon.com/images/I/61Mw4M+mHwL._AC._SR360,460.jpg",
-    title: "Kids",
-  },
-  {
-    image: "https://m.media-amazon.com/images/I/61Mw4M+mHwL._AC._SR360,460.jpg",
-    title: "Boys",
-  },
-  {
-    image: "https://m.media-amazon.com/images/I/61Mw4M+mHwL._AC._SR360,460.jpg",
-    title: "Girls",
-  },
-];
-
-const data3 = [
-  {
-    image:
-      "https://cdn.fcglcdn.com/brainbees/images/products/438x531/10839201a.webp",
-    title: "Kids wear",
-    pricetitle: "Flat 300",
-  },
-  {
-    image: "https://images.meesho.com/images/products/261005360/gyans_400.webp",
-    title: "Gym wear",
-    pricetitle: "Flat 159",
-  },
-  {
-    image:
-      "https://cdn.fcglcdn.com/brainbees/images/products/438x531/13281526a.webp",
-    title: "Casual",
-    pricetitle: "Flat 359",
-  },
-  {
-    image:
-      "https://cdn.fcglcdn.com/brainbees/images/products/438x531/13281526a.webp",
-    title: "Formal",
-    pricetitle: "Flat 559",
-  },
-  {
-    image:
-      "https://cdn.fcglcdn.com/brainbees/images/products/438x531/13281526a.webp",
-    title: "Foot wear",
-    pricetitle: "Flat 199",
-  },
-];
 const Home = () => {
   const navigate = useNavigate();
+  // const dispatch = useDispatch();
+  // dispatch(userloginStatus());
+
   const [imageData, setImageData] = useState([]);
   const [categories, setCategories] = useState([]);
   const [offers, setOffers] = useState([]);
@@ -702,8 +613,8 @@ const Home = () => {
                     // margin={"10px 10px 10px 10px"}
                     onClick={() => navigate(`store?category=${item.name}`)}
                     cursor="pointer"
-                    my={{ base: "10px", md:"10px", lg: "10px" }}
-                    mx={{ base: "10px", md:"10px", lg: "20px" }}
+                    my={{ base: "10px", md: "10px", lg: "10px" }}
+                    mx={{ base: "10px", md: "10px", lg: "20px" }}
                   >
                     <Box
                       w={"full"}
@@ -734,7 +645,7 @@ const Home = () => {
                       boxShadow="dark-lg"
                       rounded="md"
                     >
-                      <Text margin={{ lg: "2",md:"1", base: "1.2vw" }}>
+                      <Text margin={{ lg: "2", md: "1", base: "1.2vw" }}>
                         {item.name}
                       </Text>
                     </Box>
@@ -982,7 +893,7 @@ const Home = () => {
                       mb={{ lg: "90px", base: "90px" }}
                       mt={"10px"}
                     >
-                      <Box w={"full"} >
+                      <Box w={"full"}>
                         <Image
                           // h={"100%"}
                           // w={"100%"}

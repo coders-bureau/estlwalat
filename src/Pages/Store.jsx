@@ -31,10 +31,10 @@ import { getProductsData, getProductsSorted } from "../Redux/AppReducer/Action";
 import Pagination from "../Components/Pagination";
 import Navbar from "../Components/Navbar";
 import { getUserDetails } from "../Redux/UserReducer/Action";
-import { login } from "../Redux/AuthReducer/Action";
-import axios from "axios"
-
-
+import { login, userloginStatus } from "../Redux/AuthReducer/Action";
+import axios from "axios";
+const auth_token = localStorage.getItem("authToken");
+axios.defaults.headers.common["auth_token"] = `${auth_token}`;
 const Store = () => {
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
@@ -76,31 +76,12 @@ const Store = () => {
     setCurrentPage(1);
   }, [sValue]);
 
-
-
-  useEffect(()=> {
-    const auth_token = localStorage.getItem("authToken");
-    axios.defaults.headers.common["auth_token"] = `${auth_token}`;
-    console.log(auth_token);
+  useEffect(() => {
     if (auth_token) {
-      axios
-        .get(`${process.env.REACT_APP_BASE_API}/user/profile/details`)
-        .then((response) => {
-          // setisAuth(true);
-          console.log(response);
-          dispatch(login());
-        })
-        .catch((error) => {
-          // setisAuth(false);
-          console.error("Error: ", error);
-          dispatch(login("logout"));
-          localStorage.clear();
-        });
-    } else {
-      dispatch(login("logout"));
-      localStorage.clear();
+      dispatch(userloginStatus());
     }
-  });
+  }, []);
+
   // sorting filter start
   useEffect(() => {
     //console.log(sValue);

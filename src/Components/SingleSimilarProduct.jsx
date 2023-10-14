@@ -38,13 +38,19 @@ const SingleSimilarProduct = ({ el, handleAddCart }) => {
               display={{ lg: "flex", md: "flex", base: "none" }}
               color={"#ff905a"}
               fontSize={"13px"}
-            >{`(${discount}% OFF)`}</Text>
+            >
+              {Math.round(((MRP - price) / MRP) * 100)}% OFF
+              {/* {`(${discount}% OFF)`} */}
+            </Text>
           </HStack>
           <Text
             display={{ lg: "none", md: "none", base: "flex" }}
             color={"#ff905a"}
             fontSize={"13px"}
-          >{`(${discount}% OFF)`}</Text>
+          >
+            {Math.round(((MRP - price) / MRP) * 100)}% OFF
+            {/* {`(${discount}% OFF)`} */}
+          </Text>
         </VStack>
         <Button
           onClick={() => handleAddCart(el)}

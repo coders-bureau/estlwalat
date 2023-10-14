@@ -64,7 +64,8 @@ const SingleWishlistProduct = ({ el, handleAddCart, handleDelete }) => {
               fontSize={{ lg: "10px", md: "10px", base: "10px" }}
               color={"#ff915c"}
             >
-              ({offer.text} OFF)
+              {Math.round(((MRP - price) / MRP) * 100)}% OFF
+              {/* ({offer.text} OFF) */}
             </Text>
           </HStack>
           <Text

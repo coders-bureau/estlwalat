@@ -30,7 +30,7 @@ import ReviewForm from "../Components/ReviewForm";
 import { useNavigate } from "react-router-dom";
 import LoadingPage from "./LoadingPage";
 const mobileNumber = localStorage.getItem("MbNumber");
-
+const options = { year: "numeric", month: "long", day: "numeric" };
 console.log(mobileNumber);
 // const userinfo = localStorage.getItem("userInfo");
 // console.log(userinfo);
@@ -427,7 +427,20 @@ const Order = ({ user }) => {
       setLoading(false);
     }
   };
-
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
   if (isLoading)
     return (
       <Box height={"200px"}>
@@ -459,7 +472,22 @@ const Order = ({ user }) => {
                     mr={2}
                   >
                     Order {++index} on:{" "}
-                    {new Date(order.orderDate).toLocaleDateString()}
+                    {new Date(order.orderDate)
+                      .toLocaleDateString()
+                      .split("/")[1] +
+                      " " +
+                      monthNames[
+                        new Date(order.orderDate)
+                          .toLocaleDateString()
+                          .split("/")[0] - 1
+                      ] +
+                      "," +
+                      new Date(order.orderDate)
+                        .toLocaleDateString()
+                        .split("/")[2]}
+                    {/* const parts = new
+                    Date(order.orderDate).toLocaleDateString().split("/"); const
+                    formattedDate = `${parts[1]}/${parts[0]}/${parts[2]}`; */}
                   </Box>
                   {/* <Box flex="1" textAlign="left" fontWeight="bold" mr={2}>
               Address: {order.address}
@@ -556,7 +584,18 @@ const Order = ({ user }) => {
                               fontSize={{ md: "13px", base: "10px" }}
                             >
                               Date of Order :{" "}
-                              {new Date(order.orderDate).toLocaleDateString()}
+                              {/* {new Date(order.orderDate).toLocaleDateString()} */}
+                              {new Date(order.orderDate)
+                                .toLocaleDateString()
+                                .split("/")[1] +
+                                "/" +
+                                new Date(order.orderDate)
+                                  .toLocaleDateString()
+                                  .split("/")[0] +
+                                "/" +
+                                new Date(order.orderDate)
+                                  .toLocaleDateString()
+                                  .split("/")[2]}
                             </Text>
                             <Text
                               mt={{ md: "5px", base: "5px" }}

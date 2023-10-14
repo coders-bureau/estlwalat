@@ -68,9 +68,9 @@ export const Navbar = () => {
     const auth_token = localStorage.getItem("authToken");
     // axios.defaults.headers.common["auth_token"] = `${auth_token}`;
     axios
-      .get(`${process.env.REACT_APP_BASE_API}/user/account/logout`,{
+      .get(`${process.env.REACT_APP_BASE_API}/user/account/logout`, {
         headers: {
-          "auth_token": auth_token,
+          auth_token: auth_token,
         },
       })
       .then((response) => {
@@ -88,7 +88,7 @@ export const Navbar = () => {
       });
     dispatch(login("logout"));
     localStorage.clear();
-    navigate("/");
+    // navigate("/");
   };
 
   const handleKeyDown = (e) => {
@@ -303,7 +303,6 @@ export const Navbar = () => {
                     borderBottom="5px solid rgba(0,0,0,0.0)"
                     cursor="pointer"
                     onClick={() => navigate("/contact")}
-
                   >
                     <Text fontWeight={"500"} color={"#282c3f"} p="20px 0px">
                       Contact us
@@ -446,7 +445,12 @@ export const Navbar = () => {
                           size={"md"}
                           fontSize={"14px"}
                           onClick={() => {
-                            isAuth ? handleLogOut() : navigate("/login");
+                            isAuth
+                              ? handleLogOut()
+                              : navigate("/login", {
+                                  state: window.location.pathname,
+                                  replace: true,
+                                });
                           }}
                         >
                           {isAuth ? "LOGOUT" : " LOGIN/SIGNUP"}
@@ -455,7 +459,8 @@ export const Navbar = () => {
                     </MenuItem>
                     <hr />
 
-                    <MenuItem _hover={{ fontWeight: "500" }}
+                    <MenuItem
+                      _hover={{ fontWeight: "500" }}
                       fontSize={"13px"}
                       onClick={() => navigate("/profile")}
                     >

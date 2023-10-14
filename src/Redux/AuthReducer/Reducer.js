@@ -22,7 +22,7 @@ const reducer = (state = initialState, { type }) => {
 
     case types.GET_LOGIN_SUCCESS:
       localStorage.setItem("isAuth", true);
-
+      
       return {
         ...state,
         isLoading: false,
@@ -42,10 +42,11 @@ const reducer = (state = initialState, { type }) => {
     //...................................LOGIN_FAILURE
 
     case types.GET_LOGIN_FAILURE:
+      localStorage.setItem("isAuth", false);
       return {
         ...state,
         isLoading: false,
-        isError: true,
+        isAuth: false,
       };
 
     //...................................

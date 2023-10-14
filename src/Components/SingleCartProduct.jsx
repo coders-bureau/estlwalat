@@ -39,7 +39,7 @@ const SingleCartProduct = ({
   cartId,
   loadingFun,
 }) => {
-  console.log(title, qty);
+  console.log(title, qty,discount);
   const mobileNumber = localStorage.getItem("MbNumber");
   const dispatch = useDispatch();
   const [currentSizeShow, setCurrentSize] = useState(currentSize || size[0]);
@@ -73,7 +73,7 @@ const SingleCartProduct = ({
       (prev) => prev + MRP * (e - currentQty) - price * (e - currentQty)
     );
     setTotalAmount((prev) => prev + discount * (e - currentQty));
-    setOfferPrice((prev) => prev + (price - discount) * (e - currentQty));
+    setOfferPrice((prev) => prev + (discount - price) * (e - currentQty));
     console.log();
     setCurrentQty(e);
     axios({
@@ -96,7 +96,7 @@ const SingleCartProduct = ({
     console.log("use");
     setTotalMRP((prev) => prev + MRP * currentQty);
     setTotalMRPDiscount((prev) => prev + (MRP - price) * currentQty);
-    setOfferPrice((prev) => prev + (price - discount) * currentQty);
+    setOfferPrice((prev) => prev + (discount - price) * currentQty);
     setTotalAmount((prev) => prev + discount * currentQty);
   }, []);
 
@@ -248,7 +248,8 @@ const SingleCartProduct = ({
               <Text color={"#f16565"} fontWeight={400}>
                 {/* {offer.value}  {offer.type1} OFF */}
                 {/* % OFF */}
-                {offer.text}
+                {/* {offer.text} */}
+              {Math.round(((MRP - price) / MRP) * 100)}% OFF
               </Text>
             </HStack>
           </VStack>

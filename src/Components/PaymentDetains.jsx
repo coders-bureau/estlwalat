@@ -6,7 +6,7 @@ const PaymentDetains1 = ({
   totalMRP,
   totalMRPDiscount,
   offerPrice,
-  couponDiscount
+  couponDiscount,
 }) => {
   return (
     <>
@@ -17,7 +17,7 @@ const PaymentDetains1 = ({
           </Text>
           <HStack w={"full"} justify={"space-between"}>
             <Text fontSize={"14px"} color="#282c3f">
-              Total MRP
+              Total
             </Text>
             <Text fontSize={"14px"} color="#282c3f">
               ₹{totalMRP}
@@ -25,20 +25,20 @@ const PaymentDetains1 = ({
           </HStack>
           <HStack w={"full"} justify={"space-between"}>
             <Text fontSize={"14px"} color="#282c3f">
-              Discount on MRP
+              Discount
             </Text>
             <Text fontSize={"14px"} color="#03a685">
               -₹{totalMRPDiscount}
             </Text>
           </HStack>
-          <HStack w={"full"} justify={"space-between"}>
+          {/* <HStack w={"full"} justify={"space-between"}>
             <Text fontSize={"14px"} color="#282c3f">
               Gst
             </Text>
             <Text fontSize={"14px"} color="#03a685">
               +₹{offerPrice}
             </Text>
-          </HStack>
+          </HStack> */}
           <HStack w={"full"} justify={"space-between"}>
             <Text fontSize={"14px"} color="#282c3f">
               Coupon Discount
@@ -52,9 +52,9 @@ const PaymentDetains1 = ({
               <Text fontSize={"14px"} color="#282c3f">
                 Convenience Fee
               </Text>
-              <Text fontSize={"14px"} color={"#863e9c"} fontWeight={"bold"}>
+              {/* <Text fontSize={"14px"} color={"#863e9c"} fontWeight={"bold"}>
                 Know More
-              </Text>
+              </Text> */}
             </HStack>
             <HStack>
               <Text
@@ -84,23 +84,37 @@ const PaymentDetains2 = ({
   couponDiscount,
   redirect,
   addressLine,
-  cart
+  cart,
 }) => {
   const navigate = useNavigate();
   const toast = useToast();
-  const finalAmount = totalAmount-couponDiscount;
+  const finalAmount = totalAmount - couponDiscount;
   return (
     <>
       <Box w="full">
-        <VStack w={"full"} align="flex-start">
-          <HStack w={"full"} justify={"space-between"}>
-            <Text fontSize={"14px"} color={"#3e4152"} fontWeight={"bold"}>
-              TOTAL Amount
-            </Text>
-            <Text fontSize={"14px"} color={"#3e4152"} fontWeight={"bold"}>
-              ₹ {totalAmount - couponDiscount}
-            </Text>
-          </HStack>
+        <VStack w={"full"} spacing={"3"} align="flex-start">
+          <VStack w={"full"} spacing={"0"}>
+            <HStack w={"full"} justify={"space-between"}>
+              <Text fontSize={"14px"} color={"#3e4152"} fontWeight={"bold"}>
+                TOTAL AMOUNT
+              </Text>
+
+              <Text fontSize={"14px"} color={"#3e4152"} fontWeight={"bold"}>
+                ₹ {totalAmount - couponDiscount}
+              </Text>
+            </HStack>
+            <HStack w={"full"} justify={"space-between"}>
+              <Text
+                align={"left"}
+                fontSize={"10px"}
+                color={"#863e9c"}
+                fontWeight={"bold"}
+              >
+                Included all taxes and charges
+              </Text>
+            </HStack>
+          </VStack>
+
           <Button
             display={{
               md: "block",
@@ -116,7 +130,8 @@ const PaymentDetains2 = ({
                       couponDiscount,
                       addressLine,
                       offerPrice,
-                      finalAmount,cart,
+                      finalAmount,
+                      cart,
                     },
                   })
                 : toast({

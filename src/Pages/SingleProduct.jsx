@@ -83,6 +83,7 @@ const SingleProduct = () => {
     brand,
     category,
     offer,
+    img,
     images,
     price,
     // rating,
@@ -522,13 +523,25 @@ const SingleProduct = () => {
                   _hover={style.hover}
                   src={process.env.REACT_APP_BASE_API + "/" + mainImage}
                   w="full"
+                  boxSize={{ lg: "32vw",md:"35vw",base:"105vw" }}
+                  objectFit="contain"
                 />
               </Box>
             </SimpleGrid>
-            <SimpleGrid columns={len} spacing={2}>
+            <SimpleGrid columns={len + 1} spacing={2}>
+              <Box style={style.style} w="full">
+                <Image
+                  onClick={() => setMainImage(img)}
+                  _hover={style.hover}
+                  src={process.env.REACT_APP_BASE_API + "/" + img}
+                  w="full"
+                       />
+              </Box>
               {images?.map((img, i) => {
                 return (
-                  <Box style={style.style} w="full" key={i}>
+                  <Box style={style.style} w="full" display="flex"
+                  justifyContent="center" // Center horizontally
+                  alignItems="center" key={i}>
                     <Image
                       onClick={() => setMainImage(img)}
                       _hover={style.hover}
@@ -849,49 +862,57 @@ const SingleProduct = () => {
                   </Text>
                 </HStack>
                 <Box>
-                  <Text fontSize={"14px"}>
-                    <b>Name - </b> {title}
-                  </Text>
-                  <Text fontSize={"14px"}>
-                    <b>Description - </b>
-                    {description}
-                  </Text>
-                  <div>
-                    <strong>Sleeve Length:</strong>{" "}
-                    {sleeveLength
-                      ? sleeveLength.length > 0
-                        ? sleeveLength.join(", ")
-                        : "N/A"
-                      : ""}
-                  </div>
-                  <div>
-                    <strong>Pant Closure:</strong>{" "}
-                    {pantClosure
-                      ? pantClosure.length > 0
-                        ? pantClosure.join(", ")
-                        : "N/A"
-                      : ""}
-                  </div>
-                  <Text fontSize={"14px"}>
-                    <b>Top Color - </b>
-                    {topColor ? topColor : "N/A"}
-                  </Text>
-                  <Text fontSize={"14px"}>
-                    <b>Top Fabric - </b>
-                    {topFabric ? topFabric : "N/A"}
-                  </Text>
-                  <Text fontSize={"14px"}>
-                    <b>Bottom Color - </b>
-                    {bottomColor ? bottomColor : "N/A"}
-                  </Text>
-                  <Text fontSize={"14px"}>
-                    <b>Bottom Fabric - </b>
-                    {bottomFabric ? bottomFabric : "N/A"}
-                  </Text>
-                  <Text fontSize={"14px"}>
-                    <b>Manufacturer Details - </b>
-                    {manufacturerdetails ? manufacturerdetails : "N/A"}
-                  </Text>
+                  {title && (
+                    <Text fontSize={"14px"}>
+                      <b>Name - </b> {title}
+                    </Text>
+                  )}
+                  {description && (
+                    <Text fontSize={"14px"}>
+                      <b>Description - </b>
+                      {description}
+                    </Text>
+                  )}
+                  {sleeveLength && sleeveLength.length > 0 && (
+                    <div>
+                      <strong>Sleeve Length:</strong> {sleeveLength.join(", ")}
+                    </div>
+                  )}
+                  {pantClosure && pantClosure.length > 0 && (
+                    <div>
+                      <strong>Pant Closure:</strong> {pantClosure.join(", ")}
+                    </div>
+                  )}
+                  {topColor && (
+                    <Text fontSize={"14px"}>
+                      <b>Top Color - </b>
+                      {topColor ? topColor : "N/A"}
+                    </Text>
+                  )}{" "}
+                  {topFabric && (
+                    <Text fontSize={"14px"}>
+                      <b>Top Fabric - </b>
+                      {topFabric ? topFabric : "N/A"}
+                    </Text>
+                  )}{" "}
+                  {bottomColor && (
+                    <Text fontSize={"14px"}>
+                      <b>Bottom Color - </b>
+                      {bottomColor ? bottomColor : "N/A"}
+                    </Text>
+                  )}{" "}
+                  {bottomFabric && (
+                    <Text fontSize={"14px"}>
+                      <b>Bottom Fabric - </b>
+                      {bottomFabric ? bottomFabric : "N/A"}
+                    </Text>
+                  )}{" "}
+                  {manufacturerdetails && (
+                    <Text fontSize={"14px"}>
+                      <b>Manufacturer Details - </b>
+                      {manufacturerdetails ? manufacturerdetails : "N/A"}
+                    </Text>
+                  )}
                 </Box>
               </VStack>
 

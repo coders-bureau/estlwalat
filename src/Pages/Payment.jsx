@@ -746,6 +746,14 @@ const Payment = () => {
                     ₹ {totalAmount - couponDiscount}
                   </Text>
                 </HStack>
+                <Text
+                align={"left"}
+                fontSize={"10px"}
+                color={"#863e9c"}
+                fontWeight={"bold"}
+              >
+                Included all taxes and charges
+              </Text>
                 {/* ........................... */}
               </Box>
               <Flex
@@ -831,6 +839,14 @@ const Payment = () => {
                 ₹ {totalAmount - couponDiscount}
               </Text>
             </HStack>
+            <Text
+                align={"left"}
+                fontSize={"10px"}
+                color={"#863e9c"}
+                fontWeight={"bold"}
+              >
+                Included all taxes and charges
+              </Text>
             {/* ........................... */}
           </Box>
           <HStack

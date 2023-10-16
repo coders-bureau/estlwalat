@@ -34,7 +34,7 @@ import { getUserDetails } from "../Redux/UserReducer/Action";
 import { login, userloginStatus } from "../Redux/AuthReducer/Action";
 import axios from "axios";
 const auth_token = localStorage.getItem("authToken");
-axios.defaults.headers.common["auth_token"] = `${auth_token}`;
+// axios.defaults.headers.common["auth_token"] = `${auth_token}`;
 const Store = () => {
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
@@ -77,9 +77,9 @@ const Store = () => {
   }, [sValue]);
 
   useEffect(() => {
+    if (auth_token) {
     const auth_token = localStorage.getItem("authToken");
     axios.defaults.headers.common["auth_token"] = `${auth_token}`;
-    if (auth_token) {
       dispatch(userloginStatus());
       console.log("called");
     }

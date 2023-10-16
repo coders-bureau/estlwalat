@@ -11,8 +11,10 @@ import Products from "../Components/Products";
 import HomeProducts from "../Components/HomeProducts";
 import { getAllProductsData } from "../Redux/AppReducer/Action";
 import { useDispatch } from "react-redux";
+import { userloginStatus } from "../Redux/AuthReducer/Action";
 // import { userloginStatus } from "../Redux/AuthReducer/Action";
-
+const auth_token = localStorage.getItem("authToken");
+// axios.defaults.headers.common["auth_token"] = `${auth_token}`;
 const Home = () => {
   const navigate = useNavigate();
 
@@ -25,6 +27,15 @@ const Home = () => {
   const [categories, setCategories] = useState([]);
   const [offers, setOffers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+console.log(categories);
+  useEffect(() => {
+    if (auth_token) {
+    const auth_token = localStorage.getItem("authToken");
+    axios.defaults.headers.common["auth_token"] = `${auth_token}`;
+      dispatch(userloginStatus());
+      console.log("called");
+    }
+  }, []);
 
   useEffect(() => {
     fetchImageData();

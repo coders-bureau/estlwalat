@@ -438,14 +438,44 @@ const SingleProduct = () => {
       .catch((err) => {
         setAddedToWish(true);
         setLoadingBuyNow(false);
-        toast({
-          title: "Product already present in wishlist",
-          variant: "top-accent",
-          isClosable: true,
-          position: "top-right",
-          status: "error",
-          duration: 1500,
-        });
+        if (err.response && err.response.status === 401) {
+          // Token expired, navigate to the login page
+          toast({
+            duration: 1500,
+            status: "warning",
+            title: "Login session expired",
+            isClosable: true,
+            variant: "top-accent",
+            position: "top-right",
+          });
+
+          navigate("/login", {
+            state: `/store`,
+            replace: true,
+          });
+        } else if (err.response && err.response.status === 400) {
+          // Product already in wishlist
+          toast({
+            duration: 1500,
+            status: "warning",
+            title: "Product already in wishlist",
+            isClosable: true,
+            variant: "top-accent",
+            position: "top-right",
+          });
+        } else {
+          // Handle other errors here
+          console.log(err);
+          // Display a generic error message
+          toast({
+            duration: 1500,
+            status: "error",
+            title: "An error occurred",
+            isClosable: true,
+            variant: "top-accent",
+            position: "top-right",
+          });
+        }
       });
   };
 

@@ -94,14 +94,50 @@ export default function SingleProductCom(el) {
         })
         .catch((err) => {
           setLoadingadd(false);
-          toast({
-            title: "Product already present in the cart.",
-            status: "warning",
-            duration: 1500,
-            isClosable: true,
-            variant: "top-accent",
-            position: "top-left",
-          });
+          console.log(err);
+
+          // Check for a specific error response
+          if (err.response && err.response.status === 401) {
+            if (err.response.data.message === "Token expired") {
+              // Token expired, display "Login session expired" toast
+              toast({
+                title: "Login session expired",
+                status: "warning",
+                duration: 1500,
+                isClosable: true,
+                variant: "top-accent",
+                position: "top-left",
+              });
+
+              // Redirect to the login page (replace '/login' with your actual login route)
+              navigate("/login", {
+                state: `/store`,
+                replace: true,
+              });
+            } else {
+              // Handle other 401 errors here
+              // For example, if it's not a token expiration error
+              // you can display a different message
+              toast({
+                title: "Unauthorized",
+                status: "error",
+                duration: 1500,
+                isClosable: true,
+                variant: "top-accent",
+                position: "top-left",
+              });
+            }
+          } else {
+            // Handle other errors here
+            toast({
+              title: "Product already present in the cart.",
+              status: "warning",
+              duration: 1500,
+              isClosable: true,
+              variant: "top-accent",
+              position: "top-left",
+            });
+          }
         });
     } else {
       navigate("/login", {
@@ -134,14 +170,45 @@ export default function SingleProductCom(el) {
         .catch((err) => {
           setLoadingadd(false);
           setAddedToWish(true);
-          toast({
-            duration: 1500,
-            status: "warning",
-            title: "item already present in wishlist",
-            isClosable: true,
-            variant: "top-accent",
-            position: "top-right",
-          });
+          console.log(err);
+          if (err.response && err.response.status === 401) {
+            // Token expired, navigate to the login page
+            toast({
+              duration: 1500,
+              status: "warning",
+              title: "Login session expired",
+              isClosable: true,
+              variant: "top-accent",
+              position: "top-right",
+            });
+
+            navigate("/login", {
+              state: `/store`,
+              replace: true,
+            });
+          } else if (err.response && err.response.status === 400) {
+            // Product already in wishlist
+            toast({
+              duration: 1500,
+              status: "warning",
+              title: "Product already in wishlist",
+              isClosable: true,
+              variant: "top-accent",
+              position: "top-right",
+            });
+          } else {
+            // Handle other errors here
+            console.log(err);
+            // Display a generic error message
+            toast({
+              duration: 1500,
+              status: "error",
+              title: "An error occurred",
+              isClosable: true,
+              variant: "top-accent",
+              position: "top-right",
+            });
+          }
         });
     } else {
       navigate("/login", {
@@ -182,9 +249,10 @@ export default function SingleProductCom(el) {
       >
         {}
 
-        <Box w={{ lg: "100%", md: "100%", base: "100%" }} 
+        <Box
+          w={{ lg: "100%", md: "100%", base: "100%" }}
           justifyContent={"right"}
-          >
+        >
           <Circle
             zIndex={1}
             onClick={() => handleWishlist()}
@@ -192,8 +260,8 @@ export default function SingleProductCom(el) {
             position="relative"
             display={"flex"}
             p="4px 4px"
-          marginLeft="auto"
-          marginRight={"3px"}
+            marginLeft="auto"
+            marginRight={"3px"}
             size={{ lg: "9", md: "9", base: "9" }}
             // left={{ lg: "88%", md: "73%", base: "77%" }}
             top={"40px"}
@@ -208,7 +276,7 @@ export default function SingleProductCom(el) {
                 filter: "drop-shadow(0px 0px 1px black)",
               }}
             />
-            
+
             {/* <Icon
             as={CiHeart}
             fill={"#ff3e6f"}

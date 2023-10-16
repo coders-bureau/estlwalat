@@ -2,6 +2,8 @@ import styles from "../css/Footer.module.css";
 import { Button, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import axios from "axios";
 
 export default function Footer() {
   const [description, setDescription] = useState("");
@@ -25,6 +27,23 @@ export default function Footer() {
     // Reset form fields
     setDescription("");
     setEmail("");
+  };
+
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_API}/admin/allcategories`
+      ); // Adjust the endpoint accordingly
+      setCategories(response.data.data);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
   };
   return (
     <div style={{ padding: "0px 30px", background: "rgb(224, 234, 236)" }}>
@@ -54,11 +73,14 @@ export default function Footer() {
         </div>
         <div>
           <p>Shop</p>
-          <p onClick={() => navigate("/store?type=Men")}>Men</p>
+          {/* <p onClick={() => navigate("/store?type=Men")}>Men</p>
           <p onClick={() => navigate("/store?type=Women")}>Women</p>
           <p onClick={() => navigate("/store?type=Kids")}>Kids</p>
           <p onClick={() => navigate("/store?q=Baby")}>Baby Care</p>
-          <p onClick={() => navigate("/store?q=Beauty")}>Beauty</p>
+          <p onClick={() => navigate("/store?q=Beauty")}>Beauty</p> */}
+          {categories.map((category, i) => (
+            <p onClick={()=> navigate(`store?category=${category.name}`)}>{category.name}</p>
+          ))}
         </div>
         <div>
           <p>Customer Policies</p>
@@ -124,7 +146,10 @@ export default function Footer() {
 
       <div>
         <div>
-          <p>© 2023 www.estylewala.com Manage by Shirazi Kids Wear. All rights reserved</p>
+          <p>
+            © 2023 www.estylewala.com Manage by Shirazi Kids Wear. All rights
+            reserved
+          </p>
         </div>
       </div>
 

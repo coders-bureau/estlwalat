@@ -24,13 +24,14 @@ import {
   useSearchParams,
 } from "react-router-dom";
 // import logo from "../Assets/estylebg.png";
-import logo from '../Assets/estylebg.png'
+import logo from "../Assets/estylebg.png";
 import { HamburgerIcon, SearchIcon } from "@chakra-ui/icons";
 import { HiOutlineUser } from "react-icons/hi";
 import { PiHeartStraightBold, PiHandbagBold } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../Redux/AuthReducer/Action";
 import axios from "axios";
+
 
 export const Navbar = () => {
   const { onOpen, onClose } = useDisclosure();

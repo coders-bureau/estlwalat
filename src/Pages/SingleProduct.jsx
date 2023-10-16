@@ -146,6 +146,8 @@ const SingleProduct = () => {
   const onOpen = () => setIsOpen(true);
   useEffect(() => {
     if (auth_token) {
+      const auth_token = localStorage.getItem("authToken");
+      axios.defaults.headers.common["auth_token"] = `${auth_token}`;
       dispatch(userloginStatus());
     }
     // dispatch(userloginStatus());
@@ -523,7 +525,7 @@ const SingleProduct = () => {
                   _hover={style.hover}
                   src={process.env.REACT_APP_BASE_API + "/" + mainImage}
                   w="full"
-                  boxSize={{ lg: "32vw",md:"35vw",base:"105vw" }}
+                  boxSize={{ lg: "32vw", md: "35vw", base: "105vw" }}
                   objectFit="contain"
                 />
               </Box>
@@ -535,13 +537,18 @@ const SingleProduct = () => {
                   _hover={style.hover}
                   src={process.env.REACT_APP_BASE_API + "/" + img}
                   w="full"
-                       />
+                />
               </Box>
               {images?.map((img, i) => {
                 return (
-                  <Box style={style.style} w="full" display="flex"
-                  justifyContent="center" // Center horizontally
-                  alignItems="center" key={i}>
+                  <Box
+                    style={style.style}
+                    w="full"
+                    display="flex"
+                    justifyContent="center" // Center horizontally
+                    alignItems="center"
+                    key={i}
+                  >
                     <Image
                       onClick={() => setMainImage(img)}
                       _hover={style.hover}

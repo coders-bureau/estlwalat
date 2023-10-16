@@ -77,8 +77,11 @@ const Store = () => {
   }, [sValue]);
 
   useEffect(() => {
+    const auth_token = localStorage.getItem("authToken");
+    axios.defaults.headers.common["auth_token"] = `${auth_token}`;
     if (auth_token) {
       dispatch(userloginStatus());
+      console.log("called");
     }
   }, []);
 

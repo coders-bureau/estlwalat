@@ -23,7 +23,8 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
-import logo from "../Assets/estylebg.png";
+// import logo from "../Assets/estylebg.png";
+import logo from '../Assets/estylebg.png'
 import { HamburgerIcon, SearchIcon } from "@chakra-ui/icons";
 import { HiOutlineUser } from "react-icons/hi";
 import { PiHeartStraightBold, PiHandbagBold } from "react-icons/pi";

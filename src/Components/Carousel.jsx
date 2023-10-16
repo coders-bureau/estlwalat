@@ -13,13 +13,13 @@ const responsive = {
 };
 
 const CarouselCom = ({ data }) => {
-  console.log(data);
+  // console.log(data);
   const navigate = useNavigate();
   return (
     <>
       <>
         <Box
-        // bgColor={"gray.100"}
+          // bgColor={"gray.100"}
           paddingTop={{ sm: "30px" }}
           paddingBottom={{ sm: "30px" }}
           style={{
@@ -28,21 +28,6 @@ const CarouselCom = ({ data }) => {
         >
           <Carousel
             responsive={responsive}
-            //    swipeable={true}
-            //    draggable={true}
-            //    ssr={false} // means to render carousel on server-side.
-            //    infinite={true}
-            //    autoPlaySpeed={2000}
-            //    keyBoardControl={true}
-            //    customTransition="all .5"
-            //    transitionDuration={500}
-            //    containerClass="carousel-container"
-            //    removeArrowOnDeviceType={["desktop"]}
-            //    dotListClass="custom-dot-list-style"
-            //    itemClass="carousel-item-padding-40-px"
-            //    focusOnSelect={true}
-            //    additionalTransfrom={0}
-
             additionalTransfrom={0}
             autoPlay
             autoPlaySpeed={1500}

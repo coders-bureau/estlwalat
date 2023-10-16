@@ -139,11 +139,11 @@ export const getAllProductsData = (params) => async (dispatch) => {
     const all = process.env.BASE_API;
     console.log(all);
     const r = await axios.get(
-      `${process.env.REACT_APP_BASE_API}/allproducts`,
+      `${process.env.REACT_APP_BASE_API}/product/allproducts`,
       params
     );
-    console.log(r.data);
-    dispatch(getProductsSuccess(r.data));
+    console.log(r.data.data);
+    dispatch(getProductsSuccess(r.data.data));
   } catch (err) {
     console.log(err);
     dispatch(getProductsFailure());

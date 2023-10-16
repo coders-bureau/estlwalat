@@ -113,7 +113,6 @@ export default function SingleProductCom(el) {
 
   const handleWishlist = () => {
     if (isAuth) {
-
       setLoadingadd(true);
       axios({
         method: "post",
@@ -145,15 +144,12 @@ export default function SingleProductCom(el) {
           });
         });
     } else {
-      
       navigate("/login", {
         state: `/store`,
         replace: true,
       });
     }
   };
-
-
 
   return (
     <>
@@ -185,40 +181,62 @@ export default function SingleProductCom(el) {
         onMouseLeave={() => setShowWish(false)}
       >
         {}
-        <Circle
-          // boxShadow="0 2px 4px rgba(0, 0, 0, 0.1)"
-          zIndex={1}
-          onClick={() => handleWishlist()}
-          // bgColor={"white"}
-          cursor={"pointer"}
-          position="relative"
-          display={"flex"}
-          // borderColor="gray.300"
-          // borderWidth="1px"
-          p="4px 4px"
-          size={{ lg: "9", md: "8", base: "9" }}
-          left={{ lg: "88%", md: "73%", base: "77%" }}
-          top={{ lg: "1vw", md: "5vw", base: "10vw" }}
-        >
-          <Icon
-            as={FaHeart}
-            fill={addedToWish ? "#ff3e6f" : "#ffffff"}
-            fontSize={{ lg: "3xl", md: "2xl", base: "3xl" }}
-            style={{
-              opacity: 0.8,
-              filter: "drop-shadow(3px 3px 3px black)",
-              // boxShadow: "4px 4px 6px rgba(0, 0, 0, 0.1)", // Add your shadow CSS here
-            }}
-          />
-          {/* <Icon
+
+        <Box w={{ lg: "100%", md: "100%", base: "100%" }} 
+          justifyContent={"right"}
+          >
+          <Circle
+            zIndex={1}
+            onClick={() => handleWishlist()}
+            cursor={"pointer"}
+            position="relative"
+            display={"flex"}
+            p="4px 4px"
+          marginLeft="auto"
+          marginRight={"3px"}
+            size={{ lg: "9", md: "9", base: "9" }}
+            // left={{ lg: "88%", md: "73%", base: "77%" }}
+            top={"40px"}
+          >
+            <Icon
+              className="fa-border"
+              as={FaHeart}
+              fill={addedToWish ? "#ff3e6f" : "#ffffff"}
+              fontSize={"3xl"}
+              style={{
+                // opacity: 0.8,
+                filter: "drop-shadow(0px 0px 1px black)",
+              }}
+            />
+            
+            {/* <Icon
             as={CiHeart}
             fill={"#ff3e6f"}
             fontSize={{ lg: "3xl", md: "2xl", base: "3xl" }}
             dropShadow={"10px 10px 20px #000000"}
           /> */}
-        </Circle>
-
-        <Box w={{ lg: "100%", md: "100%", base: "100%" }}>
+          </Circle>
+          {/* <Box display={"flex"}
+          width={"max-content"}
+          position={"relative"}
+          // left={"200px"}
+          // top={"40px"}
+          zIndex={1}
+          >
+            
+              <Icon
+                className="fa-border"
+                as={FaHeart}
+                fill={addedToWish ? "#ff3e6f" : "#ffffff"}
+                fontSize={{ lg: "3xl", md: "2xl", base: "3xl" }}
+                style={{
+                  opacity: 0.8,
+                  // filter: "drop-shadow(3px 3px 3px black)",
+                  filter: "drop-shadow(0px 0px 1px black)",
+                  // boxShadow: "4px 4px 6px rgba(0, 0, 0, 0.1)", // Add your shadow CSS here
+                }}
+              />
+            </Box> */}
           {/* <Image
             onClick={() => navigate(`../single_product/${_id}`)}
             src={process.env.REACT_APP_BASE_API + "/" + img}
@@ -244,7 +262,7 @@ export default function SingleProductCom(el) {
               alt=""
               objectFit="contain"
               w={"full"}
-              boxSize={{ lg: "24vw", md: "28vw", base: "57vw" }}
+              boxSize={{ lg: "24vw", md: "32vw", base: "53vw" }}
             />
           </Box>
           {!showWish && (

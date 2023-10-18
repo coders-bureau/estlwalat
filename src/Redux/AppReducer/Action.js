@@ -46,7 +46,7 @@ export const getProducts = (params) => async (dispatch) => {
       `${process.env.REACT_APP_MYNTRA_API}/Products`,
       params
     );
-    console.log(r.data);
+    // console.log(r.data);
     dispatch(getProductsSuccess(r.data));
   } catch (err) {
     dispatch(getProductsFailure());
@@ -58,11 +58,11 @@ export const getProducts = (params) => async (dispatch) => {
 export const getProductsPage = (params,page) => async (dispatch) => {
   dispatch(getProductsLoading());
   try {
-    console.log(page);
-    console.log(params);
+    // console.log(page);
+    // console.log(params);
     const r = await axios.get(
       `${process.env.REACT_APP_MYNTRA_API}/Products?_limit=12&_page=${page}`,params);
-    console.log(r.data);
+    // console.log(r.data);
     // dispatch(getProductsSuccess1(r));
   } catch (err) {
     dispatch(getProductsFailure());
@@ -122,11 +122,11 @@ export const getProductsData = (params) => async (dispatch) => {
       `${process.env.REACT_APP_BASE_API}/product/products`,
       params
       );
-      console.log(params)
-    console.log(r.data);
+      // console.log(params)
+    // console.log(r.data);
     const proleng = r.data.totalPro;
     let totalPages =Math.ceil( proleng / 12);
-    console.log(totalPages);
+    // console.log(totalPages);
     dispatch(getProductsSuccess(r.data.data,totalPages));
   } catch (err) {
     dispatch(getProductsFailure());
@@ -137,12 +137,12 @@ export const getAllProductsData = (params) => async (dispatch) => {
   dispatch(getProductsLoading());
   try {
     const all = process.env.BASE_API;
-    console.log(all);
+    // console.log(all);
     const r = await axios.get(
       `${process.env.REACT_APP_BASE_API}/product/allproducts`,
       params
     );
-    console.log(r.data.data);
+    // console.log(r.data.data);
     dispatch(getProductsSuccess(r.data.data));
   } catch (err) {
     console.log(err);

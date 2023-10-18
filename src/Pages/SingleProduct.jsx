@@ -677,14 +677,14 @@ const SingleProduct = () => {
                   {/* <Text fontWeight={500} color="#ff3e6c">
                     SIZE CHART &#62;
                   </Text> */}
-                  <Text
+                  {/* <Text
                     cursor={"pointer"}
                     fontWeight={500}
                     color="#ff3e6c"
                     onClick={onOpen}
                   >
                     SIZE CHART &#62;
-                  </Text>
+                  </Text> */}
 
                   <Modal
                     size={{ md: "xl", base: "full" }}

@@ -20,20 +20,21 @@ const Home = () => {
 
   const dispatch = useDispatch();
 
-  useEffect(()=> {
+  useEffect(() => {
     dispatch(getAllProductsData());
-  },[])
+  }, []);
+
   const [imageData, setImageData] = useState([]);
   const [categories, setCategories] = useState([]);
   const [offers, setOffers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-console.log(categories);
+  // console.log(categories);
   useEffect(() => {
     if (auth_token) {
-    const auth_token = localStorage.getItem("authToken");
-    axios.defaults.headers.common["auth_token"] = `${auth_token}`;
+      const auth_token = localStorage.getItem("authToken");
+      axios.defaults.headers.common["auth_token"] = `${auth_token}`;
       dispatch(userloginStatus());
-      console.log("called");
+      // console.log("called");
     }
   }, []);
 
@@ -41,7 +42,19 @@ console.log(categories);
     fetchImageData();
     fetchCategories();
     fetchOffers();
+    backendVersion();
   }, []);
+
+  const backendVersion = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_API}/user/backend-version`
+      );
+      console.log(response.data.version);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const fetchImageData = async () => {
     setIsLoading(true);

@@ -471,6 +471,13 @@ export const Navbar = () => {
                     <MenuItem
                       _hover={{ fontWeight: "500" }}
                       fontSize={"13px"}
+                      onClick={() => navigate("/Orders")}
+                    >
+                      Orders
+                    </MenuItem>
+                    <MenuItem
+                      _hover={{ fontWeight: "500" }}
+                      fontSize={"13px"}
                       onClick={() => navigate("/wishlist")}
                     >
                       Wishlist

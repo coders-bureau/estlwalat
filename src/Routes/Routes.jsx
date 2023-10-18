@@ -11,6 +11,7 @@ import Wishlist from '../Pages/wishlist'
 import Cart from '../Pages/Cart'
 import { PrivateRoute } from './PrivateRoutes'
 import Profile from '../Pages/Profile'
+import Orders from '../Pages/Orders'
 import Address from '../Pages/Address'
 import PrivacyPolicy from '../Pages/PrivacyPolicy'
 import FAQ from '../Pages/FAQ'
@@ -50,6 +51,7 @@ export const MainRoutes = () => {
              <Route path='/wishlist' element={<PrivateRoute><Wishlist/></PrivateRoute>} />
              <Route path='/cart' element={<PrivateRoute><Cart/></PrivateRoute>}/>
              <Route path='/profile' element={<PrivateRoute><Profile /></PrivateRoute>} />
+             <Route path='/orders' element={<PrivateRoute><Orders /></PrivateRoute>} />
              <Route path='/address' element={<PrivateRoute><Address/></PrivateRoute>}/>
              <Route path="/payment" element={<PrivateRoute><Payment/></PrivateRoute> }></Route>
              <Route path="/success/:payment/:tranxId" element={<PrivateRoute><Success /></PrivateRoute>} ></Route>

@@ -183,7 +183,7 @@ const HomeProducts = () => {
     setProductsToShow(PAGE_SIZE); // Reset productsToShow when Products change
   }, [shuffledProducts]);
 
-  console.log(Products, shuffledProducts, displayedProducts);
+  // console.log(Products, shuffledProducts, displayedProducts);
   if (isLoading)
     return (
       <>

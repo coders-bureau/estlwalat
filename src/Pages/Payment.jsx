@@ -1,46 +1,28 @@
 import {
   Box,
   Button,
-  HStack,
-  VStack,
-  Input,
-  Image,
-  Text,
-  FormControl,
-  FormLabel,
-  Center,
-  Spinner,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalBody,
-  useDisclosure,
-  Heading,
-  useToast,
+  CircularProgress,
   Flex,
-  Stack,
+  FormControl,
+  HStack,
+  Heading,
+  Image,
+  Input,
   Radio,
   RadioGroup,
-  CircularProgress,
-  // CardActions,
-  CardBody,
-  CardHeader,
-  Divider,
-  TextField,
-  Icon,
-  Card,
+  Stack,
+  Text,
+  VStack,
+  useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
-import BiRevision from "@chakra-ui/icons";
-import OtherNavbar from "../Components/OtherNavbar";
-import OtherFooter from "../Components/OtherFooter";
-import { redirect, useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
-import warning from "../Assets/estyle.png";
-import { PaymentDetains1, PaymentDetains2 } from "../Components/PaymentDetains";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { getUserDetails } from "../Redux/UserReducer/Action";
+import { useEffect, useRef, useState } from "react";
 import { MdRefresh } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import OtherNavbar from "../Components/OtherNavbar";
+import { PaymentDetains1 } from "../Components/PaymentDetains";
 function getDate() {
   const today = new Date();
   const month = today.getMonth() + 1;
@@ -83,6 +65,8 @@ const Payment = () => {
     offerPrice,
     couponDiscount,
     cart,
+    name,
+    mobileNumber
   } = location.state ? location.state : {};
 
   console.log(location.state);
@@ -134,36 +118,38 @@ const Payment = () => {
   const [paymentLink, setPaymentLink] = useState("");
   const handleSubmit = () => {
     setLoading(true);
+    if (toggle) {
+      if (code === "") {
+        toast({
+          title: "Please fill the capture first",
+          // description: "We've received your payment.",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+          position: "top-left",
+        });
 
-    if (code === "") {
-      toast({
-        title: "Please fill the capture first",
-        // description: "We've received your payment.",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-        position: "top-left",
-      });
+        // toast.error("Please fill the capture first", {
+        //   position: "top-center",
+        // });
+        setLoading(false);
+        return;
+      }
 
-      // toast.error("Please fill the capture first", {
-      //   position: "top-center",
-      // });
-      setLoading(false);
-      return;
+      if (code !== captcha) {
+        toast({
+          title: "Captcha is Incorrect",
+          // description: "We've received your payment.",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+          position: "top-left",
+        });
+        setLoading(false);
+        return;
+      }
     }
 
-    if (code !== captcha) {
-      toast({
-        title: "Captcha is Incorrect",
-        // description: "We've received your payment.",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-        position: "top-left",
-      });
-      setLoading(false);
-      return;
-    }
     setLoading(true);
 
     axios({
@@ -173,6 +159,8 @@ const Payment = () => {
         addressLine: addressLine,
         paymentMode: selectedPaymentMode,
         cartBuyNow: cart,
+        name: name,
+        mobileNumber: mobileNumber
       },
     })
       .then((orderRes) => {
@@ -228,24 +216,24 @@ const Payment = () => {
             `/success/${selectedPaymentMode}/${orderRes.data.data.tranxId}`
           );
         }
-       
+
         console.log("done orders");
         // setLoading(false);
       })
       .catch((err) => {
         console.log(err);
       });
-      axios({
-        method: "delete",
-        url: `${process.env.REACT_APP_BASE_API}/user/cartall`,
+    axios({
+      method: "delete",
+      url: `${process.env.REACT_APP_BASE_API}/user/cartall`,
+    })
+      .then((response) => {
+        console.log("response", response);
+        // dispatch(getUserDetails(mobileNumber));
       })
-        .then((response) => {
-          console.log("response", response);
-          // dispatch(getUserDetails(mobileNumber));
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      .catch((err) => {
+        console.log(err);
+      });
     // setLoading(false);
   };
 
@@ -590,64 +578,69 @@ const Payment = () => {
                   >
                     <VStack alignItems="start">
                       <Radio value="online">Online Payment</Radio>
-                      <Radio value="cod">Cash on Delivery (COD)</Radio>
+                      {!paymentLink && (
+                        <Radio value="cod">Cash on Delivery (COD)</Radio>
+                      )}   
                     </VStack>
                   </RadioGroup>
 
                   {!paymentLink && (
                     <>
-                      <Box pl={4}>
-                        <Stack
-                          border={"0px solid"}
-                          textAlign="left"
-                          spacing={4}
-                        >
-                          <FormControl>
-                            <Stack spacing={4}>
-                              {/* <Text marginBottom={"30px"} fontWeight={"700"}>
-                              Pay On Delivery (Cash/UPI)
-                            </Text> */}
-                              <HStack>
-                                <Box
-                                  w={"full"}
-                                  textAlign="center"
-                                  p={2}
-                                  border={"1px solid"}
-                                  color={"#fff"}
-                                  textDecoration={"line-through"}
-                                  userSelect={"none"}
-                                  backgroundColor={"black"}
-                                  borderRadius={"5px"}
-                                  width={"100px"}
-                                  // height={"30px"}
-                                  fontSize={"22px"}
-                                  // marginBottom={"10px"}
-                                >
-                                  {captcha}
-                                </Box>
-                                <Button
-                                  leftIcon={<MdRefresh />}
-                                  onClick={() => refreshString()}
-                                ></Button>
-                              </HStack>
+                      {toggle && (
+                        <Box pl={4}>
+                          <Stack
+                            border={"0px solid"}
+                            textAlign="left"
+                            spacing={4}
+                          >
+                            <FormControl>
+                              <Stack spacing={4}>
+                                {/* <Text marginBottom={"30px"} fontWeight={"700"}>
+                            Pay On Delivery (Cash/UPI)
+                          </Text> */}
+                                <HStack>
+                                  <Box
+                                    w={"full"}
+                                    textAlign="center"
+                                    p={2}
+                                    border={"1px solid"}
+                                    color={"#fff"}
+                                    textDecoration={"line-through"}
+                                    userSelect={"none"}
+                                    backgroundColor={"black"}
+                                    borderRadius={"5px"}
+                                    width={"100px"}
+                                    // height={"30px"}
+                                    fontSize={"22px"}
+                                    // marginBottom={"10px"}
+                                  >
+                                    {captcha}
+                                  </Box>
+                                  <Button
+                                    leftIcon={<MdRefresh />}
+                                    onClick={() => refreshString()}
+                                  ></Button>
+                                </HStack>
 
-                              <Input
-                                w={"full"}
-                                // type={"text"}
-                                value={code}
-                                fontSize={"15px"}
-                                placeholder="Enter code Show in above image*"
-                                isRequired
-                                onChange={(e) => setCode(e.target.value)}
-                              />
-                              {/* <Text fontSize={"12px"} color={"gray"}>
-                              You can pay via Cash or UPI enabled app at the
-                              time on delivery. Ask executive for these options
-                            </Text> */}
-                            </Stack>
-                          </FormControl>
-                        </Stack>
-                      </Box>
+                                <Input
+                                  w={"full"}
+                                  // type={"text"}
+                                  value={code}
+                                  fontSize={"15px"}
+                                  placeholder="Enter code Show in above image*"
+                                  isRequired
+                                  onChange={(e) => setCode(e.target.value)}
+                                />
+                                {/* <Text fontSize={"12px"} color={"gray"}>
+                            You can pay via Cash or UPI enabled app at the
+                            time on delivery. Ask executive for these options
+                          </Text> */}
+                              </Stack>
+                            </FormControl>
+                          </Stack>
+                        </Box>
+                      )}
+
                       <Button
                         size={"md"}
                         // mx={5}
@@ -747,13 +740,13 @@ const Payment = () => {
                   </Text>
                 </HStack>
                 <Text
-                align={"left"}
-                fontSize={"10px"}
-                color={"#863e9c"}
-                fontWeight={"bold"}
-              >
-                Included all taxes and charges
-              </Text>
+                  align={"left"}
+                  fontSize={"10px"}
+                  color={"#863e9c"}
+                  fontWeight={"bold"}
+                >
+                  Included all taxes and charges
+                </Text>
                 {/* ........................... */}
               </Box>
               <Flex
@@ -840,13 +833,13 @@ const Payment = () => {
               </Text>
             </HStack>
             <Text
-                align={"left"}
-                fontSize={"10px"}
-                color={"#863e9c"}
-                fontWeight={"bold"}
-              >
-                Included all taxes and charges
-              </Text>
+              align={"left"}
+              fontSize={"10px"}
+              color={"#863e9c"}
+              fontWeight={"bold"}
+            >
+              Included all taxes and charges
+            </Text>
             {/* ........................... */}
           </Box>
           <HStack

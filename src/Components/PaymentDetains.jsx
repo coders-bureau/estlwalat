@@ -85,6 +85,8 @@ const PaymentDetains2 = ({
   redirect,
   addressLine,
   cart,
+  name,
+  mobileNumber,
 }) => {
   const navigate = useNavigate();
   const toast = useToast();
@@ -132,6 +134,8 @@ const PaymentDetains2 = ({
                       offerPrice,
                       finalAmount,
                       cart,
+                      name,
+                      mobileNumber,
                     },
                   })
                 : toast({

@@ -35,7 +35,7 @@ export const PrivateRoute=({children})=>{
 
     // const isAuth = axios.get("/profile/details")
     if(!isAuth){
-        return <Navigate to={"/login"}  state={{data:location.pathname}} replace />
+        return <Navigate to={"/login"}  state={location.pathname} replace />
     }
     return children
 }

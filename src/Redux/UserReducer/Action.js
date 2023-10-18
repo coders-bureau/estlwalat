@@ -62,7 +62,7 @@ export const getUserDetails = () => async (dispatch) => {
   try {
 
     const { data }  = await axios.get(`${process.env.REACT_APP_BASE_API}/user/profile/details`);
-    console.log(data.user);
+    // console.log(data.user);
     dispatch({
       type: types.USER_DETAILS_SUCCESS,
       payload: data.user,
@@ -84,7 +84,7 @@ export const getUserDetails = () => async (dispatch) => {
 export const updateUserProfile = (user) => async (dispatch) => {
   try {
     const { data }  = await axios.put(`${process.env.REACT_APP_BASE_API}/user/profile`,user);
-    console.log(data);
+    // console.log(data);
     dispatch({
       type: types.USER_UPDATE_PROFILE_SUCCESS,
       payload: data.user,

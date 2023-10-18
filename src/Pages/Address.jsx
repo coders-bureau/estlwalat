@@ -45,8 +45,10 @@ const Address = () => {
     cart
   } = location.state;
   console.log(location.state);
-  const mobileNumber = localStorage.getItem("MbNumber");
+  // const mobileNumber = localStorage.getItem("MbNumber");
   const [selectedAddress, setSelectedAddress] = useState({});
+  const [name, setName] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
   const [selectedAddressstatus, setSelectedAddressStatus] = useState(false);
   const [addressLine, setaddressLine] = useState("");
   const [userId, setUserid] = useState("");
@@ -80,6 +82,11 @@ const Address = () => {
       addressId.state +
       "-" +
       addressId.pinCode;
+      
+      const mobileNumber = addressId.mobileNo;
+      const name = addressId.name;
+      setName(name);
+      setMobileNumber(mobileNumber);
     setaddressLine(add);
     console.log(add);
     // setPincode()
@@ -316,6 +323,8 @@ const Address = () => {
                 offerPrice={offerPrice}
                 couponDiscount={couponDiscount}
                 cart={cart}
+                name={name}
+                mobileNumber={mobileNumber}
                 redirect={selectedAddressstatus ? "/payment" : undefined}
               />
               {/* ........................... */}

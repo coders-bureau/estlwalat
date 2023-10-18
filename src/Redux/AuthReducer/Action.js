@@ -19,7 +19,7 @@ export const userloginStatus = () => async (dispatch) => {
     const response = await axios.get(
       `${process.env.REACT_APP_BASE_API}/user/profile/details`
     );
-    console.log(response);
+    // console.log(response);
     if (response) dispatch({ type: types.GET_LOGIN_SUCCESS });
     
   } catch (error) {

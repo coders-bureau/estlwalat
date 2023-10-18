@@ -1,33 +1,28 @@
 import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
   Box,
   Button,
-  HStack,
-  VStack,
-  Text,
-  Divider,
-  Flex,
+  CircularProgress,
   FormControl,
   FormLabel,
+  Grid,
+  HStack,
+  Image,
   Input,
   Select,
-  Accordion,
-  AccordionItem,
-  AccordionButton,
-  AccordionPanel,
-  AccordionIcon,
-  Image,
-  Grid,
-  Heading,
-  CircularProgress,
+  Text,
+  VStack
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
-import Navbar from "../Components/Navbar";
-import { useDispatch, useSelector } from "react-redux";
-import { getUserDetails, updateUserProfile } from "../Redux/UserReducer/Action";
 import axios from "axios";
-import AddReview from "../Components/AddReview";
-import ReviewForm from "../Components/ReviewForm";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../Components/Navbar";
+import { getUserDetails, updateUserProfile } from "../Redux/UserReducer/Action";
 import LoadingPage from "./LoadingPage";
 const mobileNumber = localStorage.getItem("MbNumber");
 const options = { year: "numeric", month: "long", day: "numeric" };
@@ -82,13 +77,13 @@ const Profile = () => {
               >
                 Profile
               </Button>
-              <Button
+              {/* <Button
                 borderColor="#424553"
                 variant={activeTab === "tab2" ? "outline" : "solid"}
                 onClick={() => handleTabChange("tab2")}
               >
                 Orders
-              </Button>
+              </Button> */}
               <Button
                 borderColor="#424553"
                 variant={activeTab === "tab3" ? "outline" : "solid"}
@@ -126,14 +121,14 @@ const Profile = () => {
               >
                 Profile
               </Button>
-              <Button
+              {/* <Button
                 w={"9vw"}
                 borderColor="#424553"
                 variant={activeTab === "tab2" ? "outline" : "solid"}
                 onClick={() => handleTabChange("tab2")}
               >
                 Orders
-              </Button>
+              </Button> */}
               <Button
                 borderColor="#424553"
                 w={"9vw"}

@@ -79,7 +79,7 @@ export default function Footer() {
           <p onClick={() => navigate("/store?q=Baby")}>Baby Care</p>
           <p onClick={() => navigate("/store?q=Beauty")}>Beauty</p> */}
           {categories.map((category, i) => (
-            <p onClick={()=> navigate(`store?category=${category.name}`)}>{category.name}</p>
+            <p key={i} onClick={()=> navigate(`store?category=${category.name}`)}>{category.name}</p>
           ))}
         </div>
         <div>

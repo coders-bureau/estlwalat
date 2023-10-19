@@ -12,7 +12,7 @@ const Products = () => {
     (store) => store.AppReducer
   );
 
-  console.log(Products);
+  // console.log(Products);
   if (isLoading)
     return (
       <>

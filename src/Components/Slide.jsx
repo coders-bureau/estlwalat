@@ -4,7 +4,7 @@ import Carousel from "react-multi-carousel";
 import { useNavigate } from "react-router-dom";
 
 const Slide = ({ data3, data2, data1 }) => {
-  console.log(data1, data2, data3);
+  // console.log(data1, data2, data3);
   const navigate = useNavigate();
   return (
     <Box

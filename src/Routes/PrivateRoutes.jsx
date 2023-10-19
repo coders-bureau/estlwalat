@@ -10,13 +10,13 @@ export const PrivateRoute=({children})=>{
 
     const auth_token = localStorage.getItem("authToken");
     axios.defaults.headers.common["auth_token"] = `${auth_token}`;
-    console.log(auth_token);
+    // console.log(auth_token);
     if(auth_token){
     axios
       .get(`${process.env.REACT_APP_BASE_API}/user/profile/details`)
       .then((response) => {
         // setisAuth(true);
-        console.log(response);
+        // console.log(response);
         dispatch(login());
       })
       .catch((error) => {

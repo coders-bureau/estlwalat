@@ -42,7 +42,7 @@ const Signin = () => {
   const [isError, setIsError] = useState(false);
   const location = useLocation();
   const comingFrom = location?.state || "/";
-  console.log(comingFrom);
+  // console.log(comingFrom);
   const dispatch = useDispatch();
   const user = useSelector((store) => store.UserReducer);
   const [viewOtpForm, setViewOtpForm] = useState(false);
@@ -82,7 +82,7 @@ const Signin = () => {
           // reCAPTCHA solved, allow signInWithPhoneNumber.
           //   handleSubmit();
           //   console.log(response);
-          console.log("Recaptca varified");
+          // console.log("Recaptca varified");
         },
         defaultCountry: "IN",
       }
@@ -94,7 +94,7 @@ const Signin = () => {
     setLoading(true);
 
     const code = value;
-    console.log(code);
+    // console.log(code);
 
     axios
       .post(
@@ -103,7 +103,7 @@ const Signin = () => {
         // config
       )
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         const token = res.data.token;
         localStorage.setItem("authToken", token);
         // navigate("/");
@@ -148,7 +148,7 @@ const Signin = () => {
             // config
           )
           .then((res) => {
-            console.log(res.data);
+            // console.log(res.data);
             setMobileNumber(res.data.mobileNumber);
             setHashcode(res.data.hash);
             setViewOtpForm(true);
@@ -180,7 +180,7 @@ const Signin = () => {
     }
   };
 
-  console.log(value);
+  // console.log(value);
   return (
     <>
       <Navbar />

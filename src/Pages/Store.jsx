@@ -1,38 +1,35 @@
 import {
   Box,
   Button,
-  HStack,
-  VStack,
-  Text,
   Grid,
-  RadioGroup,
-  Radio,
+  HStack,
   Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
   ModalBody,
+  ModalCloseButton,
+  ModalContent,
   ModalFooter,
-  useDisclosure,
+  ModalHeader,
+  ModalOverlay,
+  Radio,
+  RadioGroup,
   Select,
-  Image,
+  Text,
+  VStack,
+  useDisclosure
 } from "@chakra-ui/react";
 
-import Filter from "../Components/Filter";
-import { MdFilterListAlt } from "react-icons/md";
-import { TbArrowsSort } from "react-icons/tb";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { TbArrowsSort } from "react-icons/tb";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useSearchParams } from "react-router-dom";
+import Filter from "../Components/Filter";
 import Footer from "../Components/Footer";
-import Products from "../Components/Products";
-import { getProductsData, getProductsSorted } from "../Redux/AppReducer/Action";
-import Pagination from "../Components/Pagination";
 import Navbar from "../Components/Navbar";
-import { getUserDetails } from "../Redux/UserReducer/Action";
-import { login, userloginStatus } from "../Redux/AuthReducer/Action";
-import axios from "axios";
+import Pagination from "../Components/Pagination";
+import Products from "../Components/Products";
+import { getProductsData } from "../Redux/AppReducer/Action";
+import { userloginStatus } from "../Redux/AuthReducer/Action";
 const auth_token = localStorage.getItem("authToken");
 // axios.defaults.headers.common["auth_token"] = `${auth_token}`;
 const Store = () => {
@@ -41,9 +38,9 @@ const Store = () => {
   const [searchParams] = useSearchParams();
   const location = useLocation();
   const initQuery = searchParams.get("q");
-  console.log(useSelector((store) => store.AppReducer));
+  // console.log(useSelector((store) => store.AppReducer));
   const data = useSelector((store) => store.AppReducer);
-  console.log(data);
+  // console.log(data);
   const type = searchParams.get("type");
   const q = searchParams.get("q");
   const [sValue, setSValue] = useState("");
@@ -78,10 +75,10 @@ const Store = () => {
 
   useEffect(() => {
     if (auth_token) {
-    const auth_token = localStorage.getItem("authToken");
-    axios.defaults.headers.common["auth_token"] = `${auth_token}`;
+      const auth_token = localStorage.getItem("authToken");
+      axios.defaults.headers.common["auth_token"] = `${auth_token}`;
       dispatch(userloginStatus());
-      console.log("called");
+      // console.log("called");
     }
   }, []);
 

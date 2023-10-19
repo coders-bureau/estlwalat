@@ -98,7 +98,7 @@ const Cart = () => {
     }
   };
 
-  console.log(cartProducts);
+  // console.log(cartProducts);
   useEffect(() => {
     getCartProd();
   }, []);

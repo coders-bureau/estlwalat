@@ -35,10 +35,10 @@ const ProductListPage = () => {
   const fetchProducts = async () => {
     setisLoading(true);
     await axios
-      .get("${process.env.REACT_APP_BASE_API}/allproducts")
+      .get(`${process.env.REACT_APP_BASE_API}/allproducts`)
       .then((response) => {
         setProducts(response.data);
-        console.log(response.data);
+        // console.log(response.data);
         setisLoading(false);
       })
       .catch((error) => {

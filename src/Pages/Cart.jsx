@@ -39,6 +39,8 @@ import { getUserDetails } from "../Redux/UserReducer/Action";
 import Navbar from "../Components/Navbar";
 import { MdOutlineLocalOffer } from "react-icons/md";
 import CouponDetails from "../Components/CouponDetails";
+import SingleProductCom from "../Components/SingleProductCom";
+import { getProductsData } from "../Redux/AppReducer/Action";
 
 const Cart = () => {
   const mobileNumber = localStorage.getItem("MbNumber");
@@ -99,7 +101,15 @@ const Cart = () => {
     }
   };
 
-  console.log(cartProducts);
+  useEffect(() => {
+    //console.log(sValue);
+    if (Products.length === 0) {
+      // dispatch(getProductsSorted(sValue, currentPage, getProductParams));
+      dispatch(getProductsData());
+      // window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [dispatch]);
+  // console.log(cartProducts);
   useEffect(() => {
     getCartProd();
     if (totalMRP - totalMRPDiscount - offerPrice > 0) {
@@ -109,7 +119,7 @@ const Cart = () => {
         })
         .then((couponResponse) => {
           const nearestCoupon = couponResponse.data.data;
-          console.log(couponResponse.data);
+          // console.log(couponResponse.data);
           // Apply the coupon to the cart value
           if (nearestCoupon) {
             // You can apply the coupon logic here and set the discounted cart value
@@ -215,30 +225,34 @@ const Cart = () => {
   // useEffect(() => {
   //   let obj = {};
   //   for (let el of cartProducts) {
-  //     if (!obj[el.category]) {
-  //       obj[el.category] = el.category;
+  //     console.log(el.product.category);
+  //     if (!obj[el.product.category]) {
+  //       obj[el.product.category] = el.product.category;
   //     }
-  //     if (!obj[el.id]) {
-  //       obj[el.id] = el.id;
+  //     if (!obj[el.product.id]) {
+  //       obj[el.product.id] = el.product.id;
   //     }
   //   }
 
-  // if (similerProducts.length === 0) {
-  //   const newArr = Products.filter((el) => {
-  //     return obj[el.category] && !obj[el.id];
-  //   });
-  //   setSimilarProducts(newArr);
-  // }
-
-  //   axios({
-  //     url: process.env.REACT_APP_MYNTRA_API + "/Products",
-  //   }).then((res) => {
-  //     const newArr = res.data?.filter((el) => {
+  //   if (similerProducts.length === 0) {
+  //     console.log(Products);
+  //     const newArr = Products.filter((el) => {
+  //       console.log(el);
   //       return obj[el.category] && !obj[el.id];
   //     });
-
   //     setSimilarProducts(newArr);
-  //   });
+  //     console.log("newArr", newArr);
+  //   }
+
+  //   // axios({
+  //   //   url: process.env.REACT_APP_MYNTRA_API + "/Products",
+  //   // }).then((res) => {
+  //   //   const newArr = res.data?.filter((el) => {
+  //   //     return obj[el.category] && !obj[el.id];
+  //   //   });
+
+  //   //   setSimilarProducts(newArr);
+  //   // });
   // }, [cartProducts.length, Products.length]);
 
   if (isLoading) {
@@ -492,8 +506,9 @@ const Cart = () => {
                   {similerProducts?.map((el) => {
                     return (
                       <Box key={el.id} bgColor={"#fff"}>
-                        <SingleSimilarProduct
-                          el={el}
+                        <SingleProductCom
+                          {...el}
+                          
                           // handleAddCart={handleAddCart}
                         />
                       </Box>

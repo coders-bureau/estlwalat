@@ -52,7 +52,7 @@ const Payment = () => {
   const anchorRef = useRef(null);
   const location = useLocation();
   const [cartProducts, setCartProducts] = useState([]);
-  console.log(cartProducts);
+  // console.log(cartProducts);
   const navigate = useNavigate();
   const handleClick = () => {
     // Programmatically trigger a click on the anchor tag
@@ -85,7 +85,7 @@ const Payment = () => {
     cart
   } = location.state ? location.state : {};
 
-  console.log(location.state);
+  // console.log(location.state);
   const dispatch = useDispatch();
   const { user } = useSelector((store) => store.UserReducer);
   // const history = useHistory();
@@ -128,7 +128,8 @@ const Payment = () => {
 
   const handleToggle = (value) => {
     setToggle(!toggle);
-    setSelectedPaymentMode(value);console.log(value);
+    setSelectedPaymentMode(value);
+    // console.log(value);
   };
   const [paymentLink, setPaymentLink] = useState("");
   const handleSubmit = () => {
@@ -181,7 +182,7 @@ const Payment = () => {
             data: { orderData: orderRes.data.data },
           })
             .then((res) => {
-              console.log(res);
+              // console.log(res);
               if (res.data.data) {
                 // window.location.replace(res.data.data.data.instrumentResponse.redirectInfo.url)
                 // let Redirecturl =

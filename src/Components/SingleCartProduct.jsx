@@ -39,7 +39,7 @@ const SingleCartProduct = ({
   cartId,
   loadingFun,
 }) => {
-  console.log(title, qty,discount);
+  // console.log(title, qty,discount);
   const mobileNumber = localStorage.getItem("MbNumber");
   const dispatch = useDispatch();
   const [currentSizeShow, setCurrentSize] = useState(currentSize || size[0]);
@@ -58,7 +58,7 @@ const SingleCartProduct = ({
     })
       .then(({ data }) => {
         setCurrentSize(data.data.currentSize);
-        console.log(data.data);
+        // console.log(data.data);
         // dispatch(getUserDetails());
       })
       .catch((err) => {
@@ -74,7 +74,7 @@ const SingleCartProduct = ({
     );
     setTotalAmount((prev) => prev + discount * (e - currentQty));
     setOfferPrice((prev) => prev + (discount - price) * (e - currentQty));
-    console.log();
+    // console.log();
     setCurrentQty(e);
     axios({
       method: "put",
@@ -93,7 +93,7 @@ const SingleCartProduct = ({
   };
 
   useEffect(() => {
-    console.log("use");
+    // console.log("use");
     setTotalMRP((prev) => prev + MRP * currentQty);
     setTotalMRPDiscount((prev) => prev + (MRP - price) * currentQty);
     setOfferPrice((prev) => prev + (discount - price) * currentQty);
@@ -108,7 +108,7 @@ const SingleCartProduct = ({
     })
       .then(() => {
         getCartProd();
-        console.log("del");
+        // console.log("del");
         setTotalMRP(0);
         setTotalAmount(0);
         setOfferPrice(0);

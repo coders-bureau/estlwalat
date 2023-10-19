@@ -8,7 +8,7 @@ const Pagination = ({
   totalPages,
 }) => {
   // totalPages = Math.ceil(+totalPages / 12);
-  console.log("cp",currentPage,"tp",totalPages);
+  // console.log("cp",currentPage,"tp",totalPages);
   let buttonArr = [];
   for (let i = 0; i < +totalPages; i++) {
     buttonArr.push(i + 1);
@@ -18,7 +18,7 @@ const Pagination = ({
     handlePage(page);
   };
 
-  console.log(currentPage , totalPages)
+  // console.log(currentPage , totalPages)
   return (
     <div>
       <Box mt={"2rem"} mb={"1rem"}>

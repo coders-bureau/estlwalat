@@ -65,7 +65,7 @@ const AddressModal = ({ onClose, setAddress }) => {
             isClosable: true,
             position: "top",
           });
-          console.log(res);
+          // console.log(res);
           // setAddress(res.data.address[res.data.address.length]);
           onClose();
         })

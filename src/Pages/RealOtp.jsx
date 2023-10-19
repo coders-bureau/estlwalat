@@ -31,7 +31,7 @@ const Otp = () => {
 
   const dispatch = useDispatch();
 
-  console.log(prevLocation);
+  // console.log(prevLocation);
   useEffect(() => {
     prevLocation.current = location;
   }, [location]);
@@ -45,7 +45,7 @@ const Otp = () => {
       } else {
         setMbNumber(nmbr);
         // onSignInSubmit();
-        console.log(mbNumber);
+        // console.log(mbNumber);
       }
     } catch (error) {
       console.log(error);
@@ -112,7 +112,7 @@ const Otp = () => {
         callback: (response) => {
           // reCAPTCHA solved, allow signInWithPhoneNumber.
           onSignInSubmit();
-          console.log("Recaptca varified");
+          // console.log("Recaptca varified");
         },
         defaultCountry: "IN",
       }
@@ -122,7 +122,7 @@ const Otp = () => {
     e.preventDefault();
   configureCaptcha();
     const phoneNumber = "+91" + mbNumber;
-    console.log(phoneNumber);
+    // console.log(phoneNumber);
     const appVerifier = window.recaptchaVerifier;
     firebase
       .auth()
@@ -131,25 +131,25 @@ const Otp = () => {
         // SMS sent. Prompt user to type the code from the message, then sign the
         // user in with confirmationResult.confirm(code).
         window.confirmationResult = confirmationResult;
-        console.log("OTP has been sent");
+        // console.log("OTP has been sent");
         // ...
       })
       .catch((error) => {
         // Error; SMS not sent
         // ...
-        console.log("SMS not sent");
+        // console.log("SMS not sent");
       });
   };
   const onSubmitOTP = (e) => {
     e.preventDefault();
     const code = value;
-    console.log(code);
+    // console.log(code);
     window.confirmationResult
       .confirm(code)
       .then((result) => {
         // User signed in successfully.
         const user = result.user;
-        console.log(JSON.stringify(user));
+        // console.log(JSON.stringify(user));
         alert("User is verified");
         // ...
       })

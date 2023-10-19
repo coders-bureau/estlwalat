@@ -174,7 +174,7 @@ const SingleProduct = () => {
     }
   }, [Products.length, dispatch, location.search]);
 
-  console.log(currentProduct);
+  // console.log(currentProduct);
 
   useEffect(() => {
     if (!user) {
@@ -259,7 +259,7 @@ const SingleProduct = () => {
       .get(`${process.env.REACT_APP_BASE_API}/sizechart/getsizechart`)
       .then((response) => {
         setSizeCharts(response.data);
-        console.log(response.data);
+        // console.log(response.data);
       })
       .catch((error) => {
         console.error("Error fetching size chart data:", error);
@@ -296,7 +296,7 @@ const SingleProduct = () => {
         );
         // console.log(response.data); // You can handle success response here
       } catch (error) {
-        console.log("Buy Now:", error);
+        console.error("Buy Now:", error);
         dispatch(login("logout"));
       }
       if (isAuth) {
@@ -394,7 +394,7 @@ const SingleProduct = () => {
           // dispatch(getUserDetails());
           setLoadingBuyNow(false);
 
-          console.log(err);
+          console.error(err);
           toast({
             title: "Error in adding",
             variant: "top-accent",
@@ -465,7 +465,7 @@ const SingleProduct = () => {
           });
         } else {
           // Handle other errors here
-          console.log(err);
+          console.error(err);
           // Display a generic error message
           toast({
             duration: 1500,
@@ -984,6 +984,8 @@ const SingleProduct = () => {
             p="22px 50px"
             bg="#ff3e6c"
             borderColor={"#ff3e6c"}
+            _hover={{ bgColor: "#c73054" }}
+
             variant={"solid"}
           >
             BUY NOW
@@ -1018,10 +1020,10 @@ const SingleProduct = () => {
         <SimpleGrid
           columns={{
             lg:
-              similarProducts.length >= 6
-                ? 6
-                : similarProducts.length <= 3
+              similarProducts.length >= 4
                 ? 4
+                : similarProducts.length <= 3
+                ? 3
                 : similarProducts.length,
             md: "3",
             base: "2",

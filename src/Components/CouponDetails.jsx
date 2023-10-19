@@ -31,7 +31,7 @@ const CouponDetails = ({
         .then((couponResponse) => {
           if (couponResponse.data.success) {
             const nearestCoupon = couponResponse.data.data;
-            console.log(couponResponse.data);
+            // console.log(couponResponse.data);
             // Apply the coupon to the cart value
             // if (nearestCoupon) {
             //   // You can apply the coupon logic here and set the discounted cart value

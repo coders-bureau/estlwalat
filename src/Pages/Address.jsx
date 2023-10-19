@@ -44,7 +44,7 @@ const Address = () => {
     couponDiscount,
     cart
   } = location.state;
-  console.log(location.state);
+  // console.log(location.state);
   // const mobileNumber = localStorage.getItem("MbNumber");
   const [selectedAddress, setSelectedAddress] = useState({});
   const [name, setName] = useState("");
@@ -64,7 +64,7 @@ const Address = () => {
       setAddress(data.user.address);
       setPincode(data.user.address.pinCode);
       setUserid(data.user._id);
-      console.log(data.user.address);
+      // console.log(data.user.address);
     });
   }, []);
 
@@ -88,7 +88,7 @@ const Address = () => {
       setName(name);
       setMobileNumber(mobileNumber);
     setaddressLine(add);
-    console.log(add);
+    // console.log(add);
     // setPincode()
     // Send the selected address to the backend to update the current address for the user
     // axios.patch(`/api/user/${userId}`, { currentAddress: addressId })
@@ -99,7 +99,7 @@ const Address = () => {
     //     console.error(error);
     //   });
   };
-  console.log(selectedAddressstatus);
+  // console.log(selectedAddressstatus);
   const handleDeleteAddress = (addressId) => {
     // Replace 'YOUR_BACKEND_API_ENDPOINT' with your actual backend API endpoint for deleting an address
     // fetch(`${process.env.REACT_APP_BASE_API}/user/address/${addressId}`, {
@@ -129,7 +129,7 @@ const Address = () => {
       .catch((error) => console.error("Error deleting address:", error));
   };
 
-  console.log(addressD);
+  // console.log(addressD);
 
   if (isLoading) {
     return (
@@ -368,6 +368,8 @@ const Address = () => {
                     offerPrice,
                     couponDiscount,
                     cart,
+                    name,
+                    mobileNumber
                   },
                 })
               : toast({

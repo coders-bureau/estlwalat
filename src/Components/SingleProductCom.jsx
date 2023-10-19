@@ -82,7 +82,7 @@ export default function SingleProductCom(el) {
           setAddedToBag(true);
           // dispatch(getUserDetails());
           // {res.data.message}
-          console.log(res.data.message);
+          // console.log(res.data.message);
           toast({
             title: res.data.message,
             status: "success",

@@ -68,7 +68,7 @@ const Review = ({ review }) => {
   // const lenload = review1.length;
 
   const [loadedReviews, setLoadedReviews] = useState(review1);
-  console.log(loadedReviews);
+  // console.log(loadedReviews);
   const initialReviewsToShow = 10;
   const [numReviewsToShow, setNumReviewsToShow] =
     useState(initialReviewsToShow);

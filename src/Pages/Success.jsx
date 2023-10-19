@@ -1,6 +1,6 @@
-import { Box, Button, Heading, Icon, Text } from "@chakra-ui/react";
+import { Box, Button, Heading, Icon, Text, useToast } from "@chakra-ui/react";
 import { CheckCircleIcon, CloseIcon } from "@chakra-ui/icons";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import OtherNavbar from "../Components/OtherNavbar";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -8,8 +8,11 @@ import { AiFillCloseCircle } from "react-icons/ai";
 
 export default function Success() {
   const [paymentStatus, setPaymentStatus] = useState("pending"); // Default status
-  const { payment,tranxId } = useParams();
-  console.log(tranxId);
+  const { payment, tranxId } = useParams();
+  const navigate = useNavigate();
+  const toast = useToast();
+
+  // console.log(tranxId);
   const fetchPaymentStatus = async () => {
     try {
       const response = await axios.get(
@@ -20,17 +23,40 @@ export default function Success() {
       throw error; // Handle errors as needed
     }
   };
+
   useEffect(() => {
     // Fetch the payment status from your backend API
     fetchPaymentStatus()
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         // Assuming the API returns the payment status in the response
         const { paymentStatus } = response;
         setPaymentStatus(paymentStatus); // Update the payment status state
+        if (paymentStatus === "completed" || payment === "cod") {
+          axios({
+            method: "delete",
+            url: `${process.env.REACT_APP_BASE_API}/user/cartall`,
+          })
+            .then((response) => {
+              // console.log("response", response);
+              // dispatch(getUserDetails(mobileNumber));
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
       })
       .catch((error) => {
         console.error("Error fetching payment status:", error);
+        toast({
+          title: "Order is not placed. Pls try Again.",
+          variant: "solid",
+          isClosable: true,
+          position: "top",
+          status: "error",
+          duration: 2000,
+        });
+        navigate("/cart");
         // Handle the error as needed
       });
   }, []);
@@ -58,7 +84,7 @@ export default function Success() {
             {/* <p>Transaction ID: {tranxId}</p> */}
             {/* <CloseIcon boxSize={"50px"} color={"red.500"}/> */}
             <Icon boxSize={"50px"} color={"red.500"} as={AiFillCloseCircle} />
-            <Heading  as="h2" size="xl"  color={"red.500"} mb={2}>
+            <Heading as="h2" size="xl" color={"red.500"} mb={2}>
               Payment Pending
             </Heading>
             {/* <Text color={"red.500"} fontSize="xl">

@@ -101,7 +101,7 @@ const Orders = () => {
     "Dec",
   ];
 
-  console.log(orders);
+  // console.log(orders);
 
   if (isLoading)
     return (
@@ -174,6 +174,7 @@ const Orders = () => {
                 >
                   {order.items.map((item, i) => (
                     <Grid
+                    key={i}
                       mb={"10px"}
                       // templateColumns={''}
                       display={"flex"}

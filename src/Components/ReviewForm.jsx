@@ -103,7 +103,7 @@ const ReviewForm = () => {
     setRating(selectedRating);
   };
 
-  console.log(userReview, rating, content, image);
+  // console.log(userReview, rating, content, image);
 
   useEffect(() => {
     setisLoading(true);
@@ -111,7 +111,7 @@ const ReviewForm = () => {
       .get(`${process.env.REACT_APP_BASE_API}/user/reviews/${id}/userreview`)
       .then((response) => {
         setisLoading(false);
-        console.log(response);
+        // console.log(response);
         const { data } = response.data;
 
         if (data[0]) {
@@ -135,7 +135,7 @@ const ReviewForm = () => {
     if (file) {
       // Handle the selected image here
       // You can upload the image to your server or display a preview
-      console.log("Selected Image:", file);
+      // console.log("Selected Image:", file);
       setImage(file);
     }
   };

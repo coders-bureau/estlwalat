@@ -163,7 +163,7 @@ const Profile = () => {
 
 const Profiledetails = ({ user }) => {
   const [isLoading, setisLoading] = useState(true);
-  console.log(isLoading);
+  // console.log(isLoading);
   const [editing, setEditing] = useState(false);
   const [name, setName] = useState(" ");
   const [contactNumber, setContactNumber] = useState(
@@ -357,13 +357,13 @@ const Order = ({ user }) => {
   const userReview = true;
   const handleReviewSubmit = (reviewData) => {
     // Add logic here to submit the review data to your backend API
-    console.log("Review Data:", reviewData);
+    // console.log("Review Data:", reviewData);
   };
   // const dispatch = useDispatch();
-  console.log(user);
+  // console.log(user);
   // Replace this with actual data from the backend
   const [orders, setOrders] = useState([]);
-  console.log(orders);
+  // console.log(orders);
   useEffect(() => {
     getOrders();
   }, []);
@@ -672,7 +672,7 @@ const Order = ({ user }) => {
 };
 
 const Address = ({ user }) => {
-  console.log(user);
+  // console.log(user);
   const dispatch = useDispatch();
   const [addressD, setAddressD] = useState([]);
   useEffect(() => {

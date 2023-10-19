@@ -29,7 +29,7 @@ const Otp = () => {
   
   const dispatch = useDispatch();
 
-  console.log(prevLocation);
+  // console.log(prevLocation);
   useEffect(() => {
     prevLocation.current = location;
   }, [location]);

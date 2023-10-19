@@ -11,7 +11,7 @@ import React from "react";
 
 const SingleWishlistProduct = ({ el, handleAddCart, handleDelete }) => {
   const { MRP, discount, brand, img, price, title, offer } = el;
-  console.log(el);
+  // console.log(el);
   return (
     <>
       <VStack

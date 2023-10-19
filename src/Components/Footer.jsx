@@ -21,9 +21,9 @@ export default function Footer() {
   const handleSubmit = (event) => {
     event.preventDefault();
     // Perform submit logic here, e.g., send data to backend or display a success message
-    console.log("Form submitted!");
-    console.log("Description:", description);
-    console.log("Email:", email);
+    // console.log("Form submitted!");
+    // console.log("Description:", description);
+    // console.log("Email:", email);
     // Reset form fields
     setDescription("");
     setEmail("");

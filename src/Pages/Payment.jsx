@@ -34,7 +34,7 @@ const Payment = () => {
   const anchorRef = useRef(null);
   const location = useLocation();
   const [cartProducts, setCartProducts] = useState([]);
-  console.log(cartProducts);
+  // console.log(cartProducts);
   const navigate = useNavigate();
   const handleClick = () => {
     // Programmatically trigger a click on the anchor tag
@@ -69,7 +69,7 @@ const Payment = () => {
     mobileNumber
   } = location.state ? location.state : {};
 
-  console.log(location.state);
+  // console.log(location.state);
   const dispatch = useDispatch();
   const { user } = useSelector((store) => store.UserReducer);
   // const history = useHistory();
@@ -113,8 +113,11 @@ const Payment = () => {
   const handleToggle = (value) => {
     setToggle(!toggle);
     setSelectedPaymentMode(value);
-    console.log(value);
+    // console.log(value);
   };
+
+  // console.log(toggle);
+
   const [paymentLink, setPaymentLink] = useState("");
   const handleSubmit = () => {
     setLoading(true);
@@ -122,16 +125,12 @@ const Payment = () => {
       if (code === "") {
         toast({
           title: "Please fill the capture first",
-          // description: "We've received your payment.",
           status: "error",
           duration: 3000,
           isClosable: true,
           position: "top-left",
         });
 
-        // toast.error("Please fill the capture first", {
-        //   position: "top-center",
-        // });
         setLoading(false);
         return;
       }
@@ -139,7 +138,6 @@ const Payment = () => {
       if (code !== captcha) {
         toast({
           title: "Captcha is Incorrect",
-          // description: "We've received your payment.",
           status: "error",
           duration: 3000,
           isClosable: true,
@@ -167,7 +165,7 @@ const Payment = () => {
         delete axios.defaults.headers.common["auth_token"];
 
         // dispatch(getUserDetails());
-        console.log(orderRes);
+        // console.log(orderRes);
         if (selectedPaymentMode == "online") {
           axios({
             method: "post",
@@ -175,65 +173,52 @@ const Payment = () => {
             data: { orderData: orderRes.data.data },
           })
             .then((res) => {
-              console.log(res);
+              // console.log(res);
               if (res.data.data) {
-                // window.location.replace(res.data.data.data.instrumentResponse.redirectInfo.url)
-                // let Redirecturl =
-                //   res.data.data.data.instrumentResponse.redirectInfo.url;
-                // window.location.replace(Redirecturl);
-                // Define the window features (optional)
-                // const windowFeatures = "width=600,height=400";
-
-                // Open the child window
-                // const childWindow = window.open(
-                //   Redirecturl,
-                //   "ChildWindowName",
-                //   windowFeatures
-                // );
-                // window.location.href =
-                //   res.data.data.data.instrumentResponse.redirectInfo.url;
-                // history.push(res.data.data.data.instrumentResponse.redirectInfo.url);
                 setPaymentLink(res.data.data);
-                // setLoading(false);
-
-                // handleClick()
-                // window.open(res.data.data.data.instrumentResponse.redirectInfo.url);
               } else {
                 console.log("no");
               }
-              // setLoading(false);
-
-              // navigate("/"+res.data.data.data.instrumentResponse.redirectInfo.url)
             })
             .catch((err) => {
-              console.log(err);
+              console.error(err);
               // setLoading(false);
             });
         }
         if (selectedPaymentMode == "cod") {
-          console.log(orderRes.data.data.tranxId);
+          // console.log(orderRes.data.data.tranxId);
           navigate(
             `/success/${selectedPaymentMode}/${orderRes.data.data.tranxId}`
           );
         }
 
-        console.log("done orders");
+        // console.log("done orders");
         // setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
+        // console.error("Error fetching payment status:", error);
+        toast({
+          title: "Order is not placed. Pls try Again.",
+          variant: "solid",
+          isClosable: true,
+          position: "top",
+          status: "error",
+          duration: 2000,
+        });
+        navigate("/cart")
       });
-    axios({
-      method: "delete",
-      url: `${process.env.REACT_APP_BASE_API}/user/cartall`,
-    })
-      .then((response) => {
-        console.log("response", response);
-        // dispatch(getUserDetails(mobileNumber));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // axios({
+    //   method: "delete",
+    //   url: `${process.env.REACT_APP_BASE_API}/user/cartall`,
+    // })
+    //   .then((response) => {
+    //     console.log("response", response);
+    //     // dispatch(getUserDetails(mobileNumber));
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
     // setLoading(false);
   };
 
@@ -340,7 +325,7 @@ const Payment = () => {
         setCartProducts(res.data.data);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 
@@ -519,7 +504,7 @@ const Payment = () => {
       {/* <OtherFooter /> */}
 
       <Flex
-        minH={"100vh"}
+        minH={{lg:"100vh",base:"0"}}
         align={"center"}
         justify={"center"}
         lineHeight={"18.5714px"}

@@ -10,10 +10,31 @@ const Pagination = ({
   // totalPages = Math.ceil(+totalPages / 12);
   // console.log("cp",currentPage,"tp",totalPages);
   let buttonArr = [];
-  for (let i = 0; i < +totalPages; i++) {
-    buttonArr.push(i + 1);
-  }
-  
+
+  const maxVisibleButtons = 10; // The maximum number of buttons to display
+  const halfMaxVisibleButtons = Math.floor(maxVisibleButtons / 2);
+
+  const calculatePageRange = () => {
+    let startPage = Math.max(1, currentPage - halfMaxVisibleButtons);
+    let endPage = Math.min(totalPages, startPage + maxVisibleButtons - 1);
+
+    // Adjust startPage when the endPage is at the maximum limit
+    if (endPage === totalPages) {
+      startPage = Math.max(1, totalPages - maxVisibleButtons + 1);
+    }
+
+    return Array.from(
+      { length: endPage - startPage + 1 },
+      (_, i) => startPage + i
+    );
+  };
+
+  buttonArr = calculatePageRange();
+
+  // for (let i = 0; i < +totalPages; i++) {
+  //   buttonArr.push(i + 1);
+  // }
+
   const handlePageChange = (page) => {
     handlePage(page);
   };

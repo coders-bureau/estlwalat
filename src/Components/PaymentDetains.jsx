@@ -27,7 +27,7 @@ const PaymentDetains1 = ({
             <Text fontSize={"14px"} color="#282c3f">
               Discount
             </Text>
-            <Text fontSize={"14px"} color="#03a685">
+            <Text fontSize={"14px"} fontWeight={700} color="#03a685">
               -₹{totalMRPDiscount}
             </Text>
           </HStack>

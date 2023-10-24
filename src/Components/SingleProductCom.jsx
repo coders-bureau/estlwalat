@@ -26,6 +26,7 @@ import { FaHeart } from "react-icons/fa";
 import { getUserDetails } from "../Redux/UserReducer/Action";
 import loading from "../Assets/loading.gif";
 import { userloginStatus } from "../Redux/AuthReducer/Action";
+import { useCart } from "../Pages/CartContext";
 
 // library.add(faMagnifyingGlass, faUser, faHeart, faBagShopping);
 
@@ -34,6 +35,7 @@ export default function SingleProductCom(el) {
   const [loadingadd, setLoadingadd] = useState(false);
   const [addedToBag, setAddedToBag] = useState(false);
   const [addedToWish, setAddedToWish] = useState(false);
+  const {cartCount, setCartCount } = useCart();
 
   const { user } = useSelector((store) => store.UserReducer);
   const dispatch = useDispatch();
@@ -58,13 +60,6 @@ export default function SingleProductCom(el) {
   const { isAuth } = useSelector((store) => store.AuthReducer);
   const toast = useToast();
 
-  useEffect(() => {
-    if (!user) {
-      dispatch(getUserDetails(mobileNumber));
-    } else {
-      setUserID(user._id);
-    }
-  }, [user, dispatch]);
 
   const handleAddCart = (el) => {
     if (isAuth) {
@@ -78,6 +73,8 @@ export default function SingleProductCom(el) {
         },
       })
         .then((res) => {
+          // addToCart();
+          setCartCount(cartCount+1);
           setLoadingadd(false);
           setAddedToBag(true);
           // dispatch(getUserDetails());
@@ -217,7 +214,13 @@ export default function SingleProductCom(el) {
       });
     }
   };
-
+  useEffect(() => {
+    if (!user) {
+      dispatch(getUserDetails(mobileNumber));
+    } else {
+      setUserID(user._id);
+    }
+  }, [user, dispatch]);
   return (
     <>
       {loadingadd && (

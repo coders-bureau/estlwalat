@@ -7,10 +7,12 @@ import Navbar from "../Components/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserDetails } from "../Redux/UserReducer/Action";
 import LoadingPage from "./LoadingPage";
+import { useCart } from "./CartContext";
 
 const Wishlist = () => {
   // const mobileNumber = localStorage.getItem("MbNumber");
   const [isLoading, setIsLoading] = useState();
+  const { cartCount, setCartCount } = useCart();
 
   const { user } = useSelector((store) => store.UserReducer);
   const dispatch = useDispatch();
@@ -97,7 +99,7 @@ const Wishlist = () => {
     })
       .then((res) => {
         setIsLoading(false);
-
+        setCartCount(cartCount+1)
         toast({
           title: "Product successfully added in cart",
           variant: "top-accent",

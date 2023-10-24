@@ -16,14 +16,14 @@ import {
   MenuList,
   Tag,
   IconButton,
+  Badge,
 } from "@chakra-ui/react";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   createSearchParams,
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
-// import logo from "../Assets/estylebg.png";
 import logo from "../Assets/estylebg.png";
 import { HamburgerIcon, SearchIcon } from "@chakra-ui/icons";
 import { HiOutlineUser } from "react-icons/hi";
@@ -31,14 +31,19 @@ import { PiHeartStraightBold, PiHandbagBold } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../Redux/AuthReducer/Action";
 import axios from "axios";
-
+import { getUserDetails } from "../Redux/UserReducer/Action";
+import { useCart } from "../Pages/CartContext";
 
 export const Navbar = () => {
+  const { cartCount } = useCart();
   const { onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
+  const { user } = useSelector((store) => store.UserReducer);
   const { isAuth } = useSelector((store) => store.AuthReducer);
+  let itemscount = 0;
+  // console.log(user);
   const searchRef = useRef();
   const searchRef1 = useRef();
 
@@ -123,6 +128,17 @@ export const Navbar = () => {
       });
     }
   };
+  const [cartcount, setCartcount] = useState(0);
+  useEffect(() => {
+    if (!user) {
+      dispatch(getUserDetails);
+    }
+    if (user) {
+      itemscount = user.cart.length;
+      console.log(itemscount);
+      setCartcount(itemscount);
+    }
+  }, [user]);
 
   return (
     <>
@@ -217,7 +233,7 @@ export const Navbar = () => {
               {/* logo....................... */}
               <Box
                 bgColor={"white"}
-                display={{ lg: "inline-block", base: "none" }}
+                display={{ lg: "inline-block", base: "inline-block" }}
                 w="100px"
                 onClick={() => navigate("/")}
               >
@@ -372,6 +388,7 @@ export const Navbar = () => {
                 cursor="pointer"
                 spacing={"3px"}
                 onClick={() => navigate("/cart")}
+                position="relative"
               >
                 <Icon
                   as={PiHandbagBold}
@@ -388,6 +405,21 @@ export const Navbar = () => {
                 >
                   Bag
                 </Text>
+                {cartCount > 0 && (
+                  <Badge
+                    borderRadius={"full"}
+                    color={"white"}
+                    bg={"#ff3e6c"}
+                    colorScheme="red" // You can adjust the color
+                    fontSize="0.9em" // You can adjust the font size
+                    position="absolute"
+                    top="-7px" // Adjust the position based on your styling
+                    right="-6px" // Adjust the position based on your styling
+                  >
+                    {cartCount
+                    }
+                  </Badge>
+                )}
               </VStack>
               <VStack
                 cursor="pointer"

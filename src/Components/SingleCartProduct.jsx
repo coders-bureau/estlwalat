@@ -15,6 +15,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useCart } from "../Pages/CartContext";
 // import { getUserDetails } from "../Redux/UserReducer/Action";
 
 const SingleCartProduct = ({
@@ -41,6 +42,7 @@ const SingleCartProduct = ({
 }) => {
   // console.log(title, qty,discount);
   const mobileNumber = localStorage.getItem("MbNumber");
+  const { cartCount, setCartCount } = useCart();
   const dispatch = useDispatch();
   const [currentSizeShow, setCurrentSize] = useState(currentSize || size[0]);
   const [currentQty, setCurrentQty] = useState(qty || 1);
@@ -75,6 +77,8 @@ const SingleCartProduct = ({
     setTotalAmount((prev) => prev + discount * (e - currentQty));
     setOfferPrice((prev) => prev + (discount - price) * (e - currentQty));
     // console.log();
+    console.log(cartCount,currentQty,e);
+    setCartCount((cartCount-currentQty)+parseInt(e))
     setCurrentQty(e);
     axios({
       method: "put",
@@ -109,6 +113,8 @@ const SingleCartProduct = ({
       .then(() => {
         getCartProd();
         // console.log("del");
+        setCartCount(cartCount-1*currentQty);
+        
         setTotalMRP(0);
         setTotalAmount(0);
         setOfferPrice(0);

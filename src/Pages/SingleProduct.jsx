@@ -44,6 +44,7 @@ import { getUserDetails } from "../Redux/UserReducer/Action";
 import { FaHeart } from "react-icons/fa";
 import loading from "../Assets/loading.gif";
 import { login, userloginStatus } from "../Redux/AuthReducer/Action";
+import { useCart } from "./CartContext";
 const auth_token = localStorage.getItem("authToken");
 axios.defaults.headers.common["auth_token"] = `${auth_token}`;
 const style = {
@@ -61,6 +62,7 @@ const style = {
 
 const SingleProduct = () => {
   const dispatch = useDispatch();
+  const { cartCount, setCartCount } = useCart();
   const mobileNumber = localStorage.getItem("MbNumber");
   const [userId, setUserID] = useState("");
   const [reviews, setReviews] = useState("");
@@ -376,6 +378,7 @@ const SingleProduct = () => {
         },
       })
         .then((res) => {
+          setCartCount(cartCount+1);
           // dispatch(getUserDetails(mobileNumber));
           setAddedToBag(true);
           // console.log(res);
@@ -1034,7 +1037,7 @@ const SingleProduct = () => {
         >
           {similarProducts?.map((el) => {
             return (
-              <Box border={"1px solid #f7f5fa"} key={el.id}>
+              <Box border={"1px solid #f7f5fa"} key={el._id}>
                 <SingleProductCom {...el} />
               </Box>
             );

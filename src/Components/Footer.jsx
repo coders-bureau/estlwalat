@@ -1,5 +1,5 @@
 import styles from "../css/Footer.module.css";
-import { Button, Text } from "@chakra-ui/react";
+import { Box, Button, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
@@ -46,7 +46,7 @@ export default function Footer() {
     }
   };
   return (
-    <div style={{ padding: "0px 30px", background: "rgb(224, 234, 236)" }}>
+    <Box style={{ padding: "0px 40px", background: "rgb(224, 234, 236)" }}>
       <div style={{ display: "flex" }} className={styles.main}>
         <div>
           <p></p>
@@ -72,15 +72,25 @@ export default function Footer() {
           </div> */}
         </div>
         <div>
-          <p>Shop</p>
+          <p>Links</p>
+          <p onClick={() => navigate("/")}>Home</p>
+          <p onClick={() => navigate("/store")}>Store</p>
+          <p onClick={() => navigate("/offers")}>Offers</p>
+          <p onClick={() => navigate("/contact")}>Contact Us</p>
+
           {/* <p onClick={() => navigate("/store?type=Men")}>Men</p>
           <p onClick={() => navigate("/store?type=Women")}>Women</p>
           <p onClick={() => navigate("/store?type=Kids")}>Kids</p>
           <p onClick={() => navigate("/store?q=Baby")}>Baby Care</p>
           <p onClick={() => navigate("/store?q=Beauty")}>Beauty</p> */}
-          {categories.map((category, i) => (
-            <p key={i} onClick={()=> navigate(`store?category=${category.name}`)}>{category.name}</p>
-          ))}
+          {/* {categories.map((category, i) => (
+            <p
+              key={i}
+              onClick={() => navigate(`store?category=${category.name}`)}
+            >
+              {category.name}
+            </p>
+          ))} */}
         </div>
         <div>
           <p>Customer Policies</p>
@@ -100,6 +110,8 @@ export default function Footer() {
           <p>Youtube</p>
           <p>Twitter</p>
         </div>
+        <div></div>
+        <div></div>
         {/* <div>
           <p>Contact Us</p>
           <form onSubmit={handleSubmit}>
@@ -156,6 +168,6 @@ export default function Footer() {
       <div className={styles.hr}>
         <hr />
       </div>
-    </div>
+    </Box>
   );
 }

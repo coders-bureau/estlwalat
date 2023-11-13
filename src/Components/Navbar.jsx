@@ -208,7 +208,7 @@ export const Navbar = () => {
                     fontWeight={"500"}
                     fontSize="15px"
                     color={"#282c3f"}
-                    onClick={() => navigate("/store?type=Offers")}
+                    onClick={() => navigate("/offers")}
                     p="20px 40%"
                     cursor="pointer"
                   >
@@ -307,7 +307,7 @@ export const Navbar = () => {
                     <Text
                       fontWeight={"500"}
                       color={"#282c3f"}
-                      onClick={() => navigate("/store?type=Offers")}
+                      onClick={() => navigate("/offers")}
                       p="20px 0px"
                     >
                       Offers

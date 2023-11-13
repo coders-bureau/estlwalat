@@ -35,6 +35,7 @@ import Success from '../Pages/Success'
 import Order from '../Pages/Order'
 import ReviewForm from '../Components/ReviewForm'
 import ContactUs from '../Pages/ContactUs'
+import Offers from '../Pages/Offers'
 
 export const MainRoutes = () => {
   
@@ -47,6 +48,7 @@ export const MainRoutes = () => {
              <Route path='/otp' element={<RealOtp/>} />
              <Route path='/profilefill' element={<AddProfileData/>} />
              <Route path="/store" element={<Store/>} />
+             <Route path="/offers" element={<Offers/>} />
              <Route path='/single_product/:id' element={<SingleProduct/>} />
              <Route path='/wishlist' element={<PrivateRoute><Wishlist/></PrivateRoute>} />
              <Route path='/cart' element={<PrivateRoute><Cart/></PrivateRoute>}/>
@@ -67,7 +69,7 @@ export const MainRoutes = () => {
              <Route path="/add-products" element={<AddProductsPage />}></Route>
              <Route path="/product-list" element={<ProductListPage />}></Route>
              <Route path="/edit-product/:id" element={<EditProduct />}></Route>
-             <Route path="/order" element={<Order />}></Route>
+             {/* <Route path="/order" element={<Order />}></Route> */}
              <Route path="/write-review/:id" element={<ReviewForm />}></Route>
              <Route path="/contact" element={<ContactUs />}></Route>
 

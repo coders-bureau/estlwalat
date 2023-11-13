@@ -234,7 +234,7 @@ const Home = () => {
 
             {/* Shop By Category */}
             <Box textAlign={"center"} display={"grid"} paddingBottom={"40px"}>
-              <Heading
+              {/* <Heading
                 bgGradient="linear(to-b,#ff0051,#fac0d3)"
                 bgClip="text"
                 as={"h2"}
@@ -246,7 +246,7 @@ const Home = () => {
                 }}
               >
                 Shop By Category
-              </Heading>
+              </Heading> */}
               <Carousel
                 additionalTransfrom={0}
                 arrows
@@ -308,8 +308,8 @@ const Home = () => {
                     fontSize={{ md: "1.7vw", base: "5vw" }}
                     color={"#282c3f"}
                     // margin={"10px 10px 10px 10px"}
-                    onClick={() => navigate(`store?category=${item.name}`)}
-                    cursor="pointer"
+                    // onClick={() => navigate(`store?category=${item.name}`)}
+                    // cursor="pointer"
                     my={{ base: "10px", md: "10px", lg: "10px" }}
                     mx={{ base: "10px", md: "10px", lg: "20px" }}
                   >

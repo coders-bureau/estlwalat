@@ -160,19 +160,36 @@ const HomeProducts = () => {
   const { Products, isLoading, isError } = useSelector(
     (store) => store.AppReducer
   );
-  const [page, setPage] = useState(1); // Track the current page
+  // const [page, setPage] = useState(1); // Track the current page
   const [loadingMore, setLoadingMore] = useState(false);
-  const [displayedProducts, setDisplayedProducts] = useState([]);
   const [shuffledProducts, setShuffledProducts] = useState([]);
   const [productsToShow, setProductsToShow] = useState(PAGE_SIZE);
+
+  // const loadMoreProducts = () => {
+  //   setLoadingMore(true);
+  //   setTimeout(() => {
+  //     setProductsToShow(productsToShow + PAGE_SIZE);
+  //     setLoadingMore(false);
+  //   }, 1000); // Simulated delay, you can replace this with your API request
+  // };
 
   const loadMoreProducts = () => {
     setLoadingMore(true);
     setTimeout(() => {
-      setProductsToShow(productsToShow + PAGE_SIZE);
+      const nextProductsToShow = productsToShow + PAGE_SIZE;
+      
+      if (nextProductsToShow < shuffledProducts.length) {
+        setProductsToShow(nextProductsToShow);
+      } else {
+        // You've reached the end, so reset back to the beginning
+        setProductsToShow(PAGE_SIZE);
+      }
+      
       setLoadingMore(false);
     }, 1000); // Simulated delay, you can replace this with your API request
   };
+  console.log('shuffleArray:',shuffledProducts);
+  console.log('ara',productsToShow);
 
   useEffect(() => {
     // Shuffle the Products array when the component mounts

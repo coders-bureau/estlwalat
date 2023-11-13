@@ -43,7 +43,7 @@ const Payment = () => {
     }
   };
   const [loading, setLoading] = useState(false);
-
+  const [cartCouponValue, setCartCouponValue] = useState(null);
   const [currentDate, setCurrentDate] = useState(getDate());
   // const { addressLine, offerPrice } = location.state;
   // if (!location.state) {
@@ -51,6 +51,21 @@ const Payment = () => {
   //   navigate("/cart");
   //   return null; // Return null or a loading message while redirecting
   // }
+  useEffect(() => {
+    // Make an HTTP GET request to fetch the cart coupon value
+    setLoading(true);
+
+    axios
+      .get(`${process.env.REACT_APP_BASE_API}/user/getCartCouponValue`) // Replace with your API endpoint
+      .then((response) => {
+        setCartCouponValue(response.data.value);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching cart coupon value:", error);
+        setLoading(false);
+      });
+  }, []);
 
   if (!location.state) {
     navigate("/cart");
@@ -66,7 +81,7 @@ const Payment = () => {
     couponDiscount,
     cart,
     name,
-    mobileNumber
+    mobileNumber,
   } = location.state ? location.state : {};
 
   // console.log(location.state);
@@ -158,7 +173,7 @@ const Payment = () => {
         paymentMode: selectedPaymentMode,
         cartBuyNow: cart,
         name: name,
-        mobileNumber: mobileNumber
+        mobileNumber: mobileNumber,
       },
     })
       .then((orderRes) => {
@@ -206,7 +221,7 @@ const Payment = () => {
           status: "error",
           duration: 2000,
         });
-        navigate("/cart")
+        navigate("/cart");
       });
     // axios({
     //   method: "delete",
@@ -504,7 +519,7 @@ const Payment = () => {
       {/* <OtherFooter /> */}
 
       <Flex
-        minH={{lg:"100vh",base:"0"}}
+        minH={{ lg: "100vh", base: "0" }}
         align={"center"}
         justify={"center"}
         lineHeight={"18.5714px"}
@@ -556,6 +571,10 @@ const Payment = () => {
                   p={5}
                   spacing={4}
                 >
+                  <Text fontSize={"14px"} fontWeight={0} color="#03a685">
+                    Choose Online Payment to get more <b>{cartCouponValue}%</b>{" "}
+                    discount on your cart value.
+                  </Text>
                   <RadioGroup
                     colorScheme={"pink"}
                     onChange={handleToggle}
@@ -565,7 +584,7 @@ const Payment = () => {
                       <Radio value="online">Online Payment</Radio>
                       {!paymentLink && (
                         <Radio value="cod">Cash on Delivery (COD)</Radio>
-                      )}   
+                      )}
                     </VStack>
                   </RadioGroup>
 
@@ -720,9 +739,24 @@ const Payment = () => {
                   <Text fontSize={"14px"} color={"#3e4152"} fontWeight={"bold"}>
                     TOTAL Amount
                   </Text>
-                  <Text fontSize={"14px"} color={"#3e4152"} fontWeight={"bold"}>
-                    ₹ {totalAmount - couponDiscount}
-                  </Text>
+                  {/* <Text fontSize={"14px"} color={"#3e4152"} fontWeight={"bold"}>
+                    ₹{" "}
+                    {totalAmount -
+                      couponDiscount -
+                      (cartCouponValue / 100) * totalAmount}
+                  </Text> */}
+                  {!toggle ? (
+                <Text fontSize={"14px"} color={"#3e4152"} fontWeight={"bold"}>
+                  ₹{" "}
+                  {totalAmount -
+                    couponDiscount -
+                    Math.floor((cartCouponValue / 100) * totalAmount)}
+                </Text>
+              ) : (
+                <Text fontSize={"14px"} color={"#3e4152"} fontWeight={"bold"}>
+                  ₹ {totalAmount - couponDiscount}
+                </Text>
+              )}
                 </HStack>
                 <Text
                   align={"left"}
@@ -813,9 +847,18 @@ const Payment = () => {
               <Text fontSize={"14px"} color={"#3e4152"} fontWeight={"bold"}>
                 TOTAL Amount
               </Text>
-              <Text fontSize={"14px"} color={"#3e4152"} fontWeight={"bold"}>
-                ₹ {totalAmount - couponDiscount}
-              </Text>
+              {!toggle ? (
+                <Text fontSize={"14px"} color={"#3e4152"} fontWeight={"bold"}>
+                  ₹{" "}
+                  {totalAmount -
+                    couponDiscount -
+                    Math.floor((cartCouponValue / 100) * totalAmount)}
+                </Text>
+              ) : (
+                <Text fontSize={"14px"} color={"#3e4152"} fontWeight={"bold"}>
+                  ₹ {totalAmount - couponDiscount}
+                </Text>
+              )}
             </HStack>
             <Text
               align={"left"}

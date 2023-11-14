@@ -265,7 +265,7 @@ const Home = () => {
     marginBottom: "10px",
   }}
 >
-  10% DISCOUNT ON ORDERS ABOVE $799
+  10% DISCOUNT ON ORDERS ABOVE 799
 </p>
 
               <Carousel

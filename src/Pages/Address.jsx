@@ -1,32 +1,26 @@
 import {
   Box,
+  Button,
+  Divider,
   HStack,
-  VStack,
-  StackDivider,
   Modal,
-  ModalOverlay,
+  ModalCloseButton,
   ModalContent,
   ModalHeader,
-  ModalCloseButton,
+  ModalOverlay,
+  StackDivider,
   Text,
-  Tag,
-  Button,
-  Image,
-  Grid,
+  VStack,
   useDisclosure,
-  useToast,
-  Divider,
+  useToast
 } from "@chakra-ui/react";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import AddressModal from "../Components/AddressModal";
 import OtherNavbar from "../Components/OtherNavbar";
 import { PaymentDetains1, PaymentDetains2 } from "../Components/PaymentDetains";
-import OtherFooter from "../Components/OtherFooter";
-import logoPic from "../Assets/estylebg.png";
-import AddressModal from "../Components/AddressModal";
-import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
 import LoadingPage from "./LoadingPage";
-import CouponDetails from "../Components/CouponDetails";
 const Address = () => {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -51,9 +45,10 @@ const Address = () => {
   const [mobileNumber, setMobileNumber] = useState("");
   const [selectedAddressstatus, setSelectedAddressStatus] = useState(false);
   const [addressLine, setaddressLine] = useState("");
+  const [selectedAddressId, setSelectedAddressId] = useState("");
   const [userId, setUserid] = useState("");
   const navigate = useNavigate();
-
+console.log(selectedAddress);
   useEffect(() => {
     setIsLoading(true);
     axios({
@@ -69,6 +64,7 @@ const Address = () => {
   }, []);
 
   const handleAddressSelection = (addressId) => {
+    setSelectedAddressId(addressId._id)
     setSelectedAddress(addressId);
     setPincode(addressId.pinCode);
     setSelectedAddressStatus(true);
@@ -124,6 +120,7 @@ const Address = () => {
         // If the deleted address was the selected address, reset the selectedAddressId state
         if (selectedAddress._id === addressId) {
           setSelectedAddress(null);
+          setSelectedAddressId(null);
         }
       })
       .catch((error) => console.error("Error deleting address:", error));
@@ -280,6 +277,7 @@ const Address = () => {
                   totalMRP={totalMRP}
                   totalMRPDiscount={totalMRPDiscount}
                   addressLine={addressLine}
+                  selectedAddressId={selectedAddressId}
                   offerPrice={offerPrice}
                   couponDiscount={couponDiscount}
                   // redirect={addressD.pinCode ? "/address" : undefined}
@@ -320,6 +318,7 @@ const Address = () => {
                 totalMRP={totalMRP}
                 totalMRPDiscount={totalMRPDiscount}
                 addressLine={addressLine}
+                selectedAddressId={selectedAddressId}
                 offerPrice={offerPrice}
                 couponDiscount={couponDiscount}
                 cart={cart}
@@ -365,6 +364,7 @@ const Address = () => {
                     totalMRP,
                     totalMRPDiscount,
                     addressLine,
+                    selectedAddressId,
                     offerPrice,
                     couponDiscount,
                     cart,

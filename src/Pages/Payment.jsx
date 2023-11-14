@@ -74,6 +74,7 @@ const Payment = () => {
 
   const {
     addressLine,
+    selectedAddressId,
     totalAmount,
     totalMRP,
     totalMRPDiscount,
@@ -170,6 +171,7 @@ const Payment = () => {
       url: `${process.env.REACT_APP_BASE_API}/order/addOrder`,
       data: {
         addressLine: addressLine,
+        selectedAddressId: selectedAddressId,
         paymentMode: selectedPaymentMode,
         cartBuyNow: cart,
         name: name,
@@ -746,17 +748,25 @@ const Payment = () => {
                       (cartCouponValue / 100) * totalAmount}
                   </Text> */}
                   {!toggle ? (
-                <Text fontSize={"14px"} color={"#3e4152"} fontWeight={"bold"}>
-                  ₹{" "}
-                  {totalAmount -
-                    couponDiscount -
-                    Math.floor((cartCouponValue / 100) * totalAmount)}
-                </Text>
-              ) : (
-                <Text fontSize={"14px"} color={"#3e4152"} fontWeight={"bold"}>
-                  ₹ {totalAmount - couponDiscount}
-                </Text>
-              )}
+                    <Text
+                      fontSize={"14px"}
+                      color={"#3e4152"}
+                      fontWeight={"bold"}
+                    >
+                      ₹{" "}
+                      {totalAmount -
+                        couponDiscount -
+                        Math.floor((cartCouponValue / 100) * totalAmount)}
+                    </Text>
+                  ) : (
+                    <Text
+                      fontSize={"14px"}
+                      color={"#3e4152"}
+                      fontWeight={"bold"}
+                    >
+                      ₹ {totalAmount - couponDiscount}
+                    </Text>
+                  )}
                 </HStack>
                 <Text
                   align={"left"}

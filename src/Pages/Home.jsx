@@ -235,18 +235,39 @@ const Home = () => {
             {/* Shop By Category */}
             <Box textAlign={"center"} display={"grid"} paddingBottom={"40px"}>
               {/* <Heading
-                bgGradient="linear(to-b,#ff0051,#fac0d3)"
+                // backgroundColor={"#ff3e6c"}
+                bgGradient="linear(to-b,#ff3e6c,#ff3e6c)"
+                // shadow={"dark-lg"}
+                dropShadow={"dark-lg"}
                 bgClip="text"
                 as={"h2"}
                 fontWeight={700}
                 fontSize={{ md: "40px", base: "50px" }}
+                textShadow={"2px 2px 6px rgba(0, 0, 0, 0.3)"}
                 m={{
                   md: "30px 0px 13px 0px",
                   lg: "50px 0px 20px 0px",
                 }}
               >
                 Shop By Category
+                10% DISCOUNT ON ORDERS ABOVE 799
               </Heading> */}
+              <p
+  style={{
+    fontSize: "18px", // Adjust the font size as needed
+    fontWeight: "bold",
+    color: "#ffffff", // Set the text color to bright (white in this case)
+    backgroundColor: "#ff3e6c", // Set the background color to a shade of red
+    padding: "6px", // Add some padding for better visual appearance
+    borderRadius: "0px", // Add rounded corners for a modern look
+    textShadow: "2px 2px 4px rgba(0, 0, 0, 0.3)", // Adds a subtle shadow
+    fontSize: "40px",
+    marginBottom: "10px",
+  }}
+>
+  10% DISCOUNT ON ORDERS ABOVE $799
+</p>
+
               <Carousel
                 additionalTransfrom={0}
                 arrows

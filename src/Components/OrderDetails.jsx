@@ -29,8 +29,8 @@ const OrderDetails = ({
     I: "Canceled Shipment",
     usercancelled: "User Cancelled",
     cancelled: "Cancelled",
+    inprocess: "Inprocessing",
     // accepted: "Accepted",
-    inprocess: "Processing",
   };
   const [orderStatusShip, setOrderStatusShip] = useState([]);
   useEffect(() => {
@@ -153,8 +153,33 @@ const OrderDetails = ({
                   fontSize={{ md: "13px", base: "10px" }}
                 >
                   Order Status :{" "}
-                  <em>
-                    {statusMappings[order.orderStatus] || statusMappings[orderStatusShip]}
+                  <em
+                    style={{
+                      color:
+                        (statusMappings[order.orderStatus] ||
+                          statusMappings[orderStatusShip]) ===
+                        "New order Accepted"
+                          ? "grey"
+                          : (statusMappings[order.orderStatus] ||
+                              statusMappings[orderStatusShip]) === "Processing"
+                          ? "yellow"
+                          : (statusMappings[order.orderStatus] ||
+                              statusMappings[orderStatusShip]) === "Manifested"
+                          ? "lightgreen"
+                          : (statusMappings[order.orderStatus] ||
+                              statusMappings[orderStatusShip]) === "Dispatched"
+                          ? "green"
+                          : (statusMappings[order.orderStatus] ||
+                              statusMappings[orderStatusShip]) ===
+                            ("Cancelled" ||
+                              "Canceled Shipment" ||
+                              "User Cancelled")
+                          ? "red"
+                          : "black", // Default color if none of the conditions match
+                    }}
+                  >
+                    {statusMappings[order.orderStatus] ||
+                      statusMappings[orderStatusShip]}
                   </em>
                 </Text>
               </VStack>
@@ -220,7 +245,10 @@ const OrderDetails = ({
               alignSelf={"flex-start"}
             >
               {order.orderStatus !== "usercancelled" &&
-              order.orderStatus !== "shipped" && orderStatusShip !== "I" && orderStatusShip !== "E" && orderStatusShip !== "G"? ( // Check the order status
+              order.orderStatus !== "shipped" &&
+              orderStatusShip !== "I" &&
+              orderStatusShip !== "E" &&
+              orderStatusShip !== "G" ? ( // Check the order status
                 <Button
                   alignSelf={"end"}
                   bgColor={"red"}

@@ -239,7 +239,7 @@ const Home = () => {
                 bgClip="text"
                 as={"h2"}
                 fontWeight={700}
-                fontSize={{ md: "40px", base: "50px" }}
+                fontSize={{ md: "40px", base: "18px" }}
                 m={{
                   md: "30px 0px 13px 0px",
                   lg: "50px 0px 20px 0px",

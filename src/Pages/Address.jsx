@@ -302,7 +302,7 @@ console.log(selectedAddress);
               <HStack>
                 <HStack>
                   <Text>Estimated delivery by</Text>
-                  <Text fontWeight={"bold"}>: 7-8 Days</Text>
+                  <Text fontWeight={"bold"}>: 3-4 Days</Text>
                 </HStack>
               </HStack>
               {/* ........................... */}

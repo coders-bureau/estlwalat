@@ -11,6 +11,7 @@ import {
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Badge } from "@chakra-ui/react";
 
 const OrderDetails = ({
   order,
@@ -153,7 +154,7 @@ const OrderDetails = ({
                   fontSize={{ md: "13px", base: "10px" }}
                 >
                   Order Status :{" "}
-                  <em
+                  {/* <em
                     style={{
                       color:
                         (statusMappings[order.orderStatus] ||
@@ -180,7 +181,36 @@ const OrderDetails = ({
                   >
                     {statusMappings[order.orderStatus] ||
                       statusMappings[orderStatusShip]}
-                  </em>
+                  </em> */}
+                  <Badge
+                  mb={"3px"}
+                    fontSize={{ md: "13px", base: "10px" }}
+                    colorScheme={
+                      (statusMappings[order.orderStatus] ||
+                        statusMappings[orderStatusShip]) ===
+                      "New order Accepted"
+                        ? "gray"
+                        : (statusMappings[order.orderStatus] ||
+                            statusMappings[orderStatusShip]) === "Processing"
+                        ? "yellow"
+                        : (statusMappings[order.orderStatus] ||
+                            statusMappings[orderStatusShip]) === "Manifested"
+                        ? "green"
+                        : (statusMappings[order.orderStatus] ||
+                            statusMappings[orderStatusShip]) === "Dispatched"
+                        ? "green"
+                        : (statusMappings[order.orderStatus] ||
+                            statusMappings[orderStatusShip]) ===
+                          ("Cancelled" ||
+                            "Canceled Shipment" ||
+                            "User Cancelled")
+                        ? "red"
+                        : "black" // Default color if none of the conditions match
+                    }
+                  >
+                    {statusMappings[order.orderStatus] ||
+                      statusMappings[orderStatusShip]}
+                  </Badge>
                 </Text>
               </VStack>
             </Box>

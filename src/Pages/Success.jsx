@@ -5,8 +5,10 @@ import OtherNavbar from "../Components/OtherNavbar";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { AiFillCloseCircle } from "react-icons/ai";
+import { useCart } from "../Pages/CartContext";
 
 export default function Success() {
+  const {cartCount, setCartCount } = useCart();
   const [paymentStatus, setPaymentStatus] = useState("pending"); // Default status
   const { payment, tranxId } = useParams();
   const navigate = useNavigate();
@@ -38,6 +40,9 @@ export default function Success() {
             url: `${process.env.REACT_APP_BASE_API}/user/cartall`,
           })
             .then((response) => {
+              if(response){
+                setCartCount(0);
+              }
               // console.log("response", response);
               // dispatch(getUserDetails(mobileNumber));
             })

@@ -234,6 +234,19 @@ const Home = () => {
 
             {/* Shop By Category */}
             <Box textAlign={"center"} display={"grid"} paddingBottom={"40px"}>
+              <Heading
+                bgGradient="linear(to-b,#ff0051,#fac0d3)"
+                bgClip="text"
+                as={"h2"}
+                fontWeight={700}
+                fontSize={{ md: "40px", base: "50px" }}
+                m={{
+                  md: "30px 0px 13px 0px",
+                  lg: "50px 0px 20px 0px",
+                }}
+              >
+                10% DISCOUNT ON ORDERS ABOVE 799
+              </Heading>
               {/* <Heading
                 // backgroundColor={"#ff3e6c"}
                 bgGradient="linear(to-b,#ff3e6c,#ff3e6c)"
@@ -250,9 +263,8 @@ const Home = () => {
                 }}
               >
                 Shop By Category
-                10% DISCOUNT ON ORDERS ABOVE 799
               </Heading> */}
-              <p
+              {/* <p
   style={{
     fontSize: "18px", // Adjust the font size as needed
     fontWeight: "bold",
@@ -266,7 +278,7 @@ const Home = () => {
   }}
 >
   10% DISCOUNT ON ORDERS ABOVE 799
-</p>
+</p> */}
 
               <Carousel
                 additionalTransfrom={0}

@@ -329,7 +329,8 @@ export default function SingleProductCom(el) {
             // borderRadius="md" // Optional: Add border radius for rounded corners
           >
             <Image
-              src={process.env.REACT_APP_BASE_API + "/" + img}
+              // src={process.env.REACT_APP_BASE_API + "/" + img}
+              src={img}
               alt=""
               objectFit="contain"
               w={"full"}

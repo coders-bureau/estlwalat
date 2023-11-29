@@ -91,7 +91,8 @@ const OrderDetails = ({
                 objectFit="contain"
                 m={"3px"}
                 borderRadius={4}
-                src={process.env.REACT_APP_BASE_API + "/" + item.imgPath}
+                // src={process.env.REACT_APP_BASE_API + "/" + item.imgPath}
+              src={item.imgPath}
               />
             </Box>
             <Box>

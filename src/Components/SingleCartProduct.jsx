@@ -158,7 +158,8 @@ const SingleCartProduct = ({
             boxSize={{lg: "11vw",md:"15vw",base:"30vw"}}
             objectFit="contain"
             w={"full"}
-            src={process.env.REACT_APP_BASE_API + "/" + img}
+            // src={process.env.REACT_APP_BASE_API + "/" + img}
+            src={img}
             alt=""
           ></Image>
         </Box>

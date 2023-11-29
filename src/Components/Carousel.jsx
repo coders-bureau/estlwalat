@@ -71,7 +71,8 @@ const CarouselCom = ({ data }) => {
                     // objectFit={"contain"}
                     // boxSize={"240px"}
                     // src={item.image}
-                    src={process.env.REACT_APP_BASE_API + `/${item.imageUrl}`}
+                    // src={process.env.REACT_APP_BASE_API + `/${item.imageUrl}`}
+                    src={item.imageUrl}
                     onClick={() => navigate(`store?${item.url}`)}
                   />
                 );

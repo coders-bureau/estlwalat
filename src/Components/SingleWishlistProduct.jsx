@@ -41,7 +41,8 @@ const SingleWishlistProduct = ({ el, handleAddCart, handleDelete }) => {
             boxSize={{ lg: "20vw", md: "37vw", base: "59vw" }}
             objectFit="contain"
             w={"full"}
-            src={process.env.REACT_APP_BASE_API + "/" + img}
+            // src={process.env.REACT_APP_BASE_API + "/" + img}
+            src={img}
           />
         </Box>
         <Box

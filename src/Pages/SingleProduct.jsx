@@ -556,7 +556,8 @@ const SingleProduct = () => {
               <Box style={style.style} w="full">
                 <Image
                   _hover={style.hover}
-                  src={process.env.REACT_APP_BASE_API + "/" + mainImage}
+                  // src={process.env.REACT_APP_BASE_API + "/" + mainImage}
+                  src={mainImage}
                   w="full"
                   boxSize={{ lg: "32vw", md: "35vw", base: "105vw" }}
                   objectFit="contain"
@@ -568,7 +569,8 @@ const SingleProduct = () => {
                 <Image
                   onClick={() => setMainImage(img)}
                   _hover={style.hover}
-                  src={process.env.REACT_APP_BASE_API + "/" + img}
+                  // src={process.env.REACT_APP_BASE_API + "/" + img}
+                  src={img}
                   w="full"
                 />
               </Box>
@@ -585,7 +587,8 @@ const SingleProduct = () => {
                     <Image
                       onClick={() => setMainImage(img)}
                       _hover={style.hover}
-                      src={process.env.REACT_APP_BASE_API + "/" + img}
+                      // src={process.env.REACT_APP_BASE_API + "/" + img}
+                      src={img}
                       w="full"
                     />
                   </Box>

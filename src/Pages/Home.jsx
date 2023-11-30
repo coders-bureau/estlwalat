@@ -359,7 +359,8 @@ const Home = () => {
                         boxSize={{ md: "18vw", base: "50vw" }}
                         objectFit={"cover"}
                         key={item.image + i}
-                        src={process.env.REACT_APP_BASE_API + `/${item.image}`}
+                        // src={process.env.REACT_APP_BASE_API + `/${item.image}`}
+                        src={item.image}
                       />
                     </Box>
                     <Box

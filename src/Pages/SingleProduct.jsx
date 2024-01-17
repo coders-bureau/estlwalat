@@ -147,11 +147,9 @@ const SingleProduct = () => {
   const onClose = () => setIsOpen(false);
   const onOpen = () => setIsOpen(true);
   useEffect(() => {
-    if (auth_token) {
       const auth_token = localStorage.getItem("authToken");
       axios.defaults.headers.common["auth_token"] = `${auth_token}`;
       dispatch(userloginStatus());
-    }
     // dispatch(userloginStatus());
   }, []);
   useEffect(() => {
@@ -359,6 +357,7 @@ const SingleProduct = () => {
 
   const handleSendCart = () => {
     if (sizeRef) {
+      console.log('cart initiated')
       setLoadingBuyNow(true);
       // axios({
       //   method: "post",

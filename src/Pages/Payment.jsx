@@ -684,7 +684,10 @@ const Payment = () => {
                     </>
                   )}
                   {paymentLink && (
+                    <a href={paymentLink} rel="noopener noreferrer">
+
                     <Button
+
                       size={"md"}
                       w={"full"}
                       color={"#fff"}
@@ -700,13 +703,15 @@ const Payment = () => {
                     >
                       {/* <p>Payment Link:</p> */}
                       <a
-                        href={paymentLink}
                         // ref={anchorRef}
+
                         rel="noopener noreferrer"
                       >
                         PAY NOW
                       </a>
                     </Button>
+                    </a>
+
                   )}
 
                   {/* <Button
@@ -933,6 +938,8 @@ const Payment = () => {
               </Button>
             )}
             {paymentLink && (
+                                  <a href={paymentLink} rel="noopener noreferrer">
+
               <Button
                 size={"md"}
                 mx={5}
@@ -950,13 +957,13 @@ const Payment = () => {
                 // _hover={{ bgColor: "#ff3e6c" }}
               >
                 <a
-                  href={paymentLink}
-                  // ref={anchorRef}
+                  
                   rel="noopener noreferrer"
                 >
                   PAY NOW
                 </a>
               </Button>
+              </a>
             )}
           </HStack>
         </HStack>

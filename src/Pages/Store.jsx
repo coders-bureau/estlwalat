@@ -74,12 +74,11 @@ const Store = () => {
   }, [sValue]);
 
   useEffect(() => {
-    if (auth_token) {
       const auth_token = localStorage.getItem("authToken");
       axios.defaults.headers.common["auth_token"] = `${auth_token}`;
       dispatch(userloginStatus());
       // console.log("called");
-    }
+    
   }, []);
 
   // sorting filter start

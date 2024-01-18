@@ -20,22 +20,20 @@ const Home = () => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getAllProductsData());
-  }, []);
-
   const [imageData, setImageData] = useState([]);
   const [categories, setCategories] = useState([]);
   const [offers, setOffers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   // console.log(categories);
   useEffect(() => {
-    if (auth_token) {
+    dispatch(getAllProductsData());
+
       const auth_token = localStorage.getItem("authToken");
+      console.log("auth token: ",auth_token)
       axios.defaults.headers.common["auth_token"] = `${auth_token}`;
       dispatch(userloginStatus());
       // console.log("called");
-    }
+    
   }, []);
 
   useEffect(() => {

@@ -7,7 +7,7 @@ import {
   Box,
   VStack,
 } from "@chakra-ui/react";
-
+import {isMobile} from 'react-device-detect';
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -101,7 +101,6 @@ const Orders = () => {
     try {
       setLoadingo(true);
 
-      // Make an HTTP request to your backend API to cancel the order
       const response = await axios.put(
         `${process.env.REACT_APP_BASE_API}/user/cancelorder/${orderId}`
       );
@@ -115,7 +114,6 @@ const Orders = () => {
       setLoadingo(false);
     }
   };
-  // console.log(orders);
 
   if (isLoading)
     return (
@@ -136,50 +134,35 @@ const Orders = () => {
         p={4}
       >
         {orders ? (
-          <Accordion allowToggle defaultIndex={orders.map((_, index) => index)}>
+          <Accordion defaultIndex={orders.map((_, index) => index)}>
             {orders.map((order, index) => (
               <AccordionItem key={index}>
                 <h2>
                   <AccordionButton
                     borderRadius={"5px"}
-                    boxShadow={
-                      "rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em"
-                    }
+                    // boxShadow={
+                    //   "rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em"
+                    // }
                     height={"10vh"}
                     width={{ md: "70vw", base: "90vw" }}
                   >
-                    <Box
-                      as="span"
-                      flex="1"
-                      textAlign="left"
-                      fontWeight="bold"
-                      mr={2}
-                    >
-                      Order {order.orderNo} on:{" "}
-                      {new Date(order.orderDate)
+                   
+                  Order #{order.orderNo}{!isMobile? <a>|</a>:null}{isMobile? <br/>:null}{!isMobile? <a>&nbsp;</a>:null}Date of Order:{" "}
+                      {monthNames [parseInt(new Date(order.orderDate)
                         .toLocaleDateString()
-                        .split("/")[1] +
+                        .split("/")[1]) -1] +
                         " " +
-                        monthNames[
+                       
                           new Date(order.orderDate)
                             .toLocaleDateString()
-                            .split("/")[0] - 1
-                        ] +
+                            .split("/")[0] 
+                        +
                         "," +
                         new Date(order.orderDate)
                           .toLocaleDateString()
                           .split("/")[2]}
-                      {/* const parts = new
-                    Date(order.orderDate).toLocaleDateString().split("/"); const
-                    formattedDate = `${parts[1]}/${parts[0]}/${parts[2]}`; */}
-                    </Box>
-                    {/* <Box flex="1" textAlign="left" fontWeight="bold" mr={2}>
-              Address: {order.address}
-            </Box>
-            <Box flex="1" textAlign="left" fontWeight="bold" mr={2}>
-              Payment Type: {order.paymentType}
-            </Box> */}
-                    <AccordionIcon />
+
+                        
                   </AccordionButton>
                 </h2>
                 <AccordionPanel

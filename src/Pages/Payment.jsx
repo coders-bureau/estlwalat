@@ -205,7 +205,7 @@ const Payment = () => {
         if (selectedPaymentMode == "cod") {
           // console.log(orderRes.data.data.tranxId);
           navigate(
-            `/success/${selectedPaymentMode}/${orderRes.data.data.tranxId}`
+            `/success/cod/${orderRes.data.data.tranxId}`
           );
         }
 

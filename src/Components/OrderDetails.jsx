@@ -34,6 +34,18 @@ const OrderDetails = ({
     inprocess: "Inprocessing",
     // accepted: "Accepted",
   };
+
+  const colormappings = {
+    O:"green",
+    A: "green",
+    E: "blue",
+    G: "blue",
+    I: "red",
+    usercancelled: "red",
+    cancelled: "red",
+    inprocess: "cyan",
+
+  }
   const [orderStatusShip, setOrderStatusShip] = useState([]);
   useEffect(() => {
     fetchStatus(order.orderNo);
@@ -109,6 +121,25 @@ const OrderDetails = ({
                 >
                   {item.productName}
                 </Text>
+                <Text
+                  mt={{ md: "5px", base: "5px" }}
+                  fontWeight={450}
+                  fontSize={{ md: "13px", base: "10px" }}
+                >
+
+
+               
+                <Button disabled={true}
+                mb={"3px"}
+                  fontSize={{ md: "13px", base: "11px" }}
+                  colorScheme={colormappings[order.orderStatus] ||
+                    colormappings[orderStatusShip]}
+                >
+                 {statusMappings[order.orderStatus] ||
+                    statusMappings[orderStatusShip]}
+                </Button>
+              
+                </Text>
                 {/* <br /> */}
                 <Text
                   mt={{ md: "10px", base: "5px" }}
@@ -117,13 +148,7 @@ const OrderDetails = ({
                 >
                  <b> Quantity Order</b> : {item.quantity}
                 </Text>
-                <Text
-                  mt={{ md: "5px", base: "5px" }}
-                  fontWeight={450}
-                  fontSize={{ md: "13px", base: "10px" }}
-                >
-                  <b>Price</b> : ₹{item.price}
-                </Text>
+
                 <Text
                   mt={{ md: "10px", base: "5px" }}
                   w={{ md: "40vw", base: "55vw" }}
@@ -132,64 +157,14 @@ const OrderDetails = ({
                 >
                  <b> Address </b>: {order.addressLine}
                 </Text>
+                <Text
+                  mt={{ md: "5px", base: "5px" }}
+                  fontWeight={450}
+                  fontSize={{ md: "13px", base: "13px" }}
+                >
+                  <b>₹{item.price}</b> 
+                </Text>
 
-                <Text
-                  mt={{ md: "5px", base: "5px" }}
-                  fontWeight={450}
-                  fontSize={{ md: "13px", base: "10px" }}
-                >
-                 <b> Date of Order</b> :{" "}
-                  {/* {new Date(order.orderDate).toLocaleDateString()} */}
-                  {new Date(order.orderDate)
-                    .toLocaleDateString()
-                    .split("/")[1] +
-                    "/" +
-                    new Date(order.orderDate)
-                      .toLocaleDateString()
-                      .split("/")[1] +
-                    "/" +
-                    new Date(order.orderDate)
-                      .toLocaleDateString()
-                      .split("/")[2]}
-                </Text>
-                <Text
-                  mt={{ md: "5px", base: "5px" }}
-                  fontWeight={450}
-                  fontSize={{ md: "13px", base: "10px" }}
-                >
-                  <b>Order Status</b> :{" "}
-                 
-                  <a
-                  mb={"3px"}
-                    fontSize={{ md: "13px", base: "10px" }}
-                    colorScheme={
-                      (statusMappings[order.orderStatus] ||
-                        statusMappings[orderStatusShip]) ===
-                      "New order Accepted"
-                        ? "gray"
-                        : (statusMappings[order.orderStatus] ||
-                            statusMappings[orderStatusShip]) === "Processing"
-                        ? "yellow"
-                        : (statusMappings[order.orderStatus] ||
-                            statusMappings[orderStatusShip]) === "Manifested"
-                        ? "green"
-                        : (statusMappings[order.orderStatus] ||
-                            statusMappings[orderStatusShip]) === "Dispatched"
-                        ? "green"
-                        : (statusMappings[order.orderStatus] ||
-                            statusMappings[orderStatusShip]) ===
-                          ("Cancelled" ||
-                            "Canceled Shipment" ||
-                            "User Cancelled")
-                        ? "red"
-                        : "black" // Default color if none of the conditions match
-                    }
-                  >
-                   <a> {statusMappings[order.orderStatus] ||
-                      statusMappings[orderStatusShip]}
-                      </a>
-                  </a>
-                </Text>
               </VStack>
             </Box>
           </HStack>
@@ -312,6 +287,25 @@ const OrderDetails = ({
                 {item.productName}
               </Text>
               {/* <br /> */}
+
+             <Text
+                mt={{ md: "5px", base: "5px" }}
+                fontWeight={450}
+                fontSize={{ md: "13px", base: "10px" }}
+              >
+                
+               
+                <Button disabled={true}
+                mb={"3px"}
+                  fontSize={{ md: "13px", base: "8px" }}
+                  colorScheme={colormappings[order.orderStatus] ||
+                    colormappings[orderStatusShip]}
+                >
+                 {statusMappings[order.orderStatus] ||
+                    statusMappings[orderStatusShip]}
+                </Button>
+              </Text> 
+              
               <Text
                 mt={{ md: "10px", base: "5px" }}
                 fontWeight={450}
@@ -319,13 +313,7 @@ const OrderDetails = ({
               >
                <b> Quantity Order</b> : {item.quantity}
               </Text>
-              <Text
-                mt={{ md: "5px", base: "5px" }}
-                fontWeight={450}
-                fontSize={{ md: "13px", base: "10px" }}
-              >
-                <b>Price</b> : ₹{item.price}
-              </Text>
+
               <Text
                 mt={{ md: "10px", base: "5px" }}
                 w={{ md: "40vw", base: "55vw" }}
@@ -335,153 +323,19 @@ const OrderDetails = ({
                <b> Address </b>: {order.addressLine}
               </Text>
 
+
+
+
               <Text
                 mt={{ md: "5px", base: "5px" }}
                 fontWeight={450}
-                fontSize={{ md: "13px", base: "10px" }}
+                fontSize={{ md: "16px", base: "10px" }}
               >
-               <b> Date of Order</b> :{" "}
-                {/* {new Date(order.orderDate).toLocaleDateString()} */}
-                {new Date(order.orderDate)
-                  .toLocaleDateString()
-                  .split("/")[1] +
-                  "/" +
-                  new Date(order.orderDate)
-                    .toLocaleDateString()
-                    .split("/")[1] +
-                  "/" +
-                  new Date(order.orderDate)
-                    .toLocaleDateString()
-                    .split("/")[2]}
-              </Text>
-              <Text
-                mt={{ md: "5px", base: "5px" }}
-                fontWeight={450}
-                fontSize={{ md: "13px", base: "10px" }}
-              >
-                <b>Order Status</b> :{" "}
-               
-                <a
-                mb={"3px"}
-                  fontSize={{ md: "13px", base: "10px" }}
-                  colorScheme={
-                    (statusMappings[order.orderStatus] ||
-                      statusMappings[orderStatusShip]) ===
-                    "New order Accepted"
-                      ? "gray"
-                      : (statusMappings[order.orderStatus] ||
-                          statusMappings[orderStatusShip]) === "Processing"
-                      ? "yellow"
-                      : (statusMappings[order.orderStatus] ||
-                          statusMappings[orderStatusShip]) === "Manifested"
-                      ? "green"
-                      : (statusMappings[order.orderStatus] ||
-                          statusMappings[orderStatusShip]) === "Dispatched"
-                      ? "green"
-                      : (statusMappings[order.orderStatus] ||
-                          statusMappings[orderStatusShip]) ===
-                        ("Cancelled" ||
-                          "Canceled Shipment" ||
-                          "User Cancelled")
-                      ? "red"
-                      : "black" // Default color if none of the conditions match
-                  }
-                >
-                 <a> {statusMappings[order.orderStatus] ||
-                    statusMappings[orderStatusShip]}
-                    </a>
-                </a>
+                <b>₹{item.price}</b> 
               </Text>
             </VStack>
           </Box>
-          <VStack w={"full"} justifyContent="flex-start">
-          <Box
-            m={{ md: "3px", base: "0px 0px 3px 3px" }}
-            alignSelf={"flex-start"}
-          >
-            {order.orderStatus === "shipped" && (
-              // <HStack>
-              <Button
-                alignSelf={"end"}
-                bgColor={"#ff3e6c"}
-                color={"#ffffff"}
-                onClick={() => navigate(`/write-review/${item.product}`)}
-                colorScheme="pink"
-                // fontSize={"10px"}
-                size={{ md: "sm", base: "xs" }}
-                borderRadius={0}
-              >
-                Add Review
-              </Button>
-              // </HStack>
-            )}
-          </Box>
-          <Box
-            m={{ md: "3px", base: "0px 0px 3px 3px" }}
-            alignSelf={"flex-start"}
-          >
-            {i == 0 &&
-              order.orderStatus !== "usercancelled" &&
-              order.orderStatus !== "inprocess" &&
-              order.orderStatus !== "cancelled" && (
-                // <HStack>
-                <Button
-                  alignSelf={"end"}
-                  bgColor={"teal"}
-                  color={"#ffffff"}
-                  size={{ md: "sm", base: "xs" }}
-                  borderRadius={0}
-                  _hover={{ textDecoration: "none" }}
-                  onClick={() => invoiceGenerate(order.orderNo)}
-                >
-                  {loading ? (
-                    <CircularProgress
-                      isIndeterminate
-                      size={7}
-                      margin={"0 10px"}
-                      color="white"
-                    />
-                  ) : (
-                    "Invoice"
-                  )}
-                </Button>
-                // </HStack>
-              )}
-          </Box>
 
-          <Box
-            m={{ md: "3px", base: "0px 0px 3px 3px" }}
-            alignSelf={"flex-start"}
-          >
-            {order.orderStatus !== "usercancelled" &&
-            order.orderStatus !== "shipped" &&
-            orderStatusShip !== "I" &&
-            orderStatusShip !== "E" &&
-            orderStatusShip !== "G" ? ( // Check the order status
-              <Button
-                alignSelf={"end"}
-                bgColor={"red"}
-                color={"#ffffff"}
-                size={{ md: "sm", base: "xs" }}
-                borderRadius={0}
-                _hover={{ textDecoration: "none" }}
-                onClick={() => handleCancelOrder(order._id)}
-                disabled={loadingo}
-              >
-                {loadingo ? (
-                  <CircularProgress
-                    isIndeterminate
-                    size={7}
-                    margin={"0 10px"}
-                    color="white"
-                  />
-                ) : (
-                  "Cancel"
-                )}
-              </Button>
-            ) : null}
-          </Box>
-        </VStack>
         </HStack>
 
       </VStack>

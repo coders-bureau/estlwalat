@@ -147,7 +147,7 @@ const Orders = () => {
                     width={{ md: "70vw", base: "90vw" }}
                   >
                    
-                  Order #{order.orderNo}{!isMobile? <a>|</a>:null}{isMobile? <br/>:null}{!isMobile? <a>&nbsp;</a>:null}Date of Order:{" "}
+                  Order #{order.orderNo}{!isMobile? <a>|</a>: <>&nbsp;|&nbsp;</>}{isMobile? null:null}{!isMobile? <a>&nbsp;</a>:null}{" "}
                       {monthNames [parseInt(new Date(order.orderDate)
                         .toLocaleDateString()
                         .split("/")[1]) -1] +

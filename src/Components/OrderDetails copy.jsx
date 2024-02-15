@@ -506,9 +506,9 @@ const OrderDetails = ({
 </Grid>
  }
 
- render() {
-  return this.renderContent();
-}
+//  render() {
+//   return this.renderContent();
+// };
 };
 
 export default OrderDetails;

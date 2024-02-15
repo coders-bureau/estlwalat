@@ -143,24 +143,12 @@ const Orders = () => {
                     // boxShadow={
                     //   "rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em"
                     // }
-                    height={"10vh"}
+                    height={"6vh"}
                     width={{ md: "70vw", base: "90vw" }}
                   >
                    
                   Order #{order.orderNo}{!isMobile? <a>|</a>: <>&nbsp;|&nbsp;</>}{isMobile? null:null}{!isMobile? <a>&nbsp;</a>:null}{" "}
-                      {monthNames [parseInt(new Date(order.orderDate)
-                        .toLocaleDateString()
-                        .split("/")[1]) -1] +
-                        " " +
-                       
-                          new Date(order.orderDate)
-                            .toLocaleDateString()
-                            .split("/")[0] 
-                        +
-                        "," +
-                        new Date(order.orderDate)
-                          .toLocaleDateString()
-                          .split("/")[2]}
+                  {` ${new Date(order.orderDate).toLocaleString()}`}
 
                         
                   </AccordionButton>

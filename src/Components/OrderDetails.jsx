@@ -24,7 +24,7 @@ const OrderDetails = ({
   loadingo,
 }) => {
   const statusMappings = {
-    O: "New order Accepted",
+    O: "Accepted",
     A: "Processing",
     E: "Manifested",
     G: "Dispatched",
@@ -129,9 +129,9 @@ const OrderDetails = ({
 
 
                
-                <Button disabled={true}
+                <Button disabled={false}
                 mb={"3px"}
-                  fontSize={{ md: "13px", base: "11px" }}
+                  fontSize={{ md: "12px", base: "8px" }}
                   colorScheme={colormappings[order.orderStatus] ||
                     colormappings[orderStatusShip]}
                 >
@@ -142,16 +142,16 @@ const OrderDetails = ({
                 </Text>
                 {/* <br /> */}
                 <Text
-                  mt={{ md: "10px", base: "5px" }}
-                  fontWeight={450}
+                mt={{ md: "2px", base: "1px" }}
+                fontWeight={450}
                   fontSize={{ md: "13px", base: "10px" }}
                 >
-                 <b> Quantity Order</b> : {item.quantity}
+                 <b> Qty</b> : {item.quantity}
                 </Text>
 
                 <Text
-                  mt={{ md: "10px", base: "5px" }}
-                  w={{ md: "40vw", base: "55vw" }}
+                mt={{ md: "2px", base: "1px" }}
+                w={{ md: "40vw", base: "55vw" }}
                   fontWeight={450}
                   fontSize={{ md: "13px", base: "10px" }}
                 >
@@ -162,7 +162,7 @@ const OrderDetails = ({
                   fontWeight={450}
                   fontSize={{ md: "13px", base: "13px" }}
                 >
-                  <b>₹{item.price}</b> 
+                  <b>₹{item.price}.00</b> 
                 </Text>
 
               </VStack>
@@ -295,27 +295,27 @@ const OrderDetails = ({
               >
                 
                
-                <Button disabled={true}
+                <Badge disabled={true}
                 mb={"3px"}
-                  fontSize={{ md: "13px", base: "8px" }}
+                  fontSize={{ md: "12px", base: "8px" }}
                   colorScheme={colormappings[order.orderStatus] ||
                     colormappings[orderStatusShip]}
                 >
                  {statusMappings[order.orderStatus] ||
                     statusMappings[orderStatusShip]}
-                </Button>
+                </Badge>
               </Text> 
               
               <Text
-                mt={{ md: "10px", base: "5px" }}
+                mt={{ md: "2px", base: "1px" }}
                 fontWeight={450}
                 fontSize={{ md: "13px", base: "10px" }}
               >
-               <b> Quantity Order</b> : {item.quantity}
+               <b> Qty</b> : {item.quantity}
               </Text>
 
               <Text
-                mt={{ md: "10px", base: "5px" }}
+                mt={{ md: "2px", base: "1px" }}
                 w={{ md: "40vw", base: "55vw" }}
                 fontWeight={450}
                 fontSize={{ md: "13px", base: "10px" }}
@@ -331,7 +331,7 @@ const OrderDetails = ({
                 fontWeight={450}
                 fontSize={{ md: "16px", base: "10px" }}
               >
-                <b>₹{item.price}</b> 
+                <b>₹{item.price}.00</b> 
               </Text>
             </VStack>
           </Box>

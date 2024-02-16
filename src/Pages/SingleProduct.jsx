@@ -319,7 +319,7 @@ const SingleProduct = () => {
       // })
       // axios({
       //   method: "post",
-      //   url: `http://localhost:5000/user/`+userId+`/cart/`+id,
+      //   url: `${process.env.REACT_APP_BASE_API}/user/`+userId+`/cart/`+id,
       // })
       // axios({
       //   method: "post",

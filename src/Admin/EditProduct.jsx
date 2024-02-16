@@ -43,7 +43,7 @@ const EditProduct = () => {
     const fetchProduct = async () => {
       try {
         await axios
-          .get(`http://localhost:5000/products/${id}`)
+          .get(`${process.env.REACT_APP_BASE_API}/products/${id}`)
           .then((response) => {
             setProduct(response.data);
             setisLoading(false);
@@ -156,7 +156,7 @@ const EditProduct = () => {
     try {
       setisLoading(true);
       const response = await axios.put(
-        `http://localhost:5000/products/${id}`,
+        `${process.env.REACT_APP_BASE_API}/products/${id}`,
         product
       );
       toast({
@@ -214,7 +214,7 @@ const EditProduct = () => {
     try {
       // Make the API call to update the product
       const response = await axios.put(
-        `http://localhost:5000/updateproduct/${id}`,
+        `${process.env.REACT_APP_BASE_API}/updateproduct/${id}`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
@@ -560,7 +560,7 @@ const EditProduct = () => {
               />{" "}
               {normalImage ? (
                 <Image
-                  src={`http://localhost:5000/${product.img}`}
+                  src={`${process.env.REACT_APP_BASE_API}/${product.img}`}
                   alt="Main Image"
                   style={{ width: "100px" }}
                 />
@@ -581,7 +581,7 @@ const EditProduct = () => {
                 {product.images.map((image, index) => (
                   <div key={index}>
                     <Image
-                      src={`http://localhost:5000/${image}`}
+                      src={`${process.env.REACT_APP_BASE_API}/${image}`}
                       alt={"Image " + index}
                       style={{ width: "100px" }}
                     />

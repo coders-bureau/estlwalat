@@ -182,7 +182,7 @@ const AddProductPage = () => {
     console.log(formData);
     // Send the product data to the backend API
     axios
-      .post("http://localhost:5000/add", formData, {
+      .post("${process.env.REACT_APP_BASE_API}/add", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -231,7 +231,7 @@ const AddProductPage = () => {
 
     // axios
     //   .put(
-    //     `http://localhost:5000/updateproduct/64cf0c83059447fdb6c99468`,
+    //     `${process.env.REACT_APP_BASE_API}/updateproduct/64cf0c83059447fdb6c99468`,
     //     formData,
     //     {
     //       headers: { "Content-Type": "multipart/form-data" },
